@@ -14,13 +14,13 @@
                 <icon>fa:code fa-fw</icon>
                 <action>SystemPHPInfoView</action>
             </menuitem>
-            <menuitem label='Gerar Grafico'>
+            <menuitem label='Gerar Grafo'>
                 <icon>fa:magic fa-fw</icon>
                 <action>SystemPHPInfoView</action>
             </menuitem>            
             <menuitem label='Ajuda'>
                 <icon>fa:life-ring fa-fw</icon>
-                <action>SystemPHPInfoView</action>
+                <action>AjudaView</action>
             </menuitem>
             <menuitem label='Sobre'>
                 <icon>fa:life-ring fa-fw</icon>
