@@ -1,0 +1,32 @@
+.tfield, .inplace_field
+{
+    box-sizing: border-box;
+    border: solid;
+    border-color: #a0a0a0;
+    border-width: 1px;
+    height: 30px;
+    z-index: 1;
+    padding-right: 6px;
+    padding-left: 6px;
+}
+
+.tfield:focus
+{
+    border-color : rgba(82, 168, 236, 0.8);
+    outline : 0;
+    outline : thin dotted \9;
+}
+
+.tfield_disabled
+{
+    box-sizing: border-box;
+    border: solid;
+    border-color: #a0a0a0;
+    border-width: 1px;
+    height: 30px;
+    background-color: #eee;
+    color: #282828;
+    user-select: none;
+    padding-right: 6px;
+    padding-left: 6px;
+}

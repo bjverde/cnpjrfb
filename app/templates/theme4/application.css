@@ -1,0 +1,1322 @@
+/** General **/
+html, body
+{
+    height: 95.5%;
+    margin: 0px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+}
+
+hr
+{
+    margin: 20px 0;
+    border: 0;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+hr.slim
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+a
+{
+    text-decoration: none;
+}
+
+label
+{
+    margin-bottom: 5px;
+}
+
+label, input, button, select, textarea
+{
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+}
+
+.btn:not(.btn-link):not(.btn-circle) i
+{
+    font-size: 12px !important;
+    position: initial !important;
+    top: initial !important;
+}
+
+/** Jquery Widgets **/
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
+{
+    font-size: 12px;
+    margin: 0px;
+}
+
+.ui-widget
+{
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/** Window **/
+.ui-dialog .window_modal
+{
+    padding:0.2px;
+}
+
+.ui-dialog .window_modal .panel
+{
+    margin-bottom:0;
+    border-top:0;
+    border-radius:0;
+    overflow:hidden;
+}
+
+/** Navbars **/
+.navbar-default .navbar-brand
+{
+    font-family: 'Open Sans';
+}
+
+.sidebar
+{
+    font-family: 'Open Sans';
+}
+
+.navbar-right {
+    margin-right: 0 !important;
+}
+
+ul.navbar-top-links > li.dropdown >a {
+    background: inherit;
+}
+
+ul.navbar-top-links > li.dropdown > a:hover {
+    background: #4A9FE0;
+}
+
+ul.navbar-top-links .open>a, ul.navbar-top-links .open>a:hover, ul.navbar-top-links .open>a:focus {
+    background: #4A9FE0;
+}
+
+.navbar-custom-menu > .navbar-nav {
+    float: right;
+}
+
+/** Dropdowns **/
+.dropdown-menu li a {
+    display: block;
+    text-decoration: unset;
+    padding: 8px 12px;
+    white-space: nowrap;
+}
+
+/** Popover **/
+.popover.fade:not(.show) {
+    display: none; /* Evita overlap */
+}
+.popover-table
+{
+    border: 1px solid #e0e0e0;
+    border-collapse: collapse;
+}
+
+.popover-table td
+{
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+}
+
+.popover-body img, .popover-content img{
+    width: 100%; /* Imagens dentro de popovers */
+}
+
+/** Panels **/
+.panel{
+    border-radius: initial;
+    background: #fff;
+    min-height: 50px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    border: 1px solid rgba(0,0,0,.125);
+    
+}
+
+.panel-heading{
+    display: flex;
+    align-items: center;
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.panel-heading:first-child {
+    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+}
+
+.panel-body{
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.panel-footer
+{
+    background: initial;
+}
+
+.panel-footer:last-child {
+    border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
+}
+
+div > div.panel > .panel-body {
+    padding: 10px;
+}
+
+/** Form components **/
+input[widget="tslider"] {
+    margin: auto;
+}
+
+.tcheckgroup_label, .tcheckgroup_label > input
+{
+    cursor:pointer;
+}
+
+.input-group {
+    flex-wrap: unset; /** Spinner **/
+}
+
+input[type="radio"], input[type="checkbox"]
+{
+    margin-right: 4px !important;
+}
+
+/* nao deixar o botao fora do campo tile*/
+input.form-control.tfield[widget="tfile"], input.form-control.tfield[widget="tmultifile"] {
+    padding: 1px;
+}
+
+/** Classic forms **/
+.tform
+{
+    box-shadow: none;
+    background: white !important;
+    border: none !important;
+    border-radius: none !important;
+    padding: 0px !important;
+    margin-bottom: 20px !important;
+}
+
+.tformtitle + tr > td
+{
+    padding-top: 15px !important;
+}
+
+.tformtitle > td
+{
+    background-color: #3c8dbc !important;
+    padding: 8px 0px 8px 5px !important;
+}
+
+.tformtitle > td > label
+{
+    color: white !important;
+}
+
+.tformaction > td
+{
+    padding: 12px !important;
+}
+
+
+.tform .tformtitle > td:first-child
+{
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.tform .tformtitle > td:last-child
+{
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.tform > table
+{
+    background: #fff;
+    border: 1px solid #C6C6C6 !important;
+    padding: 0px !important;
+}
+
+/** BFBuilder **/
+
+.col-form-label {
+    text-align: unset;
+}
+
+.control-label {
+    text-align: unset !important;
+    padding-top: calc(.375rem + 1px);
+    padding-bottom: calc(.375rem + 1px);
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: 1.5;
+}
+
+@media (min-width: 576px) {
+    .col-form-label {
+        text-align: right;
+    }
+
+    .control-label {
+        text-align: right !important;
+    }
+}
+
+.header-actions {
+    margin-left: auto;
+}
+
+.header-actions .btn {
+    margin-bottom: 2px;
+}
+
+.fb-field-container:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.fb-inline-field-container > .panel, .panel-body .panel {
+    box-shadow: none;
+}
+
+/** Buttons **/
+.btn-group .btn.btn-default.active {
+    background: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.btn.focus, .btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(142, 142, 142, 0.58);
+}
+
+/** Classic datagrid **/
+table.tdatagrid_table
+{
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.tdatagrid_head tr td
+{
+    height: 34px;
+}
+
+.tdatagrid_body tr td
+{
+    height: 30px;
+}
+
+.tdatagrid_body tr td input
+{
+    height: 24px;
+    margin: 0;
+    padding: 0px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+
+/** Datagrid **/
+.panel > .panel-footer > .tpagenavigation, .panel > .panel-footer > .tpagenavigation_resume
+{
+    padding-top:0;
+}
+
+.table>thead[noborder="1"]>tr>th.tdatagrid_col, .table>thead[noborder="1"]>tr>th.tdatagrid_action
+{
+    border:0;
+}
+
+/** Checklist **/
+table.table[widget="tchecklist"]>thead>tr>th, table.table[widget="tchecklist"]>tbody>tr>td
+{
+    user-select:none;
+}
+
+table.table[widget="tchecklist"]>thead>tr>th:first-child
+{
+    min-width: 50px;
+}
+
+table.table[widget="tchecklist"]>tbody>tr>td:first-child
+{
+    min-width: 50px;
+}
+
+/** Right panel **/
+#adianti_right_panel .panel[widget="bootstrapformbuilder"]
+{
+    border:0;
+    box-shadow:none;
+}
+
+#adianti_right_panel > div > div.panel > div.panel-heading
+{
+    border-top: 0;
+    background: #f9f9f9;
+}
+
+
+
+/** Login form **/
+#form_login table > tbody > tr.tformtitle > td
+{
+    text-align: center;
+}
+
+#form_login table > tbody > tr.tformtitle > td > label
+{
+    padding: 0;
+    padding: 8px;
+    font-size: 17pt;
+}
+
+
+/** Kanban **/
+.kanban-item-actions i.fa, .card-item-actions i.fa,
+.kanban-item-actions i.fas, .card-item-actions i.fas,
+.kanban-item-actions i.far, .card-item-actions i.far
+{
+    display: inline-block;
+    border-radius: 60px;
+    box-shadow: 0px 0px 2px #888;
+    padding: 0.5em 0.6em;
+}
+
+.kanban-item-actions i.fa:hover, .card-item-actions i.fa:hover,
+.kanban-item-actions i.fas:hover, .card-item-actions i.fas:hover,
+.kanban-item-actions i.far:hover, .card-item-actions i.far:hover
+{
+    background: whitesmoke !important;
+    color:black !important;
+}
+
+/** Charts **/
+.chart
+{
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    background: white;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+/** Cards **/
+.card-item
+{
+    border-radius: 3px;
+}
+
+.card-header {
+    display: flex;
+}
+
+.card-title {
+    font-size: 16px;
+}
+
+
+/** btn cadastrar **/
+.inline-button {
+    position:absolute !important;
+    border-radius:0 !important;
+    border-left:0 !important;
+    box-shadow:none !important;
+}
+
+/** TMessage **/
+.modal-dialog .modal-content .modal-header {
+    display: block;
+}
+
+/** tags **/
+.label {
+    color: white;
+    padding: .2em .6em .3em;
+    font-weight: 700;
+}
+
+/** BC: blockquote **/
+blockquote {
+    border-left: 5px solid #eee;
+    border-left-style: solid;
+    border-left-width: 5px;
+    font-size: 17.5px;
+    padding: 10px 20px;
+}
+
+
+blockquote .small, blockquote footer, blockquote small {
+    display: block;
+    font-size: 80%;
+    line-height: 1.42857143;
+    color: #777;
+}
+
+/** BC: Bootstrap **/
+.pull-left {
+    float: left !important;
+}
+.pull-right {
+    float: right !important;
+}
+
+/** fullcalendar **/
+.fc-event {
+    color : white !important;
+}
+
+/** html editor **/
+.note-toolbar {
+    display: flow-root;
+}
+
+/** tslider **/
+.tslidercontainer div.label {
+    text-align: center;
+}
+
+/** iconpicker cortina **/
+.fade {
+    opacity: 1 !important;
+}
+
+/* Alinhar caret menu builder */
+.menueditor-dropdown-menu .caret {
+    margin: unset !important;
+}
+/** Generics **/
+label
+{
+    font-family: 'Roboto', Arial, Tahoma, sans-serif;
+    color: #555;
+}
+
+div.tab-pane
+{
+    border: 0 !important;
+}
+
+.float-button {
+    bottom: 40px;
+}
+
+/** Theme container **/
+section.content
+{
+    margin-top: 84px !important;
+}
+
+.content .nav > li:hover
+{
+    background: whitesmoke;
+}
+
+.content .nav > li > a
+{
+    color: #428bca !important;
+}
+
+.content .nav > li.active > a
+{
+    color: #428bca !important;
+    font-weight: bold;
+}
+
+.content .nav > li.active > a:hover
+{
+    color: #428bca !important;
+}
+
+.content-wrapper
+{
+    overflow: hidden;
+}
+
+/** Profile **/
+
+/** breadcrumb **/
+
+/** Navbars **/
+.navbar.navbar-expand-md {
+    height: 70px;
+}
+
+.navbar-toggler {
+    color: white;
+    border:unset;
+}
+
+.navbar-toggler i{
+    color: white;
+}
+
+.nav.navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+@media (max-width: 991px) {
+    .nav.navbar {
+        padding-top: 18px;
+        padding-bottom: 18px;
+    }
+}
+
+.sidebar-menu .treeview li, .sidebar-menu .treeview ul
+{
+    background: none;
+    overflow: hidden;
+}
+
+nav ul.navbar-nav>li>a::after{
+    display: none;
+}
+
+nav ul.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+nav ul.navbar-nav .label-count {
+    top: -6px;
+}
+
+@media (max-width: 991px) {
+    .navbar-collapse>ul.navbar-nav {
+        flex-direction: unset;
+    }
+}
+
+/** Dialogs **/
+.ui-dialog
+{
+    border-radius: 3px;
+}
+
+.ui-dialog-titlebar
+{
+    background: whitesmoke;
+    font-family: 'Open Sans';
+    padding: .2em .7em;
+    border-bottom: 1px solid whitesmoke;
+    font-weight:normal;
+    margin-bottom:0;
+    height: 48px;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.ui-dialog .ui-dialog-titlebar-close
+{
+    background: whitesmoke !important;
+    border:0;
+}
+
+.ui-dialog .table tbody tr td, .table tbody tr th
+{
+    padding: 8px !important;
+    border-bottom: 0 !important;
+}
+
+.ui-dialog .panel > .panel-body
+{
+    padding: 4px;
+}
+
+.ui-dialog .panel .panel-footer
+{
+    padding: 8px 15px;
+}
+
+.ui-dialog .panel
+{
+    border:0;
+    box-shadow:none;
+}
+
+.ui-dialog .panel .panel-heading
+{
+    padding: 8px 15px;
+}
+
+.modal-dialog input.form-control.tfield{
+    border: unset;
+}
+
+.modal-header button{
+    float: right;
+}
+
+.modal-footer button {
+    border : 1px solid silver;
+}
+
+.sweet-alert p
+{
+    overflow:auto;
+}
+
+/** Dropdowns **/
+.dropdown-menu li a span{
+    color: #464646;
+}
+
+.dropdown-menu li.footer a {
+    color: #444 !important;
+}
+
+.dropdown-menu {
+    min-width: 11rem;
+}
+
+/** Buttons **/
+.btn {
+    border-radius: 3px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-default {
+    color: #333;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.btn-default:hover {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.btn-primary {
+    color: white;
+}
+
+/** Cards, panels **/
+.card{
+    border-radius: initial;
+}
+
+.card-header {
+    background-color: white;
+    align-items: center;
+}
+
+.card-title {
+    text-transform: uppercase;
+    padding: 8px !important;
+    margin-bottom: unset;
+    display: flex;
+}
+
+.card-footer {
+    background-color: white;
+}
+
+.panel
+{
+    border-radius: initial;
+}
+
+.panel-default>.panel-heading
+{
+    background: initial;
+    min-height: 53px !important;
+}
+
+.panel-default>.panel-heading > .panel-title
+{
+    text-transform: uppercase;
+    padding: 10px !important;
+}
+
+.panel-heading{
+    background-color: white;
+}
+
+.panel-footer
+{
+    border-top: initial;
+    border-top: 1px solid whitesmoke;
+    background-color: white;
+    padding: .75rem 1.25rem;
+}
+
+.panel button.btn:not(.btn-link):not(.btn-circle){
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+    border-radius: 2px;
+    border: none;
+    font-size: 13px;
+    outline: none;
+}
+
+/** BFBuilder **/
+.panel form[type="bootstrap"] .ttd
+{
+    display: inline-block;
+    margin-top: 8px;
+}
+
+.form-horizontal .form-group
+{
+    margin-bottom: 4px !important;
+}
+
+.form-group .control-label label
+{
+    font-weight: bold;
+}
+
+.form-group .col-form-label label {
+    font-weight: bold;
+}
+
+/** Form components **/
+input[type="radio"], input[type="checkbox"]
+{
+    position: inherit;
+    left: inherit;
+    opacity: inherit;
+}
+
+form .tfield, form .tfield_disabled, form .tcombo
+{
+    height: 28px;
+}
+
+.panel form[type="bootstrap"] select.tcombo
+{
+    border: 0;
+    border-radius: 0;
+}
+
+.panel form[type="bootstrap"] select.tcombo:not([multiple='1'])
+{
+    height: 28px;
+}
+
+.panel form[type="bootstrap"] select[widget="tcombo"], .panel form[type="bootstrap"] textarea, .panel form[type="bootstrap"] input
+{
+    display: inline-block;
+    padding: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #555555;
+    border: 0;
+}
+
+.tcombo {
+    border-radius: 0;
+}
+
+.btn-group .btn.btn-default input[type="radio"],input[type="checkbox"] {
+    clip: rect(0,0,0,0);
+}
+
+.btn-group .btn.btn-default {
+    border: 1px solid #c1c1c1;
+}
+
+
+input[type="checkbox"].filled-in:checked + label:after {
+    border: 2px solid #6c757d;
+    background-color: #6c757d;
+}
+
+
+input[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after {
+    background-color: #6c757d;
+    border: 2px solid #6c757d;
+}
+
+.tfield_disabled, .panel form[type="bootstrap"] input.tfield_disabled
+{
+    background: #eee;
+}
+
+[data-toggle="buttons"]>.btn input[type="radio"], [data-toggle="buttons"]>.btn-group>.btn input[type="radio"], [data-toggle="buttons"]>.btn input[type="checkbox"], [data-toggle="buttons"]>.btn-group>.btn input[type="checkbox"]
+{
+    position: absolute !important;
+}
+
+[type="checkbox"].filled-in:checked + label.checklist-label:before {
+    border-right: 2px solid #715050 !important;
+    border-bottom: 2px solid #9e5454 !important;
+}
+
+input[type="checkbox"].filled-in:checked + label.checklist-label:after {
+    border: 2px solid #6c757d;
+    background-color: white;
+}
+
+table.table[widget="tchecklist"]>thead>tr>th>label.checklist-label
+{
+    margin-bottom: -10px !important;
+}
+
+/** Seek **/
+.tseekbutton
+{
+    height: 28px !important;
+}
+
+.panel form[type="bootstrap"] .tseekbutton
+{
+    box-shadow: initial !important;
+    border-radius:0;
+    border:0;
+}
+
+.btn.btn-default.tseekbutton {
+    -webkit-appearance: unset !important;
+}
+
+/** Input groups, spinners **/
+.input-group.spinner .input-group-addon {
+    padding: 0px 7px;
+}
+
+.input-group-addon .spin-up, .input-group-addon .spin-down {
+    display: flex !important;
+}
+
+
+/** TDate **/
+.panel form[type="bootstrap"] .tdate-group-addon
+{
+    box-shadow: initial !important;
+    border-radius:0;
+    border:0;
+}
+
+span.tdate-group-addon > i.fa-clock {
+    width:24px !important;
+    padding-top:4px;
+}
+
+span.tdate-group-addon {
+    vertical-align: middle;
+    padding-top: 2px;
+}
+
+.dtp .p10 > a
+{
+    color: white !important;
+}
+
+.datepicker-dropdown
+{
+    margin-top:90px !important;
+}
+
+.dtp
+{
+    z-index: 2010 !important;
+}
+
+.ui-datepicker-trigger
+{
+    height: 28px !important;
+}
+
+/** TDateTime **/
+.datetimepicker
+{
+    margin-top:90px !important;
+}
+
+/** Fullcalendar **/
+.tfullcalendar, .tform
+{
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.tfullcalendar
+{
+    padding: 20px;
+}
+
+/** Select2 **/
+.select2-container--default .select2-selection
+{
+    border: 0;
+    padding-left: 4px !important;
+}
+
+input.select2-search__field
+{
+    height: 20px;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered
+{
+    padding-left: 0;
+}
+
+.select2-dropdown.select2-dropdown--below
+{
+    border-top: 1px solid #aaaaaa;
+}
+
+.panel form[type="bootstrap"] .select2-choice
+{
+    border:0 !important;
+}
+
+.panel form[type="bootstrap"] .select2-arrow
+{
+    background:none !important;
+    background-image:none !important;
+    border: 0 !important;
+}
+
+/** Datagrid **/
+.table th.tdatagrid_col {
+    border-top: unset;
+}
+
+th.tdatagrid_action {
+    border-top: unset;
+}
+
+.pagination .page-item .page-link{
+    border-radius: 0;
+}
+
+.table>thead>tr>th.tdatagrid_col, .table>thead>tr>th.tdatagrid_action
+{
+    border-bottom: 1px solid #ddd;
+}
+
+.table tbody tr.selected td {
+    background-color: #00b0e4;
+    color: #fff;
+}
+
+/** TFile **/
+input[widget="tfile"], input[widget="tmultifile"] {
+    padding-top: 0;
+}
+
+.tfile_link_wrapper
+{
+    margin-right: -10px;
+}
+
+/** TColor **/
+.panel form[type="bootstrap"] div.color-div span.tcolor
+{
+  background: none !important;
+  background-image: none !important;
+  border: 0;
+}
+
+/** TIcon **/
+span.tcolor > i.tcolor-icon
+{
+    border: 1px solid #c0c0c0;
+}
+
+/** THtmlEditor **/
+.note-editor button.btn:not(.btn-link):not(.btn-circle) {
+    box-shadow: none;
+    border: 1px solid #cecece;
+}
+
+/** messages, notifications **/
+.nav.nav-pills.nav-stacked li {
+    display: flex;
+    margin-bottom: 1px;
+    width: 100%;
+}
+.nav.nav-pills.nav-stacked li.active {
+    background-color: whitesmoke;
+}
+.nav.nav-pills.nav-stacked li a{
+    padding: 10px 15px;
+    text-decoration: unset;
+    width: 100%;
+    color: #333 !important;
+}
+
+
+/* TMessage */
+
+/** Progress bar **/
+
+/** Tabs **/
+.tabwrapper > .nav.nav-tabs .nav-item a.nav-link.active {
+    border-radius: 3px;
+}
+
+.tabwrapper > .nav.nav-tabs .nav-item a.nav-link {
+    background-color: transparent;
+    padding: 12px;
+}
+.nav-item {
+    margin-right:2px;
+}
+
+a.nav-link:not(.active):hover {
+    background-color: #eee !important;
+}
+
+.nav-tabs li a.active:before {
+    -moz-transform: scaleX(1);
+    -ms-transform: scaleX(1);
+    -o-transform: scaleX(1);
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+}
+.nav-tabs .nav-item .nav-link.active {
+    background: whitesmoke !important;
+    padding-bottom: 5px;
+}
+
+/** Notebook **/
+.tnotebook div.frame
+{
+    background:white;
+}
+
+.tnotebook .nav.nav-tabs .nav-item:hover {
+    background: unset;
+}
+
+.tnotebook .nav.nav-tabs .nav-item {
+    top: 0;
+    left: 0;
+    margin-right: 5px;
+}
+
+.tnotebook .nav.nav-tabs .nav-item .nav-link {
+    font-weight: bold;
+    border: 1px solid #c1c1c1 !important;
+    border-bottom: unset;
+    margin-right: unset !important;
+}
+
+.tnotebook .nav.nav-tabs .nav-item .nav-link:not(.active) {
+    color : #c1c1c1 !important;
+    margin-top: 1px;
+}
+
+.tnotebook .nav.nav-tabs .nav-item .nav-link:not(.active):hover {
+    color : #757575 !important;
+}
+
+.tnotebook .nav.nav-tabs .nav-item .nav-link.active {
+    background-color: white !important;
+    color : #444 !important;
+    margin-right: unset;
+}
+
+.tnotebook .nav.nav-tabs .nav-item .nav-link.active::before {
+    bottom: 1px;
+}
+
+/** TFrame **/
+.tframe
+{
+    background: white;
+}
+
+
+/** TFieldList **/
+.tfieldlist tr {
+    min-height: 36px;
+}
+
+/** Login form **/
+.login-avatar
+{
+    height: 28px;
+    padding-left: 4px;
+    padding-top: 8px;
+    color: gray;
+    float:left;
+    margin-left:44px;
+    height:35px;
+}
+
+/** footer **/
+.main-footer {
+    margin-left:300px !important;
+    width:calc(100% - 300px) !important;
+}
+
+@media (max-width: 1184px) {
+    .main-footer {
+        margin-left: unset !important;
+        width: 100% !important;
+    }
+}
+
+/** fieldlist **/
+.panel table.tfieldlist .tfield, .panel table.tfieldlist .tcombo, .panel table.tfieldlist .select2-selection__rendered {
+    border-bottom: 1px solid #ddd !important;
+    border:0;
+}
+
+.panel table.tfieldlist .tfield {
+    background: white no-repeat;
+	background-image: linear-gradient(to bottom, #1f91f3, #1f91f3), linear-gradient(to bottom, white, white) !important;
+	background-size: 0 2px, 100% 1px !important;
+	background-position: 50% 100%, 50% 100% !important;
+    transition: background-size 0.3s cubic-bezier(0.64, 0.09, 0.08, 1) !important;
+}
+
+.panel table.tfieldlist .tfield:focus {
+	background-size: 100% 2px, 100% 1px !important;
+	outline: none;
+}
+
+.panel table.tfieldlist span.tdate-group-addon, .panel table.tfieldlist span.input-group-addon.tcolor {
+  height: 28px !important;
+  border-radius:0 !important;
+  background: none;
+  background-image: none;
+  border: 0;
+}
+
+/** Timeline **/
+
+.timeline {
+	position: relative;
+	margin: 0 0 30px 0;
+	padding: 0;
+	list-style: none;
+}
+
+.timeline:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 4px;
+	background: #ddd;
+	left: 31px;
+	margin: 0;
+	border-radius: 2px;
+}
+
+.timeline>li {
+	position: relative;
+	margin-right: 10px;
+	margin-bottom: 15px;
+}
+
+.timeline>li:before,
+.timeline>li:after {
+	content: " ";
+	display: table;
+}
+
+.timeline>li:after {
+	clear: both;
+}
+
+.timeline>li>.timeline-item {
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	border-radius: 3px;
+	margin-top: 0;
+	background: #fff;
+	color: #444;
+	margin-left: 60px;
+	margin-right: 15px;
+	padding: 0;
+	position: relative;
+}
+
+.timeline>li>.timeline-item>.time {
+	color: #999;
+	float: right;
+	padding: 10px;
+	font-size: 12px;
+}
+
+.timeline>li>.timeline-item>.timeline-header {
+	margin: 0;
+	color: #555;
+	border-bottom: 1px solid #f4f4f4;
+	padding: 10px;
+	font-size: 16px;
+	line-height: 1.1;
+}
+
+.timeline>li>.timeline-item>.timeline-header>a {
+	font-weight: 600;
+}
+
+.timeline>li>.timeline-item>.timeline-body,
+.timeline>li>.timeline-item>.timeline-footer {
+	padding: 10px;
+}
+
+.timeline>li>.fa,
+.timeline>li>.fas,
+.timeline>li>.far,
+.timeline>li>.ion {
+	width: 30px;
+	height: 30px;
+	font-size: 15px;
+	line-height: 30px;
+	position: absolute;
+	color: #666;
+	background: #d2d6de;
+	border-radius: 50%;
+	text-align: center;
+	left: 18px;
+	top: 0;
+}
+
+.timeline>.time-label>span {
+	font-weight: 600;
+	padding: 5px;
+	display: inline-block;
+	background-color: #fff;
+	border-radius: 4px;
+}
+
+.timeline-inverse>li>.timeline-item {
+	background: #f0f0f0;
+	border: 1px solid #ddd;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.timeline-inverse>li>.timeline-item>.timeline-header {
+	border-bottom-color: #ddd;
+}
+
+
+
+
+@media (max-width: 500px) {
+    .ls-closed section.content {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}

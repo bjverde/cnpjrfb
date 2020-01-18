@@ -1,0 +1,31 @@
+{
+    "authors": [
+        {
+            "email": "schmidt@php.net",
+            "name": "Christian Schmidt",
+            "role": "Lead"
+        },
+        {
+            "email": "xnoguer@php.net",
+            "name": "Xavier Noguer",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "OLE": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/OLE",
+    "include-path": [
+        "./"
+    ],
+    "license": "PHP",
+    "minimum-stability": "dev",
+    "name": "pablodalloglio/ole",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=OLE",
+        "source": "https://github.com/pablodalloglio/OLE"
+    },
+    "type": "library"
+}

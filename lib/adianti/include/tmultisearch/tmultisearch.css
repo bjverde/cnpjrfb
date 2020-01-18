@@ -1,0 +1,23 @@
+.select2-dropdown
+{
+    z-index: 4051;
+}
+
+.select2-dropdown .select2-search__field:focus, .select2-search--inline .select2-search__field:focus
+{
+    border:none !important;
+}
+
+.select2-selection__choice
+{
+    white-space: normal !important;
+}
+
+.select2-disable
+{
+    width: 100%;
+    background: #eeeeee;
+    height: 100%;
+    position: absolute;
+    opacity: 0.8;
+}

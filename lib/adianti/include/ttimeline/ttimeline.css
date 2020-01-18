@@ -1,0 +1,40 @@
+.timeline > li > i.fa::before {
+    color: white;
+}
+
+.timeline-bothsides:before{
+    left: 50% !important;
+}
+
+.timeline-bothsides>li>.fa, .timeline-bothsides>li>.ion{
+    left: calc(50% - 10px) !important;
+}
+
+.timeline-item-left{
+    margin-left: 0px !important;
+    width: calc( 50% - 30px);
+}
+
+.timeline-item-right{
+    margin-left: calc(50% + 30px) !important;
+    margin-right: 0 !important;
+    width: calc( 50% - 30px);
+}
+
+.timeline-wrapper{
+    /*background: #edf1f6;*/
+    padding: 5px;
+}
+
+.time-label-bothsides{
+    left: calc(50% - 42px);
+    display: inline-block;
+}
+
+.timeline>li>.fa, .timeline>li>.glyphicon, .timeline>li>.ion {
+    color: white;
+}
+
+.timeline>li>.timeline-item {
+    box-shadow: 0 1px 9px 3px rgba(0,0,0,0.1) !important;
+}

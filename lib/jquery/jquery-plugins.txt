@@ -1,0 +1,11 @@
+lib/jquery/js/jquery.scrollto.min.js
+lib/jquery/js/jquery.blockUI.min.js
+lib/jquery/js/jquery.editinplace.min.js
+lib/jquery/js/jquery.autocomplete.min.js
+lib/jquery/js/jquery.imask.min.js
+lib/jquery/js/jquery.treeview.min.js
+lib/jquery/js/jquery.dataTables.min.js
+lib/jquery/js/jquery.spinner.min.js
+lib/jquery/js/dataTables.responsive.min.js
+lib/jquery/js/select2.js
+lib/jquery/js/jquery.mask.min.js

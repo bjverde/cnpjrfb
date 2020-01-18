@@ -1,0 +1,33 @@
+.tcombo
+{
+    height         : 24px;
+    z-index        : 1;
+    padding-right  : 2px;
+    padding-left   : 2px;
+    padding-top    : 0px;
+    padding-bottom : 0px;
+}
+
+.tcombo_disabled
+{
+    height                        : 24px;
+    z-index                       : 1;
+    background-color              : #eeeeee;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{
+    .tcombo
+    {
+        background-color      : #ffffff;
+        border                : 1px solid #a0a0a0;
+        border-radius         : 3px;
+    }
+    
+    .tcombo_disabled
+    {
+        background-color      : #eeeeee;
+        border-color          : #a0a0a0;
+        border-radius         : 3px;
+    }
+}

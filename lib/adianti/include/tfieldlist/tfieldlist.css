@@ -1,0 +1,10 @@
+table.tfieldlist.dashed > tbody > tr > td.field {
+    border: 1px dotted gray !important;
+}
+
+table.tfieldlist.dashed .tfield {
+    border: 0px !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
