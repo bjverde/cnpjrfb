@@ -1,0 +1,28 @@
+# sudo docker-compose build
+# sudo docker-compose up
+
+# Subir em background
+# sudo docker-compose -f docker-compose.yml up -d
+
+# How use iterative mode container
+# sudo docker-compose exec apache_php bash
+version: '3.2'
+services:
+
+  apache_php:
+    build:
+      dockerfile: debian_apache_php7.3
+      context: .
+    image: devform:7.3-deb-apache
+    container_name: apache_php
+    restart: always    
+    ports:
+      - "80:80"
+    networks:
+      - cnpj-network
+    volumes:
+      - ./www:/var/www/html
+
+networks: 
+    cnpj-network:
+        driver: bridge
