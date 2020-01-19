@@ -4,7 +4,7 @@
         <menu>
             <menuitem label='Empresas'>
                 <icon>fa:cube fa-fw</icon>
-                <action>EmpresaView</action>
+                <action>EmpresaForm</action>
             </menuitem>            
             <menuitem label='Socios'>
                 <icon>fa:code fa-fw</icon>
