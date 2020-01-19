@@ -12,11 +12,11 @@
             </menuitem>
             <menuitem label='CNEA'>
                 <icon>fa:code fa-fw</icon>
-                <action>SystemPHPInfoView</action>
+                <action>CnaesSecundarioForm</action>
             </menuitem>
-            <menuitem label='Gerar Grafo'>
+            <menuitem label='Gera Grafo'>
                 <icon>fa:magic fa-fw</icon>
-                <action>SystemPHPInfoView</action>
+                <action>GeraGrafoForm</action>
             </menuitem>            
             <menuitem label='Ajuda'>
                 <icon>fa:life-ring fa-fw</icon>
