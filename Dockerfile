@@ -44,7 +44,6 @@ RUN docker-php-ext-install pdo
 #RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql
 
 #Python 
-RUN apt-get autoremove -y
 RUN apt-get install -y python3 python3-pip
 RUN python3 -m pip install --upgrade pip
 
@@ -55,6 +54,10 @@ RUN python3 -m pip install --upgrade pip
 
 #COPY --chown=www-data:www-data install_base_formdin_cp.sh /var/www/install_base_formdin_cp.sh
 #RUN chmod 711 /var/www/install_base_formdin_cp.sh
+
+## ------------- Finishing ------------------
+RUN apt-get clean
+RUN apt-get autoremove -y
 
 #Creating index of files
 RUN updatedb
