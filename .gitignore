@@ -12,5 +12,8 @@
 /.buildpath
 
 
-# DataBase
+# Iginorando arquivos
 /www/app/cnpj_full/
+/www/tmp/
+!/www/tmp/.htaccess
+/www/tmp2/
