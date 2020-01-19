@@ -20,13 +20,15 @@ LABEL maintainer="bjverde@yahoo.com.br"
 #WORKDIR /var/www/html
 EXPOSE 80
 
+ENV DEBIAN_FRONTEND noninteractive
+
 #PHP Modules : curl, date, dom, fileinfo, filter, ftp, hash, iconv, json, libxml, libxml, mbstring, openssl, PDO, pdo_sqlite, Phar, posix, SimpleXML
 
 #Change PHP.INI for Desenv
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 #Install facilitators
-RUN apt-get update && apt-get install -y locate mlocate curl nano wget rpl 
+RUN apt-get update && apt-get install -y locate mlocate curl nano wget rpl apt-utils
 
 #Install GIT
 RUN apt-get install -y git-core
@@ -35,13 +37,20 @@ RUN apt-get install -y git-core
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 #PHP PDO 
-RUN docker-php-ext-install pdo
+#RUN docker-php-ext-install pdo
 
 #PHP PDO MySQL
 #RUN docker-php-ext-install pdo_mysql mysqli
 
 #PHP PDO PostgreSql
 #RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql
+
+#PHP Zip
+RUN apt-get install -y libzip-dev && docker-php-ext-install zip
+
+#PHP GD
+#RUN apt-get install -y libpng-dev
+#RUN docker-php-ext-install gd
 
 #Python 
 RUN apt-get install -y python3 python3-pip
