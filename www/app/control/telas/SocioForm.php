@@ -1,6 +1,6 @@
 <?php
 
-class EmpresaForm extends TPage
+class SocioForm extends TPage
 {
     private $form;
     
@@ -13,7 +13,7 @@ class EmpresaForm extends TPage
         parent::__construct();
 
         $this->form = new BootstrapFormBuilder;
-        $this->form->setFormTitle('Empresas');
+        $this->form->setFormTitle('Sócios');
         $this->form->generateAria(); // automatic aria-label
 
         // wrap the page content using vertical box

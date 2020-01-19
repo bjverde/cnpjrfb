@@ -8,7 +8,7 @@
             </menuitem>            
             <menuitem label='Socios'>
                 <icon>fa:code fa-fw</icon>
-                <action>SystemPHPInfoView</action>
+                <action>SocioForm</action>
             </menuitem>
             <menuitem label='CNEA'>
                 <icon>fa:code fa-fw</icon>
@@ -25,30 +25,6 @@
             <menuitem label='Sobre'>
                 <icon>fa:life-ring fa-fw</icon>
                 <action>SystemPHPInfoView</action>
-            </menuitem>
-        </menu>
-    </menuitem>
-    <menuitem label='Home - old'>
-        <icon>fa:home fa-fw</icon>
-        <menu>
-            <menuitem label='Início'>
-                <icon>fa:life-ring fa-fw</icon>
-                <action>WelcomeView</action>
-            </menuitem>
-            
-            <menuitem label='Aprenda'>
-                <icon>fa:book fa-fw</icon>
-                <action>LearnView</action>
-            </menuitem>
-            
-            <menuitem label='Template'>
-                <icon>fa:desktop fa-fw</icon>
-                <action>TemplateView</action>
-            </menuitem>
-            
-            <menuitem label='Construa'>
-                <icon>fa:magic fa-fw</icon>
-                <action>BuildView</action>
             </menuitem>
         </menu>
     </menuitem>

@@ -3,13 +3,16 @@
  * Empresas Active Record
  * @author  <your-name-here>
  */
-class Empresa extends TRecord
+class Empresas extends TRecord
 {
     const TABLENAME = 'empresas';
     const PRIMARYKEY= 'cnpj';
-    const IDPOLICY =  'max'; // {max, serial}
+    const IDPOLICY =  'serial'; // {max, serial}
     
     
+    private $cnaes_secundarios;
+    private $socios;
+
     /**
      * Constructor method
      */
@@ -53,6 +56,95 @@ class Empresa extends TRecord
         parent::addAttribute('opc_mei');
         parent::addAttribute('sit_especial');
         parent::addAttribute('data_sit_especial');
+    }
+
+    
+    /**
+     * Method addCnaesSecundario
+     * Add a CnaesSecundario to the Empresas
+     * @param $object Instance of CnaesSecundario
+     */
+    public function addCnaesSecundario(CnaesSecundario $object)
+    {
+        $this->cnaes_secundarios[] = $object;
+    }
+    
+    /**
+     * Method getCnaesSecundarios
+     * Return the Empresas' CnaesSecundario's
+     * @return Collection of CnaesSecundario
+     */
+    public function getCnaesSecundarios()
+    {
+        return $this->cnaes_secundarios;
+    }
+    
+    /**
+     * Method addSocio
+     * Add a Socio to the Empresas
+     * @param $object Instance of Socio
+     */
+    public function addSocio(Socio $object)
+    {
+        $this->socios[] = $object;
+    }
+    
+    /**
+     * Method getSocios
+     * Return the Empresas' Socio's
+     * @return Collection of Socio
+     */
+    public function getSocios()
+    {
+        return $this->socios;
+    }
+
+    /**
+     * Reset aggregates
+     */
+    public function clearParts()
+    {
+        $this->cnaes_secundarios = array();
+        $this->socios = array();
+    }
+
+    /**
+     * Load the object and its aggregates
+     * @param $id object ID
+     */
+    public function load($id)
+    {
+        $this->cnaes_secundarios = parent::loadComposite('CnaesSecundario', 'empresas_id', $id);
+        $this->socios = parent::loadComposite('Socio', 'empresas_id', $id);
+    
+        // load the object itself
+        return parent::load($id);
+    }
+
+    /**
+     * Store the object and its aggregates
+     */
+    public function store()
+    {
+        // store the object itself
+        parent::store();
+    
+        parent::saveComposite('CnaesSecundario', 'empresas_id', $this->id, $this->cnaes_secundarios);
+        parent::saveComposite('Socio', 'empresas_id', $this->id, $this->socios);
+    }
+
+    /**
+     * Delete the object and its aggregates
+     * @param $id object ID
+     */
+    public function delete($id = NULL)
+    {
+        $id = isset($id) ? $id : $this->id;
+        parent::deleteComposite('CnaesSecundario', 'empresas_id', $id);
+        parent::deleteComposite('Socio', 'empresas_id', $id);
+    
+        // delete the object itself
+        parent::delete($id);
     }
 
 
