@@ -1,1 +1,16 @@
-gera_class_path.php
+# Ignore all directories, and all sub-directories, and it's contents:
+# Ignore * all files in directories
+# Ignore **/ alll subdirectories 
+
+# VsCode files
+.vscode/
+
+# Eclipse files
+/.settings/
+/.vscode/
+/.project
+/.buildpath
+
+
+# DataBase
+/app/cnpj_full/
