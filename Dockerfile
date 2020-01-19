@@ -43,8 +43,10 @@ RUN docker-php-ext-install pdo
 #PHP PDO PostgreSql
 #RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql
 
-#PHP Zip
-RUN apt-get install -y zlib1g-dev && docker-php-ext-install zip
+#Python 
+RUN apt-get autoremove -y
+RUN apt-get install -y python3 python3-pip
+RUN python3 -m pip install --upgrade pip
 
 
 #COPY --chown=www-data:www-data install_base_formdin.sh /var/www/install_base_formdin.sh
