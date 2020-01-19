@@ -6,14 +6,17 @@
 
 # How use iterative mode container
 # sudo docker-compose exec apache_php bash
+
+#Purging All Unused or Dangling Images, Containers, Volumes, and Networks
+#sudo docker system prune -a
 version: '3.2'
 services:
 
   apache_php:
-    build:
-      dockerfile: debian_apache_php7.3
+    build:      
       context: .
-    image: devform:7.3-deb-apache
+      dockerfile: Dockerfile
+    image: cnpjrfb:7.3-deb-apache
     container_name: apache_php
     restart: always    
     ports:
