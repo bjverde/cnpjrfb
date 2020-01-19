@@ -49,8 +49,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN apt-get install -y libzip-dev && docker-php-ext-install zip
 
 #PHP GD
-#RUN apt-get install -y libpng-dev
-#RUN docker-php-ext-install gd
+RUN apt-get install -y libpng-dev
+RUN docker-php-ext-install gd
 
 #Python 
 RUN apt-get install -y python3 python3-pip
