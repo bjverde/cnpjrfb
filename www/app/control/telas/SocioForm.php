@@ -2,25 +2,30 @@
 
 class SocioForm extends TPage
 {
-    private $form;
-    
-    /**
-     * Class constructor
-     * Creates the page
-     */
-    function __construct()
+    private $form;   
+
+    public function __construct()
     {
         parent::__construct();
 
         $this->form = new BootstrapFormBuilder;
-        $this->form->setFormTitle('Sócios');
+        $this->form->setFormTitle('Sócio');
         $this->form->generateAria(); // automatic aria-label
+
+        $cnpj = new TEntry('cnpj');
+        $tipo_socio = new TEntry('tipo_socio');
+        $nome_socio = new TEntry('nome_socio');
+
+        $this->form->addFields( [new TLabel('CNPJ')],[$cnpj]);
+        $this->form->addFields( [new TLabel('Tipo Sócio')],[$tipo_socio]);
+        $this->form->addFields( [new TLabel('Nome')],[$nome_socio]);
 
         // wrap the page content using vertical box
         $vbox = new TVBox;
         $vbox->style = 'width: 100%';
         $vbox->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
         $vbox->add($this->form);
+        
         parent::add($vbox);
     }
 }

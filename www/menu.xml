@@ -3,7 +3,7 @@
         <icon>fa:home fa-fw</icon>
         <menu>
             <menuitem label='Empresas'>
-                <icon>fa:cube fa-fw</icon>
+                <icon>fa:cube fa-fw blue</icon>
                 <action>EmpresaForm</action>
             </menuitem>            
             <menuitem label='Socios'>
