@@ -4,6 +4,9 @@ class SocioForm extends TPage
 {
     private $form;   
 
+    // trait with onSave, onClear, onEdit
+    use Adianti\Base\AdiantiStandardFormTrait;
+
     public function __construct()
     {
         parent::__construct();
@@ -23,6 +26,8 @@ class SocioForm extends TPage
         $this->form->addFields( [new TLabel('CNPJ')],[$cnpj]);
         $this->form->addFields( [new TLabel('Tipo Sócio')],[$tipo_socio]);
         $this->form->addFields( [new TLabel('Nome')],[$nome_socio]);
+
+        $this->form->addActionLink('Limpar',  new TAction(array($this, 'onClear')), 'fa:eraser red');
 
         // wrap the page content using vertical box
         $vbox = new TVBox;

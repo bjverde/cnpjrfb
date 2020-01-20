@@ -4,6 +4,9 @@ class CnaesSecundarioForm extends TPage
 {
     private $form;     // registration form
     private $datagrid; // listing
+
+    // trait with onSave, onClear, onEdit
+    use Adianti\Base\AdiantiStandardFormTrait;
     
     public function __construct()
     {
@@ -21,6 +24,8 @@ class CnaesSecundarioForm extends TPage
         $this->form->addFields( [new TLabel('CNPJ')],[$cnpj]);
         $this->form->addFields( [new TLabel('cnae')],[$cnae]);
         $this->form->addFields( [new TLabel('Ordem')],[$cnae_ordem]);
+
+        $this->form->addActionLink('Limpar',  new TAction(array($this, 'onClear')), 'fa:eraser red');
 
         // wrap the page content using vertical box
         $vbox = new TVBox;

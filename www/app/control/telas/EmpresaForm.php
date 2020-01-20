@@ -2,7 +2,11 @@
 
 class EmpresaForm extends TPage
 {
-    private $form;    
+    private $form;
+
+    // trait with onSave, onClear, onEdit
+    use Adianti\Base\AdiantiStandardFormTrait;
+
     function __construct()
     {
         parent::__construct();
@@ -18,6 +22,8 @@ class EmpresaForm extends TPage
         $comboSituacao->addItems($listSituacaoCadastral);
 
         $this->form->addFields( [new TLabel('Situação')], [$comboSituacao] );
+
+        $this->form->addActionLink('Limpar',  new TAction(array($this, 'onClear')), 'fa:eraser red');
 
         // wrap the page content using vertical box
         $vbox = new TVBox;

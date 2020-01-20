@@ -4,10 +4,9 @@ class GeraGrafoForm extends TPage
 {
     private $form;
     
-    /**
-     * Class constructor
-     * Creates the page
-     */
+    // trait with onSave, onClear, onEdit
+    use Adianti\Base\AdiantiStandardFormTrait;
+
     function __construct()
     {
         parent::__construct();
@@ -23,6 +22,8 @@ class GeraGrafoForm extends TPage
         $this->form->addFields( [new TLabel('CNPJ')],[$cnpj]);
         $this->form->addFields( [new TLabel('cnae')],[$cnae]);
         $this->form->addFields( [new TLabel('Ordem')],[$cnae_ordem]);
+
+        $this->form->addActionLink('Limpar',  new TAction(array($this, 'onClear')), 'fa:eraser red');
 
         // wrap the page content using vertical box
         $vbox = new TVBox;
