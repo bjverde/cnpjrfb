@@ -1,5 +1,5 @@
 <?php
-class SituacaoCadastral
+class SituacaoCadastralEmpresa
 {
     public function getList()
     {

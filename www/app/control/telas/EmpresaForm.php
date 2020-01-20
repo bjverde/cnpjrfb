@@ -2,12 +2,7 @@
 
 class EmpresaForm extends TPage
 {
-    private $form;
-    
-    /**
-     * Class constructor
-     * Creates the page
-     */
+    private $form;    
     function __construct()
     {
         parent::__construct();
@@ -16,10 +11,9 @@ class EmpresaForm extends TPage
         $this->form->setFormTitle('Empresas');
         $this->form->generateAria(); // automatic aria-label
 
-        //$situacaoCadastralControler = new SituacaoCadastralControler();
-        //$listSituacaoCadastral = $situacaoCadastralControler->getList();
-        $listSituacaoCadastral = array(1=>'Item 1',2=>'Item 2');
-
+        $situacaoCadastralControler = new SituacaoCadastralEmpresa();
+        $listSituacaoCadastral = $situacaoCadastralControler->getList();
+        //$listSituacaoCadastral = array(1=>'Item 1',2=>'Item 2');
         $comboSituacao  = new TCombo('motivo_situacao');
         $comboSituacao->addItems($listSituacaoCadastral);
 
