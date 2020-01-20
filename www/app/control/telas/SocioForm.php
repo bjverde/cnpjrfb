@@ -12,8 +12,12 @@ class SocioForm extends TPage
         $this->form->setFormTitle('Sócio');
         $this->form->generateAria(); // automatic aria-label
 
+        $tipoSocioControler = new TipoSocio();
+        $listipoSocio = $tipoSocioControler->getList();
+
         $cnpj = new TEntry('cnpj');
-        $tipo_socio = new TEntry('tipo_socio');
+        $tipo_socio = new TCombo('tipo_socio');
+        $tipo_socio->addItems($listipoSocio);
         $nome_socio = new TEntry('nome_socio');
 
         $this->form->addFields( [new TLabel('CNPJ')],[$cnpj]);
