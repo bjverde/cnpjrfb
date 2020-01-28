@@ -25,10 +25,11 @@ class EmpresaForm extends TPage
         $situacaoCadastralControler = new SituacaoCadastralEmpresa();
         $listSituacaoCadastral = $situacaoCadastralControler->getList();
         
-        
+        $cnpj = new TEntry('cnpj');
         $comboSituacao  = new TCombo('motivo_situacao');
         $comboSituacao->addItems($listSituacaoCadastral);
 
+        $this->form->addFields( [new TLabel('CNPJ')],[$cnpj]);
         $this->form->addFields( [new TLabel('Situação')], [$comboSituacao] );
 
         // add form actions
@@ -43,13 +44,19 @@ class EmpresaForm extends TPage
         $this->datagrid->width = '100%';
         
         // add the columns
-        $col_cnpj        = new TDataGridColumn('cnpj', 'CNPJ', 'right','10%');
-        $col_tipo_socio  = new TDataGridColumn('razao_social', 'Razão Social', 'left','10%');
-        $col_nome_socio  = new TDataGridColumn('nome_fantasia', 'Nome Fantasia', 'left','80%');
+        $col_cnpj           = new TDataGridColumn('cnpj', 'CNPJ', 'right');
+        $col_tipo_socio     = new TDataGridColumn('razao_social', 'Razão Social', 'left');
+        $col_nome_fantasia  = new TDataGridColumn('nome_fantasia', 'Nome Fantasia', 'left');
+        $col_situacao       = new TDataGridColumn('situacao', 'Situacao', 'left');
+        $col_uf             = new TDataGridColumn('uf', 'UF', 'left');
+        $col_municipio      = new TDataGridColumn('municipio', 'Municipio', 'left');
         
         $this->datagrid->addColumn($col_cnpj);
         $this->datagrid->addColumn($col_tipo_socio);
-        $this->datagrid->addColumn($col_nome_socio);
+        $this->datagrid->addColumn($col_nome_fantasia);
+        $this->datagrid->addColumn($col_situacao);
+        $this->datagrid->addColumn($col_uf);
+        $this->datagrid->addColumn($col_municipio);
 
         // create the datagrid model
         $this->datagrid->createModel();
