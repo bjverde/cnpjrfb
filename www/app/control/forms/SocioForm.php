@@ -73,7 +73,7 @@ class SocioForm extends TPage
         parent::add($vbox);
     }
 
-        /**
+    /**
      * Clear filters
      */
     function clear()
