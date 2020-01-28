@@ -15,6 +15,16 @@ class AdiantiMenuBuilder
                 $menu_string = ob_get_clean();
                 return $menu_string;
                 break;
+            case 'theme3_v3':
+                    ob_start();
+                    $xml = new SimpleXMLElement(file_get_contents($file));
+                    $menu = new TMenu($xml, null, 1, 'treeview-menu', 'treeview', '');
+                    $menu->class = 'sidebar-menu';
+                    $menu->id    = 'side-menu';
+                    $menu->show();
+                    $menu_string = ob_get_clean();
+                    return $menu_string;
+                    break;                 
             default:
                 ob_start();
                 $xml = new SimpleXMLElement(file_get_contents($file));
