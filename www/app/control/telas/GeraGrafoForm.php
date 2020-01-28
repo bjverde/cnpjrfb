@@ -2,14 +2,22 @@
 
 class GeraGrafoForm extends TPage
 {
-    private $form;
+    protected $form;      // form
+    protected $datagrid;  // datagrid
+    protected $loaded;
+    protected $pageNavigation;  // pagination component
     
-    // trait with onSave, onClear, onEdit
-    use Adianti\Base\AdiantiStandardFormTrait;
+    // trait with onSave, onEdit, onDelete, onReload, onSearch...
+    use Adianti\Base\AdiantiStandardFormListTrait;
 
     function __construct()
     {
         parent::__construct();
+
+        $this->setDatabase('samples'); // define the database
+        $this->setActiveRecord('Category'); // define the Active Record
+        $this->setDefaultOrder('id', 'asc'); // define the default order
+        $this->setLimit(-1); // turn off limit for datagrid
 
         $this->form = new BootstrapFormBuilder;
         $this->form->setFormTitle('Gerador de Grafó');
