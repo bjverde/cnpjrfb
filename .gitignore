@@ -14,6 +14,8 @@
 
 # Iginorando arquivos
 /www/app/cnpj_full/
-/www/tmp/
-!/www/tmp/.htaccess
-/www/tmp2/
+/www/cnpjrfb/app/cnpj_full/
+!/www/cnpjrfb/app/cnpj_full/banco/CNPJ_full.db
+/www/cnpjrfb/tmp/
+!/www/cnpjrfb/tmp/.htaccess
+/www/cnpjrfb/tmp2/
