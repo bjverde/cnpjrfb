@@ -2,13 +2,12 @@
 
 class SocioForm extends TPage
 {
-    protected $form;      // form
-    protected $datagrid;  // datagrid
-    protected $loaded;
-    protected $pageNavigation;  // pagination component
+    protected $form; // registration form
+    protected $datagrid; // listing
+    protected $pageNavigation;
     
-    // trait with onSave, onEdit, onDelete, onReload, onSearch...
-    use Adianti\Base\AdiantiStandardFormListTrait;
+    // trait com onReload, onSearch, onDelete...
+    use Adianti\Base\AdiantiStandardListTrait;
 
     public function __construct()
     {
@@ -16,10 +15,10 @@ class SocioForm extends TPage
 
         $this->setDatabase('cnpj_full'); // define the database
         $this->setActiveRecord('Socio'); // define the Active Record
+        $this->addFilterField('cnpj', 'tipo_socio', 'nome_socio'); //campo, operador, campo do form
         $this->setDefaultOrder('cnpj_cpf_socio', 'asc'); // define the default order
-        $this->setLimit(-1); // turn off limit for datagrid
 
-        $this->form = new BootstrapFormBuilder;
+        $this->form = new BootstrapFormBuilder(__CLASS__);
         $this->form->setFormTitle('Sócio');
         $this->form->generateAria(); // automatic aria-label
 
@@ -35,7 +34,12 @@ class SocioForm extends TPage
         $this->form->addFields( [new TLabel('Tipo Sócio')],[$tipo_socio]);
         $this->form->addFields( [new TLabel('Nome')],[$nome_socio]);
 
-        $this->form->addActionLink('Limpar',  new TAction(array($this, 'onClear')), 'fa:eraser red');
+        // add form actions
+        $this->form->addAction('Find', new TAction([$this, 'onSearch']), 'fa:search blue');        
+        $this->form->addActionLink('Clear',  new TAction([$this, 'clear']), 'fa:eraser red');
+
+        // keep the form filled with the search data
+        $this->form->setData( TSession::getValue('StandardDataGridView_filter_data') );
 
 
         // create the datagrid
@@ -43,26 +47,38 @@ class SocioForm extends TPage
         $this->datagrid->width = '100%';
         
         // add the columns
-        $col_id    = new TDataGridColumn('cnpj_cpf_socio', 'CNPJ/CPF', 'right','10%');
-        $col_name  = new TDataGridColumn('nome_socio', 'Nome', 'left','90%');
+        $col_cnpj        = new TDataGridColumn('cnpj', 'CNPJ Empresa', 'right','10%');
+        $col_tipo_socio  = new TDataGridColumn('tipo_socio', 'Tipo Sócio', 'left','10%');
+        $col_nome_socio  = new TDataGridColumn('nome_socio', 'Sócio', 'left','80%');
         
-        $this->datagrid->addColumn($col_id);
-        $this->datagrid->addColumn($col_name);
-
-        $col_id->setAction( new TAction([$this, 'onReload']),   ['order' => 'id']);
-        $col_name->setAction( new TAction([$this, 'onReload']), ['order' => 'name']);
+        $this->datagrid->addColumn($col_cnpj);
+        $this->datagrid->addColumn($col_tipo_socio);
+        $this->datagrid->addColumn($col_nome_socio);
         
         // create the datagrid model
         $this->datagrid->createModel();
 
+        // creates the page navigation
+        $this->pageNavigation = new TPageNavigation;
+        $this->pageNavigation->setAction(new TAction(array($this, 'onReload')));
 
-        // wrap the page content using vertical box
+        // creates the page structure using a table
         $vbox = new TVBox;
         $vbox->style = 'width: 100%';
         $vbox->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
         $vbox->add($this->form);
-        $vbox->add(TPanelGroup::pack('', $this->datagrid));
+        $vbox->add(TPanelGroup::pack('', $this->datagrid, $this->pageNavigation));
         
+        // add the table inside the page
         parent::add($vbox);
+    }
+
+        /**
+     * Clear filters
+     */
+    function clear()
+    {
+        $this->clearFilters();
+        $this->onReload();
     }
 }
