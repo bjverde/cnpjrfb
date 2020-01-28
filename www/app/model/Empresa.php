@@ -3,7 +3,7 @@
  * Empresas Active Record
  * @author  <your-name-here>
  */
-class Empresas extends TRecord
+class Empresa extends TRecord
 {
     const TABLENAME = 'empresas';
     const PRIMARYKEY= 'cnpj';
