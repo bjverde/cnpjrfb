@@ -18,3 +18,7 @@ Esse é um sistema foi feito com PHP usando o [Adianti FrameWork 7.0](https://ww
 
 * Copie o conteudo da pasta `www` do projeto para o seu servidor PHP.
 * Copie os arquivo do [CNPJ-FULL](https://github.com/fabioserpa/CNPJ-full) juntamento o banco de dados para `<caminho servidor>/cnjrfb/app/cnpj_full`
+
+
+## Intalação via Docker-compose
+Existem alguns arquivos em Docker-compose para criar todo o ambiente necessários para rodar tudo que é necessário. A ideia é com um comando o usuário consiga ter tudo funcionando sem muito esforço. 
