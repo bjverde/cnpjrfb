@@ -21,4 +21,10 @@ Esse é um sistema foi feito com PHP usando o [Adianti FrameWork 7.0](https://ww
 
 
 ## Intalação via Docker-compose
-Existem alguns arquivos em Docker-compose para criar todo o ambiente necessários para rodar tudo que é necessário. A ideia é com um comando o usuário consiga ter tudo funcionando sem muito esforço. 
+Existem alguns arquivos em Docker-compose para criar todo o ambiente necessários para rodar tudo que é necessário. A ideia é com um comando o usuário consiga ter tudo funcionando sem muito esforço.
+
+### No Linux
+* instale o Docker e Docker-compose 
+* clone o projeto
+* Execute o comando `sudo docker-compose build` para gerar todo o ambiente
+* Execute o comando `sudo docker-compose -f docker-compose.yml up -d` para rodar o ambiente já configurado.
