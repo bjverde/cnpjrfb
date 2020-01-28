@@ -42,6 +42,7 @@ class EmpresaForm extends TPage
         // create the datagrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         $this->datagrid->width = '100%';
+        $this->datagrid->datatable = 'true'; // turn on Datatables
         
         // add the columns
         $col_cnpj           = new TDataGridColumn('cnpj', 'CNPJ', 'right');
@@ -57,6 +58,38 @@ class EmpresaForm extends TPage
         $this->datagrid->addColumn($col_situacao);
         $this->datagrid->addColumn($col_uf);
         $this->datagrid->addColumn($col_municipio);
+
+        $this->datagrid->addColumn( new TDataGridColumn('nm_cidade_exterior','nm_cidade_exterior','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('cod_pais','cod_pais','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('nome_pais','nome_pais','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('cod_nat_juridica','cod_nat_juridica','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('data_inicio_ativ','data_inicio_ativ','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('cnae_fiscal','cnae_fiscal','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('tipo_logradouro','tipo_logradouro','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('logradouro','logradouro','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('numero','numero','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('complemento','complemento','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('bairro','bairro','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('cep','cep','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('uf','uf','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('cod_municipio','cod_municipio','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('municipio','municipio','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('ddd_1','ddd_1','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('telefone_1','telefone_1','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('ddd_2','ddd_2','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('telefone_2','telefone_2','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('ddd_fax','ddd_fax','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('num_fax','num_fax','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('email','email','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('qualif_resp','qualif_resp','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('capital_social','capital_social','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('porte','porte','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('opc_simples','opc_simples','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('data_opc_simples','data_opc_simples','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('data_exc_simples','data_exc_simples','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('opc_mei','opc_mei','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('sit_especial','sit_especial','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('data_sit_especial','data_sit_especial','left') );
 
         // create the datagrid model
         $this->datagrid->createModel();
