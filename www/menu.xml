@@ -3,15 +3,15 @@
         <icon>fa:home fa-fw</icon>
         <menu>
             <menuitem label='Empresas'>
-                <icon>fa:cube fa-fw blue</icon>
+                <icon>fa:table fa-fw</icon>
                 <action>EmpresaForm</action>
             </menuitem>            
             <menuitem label='Socios'>
-                <icon>fa:code fa-fw</icon>
+                <icon>fa:table fa-fw</icon>
                 <action>SocioForm</action>
             </menuitem>
             <menuitem label='CNEA'>
-                <icon>fa:code fa-fw</icon>
+                <icon>fa:table fa-fw</icon>
                 <action>CnaesSecundarioForm</action>
             </menuitem>
             <menuitem label='Gera Grafo'>
