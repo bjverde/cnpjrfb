@@ -11,7 +11,7 @@ use Exception;
 /**
  * Page Navigation provides navigation for a datagrid
  *
- * @version    7.0
+ * @version    7.1
  * @package    widget
  * @subpackage datagrid
  * @author     Pablo Dall'Oglio

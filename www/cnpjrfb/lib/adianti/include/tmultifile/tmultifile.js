@@ -52,6 +52,7 @@ function MultiFileUploader(input_id, obj_file, service_action, parent_container,
         $(file_del_icon).click(
             function(){
                 var file_data = that.getData();
+                
                 file_row_wrapper.hide();
                 that.parent_container.children('i').attr({'class' : '', 'title' : ''});
                 that.parent_container.find('[widget=tmultifile]').css('padding-left', '5px');
@@ -85,7 +86,7 @@ function MultiFileUploader(input_id, obj_file, service_action, parent_container,
             var file_link_wrapper = file_row_wrapper.find('.tfile_link_wrapper');
             file_row_wrapper.find('.progress-bar').css('width', '100%');
             
-            if ($.inArray( file_name.split('.').pop(), [ "png", "jpg" ] ) > -1) {
+            if ($.inArray( file_name.split('.').pop(), [ "png", "jpg", "gif", "jpeg" ] ) > -1) {
                 var pop_template = '<div class="popover" role="tooltip" style="z-index:100000;max-width:800px"><div class="arrow"></div><h3 class="popover-title popover-header"></h3><div class="popover-content popover-body"><div class="data-content"></div></div></div>';
                 var pop_content  = '<img style="max-width:460px" src="download.php?file={file_name}">';
                 
@@ -101,14 +102,13 @@ function MultiFileUploader(input_id, obj_file, service_action, parent_container,
                     file_link.append(image);
                     
                     if (that.popover.enabled == '1') {
-                        
                         file_link_wrapper.popover({
                             trigger: "hover",
                             'content': pop_content,
                             'html' : true,
                             'container': 'body',
                             'template': pop_template,
-                            title: that.popover.title
+                            title: that.popover.title || ""
                         });
                     }
                 }
@@ -117,7 +117,14 @@ function MultiFileUploader(input_id, obj_file, service_action, parent_container,
                     var file_link = $('<a />', { 'href': 'download.php?file='+file_name, 'target' : '_blank'});
                     
                     if (that.popover.enabled == '1') {
-                        file_link.popover({ trigger: "hover", 'content': pop_content, 'html' : true, 'container': 'body', 'template': pop_template, title: that.popover.title });
+                        file_link.popover({
+                            trigger: "hover",
+                            'content': pop_content,
+                            'html' : true,
+                            'container': 'body',
+                            'template': pop_template,
+                            title: that.popover.title || ""
+                        });
                     }
                 }
             }

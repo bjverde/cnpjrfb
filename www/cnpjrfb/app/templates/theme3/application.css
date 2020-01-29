@@ -197,6 +197,12 @@ input[type="radio"], input[type="checkbox"]
     margin-right: 4px !important;
 }
 
+.header-actions .btn label
+{
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
 /* nao deixar o botao fora do campo tile*/
 input.form-control.tfield[widget="tfile"], input.form-control.tfield[widget="tmultifile"] {
     padding: 1px;
@@ -309,6 +315,10 @@ input.form-control.tfield[widget="tfile"], input.form-control.tfield[widget="tmu
 .btn.focus, .btn:focus {
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(142, 142, 142, 0.58);
+}
+
+[type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: unset;
 }
 
 /** Classic datagrid **/

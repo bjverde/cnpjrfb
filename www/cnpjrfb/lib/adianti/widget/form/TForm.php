@@ -15,7 +15,7 @@ use ReflectionClass;
 /**
  * Wrapper class to deal with forms
  *
- * @version    7.0
+ * @version    7.1
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -29,6 +29,7 @@ class TForm implements AdiantiFormInterface
     protected $children;
     protected $js_function;
     protected $element;
+    protected $silent_fields;
     static private $forms;
     
     /**
@@ -41,7 +42,8 @@ class TForm implements AdiantiFormInterface
         {
             $this->setName($name);
         }
-        $this->children = array();
+        $this->children = [];
+        $this->silent_fields = [];
         $this->element  = new TElement('form');
     }
     
@@ -68,6 +70,14 @@ class TForm implements AdiantiFormInterface
         {
             $this->$name = $value;
         }
+    }
+    
+    /**
+     * Silent field
+     */
+    public function silentField($name)
+    {
+        $this->silent_fields[] = $name;
     }
     
     /**
@@ -333,7 +343,7 @@ class TForm implements AdiantiFormInterface
         {
             $key = str_replace(['[',']'], ['',''], $key);
             
-            if (!$fieldObject instanceof TButton)
+            if (!$fieldObject instanceof TButton && !in_array($key, $this->silent_fields))
             {
                 $object->$key = $fieldObject->getPostData();
             }

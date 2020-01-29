@@ -46,6 +46,19 @@ section.content
     overflow: hidden;
 }
 
+/* nav bar em 991px */
+@media (max-width: 991px) {
+  .navbar >  .navbar-brand,
+  .navbar >  .navbar-brand {
+    margin-left: 35px;
+    width: calc(100% - 120px); 
+    }
+    
+    .navbar>.fa-columns {
+        display: none;
+    }
+}
+
 /** Profile **/
 
 /** breadcrumb **/
@@ -329,6 +342,13 @@ form .tfield, form .tfield_disabled, form .tcombo
     border: 1px solid #c1c1c1;
 }
 
+.panel .btn:not(.btn-link):not(.btn-circle) {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+    border-radius: 2px;
+    border: none;
+    font-size: 13px;
+    outline: none;
+}
 
 input[type="checkbox"].filled-in:checked + label:after {
     border: 2px solid #6c757d;
@@ -802,8 +822,6 @@ a.nav-link:not(.active):hover {
 .timeline-inverse>li>.timeline-item>.timeline-header {
 	border-bottom-color: #ddd;
 }
-
-
 
 
 @media (max-width: 500px) {

@@ -95,15 +95,15 @@ function ttable_get_column_values(id, column)
 
 function ttable_add_row(table_id, section, row)
 {
-    $('#' + table_id + ' tbody').append(atob(row));
+    $('#' + table_id + ' tbody').append(base64_decode(row));
 }
 
 function ttable_replace_row_by_id(table_id, id, row)
 {
     if ($('#' + table_id + ' tbody').find('#'+id).length > 0) {
-        $('#' + table_id + ' tbody').find('#'+id).replaceWith(atob(row));
+        $('#' + table_id + ' tbody').find('#'+id).replaceWith(base64_decode(row));
     }
     else {
-        $('#' + table_id + ' tbody').append(atob(row));
+        $('#' + table_id + ' tbody').append(base64_decode(row));
     }
 }

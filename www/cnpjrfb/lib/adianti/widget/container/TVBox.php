@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Vertical Box
  *
- * @version    7.0
+ * @version    7.1
  * @package    widget
  * @subpackage container
  * @author     Pablo Dall'Oglio

@@ -197,6 +197,12 @@ input[type="radio"], input[type="checkbox"]
     margin-right: 4px !important;
 }
 
+.header-actions .btn label
+{
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
 /* nao deixar o botao fora do campo tile*/
 input.form-control.tfield[widget="tfile"], input.form-control.tfield[widget="tmultifile"] {
     padding: 1px;
@@ -309,6 +315,10 @@ input.form-control.tfield[widget="tfile"], input.form-control.tfield[widget="tmu
 .btn.focus, .btn:focus {
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(142, 142, 142, 0.58);
+}
+
+[type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: unset;
 }
 
 /** Classic datagrid **/
@@ -552,6 +562,19 @@ section.content
 .content-wrapper
 {
     overflow: hidden;
+}
+
+/* nav bar em 991px */
+@media (max-width: 991px) {
+  .navbar >  .navbar-brand,
+  .navbar >  .navbar-brand {
+    margin-left: 35px;
+    width: calc(100% - 120px); 
+    }
+    
+    .navbar>.fa-columns {
+        display: none;
+    }
 }
 
 /** Profile **/
@@ -837,6 +860,13 @@ form .tfield, form .tfield_disabled, form .tcombo
     border: 1px solid #c1c1c1;
 }
 
+.panel .btn:not(.btn-link):not(.btn-circle) {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+    border-radius: 2px;
+    border: none;
+    font-size: 13px;
+    outline: none;
+}
 
 input[type="checkbox"].filled-in:checked + label:after {
     border: 2px solid #6c757d;
@@ -1310,8 +1340,6 @@ a.nav-link:not(.active):hover {
 .timeline-inverse>li>.timeline-item>.timeline-header {
 	border-bottom-color: #ddd;
 }
-
-
 
 
 @media (max-width: 500px) {

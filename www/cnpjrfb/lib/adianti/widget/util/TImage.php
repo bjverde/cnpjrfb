@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Image Widget
  *
- * @version    7.0
+ * @version    7.1
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -40,7 +40,7 @@ class TImage extends TElement
             }
             parent::add('');
         }
-        else if ( ( substr($source,0,4) == 'far:') || (substr($source,0,4) == 'fas:') )
+        else if ( ( substr($source,0,4) == 'far:') || (substr($source,0,4) == 'fas:') || (substr($source,0,4) == 'fab:') )
         {
             parent::__construct('i');
             

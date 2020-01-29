@@ -7,7 +7,7 @@ use Adianti\Core\AdiantiCoreTranslator;
 /**
  * File Save Trait
  *
- * @version    7.0
+ * @version    7.1
  * @package    base
  * @author     Nataniel Rabaioli
  * @author     Pablo Dall'Oglio

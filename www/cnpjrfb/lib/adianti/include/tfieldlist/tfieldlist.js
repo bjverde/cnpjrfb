@@ -201,6 +201,38 @@ function tfieldlist_reset_fields(row, clear_fields)
                     return script_content;
                 });
             }
+            else if (field_component =='tfile')
+            {
+                $(field).attr('id', new_id);
+                
+                if (clear_fields) {
+                    $(field).val('');
+                }
+                
+                var parent = $(field).closest('td');
+                var file_wrapper_id = parent.find('.div_file').attr('id');
+                var new_file_wrapper_id = 'div_file_' + uniqid;
+                
+                parent.find('.tfile_row_wrapper').remove();
+                parent.find('.file-response-icon').remove();
+                parent.find('.div_file').attr('id', new_file_wrapper_id);
+                $(field).css('padding-left', '5px');
+                
+                if (typeof $(field).attr('changeaction') !== 'undefined') {
+                    $(field).attr('changeaction', $(field).attr('changeaction').replace(field_id, new_id));
+                }
+                if (typeof $(field).attr('onchange') !== 'undefined') {
+                    $(field).attr('onchange', $(field).attr('onchange').replace(field_id, new_id));
+                }
+                
+                var re  = new RegExp(field_id, 'g');
+                var re2 = new RegExp(file_wrapper_id, 'g');
+                tfieldlist_execute_scripts(parent, 'tfile', function(script_content) {
+                    script_content = script_content.replace(re,  new_id);
+                    script_content = script_content.replace(re2, new_file_wrapper_id);
+                    return script_content;
+                });
+            }
         }
         
         // fora do if pois não troca ID (não possui ID), só reinicia value

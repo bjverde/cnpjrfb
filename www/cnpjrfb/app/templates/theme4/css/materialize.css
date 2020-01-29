@@ -11,6 +11,7 @@
   position: absolute;
   left: -9999px;
   opacity: 0;
+  visibility: hidden;
 }
 
 [type="radio"]:not(:checked) + label,
@@ -145,6 +146,7 @@ form p:last-child {
   position: absolute;
   left: -9999px;
   opacity: 0;
+  visibility: hidden;
 }
 
 [type="checkbox"] {

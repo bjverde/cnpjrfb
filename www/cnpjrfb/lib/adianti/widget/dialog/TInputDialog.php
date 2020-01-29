@@ -16,7 +16,7 @@ use Exception;
 /**
  * Input Dialog
  *
- * @version    7.0
+ * @version    7.1
  * @package    widget
  * @subpackage dialog
  * @author     Pablo Dall'Oglio

@@ -5,11 +5,12 @@ use Adianti\Widget\Base\TScript;
 use Adianti\Widget\Datagrid\TDataGrid;
 use Adianti\Widget\Datagrid\TDataGridColumn;
 use Adianti\Wrapper\BootstrapDatagridWrapper;
+use Adianti\Validator\TFieldValidator;
 
 /**
  * Checklist
  *
- * @version    7.0
+ * @version    7.1
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -24,6 +25,7 @@ class TCheckList implements AdiantiWidgetInterface
     protected $formName;
     protected $name;
     protected $value;
+    protected $validations;
     
     /**
      * Construct method
@@ -257,6 +259,43 @@ class TCheckList implements AdiantiWidgetInterface
         }
         
         return $value;
+    }
+    
+    /**
+     * Add a field validator
+     * @param $label Field name
+     * @param $validator TFieldValidator object
+     * @param $parameters Aditional parameters
+     */
+    public function addValidation($label, TFieldValidator $validator, $parameters = NULL)
+    {
+        $this->validations[] = array($label, $validator, $parameters);
+    }
+    
+    /**
+     * Returns field validations
+     */
+    public function getValidations()
+    {
+        return $this->validations;
+    }
+    
+    /**
+     * Validate a field
+     */
+    public function validate()
+    {
+        if ($this->validations)
+        {
+            foreach ($this->validations as $validation)
+            {
+                $label      = $validation[0];
+                $validator  = $validation[1];
+                $parameters = $validation[2];
+                
+                $validator->validate($label, $this->getValue(), $parameters);
+            }
+        }
     }
     
     /**

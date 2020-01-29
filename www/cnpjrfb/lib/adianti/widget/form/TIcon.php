@@ -10,7 +10,7 @@ use Adianti\Control\TAction;
 /**
  * Color Widget
  *
- * @version    7.0
+ * @version    7.1
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio

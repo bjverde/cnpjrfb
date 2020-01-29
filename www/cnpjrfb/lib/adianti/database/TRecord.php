@@ -20,7 +20,7 @@ use ArrayIterator;
 /**
  * Base class for Active Records
  *
- * @version    7.0
+ * @version    7.1
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -1042,8 +1042,11 @@ abstract class TRecord implements IteratorAggregate
     {
         $foreign_key = isset($foreign_key) ? $foreign_key : $this->underscoreFromCamelCase(get_class($this)) . '_id';
         $primary_key = $primary_key ? $primary_key : $this->getPrimaryKey();
+        
         $criteria = TCriteria::create( [$foreign_key => $this->$primary_key ], ['order' => $order] );
-        return new TRepository($composite_class);
+        $repository = new TRepository($composite_class);
+        $repository->setCriteria($criteria);
+        return $repository;
     }
     
     /**

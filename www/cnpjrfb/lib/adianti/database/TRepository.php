@@ -15,7 +15,7 @@ use ReflectionClass;
 /**
  * Implements the Repository Pattern to deal with collections of Active Records
  *
- * @version    7.0
+ * @version    7.1
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -50,6 +50,14 @@ class TRepository
         {
             throw new Exception(AdiantiCoreTranslator::translate('The class ^1 was not found. Check the class name or the file name. They must match', '"' . $class . '"'));
         }
+    }
+    
+    /**
+     * Set criteria
+     */
+    public function setCriteria(TCriteria $criteria)
+    {
+        $this->criteria = $criteria;
     }
     
     /**

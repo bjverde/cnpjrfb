@@ -8,3 +8,23 @@ table.tfieldlist.dashed .tfield {
     box-shadow: none !important;
 }
 
+table.tfieldlist td {
+    vertical-align: top;
+}
+
+/** TFile customs **/
+table.tfieldlist td .div_file {
+    display: flex !important;
+}
+
+table.tfieldlist td .tfile_row_wrapper {
+    width: 50%;
+}
+
+table.tfieldlist td .tfile_row_1 {
+    display: flex;
+}
+
+table.tfieldlist td .tfile_link_wrapper {
+    padding: 2px;
+}

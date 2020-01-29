@@ -18,6 +18,7 @@ function tjquerydialog_start( id, modal, draggable, resizable, width, height, to
 		},
 		close: function(ev, ui) {
             $(this).remove();
+            $(".tooltip.fade").remove();
 		},
 		buttons: actions
 	});

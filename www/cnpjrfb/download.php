@@ -19,6 +19,7 @@ if (isset($_GET['file']))
     $content_type_list['pptx'] = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
     $content_type_list['odt']  = 'application/vnd.oasis.opendocument.text';
     $content_type_list['ods']  = 'application/vnd.oasis.opendocument.spreadsheet';
+    $content_type_list['jpeg'] = 'image/jpeg';
     $content_type_list['jpg']  = 'image/jpeg';
     $content_type_list['png']  = 'image/png';
     $content_type_list['gif']  = 'image/gif';

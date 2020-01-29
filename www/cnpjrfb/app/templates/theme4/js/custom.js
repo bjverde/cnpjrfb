@@ -22,9 +22,9 @@ $(function () {
         $('#envelope_notifications a').click(function() { $(this).closest('.dropdown.open').removeClass('open'); });
     }, 500);
     
-    $('.menu i.fa, .menu i.fas, .menu i.far').css('zoom', '120%');
-    $('.menu i.fa, .menu i.fas, .menu i.far').css('margin-top', '8px');
-    $('.menu ul li ul li i.fa, .menu ul li ul li i.far, .menu ul li ul li i.fas').css('margin-top', '5px');
+    $('.menu i.fa, .menu i.fas, .menu i.far, .menu i.fab').css('zoom', '120%');
+    $('.menu i.fa, .menu i.fas, .menu i.far, .menu i.fab').css('margin-top', '8px');
+    $('.menu ul li ul li i.fa, .menu ul li ul li i.far, .menu ul li ul li i.fas, .menu ul li ul li i.fab').css('margin-top', '5px');
     
     $('#leftsidebar a[generator="adianti"]').click(function() {
         $('body').scrollTop(0);

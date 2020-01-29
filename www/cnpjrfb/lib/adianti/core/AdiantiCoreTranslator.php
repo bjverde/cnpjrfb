@@ -4,7 +4,7 @@ namespace Adianti\Core;
 /**
  * Framework translation class for internal messages
  *
- * @version    7.0
+ * @version    7.1
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -131,6 +131,8 @@ class AdiantiCoreTranslator
         $this->messages['en'][] = 'The parameter (^1) of ^2 must not be empty';
         $this->messages['en'][] = 'Return is not a valid JSON. Check the URL';
         $this->messages['en'][] = 'Required fields';
+        $this->messages['en'][] = 'CSRF Error';
+        
         
         $this->messages['pt'][] = 'Carregando';
         $this->messages['pt'][] = 'Arquivo não encontrado';
@@ -184,7 +186,7 @@ class AdiantiCoreTranslator
         $this->messages['pt'][] = 'Sem transação ativa com a base de dados';
         $this->messages['pt'][] = 'Objeto não encontrado';
         $this->messages['pt'][] = 'Objeto ^1 não encontrado em ^2';
-        $this->messages['pt'][] = 'Método ^1 não aceita valores NULOS';
+        $this->messages['pt'][] = 'Mtodo ^1 não aceita valores NULOS';
         $this->messages['pt'][] = 'Método ^1 deve receber um parâmetro do tipo ^2';
         $this->messages['pt'][] = 'Estilo ^1 não encontrado em ^2';
         $this->messages['pt'][] = 'Você deve executar o construtor de ^1';
@@ -242,6 +244,7 @@ class AdiantiCoreTranslator
         $this->messages['pt'][] = 'O parâmetro (^1) de ^2 não deve ser vazio';
         $this->messages['pt'][] = 'Retorno não é JSON válido. Verifique a URL';
         $this->messages['pt'][] = 'Campos obrigatórios';
+        $this->messages['pt'][] = 'Erro de CSRF';
 		
         $this->messages['es'][] = 'Cargando';
         $this->messages['es'][] = 'Archivo no encontrado';
@@ -353,6 +356,7 @@ class AdiantiCoreTranslator
         $this->messages['es'][] = 'El parametro (^1) de ^2 no puede estar vacío';
         $this->messages['es'][] = 'El retorno no es un JSON válido. Verifique la URL';
         $this->messages['es'][] = 'Campos requeridos';
+        $this->messages['es'][] = 'Error de CSRF';
     }
     
     /**

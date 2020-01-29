@@ -36,7 +36,16 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                     else if (single_field.attr('role') == 'tcombosearch') {
                         // only when is different to avoid extra asynchronous event calls on hierarchical combos
                         if (single_field.val() !== value) {
-                            single_field.select2().val(value).trigger('change.select2');
+                            var select2_template = function (d) {
+                                if (/<[a-z][\s\S]*>/i.test(d.text)) {
+                                    return $("<span>"+d.text+"</span>");
+                                }
+                                else {
+                                    return d.text;
+                                }
+                            };
+                            
+                            single_field.select2({templateResult: select2_template, templateSelection: select2_template}).val(value).trigger('change.select2');
                         }
                     }
                     else if (single_field.attr('widget') == 'tdbuniquesearch') {
@@ -44,7 +53,17 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                     }
                     else if (single_field.attr('component') == 'multisearch') {
                         if (value) {
-                            single_field.select2().val(value).trigger('change.select2');
+                        
+                            var select2_template = function (d) {
+                                if (/<[a-z][\s\S]*>/i.test(d.text)) {
+                                    return $("<span>"+d.text+"</span>");
+                                }
+                                else {
+                                    return d.text;
+                                }
+                            };
+                            
+                            single_field.select2({templateResult: select2_template, templateSelection: select2_template}).val(value).trigger('change.select2');
                         }
                     }
                     // checkbox is tested here when used alone inside a form (no checkgroup)
@@ -96,10 +115,20 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                             array_field.val(values).trigger("change.select2");
                         }
                     }
-                    else if (array_field.attr('component') == 'multisearch') {
+                    else if (array_field.attr('component') == 'multisearch' && array_field.attr('widget') !== 'tuniquesearch') {
                         if (value) {
                             var values = value.split('|');
-                            array_field.select2().val(values).trigger('change.select2');
+                            
+                            var select2_template = function (d) {
+                                if (/<[a-z][\s\S]*>/i.test(d.text)) {
+                                    return $("<span>"+d.text+"</span>");
+                                }
+                                else {
+                                    return d.text;
+                                }
+                            };
+                            
+                            array_field.select2({templateResult: select2_template, templateSelection: select2_template}).val(values).trigger('change.select2');
                         }
                     }
                     else if (array_field.length) {

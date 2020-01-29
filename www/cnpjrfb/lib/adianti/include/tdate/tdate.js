@@ -1,6 +1,6 @@
 function tdate_enable_field(form_name, field) {
     try{
-        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield_disabled').addClass('tfield');
+        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield_disabled');
         $('form[name='+form_name+'] [name='+field+']').css('border-right', '0');
         $('form[name='+form_name+'] [name='+field+']').css('pointer-events', 'auto');
         $('form[name='+form_name+'] [name='+field+']').removeAttr('tabindex');
@@ -12,7 +12,7 @@ function tdate_enable_field(form_name, field) {
 
 function tdate_disable_field(form_name, field) {
     try{
-        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield').addClass('tfield_disabled');
+        $('form[name='+form_name+'] [name='+field+']').addClass('tfield_disabled');
         $('form[name='+form_name+'] [name='+field+']').css('border-right', '1px solid gray');
         $('form[name='+form_name+'] [name='+field+']').css('pointer-events', 'none');
         $('form[name='+form_name+'] [name='+field+']').attr('tabindex', "-1");

@@ -19,7 +19,7 @@ function tcombo_enable_field(form_name, field) {
         else {
             $(form_name_sel + selector).attr('onclick', null);
             $(form_name_sel + selector).css('pointer-events',   'auto');
-            $(form_name_sel + selector).removeClass('tcombo_disabled').addClass('tcombo');
+            $(form_name_sel + selector).removeClass('tcombo_disabled');
         }
     } catch (e) {
         console.log(e);
@@ -48,7 +48,7 @@ function tcombo_disable_field(form_name, field) {
             $(form_name_sel + selector).attr('onclick', 'return false');
             $(form_name_sel + selector).attr('tabindex', '-1');
             $(form_name_sel + selector).css('pointer-events', 'none');
-            $(form_name_sel + selector).removeClass('tcombo').addClass('tcombo_disabled');
+            $(form_name_sel + selector).addClass('tcombo_disabled');
         }
     } catch (e) {
         console.log(e);

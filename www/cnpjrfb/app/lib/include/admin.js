@@ -307,11 +307,16 @@ pretty.json = {
    };
 
 Template.updateDebugPanel = function() {
-    var url  = Adianti.requestURL;
-    var body = Adianti.requestData;
-    url = url.replace('engine.php?', '');
-    $('#request_url_panel').html( pretty.json.print(__adianti_query_to_json(decodeURIComponent(url)), undefined, 4) );
-    $('#request_data_panel').html( pretty.json.print(__adianti_query_to_json(decodeURIComponent(body)), undefined, 4) );
+    try {
+        var url  = Adianti.requestURL;
+        var body = Adianti.requestData;
+        url = url.replace('engine.php?', '');
+        $('#request_url_panel').html( pretty.json.print(__adianti_query_to_json(urldecode(url)), undefined, 4) );
+        $('#request_data_panel').html( pretty.json.print(__adianti_query_to_json(urldecode(body)), undefined, 4) );
+    }
+    catch (e) {
+        console.log(e);
+    }
 }
 
 Template.onAfterLoad = function(url, data) {
@@ -331,14 +336,26 @@ Template.onAfterLoad = function(url, data) {
     }
 };
 
+Template.onAfterPost = function(url, data) {
+    Template.updateDebugPanel();
+    
+    if ((url.indexOf("target_container=adianti_right_panel") !== -1) || (data.indexOf('adianti_target_container="adianti_right_panel"') !== -1) ) {
+        if ($('#adianti_right_panel').is(":visible") == false) {
+            $('body').css("overflow", "hidden");
+            $('#adianti_right_panel').show('slide',{direction:'right'},320);
+        }
+    }
+    else if (url.indexOf('&static=1') == -1) {
+        if ($('#adianti_right_panel').is(":visible")) {
+            $('#adianti_right_panel').hide();
+            $('body').css('overflow', 'unset');
+        }
+    }
+}
+
 Template.closeRightPanel = function () {
         $('#adianti_right_panel').hide('slide',{direction:'right'},320)
         setTimeout( function() {
             $('body').css('overflow', 'unset');
         }, 320);
-}
-
-Template.onAfterPost = function()
-{
-    Template.updateDebugPanel();
 }

@@ -6,7 +6,7 @@ use Adianti\Database\TCriteria;
 /**
  * Provides an abstract Interface to create a SQL statement
  *
- * @version    7.0
+ * @version    7.1
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)

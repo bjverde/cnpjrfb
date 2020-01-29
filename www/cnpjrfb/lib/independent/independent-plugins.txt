@@ -1,3 +1,4 @@
 lib/independent/js/moment.min.js
 lib/independent/js/fullcalendar.js
 lib/independent/js/iziToast.min.js
+lib/independent/js/php.min.js

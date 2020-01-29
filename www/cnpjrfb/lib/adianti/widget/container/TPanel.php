@@ -7,7 +7,7 @@ use Adianti\Widget\Base\TStyle;
 /**
  * Panel Container: Allows to organize the widgets using fixed (absolute) positions
  *
- * @version    7.0
+ * @version    7.1
  * @package    widget
  * @subpackage container
  * @author     Pablo Dall'Oglio

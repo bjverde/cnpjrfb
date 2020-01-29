@@ -15,7 +15,7 @@ use Exception;
 /**
  * FileChooser widget
  *
- * @version    7.0
+ * @version    7.1
  * @package    widget
  * @subpackage form
  * @author     Nataniel Rabaioli
@@ -241,6 +241,7 @@ class TFile extends TField implements AdiantiWidgetInterface
         $div = new TElement('div');
         $div->{'style'} = "display:inline;width:100%;";
         $div->{'id'} = 'div_file_'.mt_rand(1000000000, 1999999999);
+        $div->{'class'} = 'div_file';
         
         $div->add( $hdFileName );
         if ($this->placeHolder)

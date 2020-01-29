@@ -8,7 +8,7 @@ use SimpleXMLIterator;
 /**
  * FPDF Adapter that parses XML files from Adianti Framework
  *
- * @version    7.0
+ * @version    7.1
  * @package    wrapper
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -354,7 +354,7 @@ class AdiantiPDFDesigner extends FPDF
             else
             {
                 // Tag
-                if ($e{0}=='/')
+                if (substr($e,0,1) == '/')
                 {
                     $this->closeTag(strtoupper(substr($e,1)));
                 }

@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * BreadCrumb
  *
- * @version    7.0
+ * @version    7.1
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio

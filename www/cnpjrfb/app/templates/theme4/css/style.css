@@ -8193,12 +8193,12 @@ body.theme-deep-purple > section > aside.sidebar > div.user-info
     background: repeating-linear-gradient(0, rgba(168, 168, 168, 0.24) 0px, rgba(168, 168, 168, 0.24) 9px,rgba(242, 242, 242, 0.24) 9px, rgba(242, 242, 242, 0.24) 18px),repeating-linear-gradient(90deg, rgba(237, 237, 237, 0.09) 0px, rgba(237, 237, 237, 0.09) 10px,rgba(73, 73, 73, 0.09) 10px, rgba(73, 73, 73, 0.09) 20px),linear-gradient(90deg, rgb(105, 36, 181),rgb(167, 112, 241)) !important;
 }
 
-body.theme-gray > section > aside.sidebar > div.user-info
+body.theme-grey > section > aside.sidebar > div.user-info
 {
     background: repeating-linear-gradient(0, rgba(152, 152, 152, 0.14) 0px, rgba(152, 152, 152, 0.14) 9px,rgba(243, 243, 243, 0.14) 9px, rgba(243, 243, 243, 0.14) 18px),repeating-linear-gradient(90deg, rgba(163, 163, 163, 0.11) 0px, rgba(163, 163, 163, 0.11) 10px,rgba(55, 55, 55, 0.11) 10px, rgba(55, 55, 55, 0.11) 20px),linear-gradient(90deg, hsl(0, 0%, 0%),hsl(0, 0%, 52%)) !important;
 }
 
-body.theme-blue-gray > section > aside.sidebar > div.user-info
+body.theme-blue-grey > section > aside.sidebar > div.user-info
 {
     background: repeating-linear-gradient(0, rgba(152, 152, 152, 0.14) 0px, rgba(152, 152, 152, 0.14) 9px,rgba(243, 243, 243, 0.14) 9px, rgba(243, 243, 243, 0.14) 18px),repeating-linear-gradient(90deg, rgba(163, 163, 163, 0.11) 0px, rgba(163, 163, 163, 0.11) 10px,rgba(55, 55, 55, 0.11) 10px, rgba(55, 55, 55, 0.11) 20px),linear-gradient(90deg, hsl(0, 0%, 0%),hsl(0, 0%, 52%)) !important;
 }
@@ -8352,27 +8352,27 @@ body.theme-deep-purple .dtp table.dtp-picker-days tr > td > a.selected {
     background: #875ac1 !important;
 }
 
-body.theme-gray .dtp > .dtp-content > .dtp-date-view > header.dtp-header {
+body.theme-grey .dtp > .dtp-content > .dtp-date-view > header.dtp-header {
     background: #494747 !important;
 }
 
-body.theme-gray .dtp div.dtp-date, body.theme-gray .dtp div.dtp-time {
+body.theme-grey .dtp div.dtp-date, body.theme-grey .dtp div.dtp-time {
     background: #7b7b7b !important;
 }
 
-body.theme-gray .dtp table.dtp-picker-days tr > td > a.selected {
+body.theme-grey .dtp table.dtp-picker-days tr > td > a.selected {
     background: #7b7b7b !important;
 }
 
-body.theme-blue-gray .dtp > .dtp-content > .dtp-date-view > header.dtp-header {
+body.theme-blue-grey .dtp > .dtp-content > .dtp-date-view > header.dtp-header {
     background: #494747 !important;
 }
 
-body.theme-blue-gray .dtp div.dtp-date, body.theme-blue-gray .dtp div.dtp-time {
+body.theme-blue-grey .dtp div.dtp-date, body.theme-blue-grey .dtp div.dtp-time {
     background: #7b7b7b !important;
 }
 
-body.theme-blue-gray .dtp table.dtp-picker-days tr > td > a.selected {
+body.theme-blue-grey .dtp table.dtp-picker-days tr > td > a.selected {
     background: #7b7b7b !important;
 }
 

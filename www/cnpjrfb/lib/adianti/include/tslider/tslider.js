@@ -12,13 +12,13 @@ function tslider_start(id, value, min, max, step)
 function tslider_enable_field(form_name, field) {
     setTimeout(function(){
         $('form[name='+form_name+'] [name='+field+']').css('pointer-events', 'auto');
-        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield_disabled').addClass('tfield');
+        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield_disabled');
     },1);
 }
 
 function tslider_disable_field(form_name, field) {
     setTimeout(function(){
         $('form[name='+form_name+'] [name='+field+']').css('pointer-events', 'none');
-        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield').addClass('tfield_disabled');
+        $('form[name='+form_name+'] [name='+field+']').addClass('tfield_disabled');
     },1);    
 }

@@ -17,7 +17,7 @@ function tspinner_start(id, callback)
 function tspinner_enable_field(form_name, field) {
     setTimeout(function(){
         $('form[name='+form_name+'] [name='+field+']').parent().css('pointer-events', 'auto');
-        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield_disabled').addClass('tfield');
+        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield_disabled');
         $('form[name='+form_name+'] [name='+field+']').removeAttr('readonly');
     },1);
 }
@@ -25,7 +25,7 @@ function tspinner_enable_field(form_name, field) {
 function tspinner_disable_field(form_name, field) {
     setTimeout(function(){
         $('form[name='+form_name+'] [name='+field+']').parent().css('pointer-events', 'none');
-        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield').addClass('tfield_disabled');
+        $('form[name='+form_name+'] [name='+field+']').addClass('tfield_disabled');
         $('form[name='+form_name+'] [name='+field+']').attr('readonly', true);
     },1);
 }

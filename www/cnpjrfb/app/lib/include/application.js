@@ -4,7 +4,7 @@ Adianti.onClearDOM = function(){
 	/* $(".select2-hidden-accessible").remove(); */
 	$(".colorpicker-hidden").remove();
 	$(".select2-display-none").remove();
-	$(".tooltip.fade.top.in").remove();
+	$(".tooltip.fade").remove();
 	$(".select2-drop-mask").remove();
 	/* $(".autocomplete-suggestions").remove(); */
 	$(".datetimepicker").remove();

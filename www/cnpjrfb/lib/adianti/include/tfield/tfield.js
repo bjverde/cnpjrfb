@@ -1,7 +1,7 @@
 function tfield_enable_field(form_name, field) {
     try {
         $('form[name='+form_name+'] [name='+field+']').attr('readonly', false);
-        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield_disabled').addClass('tfield');
+        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield_disabled');
     } catch (e) {
         console.log(e);
     }
@@ -10,7 +10,7 @@ function tfield_enable_field(form_name, field) {
 function tfield_disable_field(form_name, field) {
     try {
         $('form[name='+form_name+'] [name='+field+']').attr('readonly', true);
-        $('form[name='+form_name+'] [name='+field+']').removeClass('tfield').addClass('tfield_disabled');
+        $('form[name='+form_name+'] [name='+field+']').addClass('tfield_disabled');
     } catch (e) {
         console.log(e);
     }

@@ -126,7 +126,7 @@ function __adianti_query_to_json(query)
     var params = Object();
     var decode = function (s) {
         if (typeof s !== "undefined"){
-            return decodeURIComponent(s.replace(/\+/g, " "));
+            return urldecode(s.replace(/\+/g, " "));
         }
         return s;
     };
@@ -958,23 +958,16 @@ function __adianti_process_popover()
         }
     };
     
-    var base64_decode = function(str) {
-        return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-        }).join(''))
-    }
-    
     var get_content = function (tip, element) {
         if (typeof $(this).attr('popaction') === "undefined") {
             if (typeof $(this).attr("popcontent64") !== "undefined") {
                 return base64_decode($(this).attr("popcontent64"));
             }
             else {
-                return $(this).attr("popcontent");
+                return $(this).attr("popcontent") || '';
             }
         }
         else {
-            
             var inst = $(this);
             __adianti_get_page($(this).attr('popaction'), function(data) {
                 var popover = inst.attr('data-content',data).data('bs.popover');
@@ -986,7 +979,7 @@ function __adianti_process_popover()
     };
     
     var get_title = function () {
-        return $(this).attr("poptitle");
+        return $(this).attr("poptitle") || '';
     };
     
     var pop_template = '<div class="popover" role="tooltip" style="max-width:800px"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>';
@@ -1025,7 +1018,7 @@ function __adianti_process_popover()
     }).attr('processed', true);
     
     $('body').on('click', function (e) {
-        $('.tooltip').hide();
+        //$('.tooltip').hide();
         if (!$(e.target).is('[popover="true"]') && !$(e.target).parents('.popover').length > 0) {
             // avoid closing dropdowns inside popover (colorpicker, datepicker) when they are outside popover DOM
             if (!$(e.target).parents('.dropdown-menu').length > 0) {

@@ -22,6 +22,7 @@ use Adianti\Widget\Util\TActionLink;
 use Adianti\Widget\Wrapper\TDBRadioGroup;
 use Adianti\Widget\Wrapper\TDBCheckGroup;
 use Adianti\Widget\Wrapper\TDBSeekButton;
+use Adianti\Registry\TSession;
 
 use stdClass;
 use Exception;
@@ -29,7 +30,7 @@ use Exception;
 /**
  * Bootstrap form builder for Adianti Framework
  *
- * @version    7.0
+ * @version    7.1
  * @package    wrapper
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -57,6 +58,7 @@ class BootstrapFormBuilder implements AdiantiFormInterface
     private $hidden;
     private $panel;
     private $client_validation;
+    private $csrf_validation;
     
     /**
      * Constructor method
@@ -75,6 +77,7 @@ class BootstrapFormBuilder implements AdiantiFormInterface
         $this->field_sizes       = null;
         $this->automatic_aria    = false;
         $this->client_validation = false;
+        $this->csrf_validation   = false;
         
         $this->column_classes = array();
         $this->column_classes[1]  = ['col-sm-12'];
@@ -97,6 +100,22 @@ class BootstrapFormBuilder implements AdiantiFormInterface
     public function setClientValidation($bool)
     {
         $this->client_validation = $bool;
+    }
+    
+    /**
+     * Enable CSRF Protection
+     */
+    public function enableCSRFProtection()
+    {
+        $this->csrf_validation = true;
+        
+		TSession::setValue('csrf_token_'.$this->name.'_before', TSession::getValue('csrf_token_'.$this->name));
+		TSession::setValue('csrf_token_'.$this->name, bin2hex(random_bytes(32)));
+		
+		$csrf_token = new THidden('csrf_token');
+		$this->addFields([$csrf_token]);
+		$csrf_token->setValue(TSession::getValue('csrf_token_'.$this->name));
+		$this->decorated->silentField('csrf_token');
     }
     
     /**
@@ -294,6 +313,14 @@ class BootstrapFormBuilder implements AdiantiFormInterface
      */
     public function validate()
     {
+        if ($this->csrf_validation)
+        {
+    		if (!hash_equals($_POST['csrf_token'], TSession::getValue('csrf_token_'.$this->name.'_before')))
+    		{
+    			throw new Exception(AdiantiCoreTranslator::translate('CSRF Error'));
+    		}
+        }
+        
         return $this->decorated->validate();
     }
     

@@ -82,7 +82,7 @@ function FileUploader(input_id, parent_container, service_action, complete_actio
             var file_link_wrapper = file_row_wrapper.find('.tfile_link_wrapper');
             file_row_wrapper.find('.progress-bar').css('width', '100%');
             
-            if ($.inArray( file_name.split('.').pop(), [ "png", "jpg" ] ) > -1) {
+            if ($.inArray( file_name.split('.').pop(), [ "png", "jpg", "jpeg", "gif" ] ) > -1) {
                 var pop_template = '<div class="popover" role="tooltip" style="z-index:100000;max-width:800px"><div class="arrow"></div><h3 class="popover-title popover-header"></h3><div class="popover-content popover-body"><div class="data-content"></div></div></div>';
                 var pop_content  = '<img style="max-width:460px" src="download.php?file={file_name}">';
                 
@@ -91,7 +91,6 @@ function FileUploader(input_id, parent_container, service_action, complete_actio
                 }
                 
                 pop_content = pop_content.replace('{file_name}', file_name);
-                
                 if (that.image_gallery.enabled == '1')
                 {
                     var file_link = $('<a />', { 'href': 'download.php?file='+file_name, 'target' : '_blank' });
@@ -119,8 +118,8 @@ function FileUploader(input_id, parent_container, service_action, complete_actio
                             'content': pop_content,
                             'html' : true,
                             'container': 'body',
-                            title: that.popover.title || "",
                             'template': pop_template,
+                            title: that.popover.title || ""
                         });
                     }
                 }

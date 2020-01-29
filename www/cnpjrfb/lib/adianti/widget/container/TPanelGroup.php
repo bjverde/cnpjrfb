@@ -10,7 +10,7 @@ use Adianti\Widget\Util\TActionLink;
 /**
  * Bootstrap native panel for Adianti Framework
  *
- * @version    7.0
+ * @version    7.1
  * @package    widget
  * @subpackage container
  * @author     Pablo Dall'Oglio

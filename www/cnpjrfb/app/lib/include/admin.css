@@ -117,6 +117,7 @@ pre
     position: absolute;
     padding-left: 3px;
     padding-top: 3px;
+    z-index: 90;
 }
 
 .input-fuse-search
@@ -144,7 +145,7 @@ pre
 .right-panel
 {
     right: 0;
-    position: absolute;
+    position: fixed;
     top: 0;
     border-right: 1px solid #c0c0c0;
     width: 700px;

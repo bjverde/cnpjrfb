@@ -7,7 +7,7 @@ use Exception;
 /**
  * CNPJ validation (Valid only in Brazil)
  *
- * @version    7.0
+ * @version    7.1
  * @package    validator
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -34,19 +34,19 @@ class TCNPJValidator extends TFieldValidator
         for( $i = 0; $i < 13; $i++ )
         {
             $k = $k == 1 ? 9 : $k;
-            $soma2 += ( $cnpj{$i} * $k );
+            $soma2 += ( substr($cnpj, $i, 1) * $k );
             $k--;
             if($i < 12)
             {
                 if($k == 1)
                 {
                     $k = 9;
-                    $soma1 += ( $cnpj{$i} * $k );
+                    $soma1 += ( substr($cnpj, $i, 1) * $k );
                     $k = 1;
                 }
                 else
                 {
-                    $soma1 += ( $cnpj{$i} * $k );
+                    $soma1 += ( substr($cnpj, $i, 1) * $k );
                 }
             }
         }
@@ -54,7 +54,7 @@ class TCNPJValidator extends TFieldValidator
         $digito1 = $soma1 % 11 < 2 ? 0 : 11 - $soma1 % 11;
         $digito2 = $soma2 % 11 < 2 ? 0 : 11 - $soma2 % 11;
         
-        $valid = ( $cnpj{12} == $digito1 and $cnpj{13} == $digito2 );
+        $valid = ( substr($cnpj, 12, 1) == $digito1 and substr($cnpj, 13, 1) == $digito2 );
         
         if (!$valid)
         {
