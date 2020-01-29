@@ -33,8 +33,7 @@ class SocioForm extends TPage
         $tipo_socio->addItems($listipoSocio);
         $nome_socio = new TEntry('nome_socio');
 
-        $this->form->addFields( [new TLabel('CNPJ')],[$cnpj]);
-        $this->form->addFields( [new TLabel('Tipo Sócio')],[$tipo_socio]);
+        $this->form->addFields( [new TLabel('CNPJ')],[$cnpj],[new TLabel('Tipo Sócio')],[$tipo_socio]);
         $this->form->addFields( [new TLabel('Nome')],[$nome_socio]);
 
         // add form actions
