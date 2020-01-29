@@ -25,7 +25,10 @@ class SocioForm extends TPage
         $tipoSocioControler = new TipoSocio();
         $listipoSocio = $tipoSocioControler->getList();
 
-        $cnpj = new TEntry('cnpj');
+        $cnpjLabel = 'CNPJ';
+        $formDinCnpjField = new TFormDinCnpjField('cnpj',$cnpjLabel);
+        $cnpj = $formDinCnpjField->getAdiantiObj();
+        
         $tipo_socio = new TCombo('tipo_socio');
         $tipo_socio->addItems($listipoSocio);
         $nome_socio = new TEntry('nome_socio');

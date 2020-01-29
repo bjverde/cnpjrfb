@@ -23,11 +23,14 @@ class CnaesSecundarioForm extends TPage
         $this->form->generateAria(); // automatic aria-label
 
 
-        $cnpj = new TEntry('cnpj');
+        $cnpjLabel = 'CNPJ';
+        $formDinCnpjField = new TFormDinCnpjField('cnpj',$cnpjLabel);
+        $cnpj = $formDinCnpjField->getAdiantiObj();
+
         $cnae = new TEntry('cnae');
         $cnae_ordem = new TEntry('cnae_ordem');
 
-        $this->form->addFields( [new TLabel('CNPJ')],[$cnpj]);
+        $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj]);
         $this->form->addFields( [new TLabel('cnae')],[$cnae]);
         $this->form->addFields( [new TLabel('Ordem')],[$cnae_ordem]);
 

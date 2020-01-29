@@ -25,11 +25,14 @@ class EmpresaForm extends TPage
         $situacaoCadastralControler = new SituacaoCadastralEmpresa();
         $listSituacaoCadastral = $situacaoCadastralControler->getList();
         
-        $cnpj = new TEntry('cnpj');
+        $cnpjLabel = 'CNPJ';
+        $formDinCnpjField = new TFormDinCnpjField('cnpj',$cnpjLabel);
+        $cnpj = $formDinCnpjField->getAdiantiObj();
+
         $comboSituacao  = new TCombo('motivo_situacao');
         $comboSituacao->addItems($listSituacaoCadastral);
 
-        $this->form->addFields( [new TLabel('CNPJ')],[$cnpj]);
+        $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj]);
         $this->form->addFields( [new TLabel('Situação')], [$comboSituacao] );
 
         // add form actions
