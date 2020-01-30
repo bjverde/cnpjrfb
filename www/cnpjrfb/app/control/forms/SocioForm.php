@@ -15,7 +15,9 @@ class SocioForm extends TPage
 
         $this->setDatabase('cnpj_full'); // define the database
         $this->setActiveRecord('Socio'); // define the Active Record
-        $this->addFilterField('cnpj', 'tipo_socio', 'nome_socio'); //campo, operador, campo do form
+        $this->addFilterField('cnpj', '=', 'cnpj'); //campo, operador, campo do form
+        //$this->addFilterField('tipo_socio', 'tipo_socio', 'tipo_socio'); //campo, operador, campo do form
+        $this->addFilterField('nome_socio', 'like', 'nome_socio'); //campo, operador, campo do form
         $this->setDefaultOrder('cnpj_cpf_socio', 'asc'); // define the default order
 
         $this->form = new BootstrapFormBuilder(__CLASS__);
@@ -57,6 +59,7 @@ class SocioForm extends TPage
         $this->datagrid->addColumn($col_cnpj);
         $this->datagrid->addColumn($col_tipo_socio);
         $this->datagrid->addColumn($col_nome_socio);
+        $this->datagrid->addColumn( new TDataGridColumn('cnpj_cpf_socio','CPF Socio','left') );
         $this->datagrid->addColumn( new TDataGridColumn('cod_qualificacao','cod_qualificacao','left') );
         $this->datagrid->addColumn( new TDataGridColumn('perc_capital','perc_capital','left') );
         $this->datagrid->addColumn( new TDataGridColumn('data_entrada','data_entrada','left') );

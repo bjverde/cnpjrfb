@@ -15,7 +15,10 @@ class EmpresaForm extends TPage
 
         $this->setDatabase('cnpj_full'); // define the database
         $this->setActiveRecord('Empresa'); // define the Active Record
-        $this->addFilterField('cnpj', 'razao_social', 'nome_fantasia', 'situacao'); //campo, operador, campo do form
+        $this->addFilterField('cnpj', 'like', 'cnpj'); //campo, operador, campo do form
+        $this->addFilterField('razao_social', 'like', 'razao_social'); //campo, operador, campo do form
+        $this->addFilterField('nome_fantasia', 'like', 'nome_fantasia'); //campo, operador, campo do form
+        $this->addFilterField('motivo_situacao', '=', 'motivo_situacao'); //campo, operador, campo do form
         $this->setDefaultOrder('cnpj', 'asc'); // define the default order
 
         $this->form = new BootstrapFormBuilder;
@@ -32,8 +35,12 @@ class EmpresaForm extends TPage
         $comboSituacao  = new TCombo('motivo_situacao');
         $comboSituacao->addItems($listSituacaoCadastral);
 
-        $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj]);
-        $this->form->addFields( [new TLabel('Situação')], [$comboSituacao] );
+        $razao_social = new TEntry('razao_social');
+        $nome_fantasia = new TEntry('nome_fantasia');
+
+        $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj],[new TLabel('Motivo Situação')], [$comboSituacao]);
+        $this->form->addFields( [new TLabel('Razão Social')],[$razao_social]);
+        $this->form->addFields( [new TLabel('Nome Fantasia')], [$nome_fantasia] );
 
         // add form actions
         $this->form->addAction('Find', new TAction([$this, 'onSearch']), 'fa:search blue');        
@@ -48,20 +55,13 @@ class EmpresaForm extends TPage
         $this->datagrid->datatable = 'true'; // turn on Datatables
         
         // add the columns
-        $col_cnpj           = new TDataGridColumn('cnpj', 'CNPJ', 'right');
-        $col_tipo_socio     = new TDataGridColumn('razao_social', 'Razão Social', 'left');
-        $col_nome_fantasia  = new TDataGridColumn('nome_fantasia', 'Nome Fantasia', 'left');
-        $col_situacao       = new TDataGridColumn('situacao', 'Situacao', 'left');
-        $col_uf             = new TDataGridColumn('uf', 'UF', 'left');
-        $col_municipio      = new TDataGridColumn('municipio', 'Municipio', 'left');
-        
-        $this->datagrid->addColumn($col_cnpj);
-        $this->datagrid->addColumn($col_tipo_socio);
-        $this->datagrid->addColumn($col_nome_fantasia);
-        $this->datagrid->addColumn($col_situacao);
-        $this->datagrid->addColumn($col_uf);
-        $this->datagrid->addColumn($col_municipio);
-
+        $this->datagrid->addColumn( new TDataGridColumn('cnpj','CNPJ','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('matriz_filial','Matriz/Filial','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('razao_social','Razão Social','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('nome_fantasia','Nome Fantasia','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('situacao','Situação','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('data_situacao','data_situacao','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('motivo_situacao','Motivo Situacao','left') );
         $this->datagrid->addColumn( new TDataGridColumn('nm_cidade_exterior','nm_cidade_exterior','left') );
         $this->datagrid->addColumn( new TDataGridColumn('cod_pais','cod_pais','left') );
         $this->datagrid->addColumn( new TDataGridColumn('nome_pais','nome_pais','left') );
@@ -76,7 +76,7 @@ class EmpresaForm extends TPage
         $this->datagrid->addColumn( new TDataGridColumn('cep','cep','left') );
         $this->datagrid->addColumn( new TDataGridColumn('uf','uf','left') );
         $this->datagrid->addColumn( new TDataGridColumn('cod_municipio','cod_municipio','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('municipio','municipio','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('municipio','Municipio','left') );
         $this->datagrid->addColumn( new TDataGridColumn('ddd_1','ddd_1','left') );
         $this->datagrid->addColumn( new TDataGridColumn('telefone_1','telefone_1','left') );
         $this->datagrid->addColumn( new TDataGridColumn('ddd_2','ddd_2','left') );

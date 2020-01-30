@@ -15,7 +15,9 @@ class CnaesSecundarioForm extends TPage
 
         $this->setDatabase('cnpj_full'); // define the database
         $this->setActiveRecord('CnaesSecundario'); // define the Active Record
-        $this->addFilterField('cnpj', 'cnae_ordem', 'cnae'); //campo, operador, campo do form
+        $this->addFilterField('cnpj', '=', 'cnpj'); //campo, operador, campo do form
+        $this->addFilterField('cnae', '=', 'cnae'); //campo, operador, campo do form
+        $this->addFilterField('cnae_ordem', '=', 'cnae_ordem'); //campo, operador, campo do form
         $this->setDefaultOrder('cnpj', 'asc'); // define the default order
 
         $this->form = new BootstrapFormBuilder(__CLASS__);
@@ -24,7 +26,7 @@ class CnaesSecundarioForm extends TPage
 
 
         $cnpjLabel = 'CNPJ';
-        $formDinCnpjField = new TFormDinCnpjField('cnpj',$cnpjLabel);
+        $formDinCnpjField = new TFormDinCnpjField('cnpj',$cnpjLabel,false,true);
         $cnpj = $formDinCnpjField->getAdiantiObj();
 
         $cnae = new TEntry('cnae');
