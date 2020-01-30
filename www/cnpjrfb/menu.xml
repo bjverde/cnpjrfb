@@ -13,11 +13,7 @@
             <menuitem label='CNEA'>
                 <icon>fa:table fa-fw</icon>
                 <action>CnaesSecundarioForm</action>
-            </menuitem>
-            <menuitem label='Gera Grafo'>
-                <icon>fa:magic fa-fw</icon>
-                <action>GeraGrafoForm</action>
-            </menuitem>            
+            </menuitem>          
             <menuitem label='Ajuda'>
                 <icon>fa:life-ring fa-fw</icon>
                 <action>AjudaView</action>
@@ -28,6 +24,23 @@
             </menuitem>
         </menu>
     </menuitem>
+    <menuitem label='Facilitadores'>
+        <icon>fa:magic fa-fw</icon>
+        <menu>
+            <menuitem label='Gera Grafo'>
+                <icon>fa:magic fa-fw</icon>
+                <action>GeraGrafoForm</action>
+            </menuitem>
+            <menuitem label='Database explorer'>
+                <icon>fas:database fa-fw red</icon>
+                <action>SystemDatabaseExplorer</action>
+            </menuitem>
+            <menuitem label='SQL Panel'>
+                <icon>fas:table fa-fw red</icon>
+                <action>SystemSQLPanel</action>
+            </menuitem>
+        </menu>
+    </menuitem>    
     <menuitem label='Configuração'>
         <icon>fa:cog fa-fw</icon>
         <menu>

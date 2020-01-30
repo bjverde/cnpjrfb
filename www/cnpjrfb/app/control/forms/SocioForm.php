@@ -47,7 +47,7 @@ class SocioForm extends TPage
         // create the datagrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         $this->datagrid->width = '100%';
-        $this->datagrid->datatable = 'true'; // turn on Datatables
+        //$this->datagrid->datatable = 'true'; // turn on Datatables
         
         // add the columns
         $col_cnpj        = new TDataGridColumn('cnpj', 'CNPJ Empresa', 'right');
