@@ -19,7 +19,7 @@ class TFormDinCnpjField
     public function __construct(string $id
                                ,string $strLabel
                                ,$boolRequired = false
-                               ,$boolSendMask = false
+                               ,$boolSendMask = true
                                ,string $strValue=null
                                ,string $strExampleText =null)
     {
