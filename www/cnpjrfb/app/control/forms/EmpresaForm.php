@@ -1,5 +1,7 @@
 <?php
 
+use Adianti\Registry\TSession;
+
 class EmpresaForm extends TPage
 {
     protected $form; // registration form
@@ -41,6 +43,9 @@ class EmpresaForm extends TPage
         $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj],[new TLabel('Motivo Situação')], [$comboSituacao]);
         $this->form->addFields( [new TLabel('Razão Social')],[$razao_social]);
         $this->form->addFields( [new TLabel('Nome Fantasia')], [$nome_fantasia] );
+
+
+        $this->form->setData( TSession::getValue(__CLASS__.'_filter_data'));
 
         // add form actions
         $this->form->addAction('Find', new TAction([$this, 'onSearch']), 'fa:search blue');        

@@ -36,6 +36,8 @@ class CnaesSecundarioForm extends TPage
         $this->form->addFields( [new TLabel('cnae')],[$cnae]);
         $this->form->addFields( [new TLabel('Ordem')],[$cnae_ordem]);
 
+        $this->form->setData( TSession::getValue(__CLASS__.'_filter_data'));
+
         // add form actions
         $this->form->addAction('Find', new TAction([$this, 'onSearch']), 'fa:search blue');        
         $this->form->addActionLink('Clear',  new TAction([$this, 'clear']), 'fa:eraser red');

@@ -38,6 +38,8 @@ class SocioForm extends TPage
         $this->form->addFields( [new TLabel('CNPJ')],[$cnpj],[new TLabel('Tipo Sócio')],[$tipo_socio]);
         $this->form->addFields( [new TLabel('Nome')],[$nome_socio]);
 
+        $this->form->setData( TSession::getValue(__CLASS__.'_filter_data'));
+        
         // add form actions
         $this->form->addAction('Find', new TAction([$this, 'onSearch']), 'fa:search blue');        
         $this->form->addActionLink('Clear',  new TAction([$this, 'clear']), 'fa:eraser red');
