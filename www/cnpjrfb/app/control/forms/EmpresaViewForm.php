@@ -6,7 +6,6 @@ class EmpresaViewForm extends TPage
 {
     protected $form; // registration form
     protected $datagrid; // listing
-    protected $pageNavigation;
     
     // trait com onReload, onSearch, onDelete...
     use Adianti\Base\AdiantiStandardListTrait;
@@ -54,17 +53,28 @@ class EmpresaViewForm extends TPage
     function onView($param)
     {
         try{
-            var_dump($param);
             // abre transação com a base de dados
             TTransaction::open('cnpj_full');
             $empresa = new Empresa($param['key']);
-            var_dump($empresa);
-
+            $this->form->setData($empresa);
+            $this->showGridSocios($empresa->getSocios());
             TTransaction::close(); // fecha a transação
         }
         catch(Exception $e)
         {
             new TMessage('error', $e->getMessage());
         }
+    }
+
+    function showGridSocios($socios){
+        // create the datagrid
+        $listSocios = new BootstrapDatagridWrapper(new TDataGrid);
+        $listSocios->width = '100%';    
+        $listSocios->addColumn(new TDataGridColumn('nome_socio', 'Nome', 'left'));
+        $listSocios->addColumn(new TDataGridColumn('cnpj_cpf_socio', 'CPF', 'left'));
+        $listSocios->createModel();        
+        $listSocios->addItems($socios);
+        $panel = TPanelGroup::pack('Lista de Socios', $listSocios);
+        parent::add($panel);
     }
 }
