@@ -99,6 +99,10 @@ class EmpresaForm extends TPage
         $this->datagrid->addColumn( new TDataGridColumn('sit_especial','sit_especial','left') );
         $this->datagrid->addColumn( new TDataGridColumn('data_sit_especial','data_sit_especial','left') );
 
+
+        $action1 = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
+        $this->datagrid->addAction($action1, 'Detalhar Empresa', 'fa:building #7C93CF');
+
         // create the datagrid model
         $this->datagrid->createModel();
 

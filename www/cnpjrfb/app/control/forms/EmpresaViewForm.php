@@ -40,7 +40,7 @@ class EmpresaViewForm extends TPage
         
 
         $this->form->addHeaderActionLink('Fechar',  new TAction([$this, 'onClose']), 'fa:times red');
-        $this->form->addActionLink('Fechar',  new TAction([$this, 'onClose']), 'fa:times red');
+        
 
         // add the table inside the page
         parent::add($this->form);
@@ -60,6 +60,7 @@ class EmpresaViewForm extends TPage
             $this->form->setData($empresa);
             $this->showGridSocios($empresa->getSocios());
             $this->showGridCnae($empresa->getCnaesSecundarios());
+            $this->form->addActionLink('Fechar',  new TAction([$this, 'onClose']), 'fa:times red');
             TTransaction::close(); // fecha a transação
         }
         catch(Exception $e)
@@ -74,7 +75,11 @@ class EmpresaViewForm extends TPage
         $listSocios->width = '100%';    
         $listSocios->addColumn(new TDataGridColumn('nome_socio', 'Nome', 'left'));
         $listSocios->addColumn(new TDataGridColumn('cnpj_cpf_socio', 'CPF', 'left'));
-        $listSocios->createModel();        
+
+        $action1 = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
+        $listSocios->addAction($action1, 'Detalhar Sócio', 'fa:user green');
+
+        $listSocios->createModel();
         $listSocios->addItems($socios);
         $panel = TPanelGroup::pack('Lista de Socios', $listSocios);
         parent::add($panel);

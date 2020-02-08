@@ -70,18 +70,23 @@ class SocioForm extends TPage
 
         // creates two datagrid actions
         $action1 = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
-        $action2 = new TDataGridAction([$this, 'onFindSocios'],   ['cnpj' => '{cnpj}' ] );
+        $action2 = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
+        $action3 = new TDataGridAction([$this, 'onFindSocios'],   ['cnpj' => '{cnpj}' ] );
         
-        $action1->setLabel('Empresa');
+        $action1->setLabel('Detalhar Empresa');
         $action1->setImage('fa:building #7C93CF');
         
-        $action2->setLabel('Buscar outros Socios');
-        $action2->setImage('fa:users red');
+        $action2->setLabel('Detalhar Sócio');
+        $action2->setImage('fa:user green');
+        
+        $action3->setLabel('Buscar outros Socios');
+        $action3->setImage('fa:users red');
         
         $action_group = new TDataGridActionGroup('Ações ', 'fa:th');
         
         $action_group->addAction($action1);
-        $action_group->addAction($action2);        
+        $action_group->addAction($action2);
+        $action_group->addAction($action3);
         // add the actions to the datagrid
         $this->datagrid->addActionGroup($action_group);
 
