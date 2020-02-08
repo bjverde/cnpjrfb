@@ -114,8 +114,8 @@ class Empresa extends TRecord
      */
     public function load($id)
     {
-        $this->cnaes_secundarios = parent::loadComposite('CnaesSecundario', 'empresas_id', $id);
-        $this->socios = parent::loadComposite('Socio', 'empresas_id', $id);
+        $this->cnaes_secundarios = parent::loadComposite('CnaesSecundario', 'cnpj', $id);
+        $this->socios = parent::loadComposite('Socio', 'cnpj', $id);
     
         // load the object itself
         return parent::load($id);
@@ -129,8 +129,8 @@ class Empresa extends TRecord
         // store the object itself
         parent::store();
     
-        parent::saveComposite('CnaesSecundario', 'empresas_id', $this->id, $this->cnaes_secundarios);
-        parent::saveComposite('Socio', 'empresas_id', $this->id, $this->socios);
+        parent::saveComposite('CnaesSecundario', 'cnpj', $this->id, $this->cnaes_secundarios);
+        parent::saveComposite('Socio', 'cnpj', $this->id, $this->socios);
     }
 
     /**
@@ -140,8 +140,8 @@ class Empresa extends TRecord
     public function delete($id = NULL)
     {
         $id = isset($id) ? $id : $this->id;
-        parent::deleteComposite('CnaesSecundario', 'empresas_id', $id);
-        parent::deleteComposite('Socio', 'empresas_id', $id);
+        parent::deleteComposite('CnaesSecundario', 'cnpj', $id);
+        parent::deleteComposite('Socio', 'cnpj', $id);
     
         // delete the object itself
         parent::delete($id);
