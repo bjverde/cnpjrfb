@@ -44,14 +44,10 @@ class SocioForm extends TPage
         $this->form->addAction('Find', new TAction([$this, 'onSearch']), 'fa:search blue');        
         $this->form->addActionLink('Clear',  new TAction([$this, 'clear']), 'fa:eraser red');
 
-        // keep the form filled with the search data
-        $this->form->setData( TSession::getValue('StandardDataGridView_filter_data') );
-
-
         // create the datagrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         $this->datagrid->width = '100%';
-        //$this->datagrid->datatable = 'true'; // turn on Datatables
+        $this->datagrid->datatable = 'true'; // turn on Datatables
         
         // add the columns
         $col_cnpj        = new TDataGridColumn('cnpj', 'CNPJ Empresa', 'right');
@@ -73,28 +69,19 @@ class SocioForm extends TPage
         
 
         // creates two datagrid actions
-        $action1 = new TDataGridAction([$this, 'onView'],     ['key' => '{cnpj}']  );
-        $action2 = new TDataGridAction([$this, 'onDelete'],   ['key' => '{cnpj}' ] );
-        $action3 = new TDataGridAction([$this, 'onViewCity'], ['key' => '{cnpj}' ] );
+        $action1 = new TDataGridAction([$this, 'onViewEmpresa'],  ['key' => '{cnpj}']  );
+        $action2 = new TDataGridAction([$this, 'onFindSocios'],   ['cnpj' => '{cnpj}' ] );
         
-        $action1->setLabel('View name');
-        $action1->setImage('fa:search #7C93CF');
+        $action1->setLabel('Empresa');
+        $action1->setImage('fa:building #7C93CF');
         
-        $action2->setLabel('Try to delete');
-        $action2->setImage('far:trash-alt red');
+        $action2->setLabel('Buscar outros Socios');
+        $action2->setImage('fa:users red');
         
-        $action3->setLabel('View city');
-        $action3->setImage('far:hand-pointer green');
+        $action_group = new TDataGridActionGroup('Ações ', 'fa:th');
         
-        $action_group = new TDataGridActionGroup('Actions ', 'fa:th');
-        
-        $action_group->addHeader('Available Options');
         $action_group->addAction($action1);
-        $action_group->addAction($action2);
-        $action_group->addSeparator();
-        $action_group->addHeader('Another Options');
-        $action_group->addAction($action3);
-        
+        $action_group->addAction($action2);        
         // add the actions to the datagrid
         $this->datagrid->addActionGroup($action_group);
 
@@ -116,21 +103,21 @@ class SocioForm extends TPage
         parent::add($vbox);
     }
 
-    function onView()
+    function onViewEmpresa($param)
     {
-        $this->clearFilters();
-        $this->onReload();
+        //$this->clearFilters();
+        //$this->onReload();
+        var_dump($param);
+        $data = $this->form->getData();
+        var_dump($data);
     }
 
-    function onDelete()
+    function onFindSocios($param)
     {
         $this->clearFilters();
-        $this->onReload();
-    }
-
-    function onViewCity()
-    {
-        $this->clearFilters();
+        $data = new stdClass();
+        $data->cnpj = $param['cnpj'];
+        $this->form->setData($data);
         $this->onReload();
     }
 
