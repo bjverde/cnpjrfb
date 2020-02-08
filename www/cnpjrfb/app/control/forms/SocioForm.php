@@ -69,7 +69,7 @@ class SocioForm extends TPage
         
 
         // creates two datagrid actions
-        $action1 = new TDataGridAction([$this, 'onViewEmpresa'],  ['key' => '{cnpj}']  );
+        $action1 = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
         $action2 = new TDataGridAction([$this, 'onFindSocios'],   ['cnpj' => '{cnpj}' ] );
         
         $action1->setLabel('Empresa');
