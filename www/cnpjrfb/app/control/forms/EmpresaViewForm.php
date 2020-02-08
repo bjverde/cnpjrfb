@@ -40,6 +40,7 @@ class EmpresaViewForm extends TPage
         
 
         $this->form->addHeaderActionLink('Fechar',  new TAction([$this, 'onClose']), 'fa:times red');
+        $this->form->addActionLink('Fechar',  new TAction([$this, 'onClose']), 'fa:times red');
 
         // add the table inside the page
         parent::add($this->form);
@@ -58,6 +59,7 @@ class EmpresaViewForm extends TPage
             $empresa = new Empresa($param['key']);
             $this->form->setData($empresa);
             $this->showGridSocios($empresa->getSocios());
+            $this->showGridCnae($empresa->getCnaesSecundarios());
             TTransaction::close(); // fecha a transação
         }
         catch(Exception $e)
@@ -75,6 +77,18 @@ class EmpresaViewForm extends TPage
         $listSocios->createModel();        
         $listSocios->addItems($socios);
         $panel = TPanelGroup::pack('Lista de Socios', $listSocios);
+        parent::add($panel);
+    }
+
+    function showGridCnae($cnae){
+        // create the datagrid
+        $list = new BootstrapDatagridWrapper(new TDataGrid);
+        $list->width = '100%';    
+        $list->addColumn(new TDataGridColumn('cnae', 'CNAE', 'left'));
+        $list->addColumn(new TDataGridColumn('cnae_ordem', 'CNAE Ordem', 'left'));
+        $list->createModel();        
+        $list->addItems($cnae);
+        $panel = TPanelGroup::pack('Lista de CNAE', $list);
         parent::add($panel);
     }
 }
