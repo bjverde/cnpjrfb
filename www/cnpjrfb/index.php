@@ -26,8 +26,9 @@ $content     = str_replace('{HEAD}', $css.$js, $content);
 
 echo $content;
 
-if (isset($_REQUEST['class']))
-{
+if (isset($_REQUEST['class'])){
     $method = isset($_REQUEST['method']) ? $_REQUEST['method'] : NULL;
     AdiantiCoreApplication::loadPage($_REQUEST['class'], $method, $_REQUEST);
+} else {
+    AdiantiCoreApplication::loadPage('AjudaView', null, null);
 }
