@@ -47,10 +47,13 @@ class SocioForm extends TPage
         // create the datagrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         $this->datagrid->width = '100%';
-        $this->datagrid->datatable = 'true'; // turn on Datatables
+        //$this->datagrid->datatable = 'true'; // turn on Datatables
         
         // add the columns
         $col_cnpj        = new TDataGridColumn('cnpj', 'CNPJ Empresa', 'right');
+        $col_cnpj->setTransformer(function ($value) {
+            return StringHelper::formatCnpjCpf($value);
+        });
         $col_tipo_socio  = new TDataGridColumn('tipo_socio', 'Tipo Sócio', 'left');
         $col_nome_socio  = new TDataGridColumn('nome_socio', 'Sócio', 'left');
         
@@ -69,23 +72,22 @@ class SocioForm extends TPage
         
 
         // creates two datagrid actions
-        $action1 = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
-        $action2 = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
+        $actionEmpresaView = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
+        $actionSocio = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
         $action3 = new TDataGridAction([$this, 'onFindSocios'],   ['cnpj' => '{cnpj}' ] );
         
-        $action1->setLabel('Detalhar Empresa');
-        $action1->setImage('fa:building #7C93CF');
+        $actionEmpresaView->setLabel('Detalhar Empresa');
+        $actionEmpresaView->setImage('fa:building #7C93CF');
         
-        $action2->setLabel('Detalhar Sócio');
-        $action2->setImage('fa:user green');
+        $actionSocio->setLabel('Detalhar essa sociedade');
+        $actionSocio->setImage('fa:user green');
         
         $action3->setLabel('Buscar outros Socios');
         $action3->setImage('fa:users red');
         
         $action_group = new TDataGridActionGroup('Ações ', 'fa:th');
-        
-        $action_group->addAction($action1);
-        $action_group->addAction($action2);
+        $action_group->addAction($actionSocio);
+        $action_group->addAction($actionEmpresaView);
         $action_group->addAction($action3);
         // add the actions to the datagrid
         $this->datagrid->addActionGroup($action_group);

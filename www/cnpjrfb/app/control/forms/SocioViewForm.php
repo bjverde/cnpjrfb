@@ -11,11 +11,30 @@ class SocioViewForm extends TPage
     public function __construct()
     {
         parent::__construct();
-
         $this->adianti_target_container = 'adianti_right_panel';
+    }
 
+    public function onView($param)
+    {
+        try{
+            var_dump($param);
+
+            $cnpj_cpf_socio = $param['cnpj_cpf_socio'];
+            $nome_socio = $param['nome_socio'];
+            $socioController = new SocioController();
+            $listSocio = $socioController->selectBySocio($cnpj_cpf_socio,$nome_socio);
+            $this->showFormSocioNaEmpresa($listSocio[0]);
+            $this->showGridEmpresa($listSocio);
+        }
+        catch(Exception $e)
+        {
+            new TMessage('error', $e->getMessage());
+        }
+    }
+
+    public function showFormSocioNaEmpresa(Socio $socio){
         $this->form = new BootstrapFormBuilder(__CLASS__);
-        $this->form->setFormTitle('Sócio');
+        $this->form->setFormTitle('Dados do Sócio na empresa '.StringHelper::formatCnpjCpf($socio->cnpj));
         $this->form->generateAria(); // automatic aria-label
 
         $tipoSocioControler = new TipoSocio();
@@ -31,28 +50,7 @@ class SocioViewForm extends TPage
 
         $this->form->addFields( [new TLabel('CNPJ')],[$cnpj],[new TLabel('Tipo Sócio')],[$tipo_socio]);
         $this->form->addFields( [new TLabel('Nome')],[$nome_socio]);
-
-        // add the table inside the page
         parent::add($this->form);
-    }
-
-    function onView($param)
-    {
-        try{
-            var_dump($param);
-
-            $cnpj_cpf_socio = $param['cnpj_cpf_socio'];
-            $nome_socio = $param['nome_socio'];
-
-            $socioController = new SocioController();
-            $listSocio = $socioController->selectBySocio($cnpj_cpf_socio,$nome_socio);
-            $this->form->setData($listSocio);
-            $this->showGridEmpresa($listSocio);
-        }
-        catch(Exception $e)
-        {
-            new TMessage('error', $e->getMessage());
-        }
     }
     
     public function showGridEmpresa($listSocio){
@@ -62,11 +60,15 @@ class SocioViewForm extends TPage
         parent::add($panel);
     }
 
-    function getGridEmpresa(array $listEmpresa){
+    public function getGridEmpresa(array $listEmpresa){
         // create the datagrid
         $grid = new BootstrapDatagridWrapper(new TDataGrid);
-        $grid->width = '100%';    
-        $grid->addColumn( new TDataGridColumn('cnpj','CNPJ','left') );
+        $grid->width = '100%';
+        $cnpj = new TDataGridColumn('cnpj','CNPJ','left');
+        $cnpj->setTransformer(function ($value) {
+            return StringHelper::formatCnpjCpf($value);
+        });
+        $grid->addColumn( $cnpj );
         $grid->addColumn( new TDataGridColumn('razao_social','Razão Social','left') );
         $grid->addColumn( new TDataGridColumn('nome_fantasia','Nome Fantasia','left') );
 
@@ -75,7 +77,7 @@ class SocioViewForm extends TPage
 
         $grid->createModel();
         $grid->addItems($listEmpresa);
-        $panel = TPanelGroup::pack('Lista de Empresas', $grid);
+        $panel = TPanelGroup::pack('Lista de Empresas que é socio', $grid);
         
         return $panel;
     }
