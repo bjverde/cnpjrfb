@@ -29,6 +29,8 @@ class SocioViewForm extends TPage
         $tipo_socio->addItems($listipoSocio);
         $nome_socio = new TEntry('nome_socio');
 
+        $this->form->addFields( [new TLabel('CNPJ')],[$cnpj],[new TLabel('Tipo Sócio')],[$tipo_socio]);
+        $this->form->addFields( [new TLabel('Nome')],[$nome_socio]);
 
         // add the table inside the page
         parent::add($this->form);
@@ -37,16 +39,27 @@ class SocioViewForm extends TPage
     function onView($param)
     {
         try{
-            // abre transação com a base de dados
-            TTransaction::open('cnpj_full');
-            //$empresa = new Empresa($param['key']);
-            //$this->form->setData($empresa);
-            //$this->form->addActionLink('Fechar',  new TAction([$this, 'onClose']), 'fa:times red');
-            TTransaction::close(); // fecha a transação
+            var_dump($param);
+
+            $cnpj_cpf_socio = $param['cnpj_cpf_socio'];
+            $nome_socio = $param['nome_socio'];
+
+            $socioController = new SocioController();
+            $socio = $socioController->selectBySocio($cnpj_cpf_socio,$nome_socio);
+            var_dump($socio);
+            $this->form->setData($socio);
+            //$this->showGridSocios($empresa->getSocios());
         }
         catch(Exception $e)
         {
             new TMessage('error', $e->getMessage());
         }
+    }
+    
+    public function showGridEmpresa($listSocio){
+        $empresaController = new EmpresaController();
+        $listEmpresa = $empresaController->selectBySocio($listSocio);
+        $panel = $empresaController->getGridEmpresa($listEmpresa);
+        parent::add($panel);
     }
 }
