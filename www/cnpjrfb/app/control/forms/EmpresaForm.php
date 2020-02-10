@@ -57,17 +57,23 @@ class EmpresaForm extends TPage
         // create the datagrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
         $this->datagrid->width = '100%';
-        $this->datagrid->datatable = 'true'; // turn on Datatables
+        //$this->datagrid->datatable = 'true'; // turn on Datatables
         
         // add the columns
-        $this->datagrid->addColumn( new TDataGridColumn('cnpj','CNPJ','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('matriz_filial','Matriz/Filial','left') );
+        $col_cnpj        = new TDataGridColumn('cnpj', 'CNPJ','left');
+        $col_cnpj->setTransformer(function ($value) {
+            return StringHelper::formatCnpjCpf($value);
+        });
+        $this->datagrid->addColumn( $col_cnpj );
+        //$this->datagrid->addColumn( new TDataGridColumn('matriz_filial','Matriz/Filial','left') );
         $this->datagrid->addColumn( new TDataGridColumn('razao_social','Razão Social','left') );
         $this->datagrid->addColumn( new TDataGridColumn('nome_fantasia','Nome Fantasia','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('situacao','Situação','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('data_situacao','data_situacao','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('motivo_situacao','Motivo Situacao','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('nm_cidade_exterior','nm_cidade_exterior','left') );
+        //$this->datagrid->addColumn( new TDataGridColumn('situacao','Situação','left') );
+        //$this->datagrid->addColumn( new TDataGridColumn('data_situacao','Dt Situação','left') );
+        //$this->datagrid->addColumn( new TDataGridColumn('motivo_situacao','Motivo Situacao','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('uf','UF','center') );
+        $this->datagrid->addColumn( new TDataGridColumn('municipio','Municipio','left') );
+        /*
         $this->datagrid->addColumn( new TDataGridColumn('cod_pais','cod_pais','left') );
         $this->datagrid->addColumn( new TDataGridColumn('nome_pais','nome_pais','left') );
         $this->datagrid->addColumn( new TDataGridColumn('cod_nat_juridica','cod_nat_juridica','left') );
@@ -98,6 +104,7 @@ class EmpresaForm extends TPage
         $this->datagrid->addColumn( new TDataGridColumn('opc_mei','opc_mei','left') );
         $this->datagrid->addColumn( new TDataGridColumn('sit_especial','sit_especial','left') );
         $this->datagrid->addColumn( new TDataGridColumn('data_sit_especial','data_sit_especial','left') );
+        */
 
 
         $action1 = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );

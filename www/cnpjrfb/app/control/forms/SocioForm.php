@@ -55,13 +55,24 @@ class SocioForm extends TPage
             return StringHelper::formatCnpjCpf($value);
         });
         $col_tipo_socio  = new TDataGridColumn('tipo_socio', 'Tipo Sócio', 'left');
+        $col_tipo_socio->setTransformer(function ($value) {
+            $tipoSocioControler = new TipoSocio();
+            $listipoSocio = $tipoSocioControler->getList();
+            return $listipoSocio[$value];
+        });
         $col_nome_socio  = new TDataGridColumn('nome_socio', 'Sócio', 'left');
         
         $this->datagrid->addColumn($col_cnpj);
-        $this->datagrid->addColumn($col_tipo_socio);
         $this->datagrid->addColumn($col_nome_socio);
         $this->datagrid->addColumn( new TDataGridColumn('cnpj_cpf_socio','CPF Socio','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('cod_qualificacao','cod_qualificacao','left') );
+        $this->datagrid->addColumn($col_tipo_socio);
+        $col_cod_qualificacao  = new TDataGridColumn('cod_qualificacao','Qualificação','left');
+        $col_cod_qualificacao->setTransformer(function ($value) {
+            $tipoSocioControler = new TipoSocioQualificacao();
+            $listipoSocio = $tipoSocioControler->getList();
+            return $listipoSocio[$value];
+        });        
+        $this->datagrid->addColumn( $col_cod_qualificacao );
         $this->datagrid->addColumn( new TDataGridColumn('perc_capital','perc_capital','left') );
         $this->datagrid->addColumn( new TDataGridColumn('data_entrada','data_entrada','left') );
         $this->datagrid->addColumn( new TDataGridColumn('cod_pais_ext','cod_pais_ext','left') );
