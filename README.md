@@ -3,7 +3,11 @@ Sistema para Consultar os [Dados públicos CNPJ](https://receita.economia.gov.br
 
 Esse é um sistema foi feito com PHP usando o [Adianti FrameWork 7.1](https://www.adianti.com.br/framework) e [CNPJ-FULL do Fabio Serpa](https://github.com/fabioserpa/CNPJ-full).
 
-![Tela de Exemplo](www/cnpjrfb/app/images/tela_inicial.png?raw=true "Tela de Exemplo")
+![Tela de Pesquisa Empresa](www/cnpjrfb/app/images/tela_pesquisa_empresa.png?raw=true "Tela de Pesquisa Empresa")
+
+![Tela de Pesquisa Socio](www/cnpjrfb/app/images/tela_pesquisa_socio.png?raw=true "Tela de Pesquisa Socio")
+
+
 # Instalando e rodando
 
 ## Requistos
