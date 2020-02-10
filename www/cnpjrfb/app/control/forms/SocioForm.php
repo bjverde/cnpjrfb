@@ -16,8 +16,9 @@ class SocioForm extends TPage
         $this->setDatabase('cnpj_full'); // define the database
         $this->setActiveRecord('Socio'); // define the Active Record
         $this->addFilterField('cnpj', '=', 'cnpj'); //campo, operador, campo do form
-        //$this->addFilterField('tipo_socio', 'tipo_socio', 'tipo_socio'); //campo, operador, campo do form
+        $this->addFilterField('tipo_socio', '=', 'tipo_socio'); //campo, operador, campo do form
         $this->addFilterField('nome_socio', 'like', 'nome_socio'); //campo, operador, campo do form
+        $this->addFilterField('cnpj_cpf_socio', 'like', 'cnpj_cpf_socio'); //campo, operador, campo do form
         $this->setDefaultOrder('cnpj_cpf_socio', 'asc'); // define the default order
 
         $this->form = new BootstrapFormBuilder(__CLASS__);
@@ -34,9 +35,11 @@ class SocioForm extends TPage
         $tipo_socio = new TCombo('tipo_socio');
         $tipo_socio->addItems($listipoSocio);
         $nome_socio = new TEntry('nome_socio');
+        $cnpj_cpf_socio = new TEntry('cnpj_cpf_socio');
 
         $this->form->addFields( [new TLabel('CNPJ')],[$cnpj],[new TLabel('Tipo Sócio')],[$tipo_socio]);
         $this->form->addFields( [new TLabel('Nome')],[$nome_socio]);
+        $this->form->addFields( [new TLabel('CPF')],[$cnpj_cpf_socio]);
 
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data'));
         
@@ -73,13 +76,13 @@ class SocioForm extends TPage
             return $listipoSocio[$value];
         });        
         $this->datagrid->addColumn( $col_cod_qualificacao );
-        $this->datagrid->addColumn( new TDataGridColumn('perc_capital','perc_capital','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('data_entrada','data_entrada','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('cod_pais_ext','cod_pais_ext','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('nome_pais_ext','nome_pais_ext','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('cpf_repres','cpf_repres','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('nome_repres','nome_repres','left') );
-        $this->datagrid->addColumn( new TDataGridColumn('cod_qualif_repres','cod_qualif_repres','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('perc_capital','% Capital','left') );
+        $this->datagrid->addColumn( new TDataGridColumn('data_entrada','Dt Entrada','left') );
+        //$this->datagrid->addColumn( new TDataGridColumn('cod_pais_ext','cod_pais_ext','left') );
+        //$this->datagrid->addColumn( new TDataGridColumn('nome_pais_ext','nome_pais_ext','left') );
+        //$this->datagrid->addColumn( new TDataGridColumn('cpf_repres','cpf_repres','left') );
+        //$this->datagrid->addColumn( new TDataGridColumn('nome_repres','nome_repres','left') );
+        //$this->datagrid->addColumn( new TDataGridColumn('cod_qualif_repres','cod_qualif_repres','left') );
         
 
         // creates two datagrid actions

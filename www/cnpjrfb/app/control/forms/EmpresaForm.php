@@ -68,7 +68,13 @@ class EmpresaForm extends TPage
         //$this->datagrid->addColumn( new TDataGridColumn('matriz_filial','Matriz/Filial','left') );
         $this->datagrid->addColumn( new TDataGridColumn('razao_social','Razão Social','left') );
         $this->datagrid->addColumn( new TDataGridColumn('nome_fantasia','Nome Fantasia','left') );
-        //$this->datagrid->addColumn( new TDataGridColumn('situacao','Situação','left') );
+        $col_situacao = new TDataGridColumn('situacao','Situação','left');
+        $col_situacao->setTransformer(function ($value) {
+            $tipoController = new TipoEmpresaSituacao();
+            $lis = $tipoController->getList();
+            return $lis[$value];
+        });
+        $this->datagrid->addColumn( $col_situacao );
         //$this->datagrid->addColumn( new TDataGridColumn('data_situacao','Dt Situação','left') );
         //$this->datagrid->addColumn( new TDataGridColumn('motivo_situacao','Motivo Situacao','left') );
         $this->datagrid->addColumn( new TDataGridColumn('uf','UF','center') );
