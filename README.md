@@ -7,6 +7,8 @@ Esse é um sistema foi feito com PHP usando o [Adianti FrameWork 7.1](https://ww
 
 ![Tela de Pesquisa Socio](www/cnpjrfb/app/images/tela_pesquisa_socio.png?raw=true "Tela de Pesquisa Socio")
 
+![Visão no Celular](www/cnpjrfb/app/images/tela_pesquisa_empresa_celular.png?raw=true "Visão no Celular")
+
 
 # Instalando e rodando
 
