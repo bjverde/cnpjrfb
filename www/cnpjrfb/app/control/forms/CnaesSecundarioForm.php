@@ -58,6 +58,9 @@ class CnaesSecundarioForm extends TPage
         $this->datagrid->addColumn($col_cnae);
         $this->datagrid->addColumn($col_cnae_ordem);
 
+        $action1 = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
+        $this->datagrid->addAction($action1, 'Detalhar Empresa', 'fa:building #7C93CF');
+
         // create the datagrid model
         $this->datagrid->createModel();
 
