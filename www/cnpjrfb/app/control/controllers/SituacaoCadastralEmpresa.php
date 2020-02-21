@@ -11,9 +11,10 @@ class SituacaoCadastralEmpresa
     public static function getList()
     {
         $list = array(
-             1=>'EXTINÇÃO POR ENCERRAMENTO LIQUIDAÇÃO VOLUNTÁRIA'
-            ,2=>'INCORPORAÇÃO'
-            ,3=>'FUSÃO'
+             '00'=>'NÃO DEFINIDO PELA RFB'
+            ,'01'=>'EXTINÇÃO POR ENCERRAMENTO LIQUIDAÇÃO VOLUNTÁRIA'
+            ,'02'=>'INCORPORAÇÃO'
+            ,'03'=>'FUSÃO'
             ,4=>'CISÃO TOTAL'
             ,5=>'ENCERRAMENTO DA FALÊNCIA'
             ,6=>'ENCERRAMENTO DA LIQUIDAÇÃO'

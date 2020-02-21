@@ -21,6 +21,9 @@ class EmpresaForm extends TPage
         $this->addFilterField('razao_social', 'like', 'razao_social'); //campo, operador, campo do form
         $this->addFilterField('nome_fantasia', 'like', 'nome_fantasia'); //campo, operador, campo do form
         $this->addFilterField('motivo_situacao', '=', 'motivo_situacao'); //campo, operador, campo do form
+        $this->addFilterField('uf', '=', 'uf'); //campo, operador, campo do form
+        $this->addFilterField('situacao', '=', 'situacao'); //campo, operador, campo do form
+        $this->addFilterField('matriz_filial', '=', 'matriz_filial'); //campo, operador, campo do form
         $this->setDefaultOrder('cnpj', 'asc'); // define the default order
 
         $this->form = new BootstrapFormBuilder;
@@ -38,10 +41,19 @@ class EmpresaForm extends TPage
 
         $razao_social = new TEntry('razao_social');
         $nome_fantasia = new TEntry('nome_fantasia');
+        $uf = new TEntry('uf');
+        $comboMatrizFilial  = new TCombo('matriz_filial');
+        $comboMatrizFilial->addItems(TipoMatrizFilial::getList());
+        $comboSituacao      = new TCombo('situacao');
+        $comboSituacao->addItems(TipoEmpresaSituacao::getList());        
+        
 
         $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj],[new TLabel('Motivo Situação')], [$comboSituacao]);
         $this->form->addFields( [new TLabel('Razão Social')],[$razao_social]);
         $this->form->addFields( [new TLabel('Nome Fantasia')], [$nome_fantasia] );
+        $this->form->addFields( [new TLabel('UF')], [$uf]
+                               ,[new TLabel('Matriz')], [$comboMatrizFilial]
+                              );
 
 
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data'));

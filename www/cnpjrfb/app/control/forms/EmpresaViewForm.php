@@ -42,28 +42,30 @@ class EmpresaViewForm extends TPage
             TTransaction::open('cnpj_full');
             $empresa = new Empresa($param['key']);
     
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cnpj)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->matriz_filial)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay(StringHelper::formatCnpjCpf($empresa->cnpj))], [new TLabel('Matriz')],[new TTextDisplay(TipoMatrizFilial::getByid($empresa->matriz_filial))]);
             $this->form->addFields( [new TLabel('Razão Social')],[new TTextDisplay($empresa->razao_social)]);
             $this->form->addFields( [new TLabel('Nome Fantasia')],[new TTextDisplay($empresa->nome_fantasia)]);
             $this->form->addFields( [new TLabel('Situação')],[new TTextDisplay(TipoEmpresaSituacao::getByid($empresa->situacao))]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_situacao)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->motivo_situacao)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay(SituacaoCadastralEmpresa::getByid($empresa->motivo_situacao))]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->nm_cidade_exterior)]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cod_pais)]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->nome_pais)]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cod_nat_juridica)]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_inicio_ativ)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cnae_fiscal)]);
+            $cnae = new TTextDisplay(EmpresaController::getLink($empresa->cnae_fiscal));
+            $this->form->addFields( [new TLabel('CNAE (Link IBGE)')],[$cnae]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->tipo_logradouro)]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->logradouro)]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->numero)]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->complemento)]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->bairro)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cep)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->uf)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cod_municipio)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->municipio)]);
+            $this->form->addFields( [new TLabel('CEP')],[new TTextDisplay($empresa->cep)]);
+    
+
+            $this->form->addFields( [new TLabel('UF')],[new TTextDisplay($empresa->uf)], [new TLabel('Cod Município')],[new TTextDisplay($empresa->cod_municipio)],[new TLabel('Município')],[new TTextDisplay($empresa->municipio)]);
+            
+            
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->ddd_1)]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->telefone_1)]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->ddd_2)]);

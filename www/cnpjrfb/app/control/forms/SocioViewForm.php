@@ -23,6 +23,11 @@ class SocioViewForm extends TPage
             $nome_socio = $param['nome_socio'];
             $socioController = new SocioController();
             $listSocio = $socioController->selectBySocio($cnpj_cpf_socio,$nome_socio);
+            var_dump($listSocio);
+
+
+
+
             $this->showFormSocioNaEmpresa($listSocio[0]);
             $this->showGridEmpresa($listSocio);
         }
