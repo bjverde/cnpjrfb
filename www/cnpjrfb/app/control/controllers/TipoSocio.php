@@ -1,7 +1,14 @@
 <?php
 class TipoSocio
 {
-    public function getList()
+
+    public static function getByid($id)
+    {
+        $list = self::getList();
+        return $list[$id];
+    }
+
+    public static function getList()
     {
         $list = array(
              1=>'PESSOA JURÍDICA'

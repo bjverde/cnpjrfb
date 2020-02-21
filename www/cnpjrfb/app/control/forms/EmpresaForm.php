@@ -27,8 +27,7 @@ class EmpresaForm extends TPage
         $this->form->setFormTitle('Empresas');
         $this->form->generateAria(); // automatic aria-label
 
-        $situacaoCadastralControler = new SituacaoCadastralEmpresa();
-        $listSituacaoCadastral = $situacaoCadastralControler->getList();
+        $listSituacaoCadastral = SituacaoCadastralEmpresa::getList();
         
         $cnpjLabel = 'CNPJ';
         $formDinCnpjField = new TFormDinCnpjField('cnpj',$cnpjLabel);
@@ -70,9 +69,7 @@ class EmpresaForm extends TPage
         $this->datagrid->addColumn( new TDataGridColumn('nome_fantasia','Nome Fantasia','left') );
         $col_situacao = new TDataGridColumn('situacao','Situação','left');
         $col_situacao->setTransformer(function ($value) {
-            $tipoController = new TipoEmpresaSituacao();
-            $lis = $tipoController->getList();
-            return $lis[$value];
+            return TipoEmpresaSituacao::getByid($value);
         });
         $this->datagrid->addColumn( $col_situacao );
         //$this->datagrid->addColumn( new TDataGridColumn('data_situacao','Dt Situação','left') );

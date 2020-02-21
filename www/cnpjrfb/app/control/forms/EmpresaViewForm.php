@@ -17,26 +17,10 @@ class EmpresaViewForm extends TPage
         $this->adianti_target_container = 'adianti_right_panel';
 
         $this->form = new BootstrapFormBuilder;
-        $this->form->setFormTitle('Empresa');
+        $this->form->setFormTitle('Detalhar Empresa');
         $this->form->generateAria(); // automatic aria-label
 
-        $situacaoCadastralControler = new SituacaoCadastralEmpresa();
-        $listSituacaoCadastral = $situacaoCadastralControler->getList();
-        
-        $cnpjLabel = 'CNPJ';
-        $formDinCnpjField = new TFormDinCnpjField('cnpj',$cnpjLabel);
-        $cnpj = $formDinCnpjField->getAdiantiObj();
 
-        $comboSituacao  = new TCombo('motivo_situacao');
-        $comboSituacao->addItems($listSituacaoCadastral);
-
-        $razao_social = new TEntry('razao_social');
-        $nome_fantasia = new TEntry('nome_fantasia');
-
-        $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj]);
-        $this->form->addFields( [new TLabel('Motivo Situação')], [$comboSituacao]);
-        $this->form->addFields( [new TLabel('Razão Social')],[$razao_social]);
-        $this->form->addFields( [new TLabel('Nome Fantasia')], [$nome_fantasia] );
         
 
         $this->form->addHeaderActionLink('Fechar',  new TAction([$this, 'onClose']), 'fa:times red');
@@ -57,7 +41,46 @@ class EmpresaViewForm extends TPage
             // abre transação com a base de dados
             TTransaction::open('cnpj_full');
             $empresa = new Empresa($param['key']);
-            $this->form->setData($empresa);
+    
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cnpj)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->matriz_filial)]);
+            $this->form->addFields( [new TLabel('Razão Social')],[new TTextDisplay($empresa->razao_social)]);
+            $this->form->addFields( [new TLabel('Nome Fantasia')],[new TTextDisplay($empresa->nome_fantasia)]);
+            $this->form->addFields( [new TLabel('Situação')],[new TTextDisplay(TipoEmpresaSituacao::getByid($empresa->situacao))]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_situacao)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->motivo_situacao)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->nm_cidade_exterior)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cod_pais)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->nome_pais)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cod_nat_juridica)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_inicio_ativ)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cnae_fiscal)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->tipo_logradouro)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->logradouro)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->numero)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->complemento)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->bairro)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cep)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->uf)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cod_municipio)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->municipio)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->ddd_1)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->telefone_1)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->ddd_2)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->telefone_2)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->ddd_fax)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->num_fax)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->email)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->qualif_resp)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->capital_social)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->porte)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->opc_simples)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_opc_simples)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_exc_simples)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->opc_mei)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->sit_especial)]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_sit_especial)]);
+
             $this->showGridSocios($empresa->getSocios());
             $this->showGridCnae($empresa->getCnaesSecundarios());
             $this->form->addActionLink('Fechar',  new TAction([$this, 'onClose']), 'fa:times red');
