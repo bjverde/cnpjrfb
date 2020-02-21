@@ -14,14 +14,6 @@
                 <icon>fa:table fa-fw</icon>
                 <action>CnaesSecundarioForm</action>
             </menuitem>          
-            <menuitem label='Ajuda'>
-                <icon>fa:life-ring fa-fw</icon>
-                <action>AjudaView</action>
-            </menuitem>
-            <menuitem label='Sobre'>
-                <icon>fa:life-ring fa-fw</icon>
-                <action>SystemPHPInfoView</action>
-            </menuitem>
         </menu>
     </menuitem>
     <menuitem label='Facilitadores'>
@@ -41,14 +33,17 @@
             </menuitem>
         </menu>
     </menuitem>    
-    <menuitem label='Configuração'>
-        <icon>fa:cog fa-fw</icon>
+    <menuitem label='Ajuda'>
+        <icon>fa:life-ring fa-fw</icon>
         <menu>
+            <menuitem label='Ajuda'>
+                <icon>fa:life-ring fa-fw</icon>
+                <action>AjudaView</action>
+            </menuitem>      
             <menuitem label='Ver módulos'>
                 <icon>fa:cube fa-fw</icon>
                 <action>SystemModulesCheckView</action>
             </menuitem>
-            
             <menuitem label='Setup PHP'>
                 <icon>fa:code fa-fw</icon>
                 <action>SystemPHPInfoView</action>
