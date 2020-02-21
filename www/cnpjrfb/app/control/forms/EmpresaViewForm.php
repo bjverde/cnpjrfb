@@ -88,9 +88,20 @@ class EmpresaViewForm extends TPage
     function showGridCnae($cnae){
         // create the datagrid
         $list = new BootstrapDatagridWrapper(new TDataGrid);
-        $list->width = '100%';    
-        $list->addColumn(new TDataGridColumn('cnae', 'CNAE', 'left'));
+        $list->width = '100%';
+
+        $col_cnae_ibge   = new TDataGridColumn('cnae', 'CNAE (link IBGE)', 'left');
+        $col_cnae_ibge->setTransformer( function ($value) {
+            return EmpresaController::getLink($value);
+        });
+        $col_cnae_coube  = new TDataGridColumn('cnae', 'CNAE (link Conube)', 'left');
+        $col_cnae_coube->setTransformer( function ($value) {
+            return EmpresaController::getLink($value,false);
+        });
+
         $list->addColumn(new TDataGridColumn('cnae_ordem', 'CNAE Ordem', 'left'));
+        $list->addColumn($col_cnae_ibge);
+        $list->addColumn($col_cnae_coube);
         $list->createModel();        
         $list->addItems($cnae);
         $panel = TPanelGroup::pack('Lista de CNAE', $list);

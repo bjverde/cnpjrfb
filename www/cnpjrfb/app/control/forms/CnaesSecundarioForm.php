@@ -47,16 +47,30 @@ class CnaesSecundarioForm extends TPage
 
         // create the datagrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
+        $this->datagrid->disableDefaultClick();
         $this->datagrid->width = '100%';
         
         // add the columns
         $col_cnpj        = new TDataGridColumn('cnpj', 'CNPJ', 'right','10%');
-        $col_cnae        = new TDataGridColumn('cnae', 'CNAE', 'left','10%');
-        $col_cnae_ordem  = new TDataGridColumn('cnae_ordem', 'CNAE Ordem', 'left','80%');
+        $col_cnpj->setTransformer(function ($value) {
+            return StringHelper::formatCnpjCpf($value);
+        });                
+        $col_cnae_ordem  = new TDataGridColumn('cnae_ordem', 'CNAE Ordem', 'left','10%');
+        $col_cnae_ibge   = new TDataGridColumn('cnae', 'CNAE (link IBGE)', 'left','40%');
+        $col_cnae_ibge->setTransformer( function ($value) {
+            return EmpresaController::getLink($value);
+        });
+        $col_cnae_coube  = new TDataGridColumn('cnae', 'CNAE (link Conube)', 'left','40%');
+        $col_cnae_coube->setTransformer( function ($value) {
+            return EmpresaController::getLink($value,false);
+        });
+        
         
         $this->datagrid->addColumn($col_cnpj);
-        $this->datagrid->addColumn($col_cnae);
         $this->datagrid->addColumn($col_cnae_ordem);
+        $this->datagrid->addColumn($col_cnae_ibge);
+        $this->datagrid->addColumn($col_cnae_coube);
+        
 
         $action1 = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
         $this->datagrid->addAction($action1, 'Detalhar Empresa', 'fa:building #7C93CF');
