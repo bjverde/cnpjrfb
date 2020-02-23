@@ -56,6 +56,10 @@ RUN docker-php-ext-install gd
 RUN apt-get install -y python3 python3-pip
 RUN python3 -m pip install --upgrade pip
 
+## ------ Install ------------
+
+COPY --chown=www-data:www-data requirements.txt /var/www/requirements.txt
+RUN pip3 install -r /var/www/requirements.txt
 
 #COPY --chown=www-data:www-data install_base_formdin.sh /var/www/install_base_formdin.sh
 #RUN chmod 711 /var/www/install_base_formdin.sh
