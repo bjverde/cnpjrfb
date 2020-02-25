@@ -122,8 +122,23 @@ class EmpresaForm extends TPage
         */
 
 
-        $action1 = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
-        $this->datagrid->addAction($action1, 'Detalhar Empresa', 'fa:building #7C93CF');
+        //$action1 = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
+        //$this->datagrid->addAction($action1, 'Detalhar Empresa', 'fa:building #7C93CF');
+
+        $actionEmpresaView = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
+        $actionEmpresaView->setLabel('Detalhar Empresa');
+        $actionEmpresaView->setImage('fa:building #7C93CF');
+        //$this->datagrid->addAction($actionEmpresaView);
+
+        $actionGeraGrafo = new TDataGridAction(['GeraGrafoForm', 'gerarGrafo'],  ['cnpj' => '{cnpj}'], ['register_state' => 'false']  );
+        $actionGeraGrafo->setLabel('Gera Grafo');
+        $actionGeraGrafo->setImage('fa:magic fa-fw');
+
+        $action_group = new TDataGridActionGroup('Ações ', 'fa:th');
+        $action_group->addAction($actionEmpresaView);
+        $action_group->addAction($actionGeraGrafo);
+        // add the actions to the datagrid
+        $this->datagrid->addActionGroup($action_group);
 
         // create the datagrid model
         $this->datagrid->createModel();

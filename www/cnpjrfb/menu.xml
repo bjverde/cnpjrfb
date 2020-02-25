@@ -27,10 +27,6 @@
                 <icon>fas:database fa-fw red</icon>
                 <action>SystemDatabaseExplorer</action>
             </menuitem>
-            <menuitem label='SQL Panel'>
-                <icon>fas:table fa-fw red</icon>
-                <action>SystemSQLPanel</action>
-            </menuitem>
         </menu>
     </menuitem>    
     <menuitem label='Ajuda'>

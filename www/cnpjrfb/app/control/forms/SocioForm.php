@@ -83,22 +83,27 @@ class SocioForm extends TPage
 
         // creates two datagrid actions
         $actionEmpresaView = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
-        $actionSocio = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
-        $action3 = new TDataGridAction([$this, 'onFindSocios'],   ['cnpj' => '{cnpj}' ] );
-        
         $actionEmpresaView->setLabel('Detalhar Empresa');
         $actionEmpresaView->setImage('fa:building #7C93CF');
-        
+
+        $actionSocio = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
         $actionSocio->setLabel('Detalhar essa sociedade');
         $actionSocio->setImage('fa:user green');
-        
+
+        $action3 = new TDataGridAction([$this, 'onFindSocios'],   ['cnpj' => '{cnpj}' ] );
         $action3->setLabel('Buscar outros Socios');
         $action3->setImage('fa:users red');
+
+        $actionGeraGrafo = new TDataGridAction(['GeraGrafoForm', 'gerarGrafo'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
+        $actionGeraGrafo->setLabel('Gera Grafo');
+        $actionGeraGrafo->setImage('fa:magic fa-fw');
+
         
         $action_group = new TDataGridActionGroup('Ações ', 'fa:th');
         $action_group->addAction($actionSocio);
         $action_group->addAction($actionEmpresaView);
         $action_group->addAction($action3);
+        $action_group->addAction($actionGeraGrafo);
         // add the actions to the datagrid
         $this->datagrid->addActionGroup($action_group);
 
