@@ -36,6 +36,7 @@ class SocioForm extends TPage
         $tipo_socio->addItems($listipoSocio);
         $nome_socio = new TEntry('nome_socio');
         $cnpj_cpf_socio = new TEntry('cnpj_cpf_socio');
+        $cnpj_cpf_socio->setMask('***.999.999-**',true);
 
         $this->form->addFields( [new TLabel('CNPJ')],[$cnpj],[new TLabel('Tipo Sócio')],[$tipo_socio]);
         $this->form->addFields( [new TLabel('Nome')],[$nome_socio]);
@@ -102,7 +103,7 @@ class SocioForm extends TPage
         $action_group = new TDataGridActionGroup('Ações ', 'fa:th');
         $action_group->addAction($actionSocio);
         $action_group->addAction($actionEmpresaView);
-        $action_group->addAction($action3);
+        //$action_group->addAction($action3);
         $action_group->addAction($actionGeraGrafo);
         // add the actions to the datagrid
         $this->datagrid->addActionGroup($action_group);

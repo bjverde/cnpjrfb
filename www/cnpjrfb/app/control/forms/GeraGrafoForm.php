@@ -3,6 +3,7 @@
 class GeraGrafoForm extends TPage
 {
     protected $form;      // form
+    protected $form2;      // form
     
 
 
@@ -26,11 +27,17 @@ class GeraGrafoForm extends TPage
 
         $this->form->addAction('Gera Grafo',  new TAction(array($this, 'gerarGrafo')), 'fa:magic fa-fw red');
 
+        $this->form2 = new BootstrapFormBuilder;
+        $this->form2->setFormTitle('Gerador de Grafó2');
+        $this->form2->generateAria(); // automatic aria-label
+        $this->form2->addFields( [new TLabel('CNPJ')],[$cnpj]);
+
         // wrap the page content using vertical box
         $vbox = new TVBox;
         $vbox->style = 'width: 100%';
         $vbox->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
         $vbox->add($this->form);
+        $vbox->add($this->form2);
         parent::add($vbox);
     }
 

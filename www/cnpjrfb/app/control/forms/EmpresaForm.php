@@ -36,8 +36,8 @@ class EmpresaForm extends TPage
         $formDinCnpjField = new TFormDinCnpjField('cnpj',$cnpjLabel);
         $cnpj = $formDinCnpjField->getAdiantiObj();
 
-        $comboSituacao  = new TCombo('motivo_situacao');
-        $comboSituacao->addItems($listSituacaoCadastral);
+        $comboMotivoSituacao  = new TCombo('motivo_situacao');
+        $comboMotivoSituacao->addItems($listSituacaoCadastral);
 
         $razao_social = new TEntry('razao_social');
         $nome_fantasia = new TEntry('nome_fantasia');
@@ -48,9 +48,13 @@ class EmpresaForm extends TPage
         $comboSituacao->addItems(TipoEmpresaSituacao::getList());        
         
 
-        $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj],[new TLabel('Motivo Situação')], [$comboSituacao]);
-        $this->form->addFields( [new TLabel('Razão Social')],[$razao_social]);
+        $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj]
+                               ,[new TLabel('Razão Social')],[$razao_social]
+                            );
         $this->form->addFields( [new TLabel('Nome Fantasia')], [$nome_fantasia] );
+        $this->form->addFields([new TLabel('Situação')], [$comboSituacao]
+                              ,[new TLabel('Motivo Situação')], [$comboMotivoSituacao]
+                              );        
         $this->form->addFields( [new TLabel('UF')], [$uf]
                                ,[new TLabel('Matriz')], [$comboMatrizFilial]
                               );
@@ -128,17 +132,18 @@ class EmpresaForm extends TPage
         $actionEmpresaView = new TDataGridAction(['EmpresaViewForm', 'onView'],  ['key' => '{cnpj}'], ['register_state' => 'false']  );
         $actionEmpresaView->setLabel('Detalhar Empresa');
         $actionEmpresaView->setImage('fa:building #7C93CF');
-        //$this->datagrid->addAction($actionEmpresaView);
+        $this->datagrid->addAction($actionEmpresaView);
 
         $actionGeraGrafo = new TDataGridAction(['GeraGrafoForm', 'gerarGrafo'],  ['cnpj' => '{cnpj}'], ['register_state' => 'false']  );
         $actionGeraGrafo->setLabel('Gera Grafo');
-        $actionGeraGrafo->setImage('fa:magic fa-fw');
+        $actionGeraGrafo->setImage('fa:magic fa-fw black');
+        $this->datagrid->addAction($actionGeraGrafo);
 
-        $action_group = new TDataGridActionGroup('Ações ', 'fa:th');
-        $action_group->addAction($actionEmpresaView);
-        $action_group->addAction($actionGeraGrafo);
-        // add the actions to the datagrid
-        $this->datagrid->addActionGroup($action_group);
+        //$action_group = new TDataGridActionGroup('Ações ', 'fa:th');
+        //$action_group->addAction($actionEmpresaView);
+        //$action_group->addAction($actionGeraGrafo);
+        //add the actions to the datagrid
+        //$this->datagrid->addActionGroup($action_group);
 
         // create the datagrid model
         $this->datagrid->createModel();
