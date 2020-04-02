@@ -3,7 +3,6 @@
 class GeraGrafoForm extends TPage
 {
     protected $form;      // form
-    protected $form2;      // form
     
 
 
@@ -27,17 +26,11 @@ class GeraGrafoForm extends TPage
 
         $this->form->addAction('Gera Grafo',  new TAction(array($this, 'gerarGrafo')), 'fa:magic fa-fw red');
 
-        $this->form2 = new BootstrapFormBuilder;
-        $this->form2->setFormTitle('Gerador de Grafó2');
-        $this->form2->generateAria(); // automatic aria-label
-        $this->form2->addFields( [new TLabel('CNPJ')],[$cnpj]);
-
         // wrap the page content using vertical box
         $vbox = new TVBox;
         $vbox->style = 'width: 100%';
         $vbox->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
         $vbox->add($this->form);
-        $vbox->add($this->form2);
         parent::add($vbox);
     }
 
@@ -46,15 +39,15 @@ class GeraGrafoForm extends TPage
      * 2 - chown -R www-data:www-data cnpjrfb/app/cnpj_full/graficos
      */
     public function gerarGrafo($param){
-        var_dump($param);
+        Util::debug($param,'Param');
         if( empty($param['nome_socio']) ){
-            $nome_socio = $param['nome_socio'];
-            $cpf = null;
-            $command = 'python3 consulta.py nome_socio '.$nome_socio. ' graficos/00000000000191 --viz';
-            //$command = 'ls -l';
-        }else{
             $cnpj = $param['cnpj'];
             $command = 'python3 consulta.py cnpj 00000000000191 graficos/00000000000191 --viz';
+            //$command = 'ls -l';
+        }else{
+            $nome_socio = $param['nome_socio'];
+            $cpf = null;
+            $command = 'python3 consulta.py nome_socio '.$nome_socio. ' graficos/00000000000191 --viz';            
             //$command = 'ls -l';
         }
         if (! defined ( 'DS' )) {
@@ -67,11 +60,9 @@ class GeraGrafoForm extends TPage
         //$command = 'cd '.$path.';ls -l > t.txt'.' 2>&1';
         $result01 = exec($command, $output, $result);
         //$result = exec($command, $output);
-        echo('<pre>');
-        echo('<br>');var_dump($command);
-        echo('<br>');var_dump($output);
-        echo('<br>');var_dump($result);
-        echo('<br>');var_dump($result01);
-        echo('</pre>');
+        Util::debug($command,'Command');
+        Util::debug($output,'Output');
+        Util::debug($result,'Result');
+        Util::debug($result01,'Result01');
     }
 }
