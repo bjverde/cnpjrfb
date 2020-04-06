@@ -15,7 +15,7 @@ class SocioForm extends TPage
 
         $this->setDatabase('cnpj_full'); // define the database
         $this->setActiveRecord('Socio'); // define the Active Record
-        $this->addFilterField('cnpj', '=', 'cnpj'); //campo, operador, campo do form
+        $this->addFilterField('cnpj', 'like', 'cnpj'); //campo, operador, campo do form
         $this->addFilterField('tipo_socio', '=', 'tipo_socio'); //campo, operador, campo do form
         $this->addFilterField('nome_socio', 'like', 'nome_socio'); //campo, operador, campo do form
         $this->addFilterField('cnpj_cpf_socio', 'like', 'cnpj_cpf_socio'); //campo, operador, campo do form
@@ -95,7 +95,7 @@ class SocioForm extends TPage
         $action3->setLabel('Buscar outros Socios');
         $action3->setImage('fa:users red');
 
-        $actionGeraGrafo = new TDataGridAction(['GeraGrafoForm', 'gerarGrafo'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
+        $actionGeraGrafo = new TDataGridAction(['GeraGrafoForm', 'gerarGrafo'],  ['cnpj' => '{cnpj}','cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
         $actionGeraGrafo->setLabel('Gera Grafo');
         $actionGeraGrafo->setImage('fa:magic fa-fw');
 
