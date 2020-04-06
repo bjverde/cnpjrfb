@@ -11,13 +11,12 @@ class GeraGrafoController
         Util::debug($param,'Param');
         if( empty($param['nome_socio']) ){
             $cnpj = $param['cnpj'];
-            $command = 'python3 consulta.py cnpj 00000000000191 graficos/00000000000191 --viz';
-            //$command = 'ls -l';
+            $command = 'python3 consulta.py cnpj '.$cnpj.' graficos/'.$cnpj.' --viz';
         }else{
             $nome_socio = $param['nome_socio'];
-            $cpf = null;
-            $command = 'python3 consulta.py nome_socio '.$nome_socio. ' graficos/00000000000191 --viz';            
-            //$command = 'ls -l';
+            $cnpj = $param['cnpj'];
+            $cpf = $param['cnpj_cpf_socio'];
+            $command = 'python3 consulta.py nome_socio '.$nome_socio.' graficos/'.$cnpj.'_'.$cpf.' --viz';            
         }
         if (! defined ( 'DS' )) {
             define ( 'DS', DIRECTORY_SEPARATOR );
@@ -28,7 +27,6 @@ class GeraGrafoController
         //$command = 'cd '.$path.';python3 consulta.py 2>&1';
         //$command = 'cd '.$path.';ls -l > t.txt'.' 2>&1';
         $result01 = exec($command, $output, $result);
-        //$result = exec($command, $output);
         Util::debug($command,'Command');
         Util::debug($output,'Output');
         Util::debug($result,'Result');
