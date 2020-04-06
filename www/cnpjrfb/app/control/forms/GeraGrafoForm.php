@@ -11,7 +11,7 @@ class GeraGrafoForm extends TPage
         parent::__construct();
 
 
-        $this->form = new BootstrapFormBuilder;
+        $this->form = new BootstrapFormBuilder('form_interaction');
         $this->form->setFormTitle('Gerador de Grafó');
         $this->form->generateAria(); // automatic aria-label
 
@@ -21,8 +21,8 @@ class GeraGrafoForm extends TPage
         
         $nome_socio = new TEntry('nome_socio');
 
-        $this->form->addFields( [new TLabel('CNPJ')],[$cnpj]);
-        $this->form->addFields( [new TLabel('Nome')],[$nome_socio]);
+        $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj]);
+        $this->form->addFields( [new TLabel('Nome Sócio')],[$nome_socio]);
 
         $this->form->addAction('Gera Grafo',  new TAction(array($this, 'gerarGrafo')), 'fa:magic fa-fw red');
 
@@ -35,6 +35,12 @@ class GeraGrafoForm extends TPage
     }
 
     public function gerarGrafo($param){
+        $obj = new StdClass;
+        $obj->cnpj = $param['cnpj'];
+        $obj->nome_socio = 'a';
+        // envia os dados ao formulário
+        TForm::sendData('form_interaction', $obj);
+
         $result = GeraGrafoController::executa($param);
         parent::__construct();
         
