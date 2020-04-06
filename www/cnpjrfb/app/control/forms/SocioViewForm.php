@@ -44,12 +44,10 @@ class SocioViewForm extends TPage
                                    ,[new TLabel('Qualificação')],[$tipoSocioQualificacao]
                                   );
             $this->form->addFields( [new TLabel('% Capital')],[new TTextDisplay($socio->perc_capital)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($socio->data_entrada)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($socio->cod_pais_ext)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($socio->nome_pais_ext)]);
-            $this->form->addFields( [new TLabel('CPF Representante')],[new TTextDisplay($socio->cpf_repres)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($socio->nome_repres)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($socio->cod_qualif_repres)]);
+            $this->form->addFields( [new TLabel('Data Entrada')],[new TTextDisplay($socio->data_entrada)]);
+            $this->form->addFields( [new TLabel('Cod Pais')],[new TTextDisplay($socio->cod_pais_ext)],[new TLabel('Nome País')],[new TTextDisplay($socio->nome_pais_ext)]);
+            $this->form->addFields( [new TLabel('CPF Representante')],[new TTextDisplay($socio->cpf_repres)],[new TLabel('Nome Representante')],[new TTextDisplay($socio->nome_repres)]);
+            $this->form->addFields( [new TLabel('Cod Representante')],[new TTextDisplay($socio->cod_qualif_repres)]);
             $this->form->addHeaderActionLink('Fechar',  new TAction([$this, 'onClose']), 'fa:times red');
 
             // add the table inside the page
