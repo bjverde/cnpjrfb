@@ -45,14 +45,14 @@ class EmpresaViewForm extends TPage
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay(StringHelper::formatCnpjCpf($empresa->cnpj))], [new TLabel('Matriz')],[new TTextDisplay(TipoMatrizFilial::getByid($empresa->matriz_filial))]);
             $this->form->addFields( [new TLabel('Razão Social')],[new TTextDisplay($empresa->razao_social)]);
             $this->form->addFields( [new TLabel('Nome Fantasia')],[new TTextDisplay($empresa->nome_fantasia)]);
-            $this->form->addFields( [new TLabel('Situação')],[new TTextDisplay(TipoEmpresaSituacao::getByid($empresa->situacao))]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_situacao)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay(SituacaoCadastralEmpresa::getByid($empresa->motivo_situacao))]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->nm_cidade_exterior)]);
-            $this->form->addFields( [new TLabel('Cod País')],[new TTextDisplay($empresa->cod_pais)]);
-            $this->form->addFields( [new TLabel('País')],[new TTextDisplay($empresa->nome_pais)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->cod_nat_juridica)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_inicio_ativ)]);
+            $this->form->addFields( [new TLabel('Situação')],[new TTextDisplay(TipoEmpresaSituacao::getByid($empresa->situacao))]
+                                  , [new TLabel('Motico Situação')],[new TTextDisplay(SituacaoCadastralEmpresa::getByid($empresa->motivo_situacao))]
+                                  );
+            $this->form->addFields( [new TLabel('Dat inicio Atividade')],[new TTextDisplay($empresa->data_inicio_ativ)]
+                                  , [new TLabel('Dat Situação')],[new TTextDisplay($empresa->data_situacao)]
+                                  );
+            $this->form->addFields( [new TLabel('Cod Nat Juridica')],[new TTextDisplay($empresa->cod_nat_juridica)]);
+            
             $cnae = new TTextDisplay(EmpresaController::getLink($empresa->cnae_fiscal));
             $this->form->addFields( [new TLabel('CNAE (Link IBGE)')],[$cnae]);
             $this->form->addFields( [new TLabel('Tip Lograd')],[new TTextDisplay($empresa->tipo_logradouro)],[new TLabel('Logradouro')],[new TTextDisplay($empresa->logradouro)]);
@@ -65,22 +65,27 @@ class EmpresaViewForm extends TPage
             $this->form->addFields( [new TLabel('UF')],[new TTextDisplay($empresa->uf)], [new TLabel('Cod Município')],[new TTextDisplay($empresa->cod_municipio)],[new TLabel('Município')],[new TTextDisplay($empresa->municipio)]);
             
             
-            $this->form->addFields( [new TLabel('DDD1')],[new TTextDisplay($empresa->ddd_1)]);
-            $this->form->addFields( [new TLabel('Telefone1')],[new TTextDisplay($empresa->telefone_1)]);
-            $this->form->addFields( [new TLabel('DDD2')],[new TTextDisplay($empresa->ddd_2)]);
-            $this->form->addFields( [new TLabel('Telefone2')],[new TTextDisplay($empresa->telefone_2)]);
-            $this->form->addFields( [new TLabel('DDD Fax')],[new TTextDisplay($empresa->ddd_fax)]);
-            $this->form->addFields( [new TLabel('Fax')],[new TTextDisplay($empresa->num_fax)]);
+            $this->form->addFields( [new TLabel('DDD1')],[new TTextDisplay($empresa->ddd_1)],[new TLabel('Telefone1')],[new TTextDisplay($empresa->telefone_1)]);
+            $this->form->addFields( [new TLabel('DDD2')],[new TTextDisplay($empresa->ddd_2)],[new TLabel('Telefone2')],[new TTextDisplay($empresa->telefone_2)]);
+            $this->form->addFields( [new TLabel('DDD Fax')],[new TTextDisplay($empresa->ddd_fax)],[new TLabel('Fax')],[new TTextDisplay($empresa->num_fax)]);
+
             $this->form->addFields( [new TLabel('E-mail')],[new TTextDisplay($empresa->email)]);
             $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->qualif_resp)]);
             $this->form->addFields( [new TLabel('Capital Social')],[new TTextDisplay($empresa->capital_social)]);
-            $this->form->addFields( [new TLabel('Porte')],[new TTextDisplay($empresa->porte)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->opc_simples)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_opc_simples)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_exc_simples)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->opc_mei)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->sit_especial)]);
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($empresa->data_sit_especial)]);
+            $this->form->addFields( [new TLabel('Porte')],[new TTextDisplay($empresa->porte)]
+                                  , [new TLabel('Opção MEI')],[new TTextDisplay($empresa->opc_mei)]
+                                  );
+            $this->form->addFields( [new TLabel('Opção simples')],[new TTextDisplay($empresa->opc_simples)]
+                                  , [new TLabel('Dat Opção simples')],[new TTextDisplay($empresa->data_opc_simples)]
+                                  , [new TLabel('Dat exc Simples')],[new TTextDisplay($empresa->data_exc_simples)]
+                                  );
+            $this->form->addFields( [new TLabel('Sit Especial')],[new TTextDisplay($empresa->sit_especial)], [new TLabel('Dat Sit Especial')],[new TTextDisplay($empresa->data_sit_especial)]);
+
+            $this->form->addFields( [new TLabel('Cod País')],[new TTextDisplay($empresa->cod_pais)]
+                                  , [new TLabel('País')],[new TTextDisplay($empresa->nome_pais)]
+                                  );
+            $this->form->addFields( [new TLabel('Nome Cidade Exterior')],[new TTextDisplay($empresa->nm_cidade_exterior)] );
+
 
             $this->showGridSocios($empresa->getSocios());
             $this->showGridCnae($empresa->getCnaesSecundarios());
