@@ -2,7 +2,7 @@
 class GeraGrafoController
 {
     const GERAL = 'geral';
-    const ARQUIVO = 'arquvi';
+    const ARQUIVO = 'arquvio';
 
     /***
      * 1 - sudo docker-compose exec apache_php bash
@@ -10,10 +10,10 @@ class GeraGrafoController
      */
     public static function executa($param)
     {
-        FormDinHelper::debug($param,'Param');
+        //FormDinHelper::debug($param,'Param');
         $nome_arquivo=null;
         if( empty($param['nome_socio']) ){
-            $cnpj = $param['cnpj'];
+            $cnpj = StringHelper::limpaCnpjCpf($param['cnpj']);
             $nome_arquivo = $cnpj;
             $command = 'python3 consulta.py cnpj '.$cnpj.' graficos/'.$nome_arquivo.' --nivel 3 --viz';
         }else{
@@ -28,8 +28,8 @@ class GeraGrafoController
         $path = $path.DS.'..'.DS.'..'.DS.'cnpj_full'.DS.'CNPJ-full'.DS;
         $command = 'cd '.$path.';'.$command.' 2>&1';
         $result01 = exec($command, $output, $result);        
-        FormDinHelper::debug($command,'Command');
-        FormDinHelper::debug($output,'Output');
+        //FormDinHelper::debug($command,'Command');
+        //FormDinHelper::debug($output,'Output');
         //FormDinHelper::debug($result,'Result');
         //FormDinHelper::debug($result01,'Result01');
         $resultado = array();

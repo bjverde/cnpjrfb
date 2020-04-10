@@ -22,7 +22,7 @@ class GeraGrafoForm extends TPage
         $nome_socio = new TEntry('nome_socio');
 
         $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj]);
-        $this->form->addFields( [new TLabel('Nome Sócio')],[$nome_socio]);
+        //$this->form->addFields( [new TLabel('Nome Sócio')],[$nome_socio]);
 
         $this->form->addAction('Gera Grafo',  new TAction(array($this, 'gerarGrafo')), 'fa:magic fa-fw red');
 
