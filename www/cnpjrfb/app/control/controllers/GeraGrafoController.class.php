@@ -10,7 +10,7 @@ class GeraGrafoController
      */
     public static function executa($param)
     {
-        Util::debug($param,'Param');
+        FormDinHelper::debug($param,'Param');
         $nome_arquivo=null;
         if( empty($param['nome_socio']) ){
             $cnpj = $param['cnpj'];
@@ -19,7 +19,7 @@ class GeraGrafoController
         }else{
             $nome_socio = $param['nome_socio'];
             $nome_arquivo = $param['cnpj'].'_'.$param['cnpj_cpf_socio'];
-            $command = 'python3 consulta.py nome_socio '.$nome_socio.' graficos/'.$nome_arquivo.' --nivel 3 --viz';
+            $command = 'python3 consulta.py nome_socio "'.$nome_socio.'" graficos/'.$nome_arquivo.' --nivel 3 --viz';
         }
         if (! defined ( 'DS' )) {
             define ( 'DS', DIRECTORY_SEPARATOR );
@@ -28,10 +28,10 @@ class GeraGrafoController
         $path = $path.DS.'..'.DS.'..'.DS.'cnpj_full'.DS.'CNPJ-full'.DS;
         $command = 'cd '.$path.';'.$command.' 2>&1';
         $result01 = exec($command, $output, $result);        
-        Util::debug($command,'Command');
-        Util::debug($output,'Output');
-        //Util::debug($result,'Result');
-        //Util::debug($result01,'Result01');
+        FormDinHelper::debug($command,'Command');
+        FormDinHelper::debug($output,'Output');
+        //FormDinHelper::debug($result,'Result');
+        //FormDinHelper::debug($result01,'Result01');
         $resultado = array();
         $resultado[GeraGrafoController::GERAL]   = $result==0?true:false;
         $resultado[GeraGrafoController::ARQUIVO] = DS.'graficos'.DS.$nome_arquivo.DS.'grafo.html';
