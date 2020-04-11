@@ -42,7 +42,7 @@ class GeraGrafoForm extends TPage
         TForm::sendData('form_interaction', $obj);
 
         $resultado = GeraGrafoController::executa($param);
-
+        
         if($resultado[GeraGrafoController::GERAL] == true){
             parent::__construct();
 
@@ -55,6 +55,8 @@ class GeraGrafoForm extends TPage
             $iframe->height = "700px";
             
             parent::add($iframe);
+        }else{
+            FormDinHelper::debug($resultado[GeraGrafoController::INFO]);
         }
     }
 }
