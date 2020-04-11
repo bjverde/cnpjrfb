@@ -94,5 +94,11 @@ class StringHelper
         }
         return $value;
     }
+
+    public static function limpaCnpjCpf($value) 
+    {
+        $limpo = preg_replace("/\D/", '', $value);
+        return $limpo;
+    }
     
 }

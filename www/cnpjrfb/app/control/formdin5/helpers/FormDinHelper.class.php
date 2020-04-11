@@ -1,5 +1,5 @@
 <?php
-class Util
+class FormDinHelper
 {
     public static function d( $mixExpression,$strComentario,$boolExit )
     {        

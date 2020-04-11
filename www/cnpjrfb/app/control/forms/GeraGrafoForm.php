@@ -22,7 +22,7 @@ class GeraGrafoForm extends TPage
         $nome_socio = new TEntry('nome_socio');
 
         $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj]);
-        $this->form->addFields( [new TLabel('Nome Sócio')],[$nome_socio]);
+        //$this->form->addFields( [new TLabel('Nome Sócio')],[$nome_socio]);
 
         $this->form->addAction('Gera Grafo',  new TAction(array($this, 'gerarGrafo')), 'fa:magic fa-fw red');
 
@@ -41,17 +41,20 @@ class GeraGrafoForm extends TPage
         // envia os dados ao formulário
         TForm::sendData('form_interaction', $obj);
 
-        $result = GeraGrafoController::executa($param);
-        parent::__construct();
-        
-        $iframe = new TElement('iframe');
-        $iframe->id = "iframe_external";
-        $iframe->src = "app/cnpj_full/CNPJ-full/graficos/grafo.html";
-        $iframe->frameborder = "0";
-        $iframe->scrolling = "yes";
-        $iframe->width = "100%";
-        $iframe->height = "700px";
-        
-        parent::add($iframe);
+        $resultado = GeraGrafoController::executa($param);
+
+        if($resultado[GeraGrafoController::GERAL] == true){
+            parent::__construct();
+
+            $iframe = new TElement('iframe');
+            $iframe->id = "iframe_external";
+            $iframe->src = "app/cnpj_full/CNPJ-full".$resultado[GeraGrafoController::ARQUIVO];
+            $iframe->frameborder = "0";
+            $iframe->scrolling = "yes";
+            $iframe->width = "100%";
+            $iframe->height = "700px";
+            
+            parent::add($iframe);
+        }
     }
 }
