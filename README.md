@@ -39,15 +39,15 @@ Na primeira parte será a instalação dos elementos básicos sem banco de dados
 1. Copie o projeto [CNPJ-FULL](https://github.com/fabioserpa/CNPJ-full) e coloque na pasta `<caminho servidor>/cnjrfb/app/CNPJ-full`
     1. [Instale o PIP conforme orientação](https://github.com/fabioserpa/CNPJ-full#gerenciador-de-pacotes-do-python-pip)
     1. Instale os requisitos `pip install -r requirements.txt` USE o arquivo [requirements.txt aqui no projeto](https://github.com/bjverde/cnpjrfb/blob/master/requirements.txt)
-1. Copie arquivo `<caminho servidor>/cnjrfb/app/database/CNPJ_full.db` 57 Kb para `<caminho servidor>/cnjrfb/app/CNPJ-full/banco`
+1. Copie arquivo `<caminho servidor>/cnjrfb/app/database/CNPJ_full.db` 57 Kb para `<caminho servidor>/cnjrfb/app/CNPJ-full/data`
 1. Verifique se tudo dentro de `<caminho servidor>/cnjrfb/app/CNPJ-full` tem permissão de execução do servidor web. Se for Linux (Debian/Ubuntu) com Apache pode executar `sudo chown -R www-data:www-data`
 1. Abra o sistema em um navegador e verifique se tudo está funcionando incluindo a geração do grafo.
 
 ### Parte 2 - O banco completo !
 A segunda parte é algo demoradao mesmo. Pois irá baixar 6 GB de dados da Receita Federal e depois criar o banco de dados completo.
 
-1. Baixar todos dados [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) na pasta `<caminho servidor>/cnjrfb/app/CNPJ-full/dados`
-1. Execute o comando da carga `python3 cnpj.py dados sqlite banco --dir` essa é parte mais demorada.
+1. Baixar todos dados [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) na pasta `<caminho servidor>/cnjrfb/app/CNPJ-full/downloads`
+1. Execute o comando da carga `python3 cnpj.py downloads sqlite data --dir` essa é parte mais demorada.
 
 
 ## Intalação via Docker-compose
@@ -58,3 +58,4 @@ Existem alguns arquivos em Docker-compose para criar todo o ambiente necessário
 * clone o projeto
 * Execute o comando `sudo docker-compose build` para gerar todo o ambiente
 * Execute o comando `sudo docker-compose -f docker-compose.yml up -d` para rodar o ambiente já configurado.
+* Docker pretender resolver apenas [Parte 1 - O Ambiente](#parte-1---o-ambiente), a [Parte 2 - O banco completo !](#parte-2---o-banco-completo-) por ser algo muito demorado deve ser feito manualmente
