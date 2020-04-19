@@ -48,7 +48,7 @@ class GeraGrafoForm extends TPage
 
             $iframe = new TElement('iframe');
             $iframe->id = "iframe_external";
-            $iframe->src = "app/cnpj_full/CNPJ-full".$resultado[GeraGrafoController::ARQUIVO];
+            $iframe->src = "app/CNPJ-full".$resultado[GeraGrafoController::ARQUIVO];
             $iframe->frameborder = "0";
             $iframe->scrolling = "yes";
             $iframe->width = "100%";

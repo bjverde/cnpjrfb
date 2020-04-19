@@ -26,7 +26,7 @@ class GeraGrafoController
             define ( 'DS', DIRECTORY_SEPARATOR );
         }
         $path = dirname ( __FILE__ );
-        $path = $path.DS.'..'.DS.'..'.DS.'cnpj_full'.DS.'CNPJ-full'.DS;
+        $path = $path.DS.'..'.DS.'..'.DS.'CNPJ-full'.DS;
         $command = 'cd '.$path.';'.$command.' 2>&1';
         $result01 = exec($command, $output, $result);        
         //FormDinHelper::debug($command,'Command');
