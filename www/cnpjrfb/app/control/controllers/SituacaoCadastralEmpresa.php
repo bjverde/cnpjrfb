@@ -4,6 +4,9 @@ class SituacaoCadastralEmpresa
 
     public static function getByid($id)
     {
+        if($id==0){
+            $id='00';
+        }
         $list = self::getList();
         return $list[$id];
     }
@@ -15,12 +18,21 @@ class SituacaoCadastralEmpresa
             ,'01'=>'EXTINÇÃO POR ENCERRAMENTO LIQUIDAÇÃO VOLUNTÁRIA'
             ,'02'=>'INCORPORAÇÃO'
             ,'03'=>'FUSÃO'
-            ,4=>'CISÃO TOTAL'
+            ,'04'=>'CISÃO TOTAL'
+            ,'05'=>'ENCERRAMENTO DA FALÊNCIA'
+            ,'06'=>'ENCERRAMENTO DA LIQUIDAÇÃO'
+            ,'07'=>'ELEVAÇÃO A MATRIZ'
+            ,'08'=>'TRANSPASSE'
+            ,'09'=>'NÃO INÍCIO DE ATIVIDADE'
+            ,1=>'EXTINÇÃO POR ENCERRAMENTO LIQUIDAÇÃO VOLUNTÁRIA'
+            ,2=>'INCORPORAÇÃO'
+            ,3=>'FUSÃO'
+            ,4=>'CISÃO TOTAL'            
             ,5=>'ENCERRAMENTO DA FALÊNCIA'
             ,6=>'ENCERRAMENTO DA LIQUIDAÇÃO'
             ,7=>'ELEVAÇÃO A MATRIZ'
             ,8=>'TRANSPASSE'
-            ,9=>'NÃO INÍCIO DE ATIVIDADE'
+            ,9=>'NÃO INÍCIO DE ATIVIDADE'            
             ,10=>'EXTINÇÃO PELO ENCERRAMENTO DA LIQUIDAÇÃO JUDICIAL'
             ,11=>'ANULAÇÃO POR MULTICIPLIDADE'
             ,12=>'ANULAÇÃO ONLINE DE OFICIO'

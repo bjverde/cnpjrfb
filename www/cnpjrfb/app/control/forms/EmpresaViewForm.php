@@ -46,7 +46,7 @@ class EmpresaViewForm extends TPage
             $this->form->addFields( [new TLabel('Razão Social')],[new TTextDisplay($empresa->razao_social)]);
             $this->form->addFields( [new TLabel('Nome Fantasia')],[new TTextDisplay($empresa->nome_fantasia)]);
             $this->form->addFields( [new TLabel('Situação')],[new TTextDisplay(TipoEmpresaSituacao::getByid($empresa->situacao))]
-                                  , [new TLabel('Motico Situação')],[new TTextDisplay(SituacaoCadastralEmpresa::getByid($empresa->motivo_situacao))]
+                                  , [new TLabel('Motico Situação')],[new TTextDisplay('('.$empresa->motivo_situacao.') '.SituacaoCadastralEmpresa::getByid($empresa->motivo_situacao))]
                                   );
             $this->form->addFields( [new TLabel('Dat inicio Atividade')],[new TTextDisplay($empresa->data_inicio_ativ)]
                                   , [new TLabel('Dat Situação')],[new TTextDisplay($empresa->data_situacao)]
