@@ -46,6 +46,14 @@ class GeraGrafoForm extends TPage
         if($resultado[GeraGrafoController::GERAL] == true){
             parent::__construct();
 
+            // create the HTML Renderer
+            $this->html = new THtmlRenderer('app/resources/link_grafo.html');
+            
+            $replaces = [];
+            $replaces['link']  = ServerHelper::homeUrl().'app/CNPJ-full'.$resultado[GeraGrafoController::ARQUIVO];
+            $this->html->enableSection('main', $replaces);
+            parent::add($this->html);
+
             $iframe = new TElement('iframe');
             $iframe->id = "iframe_external";
             $iframe->src = "app/CNPJ-full".$resultado[GeraGrafoController::ARQUIVO];
