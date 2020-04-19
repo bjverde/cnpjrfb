@@ -22,17 +22,29 @@ Esse é um sistema foi feito com PHP usando o [Adianti FrameWork 7.1](https://ww
 # Instalando e rodando
 
 ## Requistos
-* Baixar todos dados [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj)
+* PHP 7.2 ou superior. Configura o PHP conforme orientações do [Adianti FrameWork 7.1](https://www.adianti.com.br/framework-quickstart)
 * Python 3.6 ou superior
-* Instalar o [CNPJ-FULL](https://github.com/fabioserpa/CNPJ-full)
-* Rodar o script para criar o banco de dados [CNPJ-FULL](https://github.com/fabioserpa/CNPJ-full)
-* PHP 7.2 ou superior
-* Configure o PHP conforme orientações do [Adianti FrameWork 7.1](https://www.adianti.com.br/framework-quickstart)
+* Aproximadamento 200 GB de espaço livre em disco para a instalação:
+    * 6 GB arquivos zip da Receita Federal. Pode ser liberado depois
+    * 85 GB para arquivos texto descompactados. Pode ser liberado depois.
+    * 85 GB para banco de dados SqLite.
 
 ## Intalação separada
 
-* Copie o conteudo da pasta `www` do projeto para o seu servidor PHP.
-* Copie os arquivo do [CNPJ-FULL](https://github.com/fabioserpa/CNPJ-full) juntamento o banco de dados para `<caminho servidor>/cnjrfb/app/cnpj_full`
+### Parte 1 - O Ambiente
+Na primeira parte será a instalação dos elementos basicos sem banco de dados completo.
+
+1. Requisito atendidos: PHP, Python e Disco
+1. Copie o conteudo da pasta `www` do projeto para o seu servidor PHP.
+1. Copie o projeto [CNPJ-FULL](https://github.com/fabioserpa/CNPJ-full) e coloque na pasta `<caminho servidor>/cnjrfb/app/CNPJ-FULL`
+
+
+### Parte 2 - O banco completo !
+A segunda parte é algo demoradao mesmo. Pois irá baixar 6 GB de dados da Receita Federal e depois criar o banco de dados completo.
+
+1. Baixar todos dados [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) 
+* Instalar o [CNPJ-FULL](https://github.com/fabioserpa/CNPJ-full)
+* Rodar o script para criar o banco de dados [CNPJ-FULL](https://github.com/fabioserpa/CNPJ-full)
 
 
 ## Intalação via Docker-compose
