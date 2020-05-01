@@ -46,6 +46,7 @@ Na primeira parte será a instalação dos elementos básicos sem banco de dados
     1. [Instale o PIP conforme orientação](https://github.com/fabioserpa/CNPJ-full#gerenciador-de-pacotes-do-python-pip)
     1. Instale os requisitos `pip install -r requirements.txt` USE o arquivo [requirements.txt aqui no projeto](https://github.com/bjverde/cnpjrfb/blob/master/requirements.txt)
 1. Copie arquivo `<caminho servidor>/cnjrfb/app/database/CNPJ_full.db` 57 Kb para `<caminho servidor>/cnjrfb/app/CNPJ-full/data`
+1. Crie a pasta `<caminho servidor>/cnjrfb/app/CNPJ-full/graficos`
 1. Verifique se tudo dentro de `<caminho servidor>/cnjrfb/app/CNPJ-full` tem permissão de execução do servidor web. Se for Linux (Debian/Ubuntu) com Apache pode executar `sudo chown -R www-data:www-data`
 1. Abra o sistema em um navegador e verifique se tudo está funcionando incluindo a geração do grafo.
 
