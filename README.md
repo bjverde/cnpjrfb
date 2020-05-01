@@ -1,6 +1,12 @@
 # cnpjrfb
 Sistema para Consultar os [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) fornecidos pela Receita Federal do Brasil.
 
+## Vídeos no Youtube sobre
+[![Apresentação rápida - Consultar os Dados públicos CNPJ fornecidos pela Receita Federal do Brasil](http://img.youtube.com/vi/jgnj-rcs5WE/0.jpg)](http://www.youtube.com/watch?v=jgnj-rcs5WE "Apresentação rápida - Consultar os Dados públicos CNPJ fornecidos pela Receita Federal do Brasil")
+
+[![Detalhando as funções do cnpjrfb](http://img.youtube.com/vi/p0vgvzox-BM/0.jpg)](http://www.youtube.com/watch?v=p0vgvzox-BM "Detalhando as funções do cnpjrfb")
+
+
 ## Desktop
 Esse é um sistema foi feito com PHP usando o [Adianti FrameWork 7.1](https://www.adianti.com.br/framework) e [CNPJ-FULL do Fabio Serpa](https://github.com/fabioserpa/CNPJ-full).
 
