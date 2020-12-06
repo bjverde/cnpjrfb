@@ -70,4 +70,4 @@ Existem alguns arquivos em Docker-compose para criar todo o ambiente necessário
 * clone o projeto
 * Execute o comando `sudo docker-compose build` para gerar todo o ambiente
 * Execute o comando `sudo docker-compose -f docker-compose.yml up -d` para rodar o ambiente já configurado.
-* Docker pretender resolver apenas [Parte 1 - O Ambiente](#parte-1---o-ambiente), a [Parte 2 - O banco completo !](#parte-2---o-banco-completo-) por ser algo muito demorado deve ser feito manualmente
+* Docker pretender resolver apenas [Parte 1 - O Ambiente](#parte-1---o-ambiente). A [Parte 2 - O banco completo !](#parte-2---o-banco-completo-) por ser algo muito demorado deve ser feita manualmente.
