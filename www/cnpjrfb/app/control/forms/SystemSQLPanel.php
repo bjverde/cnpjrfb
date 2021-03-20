@@ -56,7 +56,7 @@ class SystemSQLPanel extends TPage
         
         $this->container = new TVBox;
         $this->container->style = 'width: 100%';
-        $this->container->add(new TXMLBreadCrumb('menu.xml','SystemProgramList'));
+        $this->container->add(new TXMLBreadCrumb('menu.xml',__CLASS__));
         $this->container->add($this->form);
         
         parent::add($this->container);

@@ -17,12 +17,16 @@
         </menu>
     </menuitem>
     <menuitem label='Facilitadores'>
-        <icon>fa:magic fa-fw</icon>
+        <icon>fa:magic fa-fw fa-fw #ffff00</icon>
         <menu>
             <menuitem label='Gera Grafo'>
-                <icon>fa:magic fa-fw</icon>
+                <icon>fa:magic fa-fw fa-fw #ffff00</icon>
                 <action>GeraGrafoForm</action>
-            </menuitem>
+            </menuitem>                       
+            <menuitem label='Painel SQL'>
+                <icon>fas:database fa-fw red</icon>
+                <action>SystemSQLPanel</action>
+            </menuitem>            
             <menuitem label='Database explorer'>
                 <icon>fas:database fa-fw red</icon>
                 <action>SystemDatabaseExplorer</action>
@@ -30,10 +34,10 @@
         </menu>
     </menuitem>    
     <menuitem label='Ajuda'>
-        <icon>fa:life-ring fa-fw</icon>
+        <icon>fa:life-ring fa-fw #0066cc</icon>
         <menu>
             <menuitem label='Ajuda'>
-                <icon>fa:life-ring fa-fw</icon>
+                <icon>fa:life-ring fa-fw #0066cc</icon>
                 <action>AjudaView</action>
             </menuitem>      
             <menuitem label='Ver módulos'>
