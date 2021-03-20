@@ -8,7 +8,7 @@ $menu_string = AdiantiMenuBuilder::parse('menu.xml', $theme);
 $content     = str_replace('{MENU}', $menu_string, $content);
 
 $system_version = $ini['system']['version'];
-$head_title  = $ini['system']['head_title'].' - v'.$system_version;
+$head_title  = 'v'.$system_version.' - '.$ini['system']['head_title'];
 $content     = str_replace('{head_title}', $head_title, $content);
 $content     = str_replace('{system_version}', $system_version, $content);
 $content     = str_replace('{logo-mini}', $ini['general']['application'], $content);
