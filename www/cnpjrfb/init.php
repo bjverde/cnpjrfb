@@ -1,4 +1,9 @@
 <?php
+if (version_compare(PHP_VERSION, '7.1.0') == -1)
+{
+    die ('The minimum version required for PHP is 7.1.0');
+}
+
 // define the autoloader
 require_once 'lib/adianti/core/AdiantiCoreLoader.php';
 spl_autoload_register(array('Adianti\Core\AdiantiCoreLoader', 'autoload'));
@@ -23,8 +28,3 @@ define('LANG', $ini['general']['language']);
 
 // custom session name
 session_name('PHPSESSID_'.$ini['general']['application']);
-
-if (version_compare(PHP_VERSION, '7.0.0') == -1)
-{
-    die(AdiantiCoreTranslator::translate('The minimum version required for PHP is ^1', '7.0.0'));
-}

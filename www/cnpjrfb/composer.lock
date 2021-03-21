@@ -1,11 +1,95 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc30b6614ef7b8212beb236314904dd4",
+    "content-hash": "0b49c225774dae08e52a926558ed922b",
     "packages": [
+        {
+            "name": "adianti/pdfdesigner",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adianti/pdfdesigner.git",
+                "reference": "8f8980c844caa24010ebdbb8009252402f3a8dd3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adianti/pdfdesigner/zipball/8f8980c844caa24010ebdbb8009252402f3a8dd3",
+                "reference": "8f8980c844caa24010ebdbb8009252402f3a8dd3",
+                "shasum": ""
+            },
+            "require": {
+                "pablodalloglio/fpdf": "*"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "AdiantiPDFDesigner": "./",
+                    "TPDFDesigner": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Dall'Oglio",
+                    "email": "pablo@php.net",
+                    "role": "Lead"
+                }
+            ],
+            "description": "PDF Designer wrapper around FPDF.",
+            "support": {
+                "issues": "https://github.com/adianti/pdfdesigner/issues",
+                "source": "https://github.com/adianti/pdfdesigner"
+            },
+            "time": "2020-10-25T19:44:06+00:00"
+        },
+        {
+            "name": "adianti/plugins",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adianti/plugins.git",
+                "reference": "53e2704203635915f3375dbdb66a97af52c56e6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adianti/plugins/zipball/53e2704203635915f3375dbdb66a97af52c56e6c",
+                "reference": "53e2704203635915f3375dbdb66a97af52c56e6c",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Adianti\\Plugins\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Dall Oglio",
+                    "email": "pablo@dalloglio.net"
+                }
+            ],
+            "description": "Plugins for Adianti Framework",
+            "support": {
+                "issues": "https://github.com/adianti/plugins/issues",
+                "source": "https://github.com/adianti/plugins/tree/master"
+            },
+            "time": "2020-10-25T01:29:57+00:00"
+        },
         {
             "name": "bacon/bacon-qr-code",
             "version": "1.0.3",
@@ -50,37 +134,43 @@
             ],
             "description": "BaconQrCode is a QR code generator for PHP.",
             "homepage": "https://github.com/Bacon/BaconQrCode",
+            "support": {
+                "issues": "https://github.com/Bacon/BaconQrCode/issues",
+                "source": "https://github.com/Bacon/BaconQrCode/tree/master"
+            },
             "time": "2017-10-17T09:59:25+00:00"
         },
         {
             "name": "dompdf/dompdf",
-            "version": "v0.8.3",
+            "version": "v0.8.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dompdf/dompdf.git",
-                "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2"
+                "reference": "db91d81866c69a42dad1d2926f61515a1e3f42c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/75f13c700009be21a1965dc2c5b68a8708c22ba2",
-                "reference": "75f13c700009be21a1965dc2c5b68a8708c22ba2",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/db91d81866c69a42dad1d2926f61515a1e3f42c5",
+                "reference": "db91d81866c69a42dad1d2926f61515a1e3f42c5",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-mbstring": "*",
-                "phenx/php-font-lib": "0.5.*",
-                "phenx/php-svg-lib": "0.3.*",
-                "php": ">=5.4.0"
+                "phenx/php-font-lib": "^0.5.2",
+                "phenx/php-svg-lib": "^0.3.3",
+                "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8|^5.5|^6.5",
-                "squizlabs/php_codesniffer": "2.*"
+                "mockery/mockery": "^1.3",
+                "phpunit/phpunit": "^7.5",
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "suggest": {
                 "ext-gd": "Needed to process images",
                 "ext-gmagick": "Improves image processing performance",
-                "ext-imagick": "Improves image processing performance"
+                "ext-imagick": "Improves image processing performance",
+                "ext-zlib": "Needed for pdf stream compression"
             },
             "type": "library",
             "extra": {
@@ -116,27 +206,31 @@
             ],
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
-            "time": "2018-12-14T02:40:31+00:00"
+            "support": {
+                "issues": "https://github.com/dompdf/dompdf/issues",
+                "source": "https://github.com/dompdf/dompdf/tree/master"
+            },
+            "time": "2020-08-30T22:54:22+00:00"
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v5.0.0",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e"
+                "reference": "feb0e820b8436873675fd3aca04f3728eb2185cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
-                "reference": "9984a4d3a32ae7673d6971ea00bae9d0a1abba0e",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/feb0e820b8436873675fd3aca04f3728eb2185cb",
+                "reference": "feb0e820b8436873675fd3aca04f3728eb2185cb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": " 4.8.35"
+                "phpunit/phpunit": ">=4.8 <=9"
             },
             "type": "library",
             "autoload": {
@@ -162,20 +256,28 @@
             ],
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
-            "time": "2017-06-27T22:17:23+00:00"
+            "keywords": [
+                "jwt",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/firebase/php-jwt/issues",
+                "source": "https://github.com/firebase/php-jwt/tree/master"
+            },
+            "time": "2020-03-25T18:49:23+00:00"
         },
         {
             "name": "linfo/linfo",
-            "version": "v4.0.1",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jrgp/linfo.git",
-                "reference": "63992c032b1d906527a0390e5bd0282c17b7b564"
+                "url": "git@github.com:jrgp/linfo.git",
+                "reference": "2cd1edf906b9ee4dbecfac7a4829d45ce9d585c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jrgp/linfo/zipball/63992c032b1d906527a0390e5bd0282c17b7b564",
-                "reference": "63992c032b1d906527a0390e5bd0282c17b7b564",
+                "url": "https://api.github.com/repos/jrgp/linfo/zipball/2cd1edf906b9ee4dbecfac7a4829d45ce9d585c0",
+                "reference": "2cd1edf906b9ee4dbecfac7a4829d45ce9d585c0",
                 "shasum": ""
             },
             "require": {
@@ -201,9 +303,9 @@
             "authors": [
                 {
                     "name": "Joe Gillotti",
-                    "role": "Author",
                     "email": "joe@joegillotti.com",
-                    "homepage": "http://joegillotti.com"
+                    "homepage": "http://joegillotti.com",
+                    "role": "Author"
                 }
             ],
             "description": "App and library for easily parsing and displaying system information of the host, like network/torrents/cpu/memory/usb/pci/sound cards/filesystems/raid array/ipmi/etc.",
@@ -215,7 +317,49 @@
                 "specs",
                 "system"
             ],
-            "time": "2019-01-31T03:53:02+00:00"
+            "time": "2019-10-21T21:47:56+00:00"
+        },
+        {
+            "name": "pablodalloglio/fpdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pablodalloglio/fpdf.git",
+                "reference": "0339a0c546c66f975a1ac26431a62410a0a49c76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pablodalloglio/fpdf/zipball/0339a0c546c66f975a1ac26431a62410a0a49c76",
+                "reference": "0339a0c546c66f975a1ac26431a62410a0a49c76",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "FPDF": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "./"
+            ],
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Dall'Oglio",
+                    "email": "pablo@php.net",
+                    "role": "Lead"
+                }
+            ],
+            "description": "Derivation of FPDF with callbacks for headers, footers.",
+            "support": {
+                "issues": "https://github.com/pablodalloglio/fpdf/issues",
+                "source": "https://github.com/pablodalloglio/fpdf"
+            },
+            "time": "2020-11-22T20:45:21+00:00"
         },
         {
             "name": "pablodalloglio/ole",
@@ -223,44 +367,46 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pablodalloglio/ole.git",
-                "reference": "b5698257fc21f3a8734c63c9224df9c48cba8d6f"
+                "reference": "f2c9e55125889d4106bee23ab2ecdffe29f7c0e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pablodalloglio/ole/zipball/b5698257fc21f3a8734c63c9224df9c48cba8d6f",
-                "reference": "b5698257fc21f3a8734c63c9224df9c48cba8d6f",
+                "url": "https://api.github.com/repos/pablodalloglio/ole/zipball/f2c9e55125889d4106bee23ab2ecdffe29f7c0e5",
+                "reference": "f2c9e55125889d4106bee23ab2ecdffe29f7c0e5",
                 "shasum": ""
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
                     "OLE": "./"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 "./"
             ],
             "license": [
-                "PHP"
+                "PHP-3.01"
             ],
             "authors": [
                 {
-                    "email": "schmidt@php.net",
                     "name": "Christian Schmidt",
+                    "email": "schmidt@php.net",
                     "role": "Lead"
                 },
                 {
-                    "email": "xnoguer@php.net",
                     "name": "Xavier Noguer",
+                    "email": "xnoguer@php.net",
                     "role": "Lead"
                 }
             ],
-            "description": "More info available on: http://pear.php.net/package/OLE",
+            "description": "Derivation from pear OLE without PEAR dependency, and with Exceptions instead of PearErrors.",
             "support": {
-                "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=OLE",
+                "issues": "https://github.com/pablodalloglio/ole/issues",
                 "source": "https://github.com/pablodalloglio/OLE"
             },
-            "time": "2018-04-26T14:25:39+00:00"
+            "time": "2020-10-25T18:04:22+00:00"
         },
         {
             "name": "pablodalloglio/spreadsheet_excel_writer",
@@ -268,80 +414,77 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pablodalloglio/spreadsheet_excel_writer.git",
-                "reference": "84e5c1a4aa9b93ba1750c33ece6ae25eb19d2851"
+                "reference": "4c7138aadc6a4dc3865c1aa24911cb0ddc5ea8a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pablodalloglio/spreadsheet_excel_writer/zipball/84e5c1a4aa9b93ba1750c33ece6ae25eb19d2851",
-                "reference": "84e5c1a4aa9b93ba1750c33ece6ae25eb19d2851",
+                "url": "https://api.github.com/repos/pablodalloglio/spreadsheet_excel_writer/zipball/4c7138aadc6a4dc3865c1aa24911cb0ddc5ea8a4",
+                "reference": "4c7138aadc6a4dc3865c1aa24911cb0ddc5ea8a4",
                 "shasum": ""
             },
             "require": {
                 "pablodalloglio/ole": "*",
                 "php": ">=5.3.3"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
                     "Spreadsheet": ""
                 }
             },
-            "autoload-dev": {
-                "psr-0": {
-                    "Test": "test"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 "./"
             ],
             "license": [
-                "LGPL"
+                "LGPL-2.1-or-later"
             ],
             "authors": [
                 {
-                    "email": "cschmitz@limesurvey.org",
                     "name": "Carsten Schmitz",
+                    "email": "cschmitz@limesurvey.org",
                     "role": "Lead"
                 },
                 {
-                    "email": "xnoguer@php.net",
                     "name": "Xavier Noguer",
+                    "email": "xnoguer@php.net",
                     "role": "Lead"
                 },
                 {
-                    "email": "progi1984@gmail.com",
                     "name": "Franck Lefevre",
+                    "email": "progi1984@gmail.com",
                     "role": "Developer"
                 },
                 {
-                    "email": "tuupola@appelsiini.net",
                     "name": "Mika Tuupola",
+                    "email": "tuupola@appelsiini.net",
                     "role": "Developer"
                 }
             ],
-            "description": "More info available on: http://pear.php.net/package/Spreadsheet_Excel_Writer",
+            "description": "Derivation from SpreadsheetExcelWriter without PEAR dependency, and with Exceptions instead of PearErrors.",
             "support": {
-                "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Spreadsheet_Excel_Writer",
-                "source": "https://github.com/pear/Spreadsheet_Excel_Writer"
+                "issues": "https://github.com/pablodalloglio/spreadsheet_excel_writer/issues",
+                "source": "https://github.com/pablodalloglio/spreadsheet_excel_writer"
             },
-            "time": "2018-04-26T14:06:36+00:00"
+            "time": "2020-10-25T18:05:36+00:00"
         },
         {
             "name": "phenx/php-font-lib",
-            "version": "0.5.1",
+            "version": "0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhenX/php-font-lib.git",
-                "reference": "760148820110a1ae0936e5cc35851e25a938bc97"
+                "reference": "ca6ad461f032145fff5971b5985e5af9e7fa88d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PhenX/php-font-lib/zipball/760148820110a1ae0936e5cc35851e25a938bc97",
-                "reference": "760148820110a1ae0936e5cc35851e25a938bc97",
+                "url": "https://api.github.com/repos/PhenX/php-font-lib/zipball/ca6ad461f032145fff5971b5985e5af9e7fa88d8",
+                "reference": "ca6ad461f032145fff5971b5985e5af9e7fa88d8",
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8"
+                "phpunit/phpunit": "^4.8.35 || ^5 || ^6 || ^7"
             },
             "type": "library",
             "autoload": {
@@ -361,32 +504,36 @@
             ],
             "description": "A library to read, parse, export and make subsets of different types of font files.",
             "homepage": "https://github.com/PhenX/php-font-lib",
-            "time": "2017-09-13T16:14:37+00:00"
+            "support": {
+                "issues": "https://github.com/PhenX/php-font-lib/issues",
+                "source": "https://github.com/PhenX/php-font-lib/tree/0.5.2"
+            },
+            "time": "2020-03-08T15:31:32+00:00"
         },
         {
             "name": "phenx/php-svg-lib",
-            "version": "v0.3.2",
+            "version": "v0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhenX/php-svg-lib.git",
-                "reference": "ccc46ef6340d4b8a4a68047e68d8501ea961442c"
+                "reference": "5fa61b65e612ce1ae15f69b3d223cb14ecc60e32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PhenX/php-svg-lib/zipball/ccc46ef6340d4b8a4a68047e68d8501ea961442c",
-                "reference": "ccc46ef6340d4b8a4a68047e68d8501ea961442c",
+                "url": "https://api.github.com/repos/PhenX/php-svg-lib/zipball/5fa61b65e612ce1ae15f69b3d223cb14ecc60e32",
+                "reference": "5fa61b65e612ce1ae15f69b3d223cb14ecc60e32",
                 "shasum": ""
             },
             "require": {
-                "sabberworm/php-css-parser": "8.1.*"
+                "sabberworm/php-css-parser": "^8.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "~5.0"
+                "phpunit/phpunit": "^5.5|^6.5"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Svg\\": "src/"
+                "psr-4": {
+                    "Svg\\": "src/Svg"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -401,35 +548,36 @@
             ],
             "description": "A library to read, parse and export to PDF SVG files.",
             "homepage": "https://github.com/PhenX/php-svg-lib",
-            "time": "2018-06-03T10:10:03+00:00"
+            "support": {
+                "issues": "https://github.com/PhenX/php-svg-lib/issues",
+                "source": "https://github.com/PhenX/php-svg-lib/tree/master"
+            },
+            "time": "2019-09-11T20:02:13+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.0.7",
+            "version": "v6.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "0c41a36d4508d470e376498c1c0c527aa36a2d59"
+                "reference": "917ab212fa00dc6eacbb26e8bc387ebe40993bc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/0c41a36d4508d470e376498c1c0c527aa36a2d59",
-                "reference": "0c41a36d4508d470e376498c1c0c527aa36a2d59",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/917ab212fa00dc6eacbb26e8bc387ebe40993bc1",
+                "reference": "917ab212fa00dc6eacbb26e8bc387ebe40993bc1",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
                 "ext-filter": "*",
+                "ext-hash": "*",
                 "php": ">=5.5.0"
             },
             "require-dev": {
-                "doctrine/annotations": "1.2.*",
+                "doctrine/annotations": "^1.2",
                 "friendsofphp/php-cs-fixer": "^2.2",
-                "phpdocumentor/phpdocumentor": "2.*",
-                "phpunit/phpunit": "^4.8 || ^5.7",
-                "zendframework/zend-eventmanager": "3.0.*",
-                "zendframework/zend-i18n": "2.7.3",
-                "zendframework/zend-serializer": "2.7.*"
+                "phpunit/phpunit": "^4.8 || ^5.7"
             },
             "suggest": {
                 "ext-mbstring": "Needed to send email in multibyte encoding charset",
@@ -447,16 +595,16 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-2.1"
+                "LGPL-2.1-only"
             ],
             "authors": [
                 {
-                    "name": "Jim Jagielski",
-                    "email": "jimjag@gmail.com"
-                },
-                {
                     "name": "Marcus Bointon",
                     "email": "phpmailer@synchromedia.co.uk"
+                },
+                {
+                    "name": "Jim Jagielski",
+                    "email": "jimjag@gmail.com"
                 },
                 {
                     "name": "Andy Prevost",
@@ -467,7 +615,17 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2019-02-01T15:04:28+00:00"
+            "support": {
+                "issues": "https://github.com/PHPMailer/PHPMailer/issues",
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.1.8"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/synchro",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-10-09T14:55:58+00:00"
         },
         {
             "name": "phprtflite/phprtflite",
@@ -500,6 +658,10 @@
                 }
             ],
             "description": "PHPRtfLite is an API enabling developers to create rtf documents with php.",
+            "support": {
+                "issues": "https://github.com/phprtflite/PHPRtfLite/issues",
+                "source": "https://github.com/phprtflite/PHPRtfLite/tree/v1.3.x"
+            },
             "time": "2014-07-04T19:43:18+00:00"
         },
         {
@@ -569,27 +731,32 @@
                 "svg",
                 "upc"
             ],
+            "support": {
+                "issues": "https://github.com/picqer/php-barcode-generator/issues",
+                "source": "https://github.com/picqer/php-barcode-generator/tree/master"
+            },
             "time": "2017-09-28T19:23:19+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
-            "version": "8.1.0",
+            "version": "8.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sabberworm/PHP-CSS-Parser.git",
-                "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef"
+                "reference": "d217848e1396ef962fb1997cf3e2421acba7f796"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/850cbbcbe7fbb155387a151ea562897a67e242ef",
-                "reference": "850cbbcbe7fbb155387a151ea562897a67e242ef",
+                "url": "https://api.github.com/repos/sabberworm/PHP-CSS-Parser/zipball/d217848e1396ef962fb1997cf3e2421acba7f796",
+                "reference": "d217848e1396ef962fb1997cf3e2421acba7f796",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "*"
+                "codacy/coverage": "^1.4",
+                "phpunit/phpunit": "~4.8"
             },
             "type": "library",
             "autoload": {
@@ -613,7 +780,11 @@
                 "parser",
                 "stylesheet"
             ],
-            "time": "2016-07-19T19:14:21+00:00"
+            "support": {
+                "issues": "https://github.com/sabberworm/PHP-CSS-Parser/issues",
+                "source": "https://github.com/sabberworm/PHP-CSS-Parser/tree/8.3.1"
+            },
+            "time": "2020-06-01T09:10:00+00:00"
         },
         {
             "name": "tburry/pquery",
@@ -665,6 +836,10 @@
                 "ganon",
                 "php"
             ],
+            "support": {
+                "issues": "https://github.com/tburry/pquery/issues",
+                "source": "https://github.com/tburry/pquery/tree/master"
+            },
             "time": "2016-01-14T20:55:00+00:00"
         }
     ],
@@ -672,11 +847,15 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "adianti/plugins": 20,
+        "adianti/pdfdesigner": 20,
         "pablodalloglio/ole": 20,
-        "pablodalloglio/spreadsheet_excel_writer": 20
+        "pablodalloglio/spreadsheet_excel_writer": 20,
+        "pablodalloglio/fpdf": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
