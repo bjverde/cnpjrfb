@@ -15,7 +15,7 @@ use Exception;
 /**
  * MultiSearch backend
  *
- * @version    7.1
+ * @version    7.3
  * @package    service
  * @author     Pablo Dall'Oglio
  * @author     Matheus Agnes Dias

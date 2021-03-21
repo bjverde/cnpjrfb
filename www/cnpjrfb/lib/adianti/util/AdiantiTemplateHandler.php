@@ -8,7 +8,7 @@ use Adianti\Core\AdiantiCoreTranslator;
 /**
  * Template manipulation
  *
- * @version    7.1
+ * @version    7.3
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -92,6 +92,17 @@ class AdiantiTemplateHandler
         $expression = str_replace('/', ' / ', $expression);
         $expression = str_replace('(', ' ( ', $expression);
         $expression = str_replace(')', ' ) ', $expression);
+        
+        // fix sintax for operator followed by signal
+        foreach (['+', '-', '*', '/'] as $operator)
+        {
+            foreach (['+', '-'] as $signal)
+            {
+                $expression = str_replace(" {$operator} {$signal} ", " {$operator} {$signal}", $expression);
+                $expression = str_replace(" {$operator}  {$signal} ", " {$operator} {$signal}", $expression);
+                $expression = str_replace(" {$operator}   {$signal} ", " {$operator} {$signal}", $expression);
+            }
+        }
         
         return $parser->evaluate($expression);
     }

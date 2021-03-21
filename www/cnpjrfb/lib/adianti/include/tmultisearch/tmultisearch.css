@@ -17,7 +17,8 @@
 {
     width: 100%;
     background: #eeeeee;
-    height: 100%;
+    height: calc(100% + 1px);
     position: absolute;
     opacity: 0.8;
+    z-index: 1;
 }

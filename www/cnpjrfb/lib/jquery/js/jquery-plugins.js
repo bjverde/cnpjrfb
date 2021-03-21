@@ -11,13 +11,13 @@
 - lib/jquery/js/jquery.blockUI.min.js
 - lib/jquery/js/jquery.editinplace.min.js
 - lib/jquery/js/jquery.autocomplete.min.js
-- lib/jquery/js/jquery.imask.min.js
 - lib/jquery/js/jquery.treeview.min.js
 - lib/jquery/js/jquery.dataTables.min.js
 - lib/jquery/js/jquery.spinner.min.js
 - lib/jquery/js/dataTables.responsive.min.js
 - lib/jquery/js/select2.js
 - lib/jquery/js/jquery.mask.min.js
+- lib/jquery/js/jquery.maskMoney.js
 
 */
 
@@ -66,21 +66,6 @@
 *  For details, see the web site: https://github.com/devbridge/jQuery-Autocomplete
 */
 !function(a){"use strict";"function"==typeof define&&define.amd?define(["jquery"],a):a("object"==typeof exports&&"function"==typeof require?require("jquery"):jQuery)}(function(a){"use strict";function b(c,d){var e=function(){},f=this,g={ajaxSettings:{},autoSelectFirst:!1,appendTo:document.body,serviceUrl:null,lookup:null,onSelect:null,width:"auto",minChars:1,maxHeight:300,deferRequestBy:0,params:{},formatResult:b.formatResult,delimiter:null,zIndex:9999,type:"GET",noCache:!1,onSearchStart:e,onSearchComplete:e,onSearchError:e,containerClass:"autocomplete-suggestions",tabDisabled:!1,dataType:"text",currentRequest:null,triggerSelectOnValidInput:!0,preventBadQueries:!0,lookupFilter:function(a,b,c){return-1!==a.value.toLowerCase().indexOf(c)},paramName:"query",transformResult:function(b){return"string"==typeof b?a.parseJSON(b):b},showNoSuggestionNotice:!1,noSuggestionNotice:"No results",orientation:"bottom",forceFixPosition:!1};f.element=c,f.el=a(c),f.suggestions=[],f.badQueries=[],f.selectedIndex=-1,f.currentValue=f.element.value,f.intervalId=0,f.cachedResponse={},f.onChangeInterval=null,f.onChange=null,f.isLocal=!1,f.suggestionsContainer=null,f.noSuggestionsContainer=null,f.options=a.extend({},g,d),f.classes={selected:"autocomplete-selected",suggestion:"autocomplete-suggestion"},f.hint=null,f.hintValue="",f.selection=null,f.initialize(),f.setOptions(d)}var c=function(){return{escapeRegExChars:function(a){return a.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,"\\$&")},createNode:function(a){var b=document.createElement("div");return b.className=a,b.style.position="absolute",b.style.display="none",b}}}(),d={ESC:27,TAB:9,RETURN:13,LEFT:37,UP:38,RIGHT:39,DOWN:40};b.utils=c,a.Autocomplete=b,b.formatResult=function(a,b){var d="("+c.escapeRegExChars(b)+")";return a.value.replace(new RegExp(d,"gi"),"<strong>$1</strong>")},b.prototype={killerFn:null,initialize:function(){var c,d=this,e="."+d.classes.suggestion,f=d.classes.selected,g=d.options;d.element.setAttribute("autocomplete","off"),d.killerFn=function(b){0===a(b.target).closest("."+d.options.containerClass).length&&(d.killSuggestions(),d.disableKillerFn())},d.noSuggestionsContainer=a('<div class="autocomplete-no-suggestion"></div>').html(this.options.noSuggestionNotice).get(0),d.suggestionsContainer=b.utils.createNode(g.containerClass),c=a(d.suggestionsContainer),c.appendTo(g.appendTo),"auto"!==g.width&&c.width(g.width),c.on("mouseover.autocomplete",e,function(){d.activate(a(this).data("index"))}),c.on("mouseout.autocomplete",function(){d.selectedIndex=-1,c.children("."+f).removeClass(f)}),c.on("click.autocomplete",e,function(){d.select(a(this).data("index"))}),d.fixPositionCapture=function(){d.visible&&d.fixPosition()},a(window).on("resize.autocomplete",d.fixPositionCapture),d.el.on("keydown.autocomplete",function(a){d.onKeyPress(a)}),d.el.on("keyup.autocomplete",function(a){d.onKeyUp(a)}),d.el.on("blur.autocomplete",function(){d.onBlur()}),d.el.on("focus.autocomplete",function(){d.onFocus()}),d.el.on("change.autocomplete",function(a){d.onKeyUp(a)})},onFocus:function(){var a=this;a.fixPosition(),a.options.minChars<=a.el.val().length&&a.onValueChange()},onBlur:function(){this.enableKillerFn()},setOptions:function(b){var c=this,d=c.options;a.extend(d,b),c.isLocal=a.isArray(d.lookup),c.isLocal&&(d.lookup=c.verifySuggestionsFormat(d.lookup)),d.orientation=c.validateOrientation(d.orientation,"bottom"),a(c.suggestionsContainer).css({"max-height":d.maxHeight+"px",width:d.width+"px","z-index":d.zIndex})},clearCache:function(){this.cachedResponse={},this.badQueries=[]},clear:function(){this.clearCache(),this.currentValue="",this.suggestions=[]},disable:function(){var a=this;a.disabled=!0,clearInterval(a.onChangeInterval),a.currentRequest&&a.currentRequest.abort()},enable:function(){this.disabled=!1},fixPosition:function(){var b=this,c=a(b.suggestionsContainer),d=c.parent().get(0);if(d===document.body||b.options.forceFixPosition){var e=b.options.orientation,f=c.outerHeight(),g=b.el.outerHeight(),h=b.el.offset(),i={top:h.top,left:h.left};if("auto"==e){var j=a(window).height(),k=a(window).scrollTop(),l=-k+h.top-f,m=k+j-(h.top+g+f);e=Math.max(l,m)===l?"top":"bottom"}if(i.top+="top"===e?-f:g,d!==document.body){var n,o=c.css("opacity");b.visible||c.css("opacity",0).show(),n=c.offsetParent().offset(),i.top-=n.top,i.left-=n.left,b.visible||c.css("opacity",o).hide()}"auto"===b.options.width&&(i.width=b.el.outerWidth()-2+"px"),c.css(i)}},enableKillerFn:function(){var b=this;a(document).on("click.autocomplete",b.killerFn)},disableKillerFn:function(){var b=this;a(document).off("click.autocomplete",b.killerFn)},killSuggestions:function(){var a=this;a.stopKillSuggestions(),a.intervalId=window.setInterval(function(){a.hide(),a.stopKillSuggestions()},50)},stopKillSuggestions:function(){window.clearInterval(this.intervalId)},isCursorAtEnd:function(){var a,b=this,c=b.el.val().length,d=b.element.selectionStart;return"number"==typeof d?d===c:document.selection?(a=document.selection.createRange(),a.moveStart("character",-c),c===a.text.length):!0},onKeyPress:function(a){var b=this;if(!b.disabled&&!b.visible&&a.which===d.DOWN&&b.currentValue)return void b.suggest();if(!b.disabled&&b.visible){switch(a.which){case d.ESC:b.el.val(b.currentValue),b.hide();break;case d.RIGHT:if(b.hint&&b.options.onHint&&b.isCursorAtEnd()){b.selectHint();break}return;case d.TAB:if(b.hint&&b.options.onHint)return void b.selectHint();case d.RETURN:if(-1===b.selectedIndex)return void b.hide();if(b.select(b.selectedIndex),a.which===d.TAB&&b.options.tabDisabled===!1)return;break;case d.UP:b.moveUp();break;case d.DOWN:b.moveDown();break;default:return}a.stopImmediatePropagation(),a.preventDefault()}},onKeyUp:function(a){var b=this;if(!b.disabled){switch(a.which){case d.UP:case d.DOWN:return}clearInterval(b.onChangeInterval),b.currentValue!==b.el.val()&&(b.findBestHint(),b.options.deferRequestBy>0?b.onChangeInterval=setInterval(function(){b.onValueChange()},b.options.deferRequestBy):b.onValueChange())}},onValueChange:function(){var b,c=this,d=c.options,e=c.el.val(),f=c.getQuery(e);return c.selection&&c.currentValue!==f&&(c.selection=null,(d.onInvalidateSelection||a.noop).call(c.element)),clearInterval(c.onChangeInterval),c.currentValue=e,c.selectedIndex=-1,d.triggerSelectOnValidInput&&(b=c.findSuggestionIndex(f),-1!==b)?void c.select(b):void(f.length<d.minChars?c.hide():c.getSuggestions(f))},findSuggestionIndex:function(b){var c=this,d=-1,e=b.toLowerCase();return a.each(c.suggestions,function(a,b){return b.value.toLowerCase()===e?(d=a,!1):void 0}),d},getQuery:function(b){var c,d=this.options.delimiter;return d?(c=b.split(d),a.trim(c[c.length-1])):b},getSuggestionsLocal:function(b){var c,d=this,e=d.options,f=b.toLowerCase(),g=e.lookupFilter,h=parseInt(e.lookupLimit,10);return c={suggestions:a.grep(e.lookup,function(a){return g(a,b,f)})},h&&c.suggestions.length>h&&(c.suggestions=c.suggestions.slice(0,h)),c},getSuggestions:function(b){var c,d,e,f,g=this,h=g.options,i=h.serviceUrl;if(h.params[h.paramName]=b,d=h.ignoreParams?null:h.params,h.onSearchStart.call(g.element,h.params)!==!1){if(a.isFunction(g.lookup))return void g.lookup(b,function(a){g.suggestions=a.suggestions,g.suggest(),h.onSearchComplete.call(g.element,b,a.suggestions)});g.isLocal?c=g.getSuggestionsLocal(b):(a.isFunction(i)&&(i=i.call(g.element,b)),e=i+"?"+a.param(d||{}),c=g.cachedResponse[e]),c&&a.isArray(c.suggestions)?(g.suggestions=c.suggestions,g.suggest(),h.onSearchComplete.call(g.element,b,c.suggestions)):g.isBadQuery(b)?h.onSearchComplete.call(g.element,b,[]):(g.currentRequest&&g.currentRequest.abort(),f={url:i,data:d,type:h.type,dataType:h.dataType},a.extend(f,h.ajaxSettings),g.currentRequest=a.ajax(f).done(function(a){var c;g.currentRequest=null,c=h.transformResult(a),g.processResponse(c,b,e),h.onSearchComplete.call(g.element,b,c.suggestions)}).fail(function(a,c,d){h.onSearchError.call(g.element,b,a,c,d)}))}},isBadQuery:function(a){if(!this.options.preventBadQueries)return!1;for(var b=this.badQueries,c=b.length;c--;)if(0===a.indexOf(b[c]))return!0;return!1},hide:function(){var b=this;b.visible=!1,b.selectedIndex=-1,clearInterval(b.onChangeInterval),a(b.suggestionsContainer).hide(),b.signalHint(null)},suggest:function(){if(0===this.suggestions.length)return void(this.options.showNoSuggestionNotice?this.noSuggestions():this.hide());var b,c,d=this,e=d.options,f=e.groupBy,g=e.formatResult,h=d.getQuery(d.currentValue),i=d.classes.suggestion,j=d.classes.selected,k=a(d.suggestionsContainer),l=a(d.noSuggestionsContainer),m=e.beforeRender,n="",o=function(a){var c=a.data[f];return b===c?"":(b=c,'<div class="autocomplete-group"><strong>'+b+"</strong></div>")};return e.triggerSelectOnValidInput&&(c=d.findSuggestionIndex(h),-1!==c)?void d.select(c):(a.each(d.suggestions,function(a,b){f&&(n+=o(b,h,a)),n+='<div class="'+i+'" data-index="'+a+'">'+g(b,h)+"</div>"}),this.adjustContainerWidth(),l.detach(),k.html(n),a.isFunction(m)&&m.call(d.element,k),d.fixPosition(),k.show(),e.autoSelectFirst&&(d.selectedIndex=0,k.scrollTop(0),k.children().first().addClass(j)),d.visible=!0,void d.findBestHint())},noSuggestions:function(){var b=this,c=a(b.suggestionsContainer),d=a(b.noSuggestionsContainer);this.adjustContainerWidth(),d.detach(),c.empty(),c.append(d),b.fixPosition(),c.show(),b.visible=!0},adjustContainerWidth:function(){var b,c=this,d=c.options,e=a(c.suggestionsContainer);"auto"===d.width&&(b=c.el.outerWidth()-2,e.width(b>0?b:300))},findBestHint:function(){var b=this,c=b.el.val().toLowerCase(),d=null;c&&(a.each(b.suggestions,function(a,b){var e=0===b.value.toLowerCase().indexOf(c);return e&&(d=b),!e}),b.signalHint(d))},signalHint:function(b){var c="",d=this;b&&(c=d.currentValue+b.value.substr(d.currentValue.length)),d.hintValue!==c&&(d.hintValue=c,d.hint=b,(this.options.onHint||a.noop)(c))},verifySuggestionsFormat:function(b){return b.length&&"string"==typeof b[0]?a.map(b,function(a){return{value:a,data:null}}):b},validateOrientation:function(b,c){return b=a.trim(b||"").toLowerCase(),-1===a.inArray(b,["auto","bottom","top"])&&(b=c),b},processResponse:function(a,b,c){var d=this,e=d.options;a.suggestions=d.verifySuggestionsFormat(a.suggestions),e.noCache||(d.cachedResponse[c]=a,e.preventBadQueries&&0===a.suggestions.length&&d.badQueries.push(b)),b===d.getQuery(d.currentValue)&&(d.suggestions=a.suggestions,d.suggest())},activate:function(b){var c,d=this,e=d.classes.selected,f=a(d.suggestionsContainer),g=f.find("."+d.classes.suggestion);return f.find("."+e).removeClass(e),d.selectedIndex=b,-1!==d.selectedIndex&&g.length>d.selectedIndex?(c=g.get(d.selectedIndex),a(c).addClass(e),c):null},selectHint:function(){var b=this,c=a.inArray(b.hint,b.suggestions);b.select(c)},select:function(a){var b=this;b.hide(),b.onSelect(a)},moveUp:function(){var b=this;if(-1!==b.selectedIndex)return 0===b.selectedIndex?(a(b.suggestionsContainer).children().first().removeClass(b.classes.selected),b.selectedIndex=-1,b.el.val(b.currentValue),void b.findBestHint()):void b.adjustScroll(b.selectedIndex-1)},moveDown:function(){var a=this;a.selectedIndex!==a.suggestions.length-1&&a.adjustScroll(a.selectedIndex+1)},adjustScroll:function(b){var c=this,d=c.activate(b);if(d){var e,f,g,h=a(d).outerHeight();e=d.offsetTop,f=a(c.suggestionsContainer).scrollTop(),g=f+c.options.maxHeight-h,f>e?a(c.suggestionsContainer).scrollTop(e):e>g&&a(c.suggestionsContainer).scrollTop(e-c.options.maxHeight+h),c.el.val(c.getValue(c.suggestions[b].value)),c.signalHint(null)}},onSelect:function(b){var c=this,d=c.options.onSelect,e=c.suggestions[b];c.currentValue=c.getValue(e.value),c.currentValue!==c.el.val()&&c.el.val(c.currentValue),c.signalHint(null),c.suggestions=[],c.selection=e,a.isFunction(d)&&d.call(c.element,e)},getValue:function(a){var b,c,d=this,e=d.options.delimiter;return e?(b=d.currentValue,c=b.split(e),1===c.length?a:b.substr(0,b.length-c[c.length-1].length)+a):a},dispose:function(){var b=this;b.el.off(".autocomplete").removeData("autocomplete"),b.disableKillerFn(),a(window).off("resize.autocomplete",b.fixPositionCapture),a(b.suggestionsContainer).remove()}},a.fn.autocomplete=a.fn.devbridgeAutocomplete=function(c,d){var e="autocomplete";return 0===arguments.length?this.first().data(e):this.each(function(){var f=a(this),g=f.data(e);"string"==typeof c?g&&"function"==typeof g[c]&&g[c](d):(g&&g.dispose&&g.dispose(),g=new b(this,c),f.data(e,g))})}});
-
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-/* Merging js: lib/jquery/js/jquery.imask.min.js begins */
-/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-
-/*!
- * jQuery iMask Plugin v0.7.0
- *
- * Licensed under the MIT License
- * Authors: Mark Kahn
- *          Fabio Zendhi Nagao (http://zend.lojcomm.com.br)
- *
- * Date: Wed Aug 24 10:50:49 2011 -0700
- */(function(a){function d(a){this.range=a.getSelectionRange(),this.len=a.domNode.value.length,this.obj=a,this[0]=this.range[0],this[1]=this.range[1]}var b=function(a){return!!a||a===0},c=function(){this.initialize.apply(this,arguments)};c.prototype={options:{maskEmptyChr:" ",validNumbers:"1234567890",validAlphas:"abcdefghijklmnopqrstuvwxyz",validAlphaNums:"abcdefghijklmnopqrstuvwxyz1234567890",groupDigits:3,decDigits:2,currencySymbol:"",groupSymbol:",",decSymbol:".",showMask:!0,stripMask:!1,lastFocus:0,number:{stripMask:!1,showMask:!1}},initialize:function(b,c){this.node=b,this.domNode=b[0],this.options=a.extend({},this.options,this.options[c.type]||{},c);var d=this;c.type=="number"&&this.node.css("text-align","right"),this.node.bind("mousedown click",function(a){a.stopPropagation(),a.preventDefault()}).bind("mouseup",function(){d.onMouseUp.apply(d,arguments)}).bind("keydown",function(){d.onKeyDown.apply(d,arguments)}).bind("keypress",function(){d.onKeyPress.apply(d,arguments)}).bind("focus",function(){d.onFocus.apply(d,arguments)}).bind("blur",function(){d.onBlur.apply(d,arguments)})},isFixed:function(){return this.options.type=="fixed"},isNumber:function(){return this.options.type=="number"},onMouseUp:function(a){a.stopPropagation(),a.preventDefault();if(this.isFixed()){var b=this.getSelectionStart();this.setSelection(b,b+1)}else this.isNumber()&&this.setEnd()},onKeyDown:function(a){if(!(a.ctrlKey||a.altKey||a.metaKey))if(a.which==13)this.node.blur();else if(a.which!=9)if(this.options.type=="fixed"){a.preventDefault();var b=this.getSelectionStart();switch(a.which){case 8:this.updateSelection(this.options.maskEmptyChr),this.selectPrevious();break;case 36:this.selectFirst();break;case 35:this.selectLast();break;case 37:case 38:this.selectPrevious();break;case 39:case 40:this.selectNext();break;case 46:this.updateSelection(this.options.maskEmptyChr),this.selectNext();break;default:var c=this.chrFromEv(a);this.isViableInput(b,c)?(this.updateSelection(a.shiftKey?c.toUpperCase():c),this.node.trigger("valid",a,this.node),this.selectNext()):this.node.trigger("invalid",a,this.node)}}else if(this.options.type=="number")switch(a.which){case 35:case 36:case 37:case 38:case 39:case 40:break;case 8:case 46:var e=this;setTimeout(function(){e.formatNumber()},1);break;default:a.preventDefault();var c=this.chrFromEv(a);if(this.isViableInput(b,c)){var f=new d(this),g=this.sanityTest(f.replaceWith(c));g!==!1&&(this.updateSelection(c),this.formatNumber()),this.node.trigger("valid",a,this.node)}else this.node.trigger("invalid",a,this.node)}},allowKeys:{8:1,9:1,13:1,35:1,36:1,37:1,38:1,39:1,40:1,46:1},onKeyPress:function(a){var b=a.which||a.keyCode;!this.allowKeys[b]&&!(a.ctrlKey||a.altKey||a.metaKey)&&(a.preventDefault(),a.stopPropagation())},onFocus:function(a){a.stopPropagation(),a.preventDefault(),this.options.showMask&&(this.domNode.value=this.wearMask(this.domNode.value)),this.sanityTest(this.domNode.value);var b=this;setTimeout(function(){b[b.options.type==="fixed"?"selectFirst":"setEnd"]()},1)},onBlur:function(a){a.stopPropagation(),a.preventDefault(),this.options.stripMask&&(this.domNode.value=this.stripMask())},selectAll:function(){this.setSelection(0,this.domNode.value.length)},selectFirst:function(){for(var a=0,b=this.options.mask.length;a<b;a++)if(this.isInputPosition(a)){this.setSelection(a,a+1);return}},selectLast:function(){for(var a=this.options.mask.length-1;a>=0;a--)if(this.isInputPosition(a)){this.setSelection(a,a+1);return}},selectPrevious:function(a){b(a)||(a=this.getSelectionStart()),a>0?this.isInputPosition(a-1)?this.setSelection(a-1,a):this.selectPrevious(a-1):this.selectFirst()},selectNext:function(a){b(a)||(a=this.getSelectionEnd());this.isNumber()?this.setSelection(a+1,a+1):a<this.options.mask.length?this.isInputPosition(a)?this.setSelection(a,a+1):this.selectNext(a+1):this.selectLast()},setSelection:function(a,b){a=a.valueOf(),!b&&a.splice&&(b=a[1],a=a[0]);if(this.domNode.setSelectionRange)this.domNode.focus(),this.domNode.setSelectionRange(a,b);else if(this.domNode.createTextRange){var c=this.domNode.createTextRange();c.collapse(),c.moveStart("character",a),c.moveEnd("character",b-a),c.select()}},updateSelection:function(a){var b=this.domNode.value,c=new d(this),e=c.replaceWith(a);this.domNode.value=e,c[0]===c[1]?this.setSelection(c[0]+1,c[0]+1):this.setSelection(c)},setEnd:function(){var a=this.domNode.value.length;this.setSelection(a,a)},getSelectionRange:function(){return[this.getSelectionStart(),this.getSelectionEnd()]},getSelectionStart:function(){var a=0,b=this.domNode.selectionStart;if(b)typeof b=="number"&&(a=b);else if(document.selection){var c=document.selection.createRange().duplicate();c.moveEnd("character",this.domNode.value.length),a=this.domNode.value.lastIndexOf(c.text),c.text==""&&(a=this.domNode.value.length)}return a},getSelectionEnd:function(){var a=0,b=this.domNode.selectionEnd;if(b)typeof b=="number"&&(a=b);else if(document.selection){var c=document.selection.createRange().duplicate();c.moveStart("character",-this.domNode.value.length),a=c.text.length}return a},isInputPosition:function(a){var b=this.options.mask.toLowerCase(),c=b.charAt(a);return!!~"9ax".indexOf(c)},sanityTest:function(b,c){var e=this.options.sanity;if(e instanceof RegExp)return e.test(b);if(a.isFunction(e)){var f=e(b,c);if(typeof f=="boolean")return f;if(typeof f!="undefined"){if(this.isFixed()){var c=this.getSelectionStart();this.domNode.value=this.wearMask(f),this.setSelection(c,c+1),this.selectNext()}else if(this.isNumber()){var g=new d(this);this.domNode.value=f,this.setSelection(g),this.formatNumber()}return!1}}},isViableInput:function(){return this[this.isFixed()?"isViableFixedInput":"isViableNumericInput"].apply(this,arguments)},isViableFixedInput:function(a,b){var c=this.options.mask.toLowerCase(),d=c.charAt(a),e=this.domNode.value.split("");e.splice(a,1,b),e=e.join("");var f=this.sanityTest(e,a);return typeof f=="boolean"?f:({9:this.options.validNumbers,a:this.options.validAlphas,x:this.options.validAlphaNums}[d]||"").indexOf(b)<0?!1:!0},isViableNumericInput:function(a,b){return!!~this.options.validNumbers.indexOf(b)},wearMask:function(a){var b=this.options.mask.toLowerCase(),c="",d={9:"validNumbers",a:"validAlphas",x:"validAlphaNums"};for(var e=0,f=0,g=b.length;e<g;e++)switch(b.charAt(e)){case"9":case"a":case"x":c+=this.options[d[b.charAt(e)]].indexOf(a.charAt(f).toLowerCase())>=0&&a.charAt(f)!=""?a.charAt(f++):this.options.maskEmptyChr;break;default:c+=b.charAt(e),a.charAt(f)==b.charAt(e)&&f++}return c},stripMask:function(){var a=this.domNode.value;if(""==a)return"";var b="";if(this.isFixed())for(var c=0,d=a.length;c<d;c++)a.charAt(c)!=this.options.maskEmptyChr&&this.isInputPosition(c)&&(b+=a.charAt(c));else if(this.isNumber())for(var c=0,d=a.length;c<d;c++)this.options.validNumbers.indexOf(a.charAt(c))>=0&&(b+=a.charAt(c));return b},chrFromEv:function(a){var b="",c=a.which;c>=96&&c<=105&&(c-=48),b=String.fromCharCode(c).toLowerCase();return b},formatNumber:function(){var a=this.domNode.value.length,b=this.stripMask(),c=b.replace(/^0+/,""),e=new d(this);b=c,c="";for(var f=b.length,g=this.options.decDigits;f<=g;f++)c+="0";c+=b,b=c.substr(c.length-this.options.decDigits),c=c.substring(0,c.length-this.options.decDigits);var h=new RegExp("(\\d+)(\\d{"+this.options.groupDigits+"})");while(h.test(c))c=c.replace(h,"$1"+this.options.groupSymbol+"$2");this.domNode.value=this.options.currencySymbol+c+this.options.decSymbol+b,this.setSelection(e)},getObjForm:function(){return this.node.getClosest("form")},submitForm:function(){var a=this.getObjForm();a.trigger("submit")}},d.prototype={valueOf:function(){var a=this.len-this.obj.domNode.value.length;return[this.range[0]-a,this.range[1]-a]},replaceWith:function(a){var b=this.obj.domNode.value,c=this.valueOf();return b.substr(0,c[0])+a+b.substr(c[1])}},a.fn.iMask=function(b){this.each(function(){new c(a(this),b)})}})(jQuery)
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* Merging js: lib/jquery/js/jquery.treeview.min.js begins */
@@ -6357,3 +6342,670 @@ b.attr("data-mask-reverse")&&(e.reverse=!0);b.attr("data-mask-clearifnotmatch")&
 "return;"),d="function"===typeof b[a]);return d};a.fn.mask=function(b,d){d=d||{};var e=this.selector,c=a.jMaskGlobals,h=c.watchInterval,c=d.watchInputs||c.watchInputs,t=function(){if(p(this,b,d))return a(this).data("mask",new l(this,b,d))};a(this).each(t);e&&""!==e&&c&&(clearInterval(a.maskWatchers[e]),a.maskWatchers[e]=setInterval(function(){a(document).find(e).each(t)},h));return this};a.fn.masked=function(a){return this.data("mask").getMaskedVal(a)};a.fn.unmask=function(){clearInterval(a.maskWatchers[this.selector]);
 delete a.maskWatchers[this.selector];return this.each(function(){var b=a(this).data("mask");b&&b.remove().removeData("mask")})};a.fn.cleanVal=function(){return this.data("mask").getCleanVal()};a.applyDataMask=function(b){b=b||a.jMaskGlobals.maskElements;(b instanceof a?b:a(b)).filter(a.jMaskGlobals.dataMaskAttr).each(d)};h={maskElements:"input,td,span,div",dataMaskAttr:"*[data-mask]",dataMask:!0,watchInterval:300,watchInputs:!0,keyStrokeCompensation:10,useInput:!/Chrome\/[2-4][0-9]|SamsungBrowser/.test(window.navigator.userAgent)&&
 h("input"),watchDataMask:!1,byPassKeys:[9,16,17,18,36,37,38,39,40,91],translation:{0:{pattern:/\d/},9:{pattern:/\d/,optional:!0},"#":{pattern:/\d/,recursive:!0},A:{pattern:/[a-zA-Z0-9]/},S:{pattern:/[a-zA-Z]/}}};a.jMaskGlobals=a.jMaskGlobals||{};h=a.jMaskGlobals=a.extend(!0,{},h,a.jMaskGlobals);h.dataMask&&a.applyDataMask();setInterval(function(){a.jMaskGlobals.watchDataMask&&a.applyDataMask()},h.watchInterval)},window.jQuery,window.Zepto);
+
+
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* Merging js: lib/jquery/js/jquery.maskMoney.js begins */
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+/*
+ *  jquery-maskmoney - v3.1.1-lt1 (Fix reverse by LucaTom)
+ *  jQuery plugin to mask data entry in the input text in the form of money (currency)
+ *  https://github.com/plentz/jquery-maskmoney
+ *
+ *  Made by Diego Plentz
+ *  Under MIT License
+ */
+(function ($) {
+    "use strict";
+
+    $.browser = $.browser || {};
+    $.browser.mozilla = /mozilla/.test(navigator.userAgent.toLowerCase()) && !/webkit/.test(navigator.userAgent.toLowerCase());
+    $.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase());
+    $.browser.opera = /opera/.test(navigator.userAgent.toLowerCase());
+    $.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
+    $.browser.device = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
+    $.browser.android = /android/i.test(navigator.userAgent.toLowerCase());
+    $.oldValue;
+    $.newValue;
+
+    var defaultOptions = {
+        prefix: "",
+        suffix: "",
+        affixesStay: true,
+        thousands: ",",
+        decimal: ".",
+        precision: 2,
+        allowZero: false,
+        allowNegative: false,
+        doubleClickSelection: true,
+        allowEmpty: false,
+        bringCaretAtEndOnFocus: true
+    },
+        methods = {
+            destroy: function () {
+                $(this).unbind(".maskMoney");
+
+                if ($.browser.msie) {
+                    this.onpaste = null;
+                }
+                return this;
+            },
+
+            applyMask: function (value) {
+                var $input = $(this);
+                // data-* api
+                var settings = $input.data("settings");
+                return maskValue(value, settings);
+            },
+
+            mask: function (value) {
+                return this.each(function () {
+                    var $this = $(this);
+                    if (typeof value === "number") {
+                        $this.val(value);
+                    }
+                    return $this.trigger("mask");
+                });
+            },
+
+            unmasked: function () {
+                return this.map(function () {
+                    var value = ($(this).val() || "0"),
+                        isNegative = value.indexOf("-") !== -1,
+                        decimalPart;
+                    // get the last position of the array that is a number(coercion makes "" to be evaluated as false)
+                    $(value.split(/\D/).reverse()).each(function (index, element) {
+                        if (element) {
+                            decimalPart = element;
+                            return false;
+                        }
+                    });
+                    value = value.replace(/\D/g, "");
+                    value = value.replace(new RegExp(decimalPart + "$"), "." + decimalPart);
+                    if (isNegative) {
+                        value = "-" + value;
+                    }
+                    return parseFloat(value);
+                });
+            },
+
+            unmaskedWithOptions: function () {
+                return this.map(function () {
+                    var value = ($(this).val() || "0"),
+                        settings = $(this).data("settings") || defaultOptions,
+                        regExp = new RegExp((settings.thousandsForUnmasked || settings.thousands), "g");
+                    value = value.replace(regExp, "");
+                    return parseFloat(value);
+                });
+            },
+
+            init: function (parameters) {
+                // the default options should not be shared with others
+                parameters = $.extend($.extend({}, defaultOptions), parameters);
+
+                return this.each(function () {
+                    var $input = $(this), settings,
+                        onFocusValue;
+
+                    // data-* api
+                    settings = $.extend({}, parameters);
+                    settings = $.extend(settings, $input.data());
+
+                    // Store settings for use with the applyMask method.
+                    $input.data("settings", settings);
+
+
+                    function getInputSelection() {
+                        var el = $input.get(0),
+                            start = 0,
+                            end = 0,
+                            normalizedValue,
+                            range,
+                            textInputRange,
+                            len,
+                            endRange;
+
+                        if (typeof el.selectionStart === "number" && typeof el.selectionEnd === "number") {
+                            start = el.selectionStart;
+                            end = el.selectionEnd;
+                        } else {
+                            range = document.selection.createRange();
+
+                            if (range && range.parentElement() === el) {
+                                len = el.value.length;
+                                normalizedValue = el.value.replace(/\r\n/g, "\n");
+
+                                // Create a working TextRange that lives only in the input
+                                textInputRange = el.createTextRange();
+                                textInputRange.moveToBookmark(range.getBookmark());
+
+                                // Check if the start and end of the selection are at the very end
+                                // of the input, since moveStart/moveEnd doesn't return what we want
+                                // in those cases
+                                endRange = el.createTextRange();
+                                endRange.collapse(false);
+
+                                if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+                                    start = end = len;
+                                } else {
+                                    start = -textInputRange.moveStart("character", -len);
+                                    start += normalizedValue.slice(0, start).split("\n").length - 1;
+
+                                    if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+                                        end = len;
+                                    } else {
+                                        end = -textInputRange.moveEnd("character", -len);
+                                        end += normalizedValue.slice(0, end).split("\n").length - 1;
+                                    }
+                                }
+                            }
+                        }
+
+                        return {
+                            start: start,
+                            end: end
+                        };
+                    } // getInputSelection
+
+                    function canInputMoreNumbers() {
+                        var haventReachedMaxLength = !($input.val().length >= $input.attr("maxlength") && $input.attr("maxlength") >= 0),
+                            selection = getInputSelection(),
+                            start = selection.start,
+                            end = selection.end,
+                            haveNumberSelected = (selection.start !== selection.end && $input.val().substring(start, end).match(/\d/)) ? true : false,
+                            startWithZero = ($input.val().substring(0, 1) === "0");
+                        return haventReachedMaxLength || haveNumberSelected || startWithZero;
+                    }
+
+                    function setCursorPosition(pos, force) {
+                        // Do not set the position if
+                        // the we're formatting on blur.
+                        // This is because we do not want
+                        // to refocus on the control after
+                        // the blur.
+                        if (!!settings.formatOnBlur && ! force) {
+                            return;
+                        }
+
+                        $input.each(function (index, elem) {
+                            if (elem.setSelectionRange) {
+                                elem.focus();
+                                elem.setSelectionRange(pos, pos);
+                            } else if (elem.createTextRange) {
+                                var range = elem.createTextRange();
+                                range.collapse(true);
+                                range.moveEnd("character", pos);
+                                range.moveStart("character", pos);
+                                range.select();
+                            }
+                        });
+                    }
+
+                    function maskAndPosition(startPos) {
+                        var originalLen = $input.val().length,
+                            newLen;
+                        $input.val(maskValue($input.val(), settings));
+                        newLen = $input.val().length;
+                        // If the we're using the reverse option,
+                        // do not put the cursor at the end of
+                        // the input. The reverse option allows
+                        // the user to input text from left to right.
+                        if (!settings.reverse) {
+                            startPos = startPos - (originalLen - newLen);
+                        }
+                        setCursorPosition(startPos);
+                    }
+
+                    function mask() {
+                        var value = $input.val();
+                        if (settings.allowEmpty && value === "") {
+                            return;
+                        }
+                        var decimalPointIndex = value.indexOf(settings.decimal);
+                        if (settings.precision > 0) {
+                            if (decimalPointIndex < 0) {
+                                value += settings.decimal + new Array(settings.precision + 1).join(0);
+                            }
+                            else {
+                                // If the following decimal part dosen't have enough length against the precision, it needs to be filled with zeros.
+                                var integerPart = value.slice(0, decimalPointIndex),
+                                    decimalPart = value.slice(decimalPointIndex + 1);
+                                value = integerPart + settings.decimal + decimalPart +
+                                    new Array((settings.precision + 1) - decimalPart.length).join(0);
+                            }
+                        } else if (decimalPointIndex > 0) {
+                            // if the precision is 0, discard the decimal part
+                            value = value.slice(0, decimalPointIndex);
+                        }
+                        $input.val(maskValue(value, settings));
+                    }
+
+                    function changeSign() {
+                        var inputValue = $.oldValue || $input.val();
+                        if (settings.allowNegative) {
+                            if (inputValue !== "" && inputValue.charAt(0) === "-") {
+                                return inputValue.replace("-", "");
+                            } else {
+                                return "-" + inputValue;
+                            }
+                        } else {
+                            return inputValue;
+                        }
+                    }
+
+                    function preventDefault(e) {
+                        if (e.preventDefault) { //standard browsers
+                            e.preventDefault();
+                        } else { // old internet explorer
+                            e.returnValue = false;
+                        }
+                    }
+
+                    
+                    function difference(value1, value2) {
+                       var output = [];
+                        for(var i = 0; i < value2.length; i++) {
+                            if(value1[i] !== value2[i]) {
+                                output.push(value2[i]);
+                            }
+                        }
+                        return output.join("");
+                    }
+
+                    function fixMobile() {
+                        if ($.browser.device) {
+                            // $input.attr("type", "tel");
+                        }
+
+                        if ($.browser.device && $.browser.android) {
+                            $input.on('keydown', function (e) {
+                                $.oldValue = $input.val();
+                            });
+
+                            $input.on('input', function (e) {
+                                $.newValue = $input.val();
+                                var key = difference($.oldValue, $.newValue).charCodeAt(0);
+                                keypressEvent(e, key);
+                                if(settings.reverse) {
+                                    if(key === settings.thousands.charCodeAt(0)) {
+                                        $input.val($input.val().substring(0,$input.val().length - 1));
+                                    }
+
+                                    if(key === settings.decimal.charCodeAt(0) && $.oldValue.val().indexOf(settings.decimal) > -1) {
+                                        $input.val($input.val().substring(0,$input.val().length - 1));
+                                    }
+                                }
+                            });
+
+                            $input.on('keyup', function(e){
+                                var selection = getInputSelection();
+                                var startPos = selection.start;
+                                if(! settings.reverse) {
+                                    maskAndPosition(startPos + 1);
+                                }
+                            });
+                        }
+                    }
+
+                    function keypressEvent(e, keyCode) {
+                        e = e || window.event;
+                        var key = keyCode || e.which || e.charCode || e.keyCode,
+                            decimalKeyCode = settings.decimal.charCodeAt(0);
+
+                        //added to handle an IE "special" event
+                        if (key === undefined) {
+                            return false;
+                        }
+
+                        if (key === 229) {
+                            return false;
+                        }
+
+
+                        // any key except the numbers 0-9. if we're using settings.reverse,
+                        // allow the user to input the decimal key
+                        if ((key < 48 || key > 57) && (key !== decimalKeyCode || !settings.reverse)) {
+                            return handleAllKeysExceptNumericalDigits(key, e);
+                        } else if (!canInputMoreNumbers()) {
+                            return false;
+                        } else {
+                            if (key === decimalKeyCode && shouldPreventDecimalKey()) {
+                                return false;
+                            }
+                            if (settings.formatOnBlur) {
+                                return true;
+                            }
+                            preventDefault(e);
+                            applyMask(e);
+                            return false;
+                        }
+                    }
+
+                    function shouldPreventDecimalKey() {
+                        // If all text is selected, we can accept the decimal
+                        // key because it will replace everything.
+                        if (isAllTextSelected()) {
+                            return false;
+                        }
+
+                        return alreadyContainsDecimal();
+                    }
+
+                    function isAllTextSelected() {
+                        var length = $input.val().length;
+                        var selection = getInputSelection();
+                        // This should if all text is selected or if the
+                        // input is empty.
+                        return selection.start === 0 && selection.end === length;
+                    }
+
+                    function alreadyContainsDecimal() {
+                        return $input.val().indexOf(settings.decimal) > -1;
+                    }
+
+                    function applyMask(e) {
+                        e = e || window.event;
+                        var key = e.which || e.charCode || e.keyCode,
+                            keyPressedChar = "",
+                            selection,
+                            startPos,
+                            endPos,
+                            value;
+
+                        if (key == 229) {
+                            key = $input.val().charCodeAt($input.val().length - 1);
+                        }
+
+                        if (key >= 48 && key <= 57) {
+                            keyPressedChar = String.fromCharCode(key);
+                        }
+                        selection = getInputSelection();
+                        startPos = selection.start;
+                        endPos = selection.end;
+                        value = $input.val();
+                        $input.val(value.substring(0, startPos) + keyPressedChar + value.substring(endPos, value.length));
+                        maskAndPosition(startPos + 1);
+                    }
+
+                    function handleAllKeysExceptNumericalDigits(key, e) {
+                        // -(minus) key
+                        if (key === 45) {
+                            $input.val(changeSign());
+                            return false;
+                            // +(plus) key
+                        } else if (key === 43) {
+                            $input.val($input.val().replace("-", ""));
+                            return false;
+                            // enter key or tab key
+                        } else if (key === 13 || key === 9) {
+                            return true;
+                        } else if ($.browser.mozilla && (key === 37 || key === 39) && e.charCode === 0) {
+                            // needed for left arrow key or right arrow key with firefox
+                            // the charCode part is to avoid allowing "%"(e.charCode 0, e.keyCode 37)
+                            return true;
+                        } else { // any other key with keycode less than 48 and greater than 57
+                            preventDefault(e);
+                            return true;
+                        }
+                    }
+
+                    function keydownEvent(e) {
+                        e = e || window.event;
+                        var key = e.which || e.charCode || e.keyCode,
+                            selection,
+                            startPos,
+                            endPos,
+                            value,
+                            lastNumber;
+                        //needed to handle an IE "special" event
+                        if (key === undefined) {
+                            return false;
+                        }
+
+                        if (key === 229) {
+                            key = $input.val().charCodeAt($input.val().length - 1);
+                        }
+
+                        selection = getInputSelection();
+                        startPos = selection.start;
+                        endPos = selection.end;
+
+                        if (key === 8 || key === 46 || key === 63272) { // backspace or delete key (with special case for safari)
+                            preventDefault(e);
+
+                            value = $input.val();
+
+                            // not a selection
+                            if (startPos === endPos) {
+                                // backspace
+                                if (key === 8) {
+                                    if (settings.suffix === "") {
+                                        startPos -= 1;
+                                    } else {
+                                        // needed to find the position of the last number to be erased
+                                        lastNumber = value.split("").reverse().join("").search(/\d/);
+                                        startPos = value.length - lastNumber - 1;
+                                        endPos = startPos + 1;
+                                    }
+                                    //delete
+                                } else {
+                                    endPos += 1;
+                                }
+                            }
+
+                            $input.val(value.substring(0, startPos) + value.substring(endPos, value.length));
+
+                            if(! settings.reverse) {
+                                maskAndPosition(startPos);
+                            } else {
+                                setCursorPosition(startPos, true);
+                            }
+                            return false;
+                        } else if (key === 9) { // tab key
+                            return true;
+                        } else { // any other key
+                            return true;
+                        }
+                    }
+
+                    function focusEvent() {
+                        onFocusValue = $input.val();
+                        mask();
+                        var input = $input.get(0),
+                            textRange;
+
+                        if (!!settings.selectAllOnFocus) {
+                            input.select();
+                        } else if (input.createTextRange && settings.bringCaretAtEndOnFocus) {
+                            textRange = input.createTextRange();
+                            textRange.collapse(false); // set the cursor at the end of the input
+                            textRange.select();
+                        }
+                    }
+
+                    function cutPasteEvent() {
+                        setTimeout(function () {
+                            mask();
+                        }, 0);
+                    }
+
+                    function getDefaultMask() {
+                        var n = parseFloat("0") / Math.pow(10, settings.precision);
+                        return (n.toFixed(settings.precision)).replace(new RegExp("\\.", "g"), settings.decimal);
+                    }
+
+                    function blurEvent(e) {
+                        if ($.browser.msie) {
+                            keypressEvent(e, null);
+                        }
+
+                        if (!!settings.formatOnBlur && $input.val() !== onFocusValue) {
+                            applyMask(e);
+                        }
+
+                        if ($input.val() === "" && settings.allowEmpty) {
+                            $input.val("");
+                        } else if ($input.val() === "" || $input.val() === setSymbol(getDefaultMask(), settings)) {
+                            if (!settings.allowZero) {
+                                $input.val("");
+                            } else if (!settings.affixesStay) {
+                                $input.val(getDefaultMask());
+                            } else {
+                                $input.val(setSymbol(getDefaultMask(), settings));
+                            }
+                        } else {
+                            if (!settings.affixesStay) {
+                                var newValue = $input.val().replace(settings.prefix, "").replace(settings.suffix, "");
+                                $input.val(newValue);
+                            }
+                        }
+                        if ($input.val() !== onFocusValue) {
+                            $input.change();
+                        }
+                    }
+
+                    function clickEvent() {
+                        var input = $input.get(0),
+                            length;
+                        if (!!settings.selectAllOnFocus) {
+                            // selectAllOnFocus will be handled by
+                            // the focus event. The focus event is
+                            // also fired when the input is clicked.
+                            return;
+                        } else if (input.setSelectionRange && settings.bringCaretAtEndOnFocus) {
+                            length = $input.val().length;
+                            input.setSelectionRange(length, length);
+                        } else {
+                            $input.val($input.val());
+                        }
+                    }
+
+                    function doubleClickEvent() {
+                        var input = $input.get(0),
+                            start,
+                            length;
+                        if (input.setSelectionRange && settings.bringCaretAtEndOnFocus) {
+                            length = $input.val().length;
+                            start = settings.doubleClickSelection ? 0 : length;
+                            input.setSelectionRange(start, length);
+                        } else {
+                            $input.val($input.val());
+                        }
+                    }
+
+                    fixMobile();
+                    $input.unbind(".maskMoney");
+                    $input.bind("keypress.maskMoney", keypressEvent);
+                    $input.bind("keydown.maskMoney", keydownEvent);
+                    $input.bind("blur.maskMoney", blurEvent);
+                    $input.bind("focus.maskMoney", focusEvent);
+                    $input.bind("click.maskMoney", clickEvent);
+                    $input.bind("dblclick.maskMoney", doubleClickEvent);
+                    $input.bind("cut.maskMoney", cutPasteEvent);
+                    $input.bind("paste.maskMoney", cutPasteEvent);
+                    $input.bind("mask.maskMoney", mask);
+                });
+            }
+        };
+
+    function setSymbol(value, settings) {
+        var operator = "";
+        if (value.indexOf("-") > -1) {
+            value = value.replace("-", "");
+            operator = "-";
+        }
+        if (value.indexOf(settings.prefix) > -1) {
+            value = value.replace(settings.prefix, "");
+        }
+        if (value.indexOf(settings.suffix) > -1) {
+            value = value.replace(settings.suffix, "");
+        }
+
+        return operator + settings.prefix + value + settings.suffix;
+    }
+
+    function maskValue(value, settings) {
+        if (settings.allowEmpty && value === "") {
+            return "";
+        }
+        if (!!settings.reverse) {
+            return maskValueReverse(value, settings);
+        }
+        return maskValueStandard(value, settings);
+    }
+
+    function maskValueStandard(value, settings) {
+        var negative = (value.indexOf("-") > -1 && settings.allowNegative) ? "-" : "",
+            onlyNumbers = value.replace(/[^0-9]/g, ""),
+            integerPart = onlyNumbers.slice(0, onlyNumbers.length - settings.precision),
+            newValue,
+            decimalPart,
+            leadingZeros;
+
+        newValue = buildIntegerPart(integerPart, negative, settings);
+
+        if (settings.precision > 0) {
+            decimalPart = onlyNumbers.slice(onlyNumbers.length - settings.precision);
+            leadingZeros = new Array((settings.precision + 1) - decimalPart.length).join(0);
+            newValue += settings.decimal + leadingZeros + decimalPart;
+        }
+        return setSymbol(newValue, settings);
+    }
+
+    function maskValueReverse(value, settings) {
+        var negative = (value.indexOf("-") > -1 && settings.allowNegative) ? "-" : "",
+            valueWithoutSymbol = value.replace(settings.prefix, "").replace(settings.suffix, ""),
+            integerPart = valueWithoutSymbol.split(settings.decimal)[0].replace('-', ''),
+            newValue,
+            decimalPart = "";
+
+        if (integerPart === "") {
+            integerPart = "0";
+        }
+
+        integerPart = integerPart.replace(/[.]/g, '');        
+        newValue = buildIntegerPart(integerPart, negative, settings);
+
+        if (settings.precision > 0) {
+            var arr = valueWithoutSymbol.split(settings.decimal);
+
+            if (arr.length > 1) {
+                decimalPart = arr[1];
+            } else {
+                decimalPart = '' . padStart(settings.precision, '0');
+            }
+
+            newValue += settings.decimal + decimalPart;
+
+            var rounded = Number.parseFloat((integerPart + '.' + decimalPart)).toFixed(settings.precision);
+            var roundedDecimalPart = rounded.toString().split('.')[1];
+            newValue = newValue.split(settings.decimal)[0] + settings.decimal + roundedDecimalPart;
+        }
+
+        return setSymbol(newValue, settings);
+    }
+
+    function buildIntegerPart(integerPart, negative, settings) {
+        // remove initial zeros
+        integerPart = integerPart.replace(/^0*/g, "");
+
+        // put settings.thousands every 3 chars
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, settings.thousands);
+        if (integerPart === "") {
+            integerPart = "0";
+        }
+        return negative + integerPart;
+    }
+
+    $.fn.maskMoney = function (method) {
+        if (methods[method]) {
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        } else if (typeof method === "object" || !method) {
+            return methods.init.apply(this, arguments);
+        } else {
+            $.error("Method " + method + " does not exist on jQuery.maskMoney");
+        }
+    };
+})(window.jQuery || window.Zepto);

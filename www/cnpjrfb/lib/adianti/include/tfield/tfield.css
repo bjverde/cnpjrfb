@@ -29,4 +29,5 @@
     user-select: none;
     padding-right: 6px;
     padding-left: 6px;
+    pointer-events: none;
 }

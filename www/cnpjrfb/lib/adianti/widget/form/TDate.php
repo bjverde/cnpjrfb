@@ -12,7 +12,7 @@ use DateTime;
 /**
  * DatePicker Widget
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -91,7 +91,16 @@ class TDate extends TEntry implements AdiantiWidgetInterface
      */
     public static function convertToMask($value, $fromMask, $toMask)
     {
-        if ($value)
+        if (is_array($value)) // vector fields (field list)
+        {
+            foreach ($value as $key => $item)
+            {
+                $value[$key] = self::convertToMask($item, $fromMask, $toMask);
+            }
+            
+            return $value;
+        }
+        else if ($value)
         {
             $value = substr($value,0,strlen($fromMask));
             
@@ -218,21 +227,20 @@ class TDate extends TEntry implements AdiantiWidgetInterface
         $language = strtolower( AdiantiCoreTranslator::getLanguage() );
         $options = json_encode($this->options);
         
-        if (parent::getEditable())
+        $outer_size = 'undefined';
+        if (strstr($this->size, '%') !== FALSE)
         {
-            $outer_size = 'undefined';
-            if (strstr($this->size, '%') !== FALSE)
-            {
-                $outer_size = $this->size;
-                $this->size = '100%';
-            }
+            $outer_size = $this->size;
+            $this->size = '100%';
         }
         
         parent::show();
         
-        if (parent::getEditable())
+        TScript::create( "tdate_start( '#{$this->id}', '{$this->mask}', '{$language}', '{$outer_size}', '{$options}');");
+        
+        if (!parent::getEditable())
         {
-            TScript::create( "tdate_start( '#{$this->id}', '{$this->mask}', '{$language}', '{$outer_size}', '{$options}');");
+            TScript::create( " tdate_disable_field( '{$this->formName}', '{$this->name}' ); " );
         }
     }
 }

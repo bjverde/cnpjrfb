@@ -1,6 +1,7 @@
 <?php
 namespace Adianti\Widget\Util;
 
+use Adianti\Database\TTransaction;
 use Adianti\Widget\Base\TScript;
 use Adianti\Widget\Base\TElement;
 use Adianti\Control\TAction;
@@ -8,11 +9,12 @@ use Adianti\Util\AdiantiTemplateHandler;
 use Adianti\Widget\Template\THtmlRenderer;
 
 use stdClass;
+use ApplicationTranslator;
 
 /**
  * Kanban
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage util
  * @author     Artur Comunello
@@ -22,15 +24,17 @@ use stdClass;
  */
 class TKanban extends TElement
 {
-    private $kanban;
-    private $items;
-    private $stages;
-    private $itemActions;
-    private $stageActions;
-    private $stageShortcuts;
-    private $itemDropAction;
-    private $stageDropAction;
-    private $templatePath;
+    protected $kanban;
+    protected $items;
+    protected $stages;
+    protected $itemActions;
+    protected $stageActions;
+    protected $stageShortcuts;
+    protected $itemDropAction;
+    protected $stageDropAction;
+    protected $templatePath;
+    protected $itemTemplate;
+    protected $itemDatabase;
     
     /**
      * Class Constructor
@@ -57,7 +61,7 @@ class TKanban extends TElement
      * @param  $color  Stage color
      * @param  $object Stage data object
      */
-    public function addStage($id, $title, $object = NULL)
+    public function addStage($id, $title, $object = null, $color = null)
     {
         if (is_null($object))
         {
@@ -68,6 +72,7 @@ class TKanban extends TElement
         $stage->{'id'}     = $id;
         $stage->{'title'}  = $title;
         $stage->{'object'} = $object;
+        $stage->{'color'}  = $color;
         
         $this->stages[] = $stage;
     }
@@ -113,6 +118,24 @@ class TKanban extends TElement
     public function setTemplatePath($path)
     {
         $this->templatePath = $path;
+    }
+    
+    /**
+     * Set card item template for rendering
+     * @param  $template   Template content
+     */
+    public function setItemTemplate($template)
+    {
+        $this->itemTemplate = $template;
+    }
+    
+    /**
+     * Set item min database
+     * @param $database min database
+     */
+    public function setItemDatabase($database)
+    {
+        $this->itemDatabase = $database;
     }
     
     /**
@@ -173,12 +196,13 @@ class TKanban extends TElement
      * @param  $action            Action callback (TAction)
      * @param  $icon              Action icon
      */
-    public function addStageAction($label, TAction $action, $icon = NULL)
+    public function addStageAction($label, TAction $action, $icon = NULL, $display_condition = NULL)
     {
-        $stageAction          = new stdClass;
-        $stageAction->label   = $label;
-        $stageAction->action  = $action;
-        $stageAction->icon    = $icon;
+        $stageAction            = new stdClass;
+        $stageAction->label     = $label;
+        $stageAction->action    = $action;
+        $stageAction->icon      = $icon;
+        $stageAction->condition = $display_condition;
         
         $this->stageActions[] = $stageAction;
     }
@@ -208,6 +232,11 @@ class TKanban extends TElement
         $itemSortable->{'class'}    = 'kanban-item-sortable ' . $this->kanban->item_class;
         $itemSortable->{'stage_id'} = $stage->{'stage_id'};
         
+        if (!empty($this->itemDatabase))
+        {
+            TTransaction::open($this->itemDatabase);
+        }
+        
         if (!empty($this->items[$stage->{'stage_id'}]))
         {
             foreach ($this->items[$stage->{'stage_id'}] as $key => $item)
@@ -215,7 +244,12 @@ class TKanban extends TElement
                 $itemSortable->add(self::renderItem($item));
             }
         }
-
+        
+        if (!empty($this->itemDatabase))
+        {
+            TTransaction::close();
+        }
+        
         $stage->add($itemSortable);
     }
     
@@ -228,6 +262,7 @@ class TKanban extends TElement
         {
             $html = new THtmlRenderer($this->templatePath);
             $html->enableSection('main');
+            $html->enableTranslation();
             $html = AdiantiTemplateHandler::replace($html->getContents(), $item->{'object'});
             return $html;
         }
@@ -248,6 +283,15 @@ class TKanban extends TElement
         $item_content = new TElement('div');
         $item_content->{'class'} = 'kanban-item-content';
         $item_content->add(AdiantiTemplateHandler::replace($item->{'content'}, $item->{'object'}));
+        
+        if (!empty($this->itemTemplate))
+        {
+            $item_content = new TElement('div');
+            $item_content->{'class'} = 'kanban-item-content';
+            $item_template = ApplicationTranslator::translateTemplate($this->itemTemplate);
+            $item_template = AdiantiTemplateHandler::replace($item_template, $item);
+            $item_content->add($item_template);
+        }
         
         $item_wrapper->add($item_title);
         $item_wrapper->add($item_content);
@@ -274,12 +318,16 @@ class TKanban extends TElement
             $stageDiv                = new TElement('div');
             $stageDiv->{'stage_id'}  = $stage->{'id'};
             $stageDiv->{'class'}     = 'kanban-stage';
+            if (!empty($stage->{'color'}))
+            {
+                $stageDiv->{'style'} = 'background:'.$stage->{'color'};
+            }
             $stageDiv->add($title);
 
             if (!empty($this->stageActions))
             {
                 $title = $stageDiv->children[0];
-                $title->add($this->renderStageActions( $stage->{'id'} ));
+                $title->add($this->renderStageActions( $stage->{'id'}, $stage ));
             }
             
             $this->renderStageItems($stageDiv);
@@ -296,17 +344,19 @@ class TKanban extends TElement
         $div            = new TElement('div');
         $div->{'class'} = 'kanban-item-actions';
         
-        foreach ($this->itemActions as $key => $action)
+        foreach ($this->itemActions as $key => $actionTemplate)
         {
-            if (empty($action->condition) OR call_user_func($action->condition, $object))
+            $itemAction = $actionTemplate->action->prepare($object);
+            
+            if (empty($actionTemplate->condition) OR call_user_func($actionTemplate->condition, $object))
             {
-                $action->action->setParameter('id', $itemId);
-                $action->action->setParameter('key', $itemId);
-                $url = $action->action->serialize();
+                $itemAction->setParameter('id', $itemId);
+                $itemAction->setParameter('key', $itemId);
+                $url = $itemAction->serialize();
                 
-                $icon                = new TImage($action->icon);
-                $icon->{'style'}     = 'cursor:pointer;margin-right:4px;';
-                $icon->{'title'}     = $action->label;
+                $icon                = new TImage($actionTemplate->icon);
+                $icon->{'style'}    .= ';cursor:pointer;margin-right:4px;';
+                $icon->{'title'}     = $actionTemplate->label;
                 $icon->{'generator'} = 'adianti';
                 $icon->{'href'}      = $url;
                 
@@ -320,7 +370,7 @@ class TKanban extends TElement
     /**
      * Render stage actions
      */
-    private function renderStageActions($stage_id)
+    private function renderStageActions($stage_id, $stage)
     {
         $icon                  = new TImage('mi:more_vert');
         $icon->{'data-toggle'} = 'dropdown';
@@ -328,24 +378,29 @@ class TKanban extends TElement
         $ul = new TElement('ul');
         $ul->{'class'} = 'dropdown-menu pull-right';
         
-        foreach ($this->stageActions as $key => $stageAction)
+        foreach ($this->stageActions as $key => $stageActionTemplate)
         {
-            $stageAction->action->setParameter('id',  $stage_id);
-            $stageAction->action->setParameter('key', $stage_id);
-            $url = $stageAction->action->serialize();
+            $stageAction = $stageActionTemplate->action->prepare($stage);
             
-            $action                = new TElement('a');
-            $action->{'generator'} = 'adianti';
-            $action->{'href'}      = $url;
-            if (!empty($stageAction->icon))
+            if (empty($stageActionTemplate->condition) OR call_user_func($stageActionTemplate->condition, $stage))
             {
-                $action->add(new TImage($stageAction->icon));
+                $stageAction->setParameter('id',  $stage_id);
+                $stageAction->setParameter('key', $stage_id);
+                $url = $stageAction->serialize();
+                
+                $action                = new TElement('a');
+                $action->{'generator'} = 'adianti';
+                $action->{'href'}      = $url;
+                if (!empty($stageActionTemplate->icon))
+                {
+                    $action->add(new TImage($stageActionTemplate->icon));
+                }
+                $action->add($stageActionTemplate->label);
+                
+                $li = new TElement('li');
+                $li->add($action);
+                $ul->add($li);
             }
-            $action->add($stageAction->label);
-            
-            $li = new TElement('li');
-            $li->add($action);
-            $ul->add($li);
         }
         
         $dropWrapper = new TElement('div');

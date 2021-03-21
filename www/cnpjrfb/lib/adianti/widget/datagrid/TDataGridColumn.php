@@ -2,11 +2,12 @@
 namespace Adianti\Widget\Datagrid;
 
 use Adianti\Control\TAction;
+use Adianti\Widget\Form\TEntry;
 
 /**
  * Representes a DataGrid column
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage datagrid
  * @author     Pablo Dall'Oglio
@@ -25,7 +26,11 @@ class TDataGridColumn
     private $properties;
     private $dataProperties;
     private $totalFunction;
+    private $totalMask;
+    private $totalCallback;
     private $totalTransformed;
+    private $searchable;
+    private $inputSearch;
     
     /**
      * Class Constructor
@@ -40,6 +45,7 @@ class TDataGridColumn
         $this->label = $label;
         $this->align = $align;
         $this->width = $width;
+        $this->searchable = false;
         $this->properties = array();
         $this->dataProperties = array();
     }
@@ -68,6 +74,34 @@ class TDataGridColumn
     {
         $this->setProperty('hiddable', $width);
         $this->setDataProperty('hiddable', $width);
+    }
+    
+    /**
+     * Enable column search
+     */
+    public function enableSearch()
+    {
+        $this->searchable = true;
+        
+        $this->inputSearch = new TEntry('search_'.$this->name);
+        $this->inputSearch->{'placeholder'} = _t('Search');
+        $this->inputSearch->setSize('50%');
+    }
+    
+    /**
+     * Get input search
+     */
+    public function getInputSearch()
+    {
+        return $this->inputSearch;
+    }
+    
+    /**
+     * Returns if column is searchable
+     */
+    public function isSearchable()
+    {
+        return $this->searchable;
     }
     
     /**
@@ -266,22 +300,56 @@ class TDataGridColumn
     }
     
     /**
+     * Enable total
+     */
+    public function enableTotal($function, $prefix = null, $decimals = 2, $decimal_separator = ',', $thousand_separator = '.')
+    {
+        $this->totalFunction = $function;
+        $this->totalMask     = "{$prefix}:{$decimals}{$decimal_separator}{$thousand_separator}";
+        
+        if ($function == 'sum')
+        {
+            $totalCallback = function($values) {
+                return array_sum($values);
+            };
+            
+            $this->setTotalFunction( $totalCallback );
+        }
+    }
+    
+    /**
      * Define a callback function to totalize column
      * @param $callback  A function name of a method of an object
      * @param $apply_transformer Apply transform function also in total
      */
     public function setTotalFunction(Callable $callback, $apply_transformer = true)
     {
-        $this->totalFunction = $callback;
+        $this->totalCallback = $callback;
         $this->totalTransformed = $apply_transformer;
     }
     
     /**
      * Returns the callback defined by the setTotalFunction()
      */
+    public function getTotalCallback()
+    {
+        return $this->totalCallback;
+    }
+    
+    /**
+     * Returns total function
+     */
     public function getTotalFunction()
     {
         return $this->totalFunction;
+    }
+    
+    /**
+     * Returns total mask
+     */
+    public function getTotalMask()
+    {
+        return $this->totalMask;
     }
     
     /**

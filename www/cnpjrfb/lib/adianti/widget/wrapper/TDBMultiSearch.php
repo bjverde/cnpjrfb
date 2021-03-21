@@ -2,6 +2,7 @@
 namespace Adianti\Widget\Wrapper;
 
 use Adianti\Core\AdiantiApplicationConfig;
+use Adianti\Core\AdiantiCoreApplication;
 use Adianti\Core\AdiantiCoreTranslator;
 use Adianti\Widget\Base\TElement;
 use Adianti\Widget\Base\TScript;
@@ -15,7 +16,7 @@ use Exception;
 /**
  * Database Multisearch Widget
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage wrapper
  * @author     Pablo Dall'Oglio
@@ -321,6 +322,12 @@ class TDBMultiSearch extends TMultiSearch
         $id_text_search = $this->idTextSearch ? '1' : '0';
         $search_word = !empty($this->getProperty('placeholder'))? $this->getProperty('placeholder') : AdiantiCoreTranslator::translate('Search');
         $url = "engine.php?class={$class}&method={$method}&static=1&database={$this->database}&key={$this->key}&column={$this->column}&model={$this->model}&orderColumn={$orderColumn}&criteria={$criteria}&operator={$this->operator}&mask={$this->mask}&idsearch={$id_search_string}&idtextsearch={$id_text_search}&minlength={$length}";
+        
+        if ($router = AdiantiCoreApplication::getRouter())
+        {
+	        $url = $router($url, false);
+        }
+
         $change_action = 'function() {}';
         
         if (isset($this->changeAction))

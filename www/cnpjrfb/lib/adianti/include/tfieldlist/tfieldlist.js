@@ -127,7 +127,10 @@ function tfieldlist_reset_fields(row, clear_fields)
             else if (field_component =='thidden')
             {
                 $(field).attr('id', new_id);
-                if (clear_fields) {
+                if ($(field).attr('uniqid') == 'true') {
+                    $(field).val(parseInt(Math.random() * 10000000000));
+                }
+                else if (clear_fields) {
                     $(field).val('');
                 }
                 
@@ -302,10 +305,26 @@ function tfieldlist_clear_rows(name, start, length)
     });
 }
 
+function tfieldlist_get_last_row_data(generator)
+{
+    var values = {};
+    values.index = $(generator).closest('table').find('tbody tr:last').index();
+    
+    $(generator).closest('table').find('tbody tr:last').find('[name]').each(function(k,v) {
+        var attribute_name  = $(v).attr('name');
+        attribute_name = attribute_name.replace('[]', '');
+        values[ attribute_name ] = $(v).val();
+    });
+    
+    return values;
+}
+
 function tfieldlist_get_row_data(generator)
 {
     var values = {};
     values.index = $(generator).closest('tr').index();
+    
+    values[ '_row_id' ] = $(generator).closest('tr').attr('id');
     
     $(generator).closest('tr').find('[name]').each(function(k,v) {
         var attribute_name  = $(v).attr('name');

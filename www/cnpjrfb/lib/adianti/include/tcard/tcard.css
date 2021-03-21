@@ -1,6 +1,6 @@
 .card-wrapper
 {
-    display: table;
+    display: flex;
     flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
     justify-content: center;

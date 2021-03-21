@@ -43,7 +43,7 @@ function tchecklist_row_enable_check(table_id)
 
 function tchecklist_select_all(generator, table_id)
 {
-    $('table#'+table_id+' tbody tr td input[type=checkbox]').each(function(k,v){
+    $('table#'+table_id+' tbody tr:visible td input[type=checkbox]').each(function(k,v){
         var tr = v.closest('tr');
         if (!generator.checked && v.checked ) {
             $(v).prop('checked', false);

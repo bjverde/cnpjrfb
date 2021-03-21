@@ -10,7 +10,7 @@ use ApplicationTranslator;
 /**
  * Html Renderer
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage template
  * @author     Pablo Dall'Oglio
@@ -49,6 +49,16 @@ class THtmlRenderer
         {
             $this->template = file_get_contents($path);
         }
+    }
+    
+    /**
+     * Creates HTML Renderer
+     */
+    public static function create($path, $replaces)
+    {
+        $html = new self($path);
+        $html->enableSection('main', $replaces);
+        return $html;
     }
     
     /**

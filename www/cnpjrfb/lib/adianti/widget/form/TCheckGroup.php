@@ -16,7 +16,7 @@ use Exception;
 /**
  * A group of CheckButton's
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -299,7 +299,7 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
                 $id = $button->getId();
                 
                 // verify if the checkbutton is checked
-                if ((@in_array($index, $this->value) AND !(is_null($this->value))) OR $this->allItemsChecked)
+                if (!(is_null($this->value)) && (@in_array($index, $this->value)) OR $this->allItemsChecked)
                 {
                     $button->setValue($index); // value=indexvalue (checked)
                     $active = TRUE;
@@ -388,6 +388,11 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
         else
         {
             echo '</div>';
+        }
+        
+        if (!empty($this->getAfterElement()))
+        {
+            $this->getAfterElement()->show();
         }
     }
 }

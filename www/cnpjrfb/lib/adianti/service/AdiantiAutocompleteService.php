@@ -13,7 +13,7 @@ use Exception;
 /**
  * Autocomplete backend
  *
- * @version    7.1
+ * @version    7.3
  * @package    service
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)

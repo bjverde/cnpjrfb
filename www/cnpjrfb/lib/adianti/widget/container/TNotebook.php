@@ -9,7 +9,7 @@ use Adianti\Widget\Container\TFrame;
 /**
  * Notebook
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage container
  * @author     Pablo Dall'Oglio
@@ -28,7 +28,7 @@ class TNotebook extends TElement
     private $tabsVisibility;
     private $tabsSensibility;
     private $container;
-    static private $noteCounter;
+    private static $noteCounter;
     
     /**
      * Class Constructor

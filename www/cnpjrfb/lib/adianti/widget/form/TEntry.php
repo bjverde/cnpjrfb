@@ -12,7 +12,7 @@ use Exception;
 /**
  * Entry Widget
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -27,6 +27,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
     protected $decimals;
     protected $decimalsSeparator;
     protected $thousandSeparator;
+    protected $reverse;
     protected $replaceOnPost;
     protected $exitFunction;
     protected $exitAction;
@@ -86,7 +87,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
      * @param $decimalsSeparator Sets the separator for the decimal point.
      * @param $thousandSeparator Sets the thousands separator.
      */
-    public function setNumericMask($decimals, $decimalsSeparator, $thousandSeparator, $replaceOnPost = FALSE)
+    public function setNumericMask($decimals, $decimalsSeparator, $thousandSeparator, $replaceOnPost = FALSE, $reverse = FALSE)
     {
         if (empty($decimalsSeparator))
         {
@@ -100,10 +101,17 @@ class TEntry extends TField implements AdiantiWidgetInterface
         $this->{'style'} = 'text-align:right';
         $this->numericMask = TRUE;
         $this->decimals = $decimals;
+        $this->reverse = $reverse;
         $this->decimalsSeparator = $decimalsSeparator;
         $this->thousandSeparator = $thousandSeparator;
         $this->replaceOnPost = $replaceOnPost;
         
+        $dec_pattern = $decimalsSeparator == '.' ? '\\.' : $decimalsSeparator;
+        $tho_pattern = $thousandSeparator == '.' ? '\\.' : $thousandSeparator;
+        
+        //$this->tag->{'pattern'}   = '^\\$?(([1-9](\\d*|\\d{0,2}('.$tho_pattern.'\\d{3})*))|0)('.$dec_pattern.'\\d{1,2})?$';
+        $this->tag->{'pattern'}   = '^\\$?(([1-9](\\d*|\\d{0,'.$decimals.'}('.$tho_pattern.'\\d{3})*))|0)('.$dec_pattern.'\\d{1,'.$decimals.'})?$';
+        $this->tag->{'inputmode'} = 'numeric';
         $this->tag->{'data-nmask'}  = $decimals.$decimalsSeparator.$thousandSeparator;
     }
     
@@ -405,7 +413,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
         }
         if ($this->numericMask)
         {
-            TScript::create( "tentry_numeric_mask( '{$this->id}', {$this->decimals}, '{$this->decimalsSeparator}', '{$this->thousandSeparator}'); ");
+            TScript::create( "tentry_numeric_mask( '{$this->id}', {$this->decimals}, '{$this->decimalsSeparator}', '{$this->thousandSeparator}', {$this->reverse}); ");
         }
         
         if ($this->exitOnEnterOn)

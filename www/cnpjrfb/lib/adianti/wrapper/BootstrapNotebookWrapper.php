@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Bootstrap datagrid decorator for Adianti Framework
  *
- * @version    7.1
+ * @version    7.3
  * @package    wrapper
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -129,7 +129,7 @@ class BootstrapNotebookWrapper
         
         if (!empty($this->direction))
         {
-            $rendered->{'class'} .= ' row';
+            $rendered->{'style'} .= ';display: flex';
         }
 
         $rendered->show();

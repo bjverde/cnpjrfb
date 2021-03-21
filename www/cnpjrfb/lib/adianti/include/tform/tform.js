@@ -49,7 +49,20 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                         }
                     }
                     else if (single_field.attr('widget') == 'tdbuniquesearch') {
-                        tdbuniquesearch_set_value(form_name, field, value);
+                        var tdbunique_fire_events = fire_events;
+                        tdbuniquesearch_set_value(form_name, field, value, function() {
+                            // fire events must be after fetch elements from service
+                            if (tdbunique_fire_events) {
+                                if (single_field.attr('exitaction')) {
+                                    tform_events_hang_exec( single_field.attr('exitaction') );
+                                }
+                                if (single_field.attr('changeaction')) {
+                                    tform_events_hang_exec( single_field.attr('changeaction') );
+                                }
+                            }
+                        });
+                        // fire events is called within callback
+                        fire_events = false;
                     }
                     else if (single_field.attr('component') == 'multisearch') {
                         if (value) {
@@ -128,7 +141,21 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                                 }
                             };
                             
-                            array_field.select2({templateResult: select2_template, templateSelection: select2_template}).val(values).trigger('change.select2');
+                            // fi. sendData with multiple values for just one multisearch ['a','c']
+                            if (array_field.attr('widget') == 'tmultisearch' || array_field.attr('widget') == 'tdbmultisearch')
+                            {
+                                array_field.select2({templateResult: select2_template, templateSelection: select2_template}).val(values).trigger('change.select2');
+                            }
+                            else // fi. sendData with multiple values for many uniques (inside fieldlist) ['a','c']
+                            {
+                                $.each(values, function(key, each_value) {
+                                    var field_id = $($(array_field)[key]).attr('id');
+                                    tform_send_data(form_name, '#'+field_id, each_value, fire_events);
+                                } );
+                                
+                                // cancel fire events because it will be fired one by one inside the previous loop
+                                fire_events = false;
+                            }
                         }
                     }
                     else if (array_field.length) {
@@ -147,6 +174,9 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                                     var field_id = $($(array_field)[key]).attr('id');
                                     tform_send_data(form_name, '#'+field_id, each_value, fire_events);
                                 } );
+                                
+                                // cancel fire events because it will be fired one by one inside the previous loop
+                                fire_events = false;
                             }
                         }
                     }
@@ -183,7 +213,7 @@ function tform_send_data_by_id(form_name, field, value, fire_events, timeout) {
 
     try{
         if ($('form[name='+form_name+'] [id='+field+']').length) {
-            if (typeof Adianti.formEventsCounter == 'undefined') {
+            if (typeof Adianti.formEventsCounter == 'undefined' || Number.isNaN(Adianti.formEventsCounter)) {
                 Adianti.formEventsCounter = 0;
             }
             
@@ -211,9 +241,18 @@ function tform_send_data_by_id(form_name, field, value, fire_events, timeout) {
 
 function tform_events_hang_exec( string_callback )
 {
+    if (typeof Adianti.formEventsCounter == 'undefined' || Number.isNaN(Adianti.formEventsCounter)) {
+        Adianti.formEventsCounter = 0;
+    }
+    
     Adianti.formEventsCounter ++;
     string_callback=string_callback.replace("'callback'", 'tform_decrease_events_counter');
     Function(string_callback)();
+}
+
+function tform_events_stop( callback )
+{
+    Adianti.formEventsStop = callback;
 }
 
 function tform_events_queue_push( callback )
@@ -228,6 +267,10 @@ function tform_events_queue_push( callback )
 
 function tform_process_events_queue()
 {
+    if (typeof Adianti.formEventsCounter == 'undefined' || Number.isNaN(Adianti.formEventsCounter)) {
+        Adianti.formEventsCounter = 0;
+    }
+    
     if (Adianti.formEventsCounter == 0 && Adianti.formEventsQueue.length > 0)
     {
         next = Adianti.formEventsQueue.shift();
@@ -238,10 +281,22 @@ function tform_process_events_queue()
     {
         setTimeout( tform_process_events_queue, 100 );
     }
+    else
+    {
+        if (typeof Adianti.formEventsStop == 'function')
+        {
+            Adianti.formEventsStop();
+            Adianti.formEventsStop = null;
+        }
+    }
 }
 
 function tform_decrease_events_counter()
 {
+    if (typeof Adianti.formEventsCounter == 'undefined' || Number.isNaN(Adianti.formEventsCounter)) {
+        Adianti.formEventsCounter = 0;
+    }
+    
     Adianti.formEventsCounter --;
 }
 

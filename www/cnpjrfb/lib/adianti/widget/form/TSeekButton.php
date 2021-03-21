@@ -17,7 +17,7 @@ use ReflectionClass;
 /**
  * Record Lookup Widget: Creates a lookup field used to search values from associated entities
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -30,6 +30,8 @@ class TSeekButton extends TEntry implements AdiantiWidgetInterface
     private $useOutEvent;
     private $button;
     private $extra_size;
+    private $input_size;
+    protected $size;
     protected $auxiliar;
     protected $id;
     protected $formName;
@@ -45,6 +47,8 @@ class TSeekButton extends TEntry implements AdiantiWidgetInterface
         $this->useOutEvent = TRUE;
         $this->setProperty('class', 'tfield tseekentry', TRUE);   // classe CSS
         $this->extra_size = 24;
+        $this->input_size = '100%';
+        $this->size = "100%";
         $this->button = self::createButton($this->name, $icon);
     }
     
@@ -79,6 +83,22 @@ class TSeekButton extends TEntry implements AdiantiWidgetInterface
         else
         {
             return parent::__get($name);
+        }
+    }
+    
+    /**
+     * Define the Field's width
+     * @param $width Field's width in pixels
+     */
+    public function setSize($width, $height = NULL)
+    {
+        if ($this->hasAuxiliar() && empty($height)) // height is passed by BootstrapFormBuilder::wrapField() only
+        {
+            $this->input_size = $width;
+        }
+        else
+        {
+            $this->size = $width;
         }
     }
     
@@ -118,6 +138,8 @@ class TSeekButton extends TEntry implements AdiantiWidgetInterface
         {
             $this->auxiliar = $object;
             $this->extra_size *= 2;
+            $this->input_size = $this->size;
+            $this->size = '100%';
             
             if ($object instanceof TField)
             {
@@ -192,19 +214,17 @@ class TSeekButton extends TEntry implements AdiantiWidgetInterface
                     if (is_object($callback[0]))
                     {
                         $rc = new ReflectionClass($callback[0]);
-                        $classname = $rc->getShortName();
+                        $class = $rc->getName();
                     }
                     else
                     {
-                        $classname  = $callback[0];
+                        $class  = $callback[0];
                     }
                     
                     if ($this->useOutEvent)
                     {
-                        $inst       = new $classname;
-                        $ajaxAction = new TAction(array($inst, 'onSelect'));
-                        
-                        if (in_array($classname, array('TStandardSeek')))
+                        $ajaxAction = new TAction(array($class, 'onSelect'));
+                        if (in_array($class, ['TStandardSeek']))
                         {
                             $ajaxAction->setParameter('parent',  $this->action->getParameter('parent'));
                             $ajaxAction->setParameter('database',$this->action->getParameter('database'));
@@ -233,15 +253,33 @@ class TSeekButton extends TEntry implements AdiantiWidgetInterface
                         $this->setProperty('onBlur', $this->getProperty('seekaction'), FALSE);
                     }
                 }
+                
+                $this->action->setParameter('_field_id',   $this->id);
+                $this->action->setParameter('_field_name', $this->name);
+                $this->action->setParameter('_form_name',  $this->formName);
+                
                 $this->action->setParameter('field_name', $this->name);
                 $this->action->setParameter('form_name',  $this->formName);
+                
                 $serialized_action = $this->action->serialize(FALSE);
             }
             
-            $this->button->{'onclick'} = "javascript:serialform=(\$('#{$this->formName}').serialize());__adianti_append_page('engine.php?{$serialized_action}&'+serialform)";
-                  
+            $this->button->{'onclick'} = "__adianti_post_page_lookup('{$this->formName}', '{$serialized_action}', '{$this->id}', 'callback')";
+            
             $wrapper = new TElement('div');
             $wrapper->{'class'} = 'tseek-group';
+            
+            if (strstr($this->size, '%') !== FALSE)
+            {
+                $wrapper->{'style'} .= ";width:{$this->size};";
+            }
+            else
+            {
+                $wrapper->{'style'} .= ";width:{$this->size}px;";
+            }
+            
+            $this->size = ($this->hasAuxiliar() ? $this->input_size : "calc(100% - {$this->extra_size}px)");
+            
             $wrapper->open();
             parent::show();
             $this->button->show();

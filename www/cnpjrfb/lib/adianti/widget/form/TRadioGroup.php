@@ -16,7 +16,7 @@ use Exception;
 /**
  * A group of RadioButton's
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -418,6 +418,11 @@ class TRadioGroup extends TField implements AdiantiWidgetInterface
         else
         {
             echo '</div>';
+        }
+        
+        if (!empty($this->getAfterElement()))
+        {
+            $this->getAfterElement()->show();
         }
     }
 }

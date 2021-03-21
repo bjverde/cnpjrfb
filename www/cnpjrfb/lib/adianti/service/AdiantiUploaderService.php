@@ -7,7 +7,7 @@ use Adianti\Core\AdiantiApplicationConfig;
 /**
  * File uploader listener
  *
- * @version    7.1
+ * @version    7.3
  * @package    service
  * @author     Nataniel Rabaioli
  * @author     Pablo Dall'Oglio
@@ -93,6 +93,72 @@ class AdiantiUploaderService
                 }
                 echo json_encode($response);
             }
+            else
+            {
+                $response['type'] = 'error';
+                $response['msg']  = AdiantiCoreTranslator::translate('Server has received no file') . '. ' . AdiantiCoreTranslator::translate('Check the server limits') .  '. ' . AdiantiCoreTranslator::translate('The current limit is') . ' ' . self::getMaximumFileUploadSizeFormatted();
+                echo json_encode($response);
+            }
         }
+        else
+        {
+            $response['type'] = 'error';
+            $response['msg']  = AdiantiCoreTranslator::translate('Server has received no file') . '. ' . AdiantiCoreTranslator::translate('Check the server limits') .  '. ' . AdiantiCoreTranslator::translate('The current limit is') . ' ' . self::getMaximumFileUploadSizeFormatted();
+            echo json_encode($response);
+        }
+    }
+    
+    /**
+     *
+     */
+    function getMaximumFileUploadSizeFormatted()  
+    {  
+        $post_max_size = self::convertSizeToBytes(ini_get('post_max_size'));
+        $upld_max_size = self::convertSizeToBytes(ini_get('upload_max_filesize'));  
+        
+        if ($post_max_size < $upld_max_size)
+        {
+            return 'post_max_size: ' . ini_get('post_max_size');
+        }
+        
+        return 'upload_max_filesize: ' .ini_get('upload_max_filesize');
+    } 
+    
+    /**
+     *
+     */
+    function getMaximumFileUploadSize()  
+    {  
+        return min(self::convertSizeToBytes(ini_get('post_max_size')), self::convertSizeToBytes(ini_get('upload_max_filesize')));  
+    }  
+    
+    /**
+     *
+     */
+    function convertSizeToBytes($size)
+    {
+        $suffix = strtoupper(substr($size, -1));
+        if (!in_array($suffix,array('P','T','G','M','K'))){
+            return (int)$size;  
+        } 
+        $value = substr($size, 0, -1);
+        switch ($suffix) {
+            case 'P':
+                $value *= 1024;
+                // intended
+            case 'T':
+                $value *= 1024;
+                // intended
+            case 'G':
+                $value *= 1024;
+                // intended
+            case 'M':
+                $value *= 1024;
+                // intended
+            case 'K':
+                $value *= 1024;
+                break;
+        }
+        return (int)$value;
     }
 }

@@ -7,7 +7,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * StyleSheet Manager
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage base
  * @author     Pablo Dall'Oglio

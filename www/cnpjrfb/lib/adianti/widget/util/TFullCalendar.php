@@ -12,7 +12,7 @@ use stdClass;
 /**
  * FullCalendar Widget
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -42,7 +42,7 @@ class TFullCalendar extends TElement
     /**
      * Class Constructor
      * @param $current_date Current date of calendar
-     * @param $default_view Default view (month, agendaWeek, agendaDay)
+     * @param $default_view Default view (month, agendaWeek, agendaDay, listWeeky)
      */
     public function __construct($current_date = NULL, $default_view = 'month')
     {

@@ -15,7 +15,7 @@ use Exception;
 /**
  * Button Widget
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio

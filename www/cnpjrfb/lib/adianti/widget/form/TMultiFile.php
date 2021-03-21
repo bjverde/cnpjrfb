@@ -9,13 +9,14 @@ use Adianti\Widget\Form\TField;
 use Adianti\Widget\Form\THidden;
 
 use Adianti\Control\TAction;
+use Adianti\Core\AdiantiCoreApplication;
 use Adianti\Core\AdiantiCoreTranslator;
 use Exception;
 
 /**
  * FileChooser widget
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Nataniel Rabaioli
@@ -257,6 +258,11 @@ class TMultiFile extends TField implements AdiantiWidgetInterface
             $action = "engine.php?class={$this->uploaderClass}&name={$this->name}&hash={$hash}&extensions=".base64_encode(serialize($this->extensions));
         }
         
+        if ($router = AdiantiCoreApplication::getRouter())
+        {
+	        $action = $router($action);
+        }
+
         $fileHandling = $this->fileHandling ? '1' : '0';
         $imageGallery = json_encode(['enabled'=> $this->imageGallery ? '1' : '0', 'width' => $this->galleryWidth, 'height' => $this->galleryHeight]);
         $popover = json_encode(['enabled' => $this->popover ? '1' : '0', 'title' => $this->poptitle, 'content' => base64_encode($this->popcontent)]);

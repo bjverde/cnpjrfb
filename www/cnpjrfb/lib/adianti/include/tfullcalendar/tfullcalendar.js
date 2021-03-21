@@ -7,7 +7,7 @@ function tfullcalendar_start(id, editable, defaultView, currentDate, language, e
         header: {
             left: 'prev,next today',
             center: 'title',
-            right: 'month,agendaWeek,agendaDay'
+            right: 'month,agendaWeek,agendaDay,listWeek'
         },
         hiddenDays: hidden_days,
         defaultDate: currentDate,
@@ -25,6 +25,7 @@ function tfullcalendar_start(id, editable, defaultView, currentDate, language, e
         eventStartEditable: movable,
         eventRender: function (event, element) {
             element.find('.fc-title').html(event.title);
+            element.find('.fc-list-item-title').html(event.title);
         },
         dayClick: function(date, jsEvent, view) {
             if (day_click_action !== '' && drag_status == 0 && resize_status == 0 ) {

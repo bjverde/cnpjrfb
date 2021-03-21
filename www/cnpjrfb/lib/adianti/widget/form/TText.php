@@ -13,7 +13,7 @@ use Exception;
 /**
  * Text Widget (also known as Memo)
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -107,6 +107,29 @@ class TText extends TField implements AdiantiWidgetInterface
     }
     
     /**
+     * Force lower case
+     */
+    public function forceLowerCase()
+    {
+        $this->tag->{'onKeyPress'} = "return tentry_lower(this)";
+        $this->tag->{'onBlur'} = "return tentry_lower(this)";
+        $this->tag->{'forcelower'} = "1";
+        $this->setProperty('style', 'text-transform: lowercase');
+        
+    }
+    
+    /**
+     * Force upper case
+     */
+    public function forceUpperCase()
+    {
+        $this->tag->{'onKeyPress'} = "return tentry_upper(this)";
+        $this->tag->{'onBlur'} = "return tentry_upper(this)";
+        $this->tag->{'forceupper'} = "1";
+        $this->setProperty('style', 'text-transform: uppercase');
+    }
+    
+    /**
      * Return the post data
      */
     public function getPostData()
@@ -163,7 +186,7 @@ class TText extends TField implements AdiantiWidgetInterface
                 throw new Exception(AdiantiCoreTranslator::translate('You must pass the ^1 (^2) as a parameter to ^3', __CLASS__, $this->name, 'TForm::setFields()') );
             }
             $string_action = $this->exitAction->serialize(FALSE);
-            $this->setProperty('exitaction', "__adianti_post_lookup('{$this->formName}', '{$string_action}', this, 'callback')");
+            $this->setProperty('exitaction', "__adianti_post_lookup('{$this->formName}', '{$string_action}', '{$this->id}', 'callback')");
             $this->setProperty('onBlur', $this->getProperty('exitaction'), FALSE);
         }
         

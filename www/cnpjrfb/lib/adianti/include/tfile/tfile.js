@@ -1,10 +1,11 @@
-function FileUploader(input_id, parent_container, service_action, complete_action, file_handling, image_gallery, popover)
+function FileUploader(input_id, parent_container, service_action, complete_action, error_action, file_handling, image_gallery, popover)
 {
     this.field_name       = $('#' + input_id).attr('receiver');
     this.input_id         = input_id;
     this.service_action   = service_action;
     this.parent_container = $('#'+parent_container);
     this.complete_action  = complete_action;
+    this.error_action     = error_action;
     this.file_handling    = file_handling;
     this.image_gallery    = JSON.parse( image_gallery );
     this.popover          = JSON.parse( popover );
@@ -289,11 +290,17 @@ function FileUploader(input_id, parent_container, service_action, complete_actio
                     if (that.file_handling) {
                         that.file_row_wrapper.remove();
                     }
+                    if (typeof(that.error_action) == "function") {
+                        that.error_action();
+                    }
                     that.showMessage('error', response.msg);
                 }
             }
-            catch (e)
-            {
+            catch (e) {
+                if (typeof(that.error_action) == "function") {
+                    that.error_action();
+                }
+                
                 if (that.file_handling) {
                     that.file_row_wrapper.remove();
                 }
@@ -319,14 +326,15 @@ function FileUploader(input_id, parent_container, service_action, complete_actio
             that.parent_container.find('[widget=tfile]').css('padding-left', '20px');
             that.parent_container.children('i').attr({ 'class' : 'fa fa-exclamation-circle red file-response-icon',
                                                        'title' : message });
+            __adianti_error('Error', message);
         }
     };
 }
 
-function tfile_start( input_id, parent_container, service_action, complete_action, file_handling, image_gallery, popover)
+function tfile_start( input_id, parent_container, service_action, complete_action, error_action, file_handling, image_gallery, popover)
 {
     $(function() {
-        var file = new FileUploader(input_id, parent_container, service_action, complete_action, file_handling, image_gallery, popover);
+        var file = new FileUploader(input_id, parent_container, service_action, complete_action, error_action, file_handling, image_gallery, popover);
         
         $('#' + input_id).change( function() {
             file.initFileUpload();

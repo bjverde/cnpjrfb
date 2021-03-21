@@ -10,7 +10,7 @@ use Exception;
 /**
  * JQuery dialog container
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage container
  * @author     Pablo Dall'Oglio
@@ -273,6 +273,18 @@ class TJQueryDialog extends TElement
         {
             // it has to be inline (not external function call)
             TScript::create( ' $(\'[widget="TWindow"]\').remove(); ' );
+        }
+    }
+    
+    /**
+     * Close all TJQueryDialog
+     */
+    public static function closeLatest()
+    {
+        if (!isset($_REQUEST['ajax_lookup']) OR $_REQUEST['ajax_lookup'] !== '1')
+        {
+            // it has to be inline (not external function call)
+            TScript::create( ' $(\'[role=window-wrapper]\').last().remove(); ' );
         }
     }
 }

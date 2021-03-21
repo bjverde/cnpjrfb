@@ -10,7 +10,7 @@ use Adianti\Control\TAction;
 /**
  * Color Widget
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -36,6 +36,7 @@ class TColor extends TEntry implements AdiantiWidgetInterface
         $this->id = 'tcolor_'.mt_rand(1000000000, 1999999999);
         $this->tag->{'widget'} = 'tcolor';
         $this->tag->{'autocomplete'} = 'off';
+        $this->setSize('100%');
     }
     
     /**

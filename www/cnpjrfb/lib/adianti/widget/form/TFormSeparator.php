@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Form separator
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -38,7 +38,7 @@ class TFormSeparator extends TElement
         $this->header->{'style'} = "font-size: {$this->fontSize}px; color: {$this->fontColor};";
         
         $this->divisor = new TElement('hr');
-        $this->divisor->{'style'} = "border-top-color: {$this->separatorColor}";
+        $this->divisor->{'style'} = "border-bottom-color: {$this->separatorColor}";
         $this->divisor->{'class'} = 'tseparator-divisor';
         $this->header->add($text);
 

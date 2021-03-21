@@ -1,4 +1,4 @@
-.timeline > li > i.fa::before {
+.timeline > li > i.line-icon::before {
     color: white;
 }
 
@@ -6,7 +6,7 @@
     left: 50% !important;
 }
 
-.timeline-bothsides>li>.fa, .timeline-bothsides>li>.ion{
+.timeline-bothsides>li>.line-icon, .timeline-bothsides>li>.ion{
     left: calc(50% - 10px) !important;
 }
 
@@ -31,7 +31,7 @@
     display: inline-block;
 }
 
-.timeline>li>.fa, .timeline>li>.glyphicon, .timeline>li>.ion {
+.timeline>li>.line-icon, .timeline>li>.glyphicon, .timeline>li>.ion {
     color: white;
 }
 

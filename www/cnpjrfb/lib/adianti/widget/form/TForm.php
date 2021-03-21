@@ -15,7 +15,7 @@ use ReflectionClass;
 /**
  * Wrapper class to deal with forms
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -30,7 +30,7 @@ class TForm implements AdiantiFormInterface
     protected $js_function;
     protected $element;
     protected $silent_fields;
-    static private $forms;
+    private static $forms;
     
     /**
      * Class Constructor
@@ -45,6 +45,14 @@ class TForm implements AdiantiFormInterface
         $this->children = [];
         $this->silent_fields = [];
         $this->element  = new TElement('form');
+    }
+    
+    /**
+     * Change tag name
+     */
+    public function setTagName($name)
+    {
+        $this->element->setName($name);
     }
     
     /**
@@ -317,6 +325,8 @@ class TForm implements AdiantiFormInterface
         // iterate the form fields
         foreach ($this->fields as $name => $field)
         {
+            $name = str_replace(['[',']'], ['',''], $name);
+            
             if ($name) // labels don't have name
             {
                 if (isset($object->$name))

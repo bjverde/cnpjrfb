@@ -7,7 +7,7 @@ use Adianti\Control\TAction;
 /**
  * Action Link
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -16,6 +16,8 @@ use Adianti\Control\TAction;
  */
 class TActionLink extends TTextDisplay
 {
+    private $action;
+
     /**
      * Class Constructor
      * @param  $value  text content
@@ -32,12 +34,35 @@ class TActionLink extends TTextDisplay
         }
         
         parent::__construct($value, $color, $size, $decoration);
-        parent::setName('button');
+        parent::setName('a');
         
+        $this->action = $action;
+
         $this->{'href'} = $action->serialize();
         $this->{'generator'} = 'adianti';
     }
-    
+
+    /**
+     * Returns the current calback
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * Add a JavaScript function to be executed by the button
+     * @param $function A piece of JavaScript code
+     * @ignore-autocomplete on
+     */
+    public function addFunction($function)
+    {
+        if ($function)
+        {
+            $this->{'onclick'} = $function.';';
+        }
+    }
+
     /**
      * Add CSS class
      */

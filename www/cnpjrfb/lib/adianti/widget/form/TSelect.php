@@ -14,7 +14,7 @@ use Exception;
 /**
  * Select Widget
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -338,7 +338,7 @@ class TSelect extends TField implements AdiantiWidgetInterface
                 }
                 
                 $string_action = $this->changeAction->serialize(FALSE);
-                $this->setProperty('changeaction', "__adianti_post_lookup('{$this->formName}', '{$string_action}', this, 'callback')");
+                $this->setProperty('changeaction', "__adianti_post_lookup('{$this->formName}', '{$string_action}', '{$this->id}', 'callback')");
                 $this->setProperty('onChange', $this->getProperty('changeaction'));
             }
             

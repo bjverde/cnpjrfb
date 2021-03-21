@@ -12,7 +12,7 @@ use Exception;
 /**
  * Database Checklist
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -24,6 +24,8 @@ class TDBCheckList extends TCheckList
     protected $items; // array containing the combobox options
     protected $keyColumn;
     protected $valueColumn;
+    
+    use AdiantiDatabaseWidgetTrait;
     
     /**
      * Class Constructor
@@ -40,72 +42,35 @@ class TDBCheckList extends TCheckList
         // executes the parent class constructor
         parent::__construct($name);
         
-        $key   = trim($key);
-        $value = trim($value);
-        
-        if (empty($database))
-        {
-            throw new Exception(AdiantiCoreTranslator::translate('The parameter (^1) of ^2 is required', 'database', __CLASS__));
-        }
-        
-        if (empty($model))
-        {
-            throw new Exception(AdiantiCoreTranslator::translate('The parameter (^1) of ^2 is required', 'model', __CLASS__));
-        }
-        
-        if (empty($key))
-        {
-            throw new Exception(AdiantiCoreTranslator::translate('The parameter (^1) of ^2 is required', 'key', __CLASS__));
-        }
-        
-        if (empty($value))
-        {
-            throw new Exception(AdiantiCoreTranslator::translate('The parameter (^1) of ^2 is required', 'value', __CLASS__));
-        }
-        
+        // define the ID column por set/get values from component
         parent::setIdColumn($key);
-        //$this->keyColumn = parent::addColumn($key,    '',    'center',  '10%');
+        
+        // value column
         $this->valueColumn = parent::addColumn($value,  '',    'left',  '100%');
         
-        TTransaction::open($database);
+        // get objects
+        $collection = ( $this->getObjectsFromModel($database, $model, $key, $ordercolumn, $criteria) );
         
-        // creates repository
-        $repository = new TRepository($model);
-        if (is_null($criteria))
+        if (strpos($value, '{') !== FALSE)
         {
-            $criteria = new TCriteria;
-        }
-        $criteria->setProperty('order', isset($ordercolumn) ? $ordercolumn : $key);
-        
-        // load all objects
-        $collection = $repository->load($criteria, FALSE);
-        
-        // add objects to the options
-        if ($collection)
-        {
-            $items = array();
-            foreach ($collection as $object)
+            // iterate objects to render the value when needed
+            TTransaction::open($database);
+            if ($collection)
             {
-                $items[$object->$key] = $object;
-                
-                if (isset($object->$value))
+                foreach ($collection as $key => $object)
                 {
-                    $items[$object->$key]->$value = $object->$value;
-                }
-                else
-                {
-                    $items[$object->$key]->$value = $object->render($value);
+                    if (!isset($object->$value))
+                    {
+                        $collection[$key]->$value = $object->render($value);
+                    }
                 }
             }
-            
-            if (strpos($value, '{') !== FALSE AND is_null($ordercolumn))
-            {
-                asort($items);
-            }
-            parent::addItems($items);
+            TTransaction::close();
         }
+        
+        parent::addItems($collection);
+        
         $head = parent::getHead();
         $head->{'style'} = 'display:none';
-        TTransaction::close();
     }
 }

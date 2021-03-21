@@ -8,7 +8,7 @@ use Adianti\Widget\Base\TScript;
 /**
  * Question Dialog
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage dialog
  * @author     Pablo Dall'Oglio
@@ -24,13 +24,13 @@ class TQuestion
      * @param  $action_no  Action taken for NO  response
      * @param  $title_msg  Dialog Title
      */
-    public function __construct($message, TAction $action_yes = NULL, TAction $action_no = NULL, $title_msg = '')
+    public function __construct($message, TAction $action_yes = NULL, TAction $action_no = NULL, $title_msg = '', $label_yes = '', $label_no = '')
     {
         $title        = ( $title_msg ? $title_msg : AdiantiCoreTranslator::translate('Question') );
         $callback_yes = "function () {}";
         $callback_no  = "function () {}";
-        $label_yes    = AdiantiCoreTranslator::translate('Yes');
-        $label_no     = AdiantiCoreTranslator::translate('No');
+        $label_yes    = !empty($label_yes) ? $label_yes : AdiantiCoreTranslator::translate('Yes');
+        $label_no     = !empty($label_no) ? $label_no : AdiantiCoreTranslator::translate('No');
         
         if ($action_yes && $action_yes->isStatic())
         {

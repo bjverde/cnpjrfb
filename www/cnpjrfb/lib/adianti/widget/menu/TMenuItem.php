@@ -9,7 +9,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * MenuItem Widget
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage menu
  * @author     Pablo Dall'Oglio
@@ -120,10 +120,15 @@ class TMenuItem extends TElement
     {
         if ($this->action)
         {
-            //$url['class'] = $this->action;
-            //$url_str = http_build_query($url);
             $action = str_replace('#', '&', $this->action);
-            if ((substr($action,0,7) == 'http://') or (substr($action,0,8) == 'https://'))
+
+            // Controll if menu.xml contains a short url e.g. \home  -> back slash is the char controll
+            if (substr($action,0,1) == '\\')
+            {
+                $this->link->{'href'} = substr($action, 1);
+                $this->link->{'generator'} = 'adianti';
+            }
+            elseif ((substr($action,0,7) == 'http://') or (substr($action,0,8) == 'https://'))
             {
                 $this->link->{'href'} = $action;
                 $this->link->{'target'} = '_blank';

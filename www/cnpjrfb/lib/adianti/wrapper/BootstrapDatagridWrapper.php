@@ -5,7 +5,7 @@ use Adianti\Widget\Datagrid\TDataGrid;
 /**
  * Bootstrap datagrid decorator for Adianti Framework
  *
- * @version    7.1
+ * @version    7.3
  * @package    wrapper
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -81,7 +81,7 @@ class BootstrapDatagridWrapper
                         if ($row->{'class'} == 'tdatagrid_group')
                         {
                             $row->{'class'} = 'info';
-                            $row->{'style'} = 'user-select:none';
+                            $row->{'style'} = $row->{'style'} . ';user-select:none';
                         }
                         else
                         {

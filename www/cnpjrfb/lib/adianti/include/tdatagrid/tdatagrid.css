@@ -249,7 +249,7 @@ table.tdatagrid_body tr td input
 
 @media screen and (max-width: 1100px) 
 {
-    td.hiddable_1100
+    [hiddable="1100"]
     {
         display:none;
     }
@@ -257,7 +257,7 @@ table.tdatagrid_body tr td input
 
 @media screen and (max-width: 1200px) 
 {
-    td.hiddable_1200
+    [hiddable="1200"]
     {
         display:none;
     }
@@ -265,7 +265,7 @@ table.tdatagrid_body tr td input
 
 @media screen and (max-width: 1300px) 
 {
-    td.hiddable_1300
+    [hiddable="1300"]
     {
         display:none;
     }
@@ -273,7 +273,7 @@ table.tdatagrid_body tr td input
 
 @media screen and (max-width: 1400px) 
 {
-    td.hiddable_1400
+    [hiddable="1400"]
     {
         display:none;
     }
@@ -281,7 +281,7 @@ table.tdatagrid_body tr td input
 
 @media screen and (max-width: 1500px) 
 {
-    td.hiddable_1500
+    [hiddable="1500"]
     {
         display:none;
     }

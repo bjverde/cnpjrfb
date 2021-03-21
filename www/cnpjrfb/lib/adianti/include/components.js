@@ -34,3 +34,6 @@ $.getScript("lib/adianti/include/tfullcalendar/tfullcalendar.js");
 $.getScript("lib/adianti/include/ticonview/ticonview.js");
 $.getScript("lib/adianti/include/tkanban/tkanban.js");
 $.getScript("lib/adianti/include/tchecklist/tchecklist.js");
+$.getScript("lib/adianti/include/tbarcodeinputreader/tbarcodeinputreader.js");
+$.getScript("lib/adianti/include/tqrcodeinputreader/tqrcodeinputreader.js");
+$.getScript("lib/adianti/include/timagecropper/timagecropper.js");

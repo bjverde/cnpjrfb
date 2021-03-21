@@ -9,22 +9,23 @@
     vertical-align: text-bottom;
     cursor: pointer;
     margin: 8px;
+    position: relative;
 }
 
-.ticonview > li a> img, .ticonview > li > a> i
+.ticonview > li div> img, .ticonview > li > div> i
 {
     display: table;
     margin-left: auto;
     margin-right: auto;
 }
 
-.ticonview > li > a > span
+.ticonview > li > div > span
 {
     text-decoration: none;
     color: #333;
 }
 
-.ticonview > li > a > span
+.ticonview > li > div > span
 {
     width: 116px;
     height: 57px;

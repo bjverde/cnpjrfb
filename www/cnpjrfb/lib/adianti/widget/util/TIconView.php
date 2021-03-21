@@ -10,7 +10,7 @@ use stdClass;
 /**
  * TIconView Widget
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -34,6 +34,9 @@ class TIconView extends TElement
     protected $moveAction;
     protected $dragSelector;
     protected $dropSelector;
+    protected $itemTemplate;
+    protected $templateAttribute;
+    protected $doubleClickEnabled;
     
     /**
      * Constructor Method
@@ -49,6 +52,33 @@ class TIconView extends TElement
         $this->popover = FALSE;
         $this->popside = null;
         $this->enableMoving = FALSE;
+        $this->doubleClickEnabled = FALSE;
+    }
+    
+    /**
+     * Enable double click
+     */
+    public function enableDoubleClick()
+    {
+        $this->doubleClickEnabled = TRUE;
+    }
+    
+    /**
+     * Set item template for rendering
+     * @param  $template Template content
+     */
+    public function setItemTemplate($template)
+    {
+        $this->itemTemplate = $template;
+    }
+    
+    /**
+     * Set template atribute for rendering
+     * @param  $attribute Template attribute
+     */
+    public function setTemplateAttribute($attribute)
+    {
+        $this->templateAttribute = $attribute;
     }
     
     /**
@@ -180,18 +210,34 @@ class TIconView extends TElement
                     }
                 }
                 
-                $link = new TElement('a');
-                $link->add(new TImage($object->$iconField));
-                $link->add(TElement::tag('span', $object->$labelField));
+                if (!empty($object->{$this->templateAttribute}))
+                {
+                    $item_content = new TElement('div');
+                    $item_content->add(AdiantiTemplateHandler::replace($object->{$this->templateAttribute}, $object));
+                    $li->add($item_content);
+                }
+                else if (!empty($this->itemTemplate))
+                {
+                    $item_content = new TElement('div');
+                    $item_content->add(AdiantiTemplateHandler::replace($this->itemTemplate, $object));
+                    $li->add($item_content);
+                }
+                else
+                {
+                    $item_wrapper = new TElement('div');
+                    $item_wrapper->add(new TImage($object->$iconField));
+                    $item_wrapper->add(TElement::tag('span', $object->$labelField));
+                    
+                    $li->add($item_wrapper);
+                }
                 
-                $li->add($link);
                 parent::add($li);
                 
                 if ($this->options)
                 {
                     $dropdown = new TElement('ul');
                     $dropdown->{'class'} = 'dropdown-menu pull-left dropdown-iconview';
-                    $dropdown->{'style'} = 'position:fixed; display:none;';
+                    $dropdown->{'style'} = 'position:absolute; display:none;';
                     
                     foreach ($this->options as $index => $option)
                     {
@@ -253,13 +299,20 @@ class TIconView extends TElement
                         }
                     }
                     
-                    $li->add($dropdown);
+                    parent::add($dropdown);
                     $li->add(TScript::create("ticonview_contextmenu_start('{$id}')", false));
                     
                     if ($first_action)
                     {
-                        $link->{'href'}      = $first_action->serialize();
-                        $link->{'generator'} = 'adianti';
+                        if ($this->doubleClickEnabled)
+                        {
+                            $li->{'ondblclick'} = "__adianti_load_page('{$first_action->serialize()}');";
+                        }
+                        else
+                        {
+                            $li->{'href'}      = $first_action->serialize();
+                        }
+                        $li->{'generator'} = 'adianti';
                     }
                 }
             }

@@ -33,3 +33,6 @@
 @import url("tcard/tcard.css");
 @import url("ttext/ttext.css");
 @import url("tpagestep/tpagestep.css");
+@import url("tbarcodeinputreader/tbarcodeinputreader.css");
+@import url("tqrcodeinputreader/tqrcodeinputreader.css");
+@import url("timagecropper/timagecropper.css");

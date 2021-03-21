@@ -11,7 +11,7 @@ use DomElement;
 /**
  * Menu Parser
  *
- * @version    7.1
+ * @version    7.3
  * @package    widget
  * @subpackage menu
  * @author     Pablo Dall'Oglio
@@ -29,7 +29,8 @@ class TMenuParser
      */
     public function __construct($xml_file)
     {
-        $this->path = $xml_file;
+        $this->path  = $xml_file;
+        $this->paths = [];
         
         if (file_exists($xml_file))
         {
@@ -43,10 +44,16 @@ class TMenuParser
                 $action = (string) $xmlElement-> action;
                 $icon   = (string) $xmlElement-> icon;
                 
+                if ($action)
+                {
+                    $this->paths[$action] = [$label];
+                }
+                
                 if (substr($label, 0, 3) == '_t{')
                 {
                     $label = _t(substr($label,3,-1), 3, -1);
                 }
+                
                 $this->parse($xmlElement-> menu-> menuitem, array($label));
             }
         }

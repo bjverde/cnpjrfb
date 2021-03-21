@@ -1,6 +1,6 @@
 function tdialog_start(id, callback)
 {
-    $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+    $.fn.modal.Constructor.prototype._enforceFocus = function() {};
     
     $( id ).modal({backdrop:true, keyboard:true});
     
