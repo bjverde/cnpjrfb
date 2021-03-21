@@ -46,6 +46,11 @@ label, input, button, select, textarea
     top: initial !important;
 }
 
+.display-flex
+{
+    display:flex;
+}
+
 /** Jquery Widgets **/
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
 {

@@ -457,6 +457,14 @@ span.tdate-group-addon {
     margin-top:90px !important;
 }
 
+/** TQRCodeInputReader **/
+.panel form[type="bootstrap"] .tqrcodeinputreader.input-group-addon
+{
+    box-shadow: initial !important;
+    border-radius:0;
+    border:0;
+}
+
 /** Fullcalendar **/
 .tfullcalendar, .tform
 {
@@ -670,6 +678,13 @@ a.nav-link:not(.active):hover {
     float:left;
     margin-left:44px;
     height:35px;
+}
+
+@media (max-width: 400px) {
+    .login-avatar
+    {
+        margin-left:15px;
+    }
 }
 
 /** footer **/
