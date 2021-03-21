@@ -10,7 +10,7 @@ use Exception;
 /**
  * Page Controller Pattern: used as container for all elements inside a page and also as a page controller
  *
- * @version    7.1
+ * @version    7.3
  * @package    control
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -20,9 +20,9 @@ class TPage extends TElement
 {
     private $body;
     private $constructed;
-    static private $loadedjs;
-    static private $loadedcss;
-    static private $registeredcss;
+    private static $loadedjs;
+    private static $loadedcss;
+    private static $registeredcss;
     
     /**
      * Class Constructor
@@ -38,7 +38,22 @@ class TPage extends TElement
      */
     public function setTargetContainer($container)
     {
-        $this->{'adianti_target_container'} = $container;
+        if ($container)
+        {
+            $this->setProperty('adianti_target_container', $container);
+        }
+        else
+        {
+            unset($this->{'adianti_target_container'});
+        }
+    }
+    
+    /**
+     * Return target container
+     */
+    public function getTargetContainer()
+    {
+        return $this->{'adianti_target_container'};
     }
     
     /**
@@ -53,7 +68,7 @@ class TPage extends TElement
             
             if ($class)
             {
-                $object = $class == get_class($this) ? $this : new $class;
+                $object = ($class == get_class($this)) ? $this : new $class;
                 if (is_callable(array($object, $method) ) )
                 {
                     call_user_func(array($object, $method), $_REQUEST);
@@ -98,9 +113,9 @@ class TPage extends TElement
      * Open a File Dialog
      * @param $file File Name
      */
-    public static function openFile($file)
+    public static function openFile($file, $basename = null)
     {
-        TScript::create("__adianti_download_file('{$file}')");
+        TScript::create("__adianti_download_file('{$file}', '{$basename}')");
     }
     
     /**

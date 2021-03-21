@@ -15,7 +15,7 @@ use ReflectionClass;
 /**
  * Implements the Repository Pattern to deal with collections of Active Records
  *
- * @version    7.1
+ * @version    7.3
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -27,6 +27,7 @@ class TRepository
     protected $criteria; // buffered criteria to use with fluent interfaces
     protected $setValues;
     protected $columns;
+    protected $aggregates;
     
     /**
      * Class Constructor
@@ -50,6 +51,8 @@ class TRepository
         {
             throw new Exception(AdiantiCoreTranslator::translate('The class ^1 was not found. Check the class name or the file name. They must match', '"' . $class . '"'));
         }
+        
+        $this->aggregates = [];
     }
     
     /**
@@ -574,6 +577,7 @@ class TRepository
     /**
      * Count aggregate
      * @param $column  Column to be aggregated
+     * @param $alias   Column alias
      * @return         An array of objects or the total value (if does not have group by)
      */
     public function countBy($column, $alias = null)
@@ -582,8 +586,21 @@ class TRepository
     }
     
     /**
+     * Count aggregate and do another aggregate after
+     * @param $column  Column to be aggregated
+     * @param $alias   Column alias
+     * @return         self object
+     */
+    public function countByAnd($column, $alias = null)
+    {
+        $this->aggregates[] = "count({$column}) as \"{$alias}\"";
+        return $this;
+    }
+    
+    /**
      * Sum aggregate
      * @param $column  Column to be aggregated
+     * @param $alias   Column alias
      * @return         An array of objects or the total value (if does not have group by)
      */
     public function sumBy($column, $alias = null)
@@ -592,8 +609,21 @@ class TRepository
     }
     
     /**
+     * Sum aggregate and do another aggregate after
+     * @param $column  Column to be aggregated
+     * @param $alias   Column alias
+     * @return         self object
+     */
+    public function sumByAnd($column, $alias = null)
+    {
+        $this->aggregates[] = "sum({$column}) as \"{$alias}\"";
+        return $this;
+    }
+    
+    /**
      * Average aggregate
      * @param $column  Column to be aggregated
+     * @param $alias   Column alias
      * @return         An array of objects or the total value (if does not have group by)
      */
     public function avgBy($column, $alias = null)
@@ -602,8 +632,21 @@ class TRepository
     }
     
     /**
+     * Average aggregate and do another aggregate after
+     * @param $column  Column to be aggregated
+     * @param $alias   Column alias
+     * @return         self object
+     */
+    public function avgByAnd($column, $alias = null)
+    {
+        $this->aggregates[] = "avg({$column}) as \"{$alias}\"";
+        return $this;
+    }
+    
+    /**
      * Min aggregate
      * @param $column  Column to be aggregated
+     * @param $alias   Column alias
      * @return         An array of objects or the total value (if does not have group by)
      */
     public function minBy($column, $alias = null)
@@ -612,13 +655,38 @@ class TRepository
     }
     
     /**
+     * Min aggregate and do another aggregate after
+     * @param $column  Column to be aggregated
+     * @param $alias   Column alias
+     * @return         self object
+     */
+    public function minByAnd($column, $alias = null)
+    {
+        $this->aggregates[] = "min({$column}) as \"{$alias}\"";
+        return $this;
+    }
+    
+    /**
      * Max aggregate
      * @param $column  Column to be aggregated
+     * @param $alias   Column alias
      * @return         An array of objects or the total value (if does not have group by)
      */
     public function maxBy($column, $alias = null)
     {
         return $this->aggregate('max', $column, $alias);
+    }
+    
+    /**
+     * Max aggregate and do another aggregate after
+     * @param $column  Column to be aggregated
+     * @param $alias   Column alias
+     * @return         self object
+     */
+    public function maxByAnd($column, $alias = null)
+    {
+        $this->aggregates[] = "max({$column}) as \"{$alias}\"";
+        return $this;
     }
     
     /**
@@ -636,6 +704,15 @@ class TRepository
         {
             $sql->addColumn( $this->criteria->getProperty('group') );
         }
+        
+        if ($this->aggregates)
+        {
+            foreach ($this->aggregates as $aggregate)
+            {
+                $sql->addColumn($aggregate);
+            }
+        }
+        
         $sql->addColumn("$function({$column}) as \"{$alias}\"");
         
         $sql->setEntity($this->getEntity());
@@ -707,6 +784,21 @@ class TRepository
     public function first($callObjectLoad = TRUE)
     {
         $collection = $this->take(1)->load(null, $callObjectLoad);
+        if (isset($collection[0]))
+        {
+            return $collection[0];
+        }
+    }
+    
+    /**
+     * Returns the last collection item
+     */
+    public function last($callObjectLoad = TRUE)
+    {
+        $class = $this->class;
+        $pk = (new $class)->getPrimaryKey();
+        
+        $collection = $this->orderBy($pk,'desc')->take(1)->load(null, $callObjectLoad);
         if (isset($collection[0]))
         {
             return $collection[0];

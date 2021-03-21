@@ -9,7 +9,7 @@ use Exception;
 /**
  * Template parser
  *
- * @version    7.1
+ * @version    7.3
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -61,12 +61,13 @@ class AdiantiTemplateParser
         $content   = str_replace('{lang}',      AdiantiCoreTranslator::getLanguage(), $content);
         $content   = str_replace('{debug}',     isset($ini['general']['debug']) ? $ini['general']['debug'] : '1', $content);
         $content   = str_replace('{login}',     TSession::getValue('login'), $content);
+        $content   = str_replace('{title}',     isset($ini['general']['title']) ? $ini['general']['title'] : '', $content);
         $content   = str_replace('{username}',  TSession::getValue('username'), $content);
         $content   = str_replace('{usermail}',  TSession::getValue('usermail'), $content);
         $content   = str_replace('{frontpage}', TSession::getValue('frontpage'), $content);
         $content   = str_replace('{userunitid}', TSession::getValue('userunitid'), $content);
         $content   = str_replace('{userunitname}', TSession::getValue('userunitname'), $content);
-        $content   = str_replace('{query_string}', $_SERVER["QUERY_STRING"], $content);
+        $content   = str_replace('{query_string}', $_SERVER["QUERY_STRING"] ?? '', $content);
         
         $css       = TPage::getLoadedCSS();
         $js        = TPage::getLoadedJS();

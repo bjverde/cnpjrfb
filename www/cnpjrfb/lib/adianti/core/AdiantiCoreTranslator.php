@@ -4,7 +4,7 @@ namespace Adianti\Core;
 /**
  * Framework translation class for internal messages
  *
- * @version    7.1
+ * @version    7.3
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -132,6 +132,20 @@ class AdiantiCoreTranslator
         $this->messages['en'][] = 'Return is not a valid JSON. Check the URL';
         $this->messages['en'][] = 'Required fields';
         $this->messages['en'][] = 'CSRF Error';
+        $this->messages['en'][] = 'Add';
+        $this->messages['en'][] = 'Expand';
+        $this->messages['en'][] = 'Server has received no file';
+        $this->messages['en'][] = 'Check the server limits';
+        $this->messages['en'][] = 'The current limit is';
+        $this->messages['en'][] = 'Reset';
+        $this->messages['en'][] = 'Scale horizontal';
+        $this->messages['en'][] = 'Scale vertical';
+        $this->messages['en'][] = 'Move';
+        $this->messages['en'][] = 'Crop';
+        $this->messages['en'][] = 'Zoom in';
+        $this->messages['en'][] = 'Zoom out';
+        $this->messages['en'][] = 'Rotate right';
+        $this->messages['en'][] = 'Rotate left';
         
         
         $this->messages['pt'][] = 'Carregando';
@@ -245,6 +259,20 @@ class AdiantiCoreTranslator
         $this->messages['pt'][] = 'Retorno não é JSON válido. Verifique a URL';
         $this->messages['pt'][] = 'Campos obrigatórios';
         $this->messages['pt'][] = 'Erro de CSRF';
+        $this->messages['pt'][] = 'Adicionar';
+        $this->messages['pt'][] = 'Expandir';
+        $this->messages['pt'][] = 'O servidor não recebeu o arquivo';
+        $this->messages['pt'][] = 'Verifique os limites do servidor';
+        $this->messages['pt'][] = 'O limite atual é';
+        $this->messages['pt'][] = 'Reverter';
+        $this->messages['pt'][] = 'Escala horizontal';
+        $this->messages['pt'][] = 'Escala vertical';
+        $this->messages['pt'][] = 'Mover';
+        $this->messages['pt'][] = 'Cortar';
+        $this->messages['pt'][] = 'Aumentar zoom';
+        $this->messages['pt'][] = 'Diminuir zoom';
+        $this->messages['pt'][] = 'Rotacionar para a direita';
+        $this->messages['pt'][] = 'Rotacionar para a esquerda';
 		
         $this->messages['es'][] = 'Cargando';
         $this->messages['es'][] = 'Archivo no encontrado';
@@ -357,6 +385,20 @@ class AdiantiCoreTranslator
         $this->messages['es'][] = 'El retorno no es un JSON válido. Verifique la URL';
         $this->messages['es'][] = 'Campos requeridos';
         $this->messages['es'][] = 'Error de CSRF';
+        $this->messages['es'][] = 'Agregar';
+        $this->messages['es'][] = 'Expandir';
+        $this->messages['es'][] = 'El servidor no ha recibido ningún archivo';
+        $this->messages['es'][] = 'Verifique os limites do servidor';
+        $this->messages['es'][] = 'El límite actual es';
+        $this->messages['es'][] = 'Retroceder';
+        $this->messages['es'][] = 'Escala horizontal';
+        $this->messages['es'][] = 'Escala vertical';
+        $this->messages['es'][] = 'Moverse';
+        $this->messages['es'][] = 'Cortar';
+        $this->messages['es'][] = 'Acercars';
+        $this->messages['es'][] = 'Alejar';
+        $this->messages['es'][] = 'Girar a la derecha';
+        $this->messages['es'][] = 'Girar a la izquierda';
     }
     
     /**

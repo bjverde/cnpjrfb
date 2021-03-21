@@ -9,7 +9,7 @@ use PDO;
 /**
  * Provides an Interface to create SELECT statements
  *
- * @version    7.1
+ * @version    7.3
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -273,7 +273,7 @@ class TSqlSelect extends TSqlStatement
             $basicsql .= ' WHERE ' . $expression;
         }
         
-        if ($group)
+        if (isset($group) AND !empty($group))
         {
             $basicsql .= ' GROUP BY ' . $group;
         }

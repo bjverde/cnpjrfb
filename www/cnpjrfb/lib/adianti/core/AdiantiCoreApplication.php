@@ -13,7 +13,7 @@ use Adianti\Widget\Util\TExceptionView;
 /**
  * Basic structure to run a web application
  *
- * @version    7.1
+ * @version    7.3
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -141,7 +141,7 @@ class AdiantiCoreApplication
             if (method_exists($class, $method))
             {
                 $rf = new ReflectionMethod($class, $method);
-                if ($rf->isStatic())
+                if ($rf-> isStatic ())
                 {
                     $response = call_user_func(array($class, $method), $request);
                 }
@@ -311,12 +311,23 @@ class AdiantiCoreApplication
      */
     public static function buildHttpQuery($class, $method = NULL, $parameters = NULL)
     {
-        $url = array();
+        $url = [];
         $url['class']  = $class;
         if ($method)
         {
             $url['method'] = $method;
         }
+        
+        if (!empty($parameters['class']) && $parameters['class'] !== $class)
+        {
+            $parameters['previous_class'] = $parameters['class'];
+        }
+        
+        if (!empty($parameters['method']) && $parameters['method'] !== $method)
+        {
+            $parameters['previous_method'] = $parameters['method'];
+        }
+        
         unset($parameters['class']);
         unset($parameters['method']);
         $query = http_build_query($url);

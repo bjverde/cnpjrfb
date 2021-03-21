@@ -9,7 +9,7 @@ use Exception;
 /**
  * Provides an Interface to create an MULTI INSERT statement
  *
- * @version    7.1
+ * @version    7.3
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)

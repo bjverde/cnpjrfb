@@ -30,7 +30,7 @@ use StdClass;
 /**
  * Standard Page controller for Seek buttons
  *
- * @version    7.1
+ * @version    7.3
  * @package    base
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -302,7 +302,7 @@ class TStandardSeek extends TWindow
             TSession::setValue('tstandardseek_filter', NULL);
             TSession::setValue('tstandardseek_display_value', NULL);
             TSession::setValue('standard_seek_receive_key',   $param['receive_key']);
-            TSession::setValue('standard_seek_receive_field', $param['receive_field']);
+            TSession::setValue('standard_seek_receive_field', $param['receive_field'] ?? null);
             TSession::setValue('standard_seek_display_field', $param['display_field']);
             TSession::setValue('standard_seek_model',         $param['model']);
             TSession::setValue('standard_seek_database',      $param['database']);

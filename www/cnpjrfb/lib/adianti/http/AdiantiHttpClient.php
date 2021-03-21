@@ -7,7 +7,7 @@ use Exception;
 /**
  * Basic HTTP Client request
  *
- * @version    7.1
+ * @version    7.3
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -26,20 +26,20 @@ class AdiantiHttpClient
     {
         $ch = curl_init();
         
-        if ($method == 'POST' OR $method == 'PUT')
+        if ($method == 'POST' || $method == 'PUT')
         {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
             curl_setopt($ch, CURLOPT_POST, true);
      
         }
-        else if ($method == 'GET' OR $method == 'DELETE')
+        else if ( ($method == 'GET' || $method == 'DELETE') && $params)
         {
             $url .= '?'.http_build_query($params);
         }
        
         $defaults = array(
             CURLOPT_URL => $url,
-            CURLOPT_HEADER => true,
+            CURLOPT_HEADER => false,
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_SSL_VERIFYHOST => false,

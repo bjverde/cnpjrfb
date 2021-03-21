@@ -9,7 +9,7 @@ use ReflectionMethod;
 /**
  * Structure to encapsulate an action
  *
- * @version    7.1
+ * @version    7.3
  * @package    control
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -29,7 +29,8 @@ class TAction
     public function __construct($action, $parameters = null)
     {
         $this->action = $action;
-        if (!is_callable($this->action))
+        
+        if (!$this->validate($action))
         {
             $action_string = $this->toString();
             throw new Exception(AdiantiCoreTranslator::translate('Method ^1 must receive a parameter of type ^2', __METHOD__, 'Callback'). ' <br> '.
@@ -38,7 +39,11 @@ class TAction
         
         if (!empty($parameters))
         {
-            $this->setParameters($parameters);
+            // does not override the action
+            unset($parameters['class']);
+            unset($parameters['method']);
+            
+            $this->param = $parameters;
         }
     }
     
@@ -106,6 +111,8 @@ class TAction
         // does not override the action
         unset($parameters['class']);
         unset($parameters['method']);
+        unset($parameters['static']);
+        
         $this->param = $parameters;
     }
     
@@ -201,8 +208,30 @@ class TAction
             foreach ($matches[0] as $match)
             {
                 $property = substr($match, 1, -1);
-                $value    = isset($object->$property)? $object->$property : null;
-                $content  = str_replace($match, $value, $content);
+                
+                if (strpos($property, '->') !== FALSE)
+                {
+                    $parts = explode('->', $property);
+                    $container = $object;
+                    foreach ($parts as $part)
+                    {
+                        if (is_object($container))
+                        {
+                            $result = $container->$part;
+                            $container = $result;
+                        }
+                        else
+                        {
+                            throw new Exception(AdiantiCoreTranslator::translate('Trying to access a non-existent property (^1)', $property));
+                        }
+                    }
+                    $content = $result;
+                }
+                else
+                {
+                    $value    = isset($object->$property)? $object->$property : null;
+                    $content  = str_replace($match, $value, $content);
+                }
             }
         }
         
@@ -264,8 +293,36 @@ class TAction
         }
         else
         {
-            return http_build_query($url);
+            //return http_build_query($url);
+            if ($router = AdiantiCoreApplication::getRouter())
+            {
+                return $router(http_build_query($url), FALSE);
+            }
+            else
+            {
+                return http_build_query($url);
+            }
         }
+    }
+    
+    /**
+     * Validate action
+     */
+    public function validate()
+    {
+        $class = is_string($this->action[0])? $this->action[0]: get_class($this->action[0]);
+        
+        if (class_exists($class))
+        {
+            $method = $this->action[1];
+            
+            if (method_exists($class, $method))
+            {
+                return TRUE;
+            }
+        }
+        
+        return FALSE;
     }
     
     /**
@@ -273,19 +330,19 @@ class TAction
      */
     public function isStatic()
     {
-        if (is_callable($this->action) AND is_array($this->action))
+        if (is_array($this->action))
         {
-            $class  = is_string($this->action[0])? $this->action[0]: get_class($this->action[0]);
-            $method = $this->action[1];
+            $class = is_string($this->action[0])? $this->action[0]: get_class($this->action[0]);
             
-            if (method_exists($class, $method))
+            if (class_exists($class))
             {
-                $rm = new ReflectionMethod( $class, $method );
-                return $rm-> isStatic () || (isset($this->param['static']) && $this->param['static'] == '1');
-            }
-            else
-            {
-                return FALSE;
+                $method = $this->action[1];
+                
+                if (method_exists($class, $method))
+                {
+                    $rm = new ReflectionMethod( $class, $method );
+                    return $rm-> isStatic () || (isset($this->param['static']) && $this->param['static'] == '1');
+                }
             }
         }
         return FALSE;

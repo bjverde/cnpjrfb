@@ -12,7 +12,7 @@ use Closure;
 /**
  * Manage Database transactions
  *
- * @version    7.1
+ * @version    7.3
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -64,11 +64,9 @@ class TTransaction
         self::$uniqid[self::$counter] = uniqid();
         
         $driver = self::$conn[self::$counter]->getAttribute(PDO::ATTR_DRIVER_NAME);
-        if ($driver !== 'dblib')
-        {
-            // begins transaction
-            self::$conn[self::$counter]->beginTransaction();
-        }
+        
+        // begins transaction
+        self::$conn[self::$counter]->beginTransaction();
         
         if (!empty(self::$dbinfo[self::$counter]['slog']))
         {
@@ -107,11 +105,8 @@ class TTransaction
         if (isset(self::$conn[self::$counter]))
         {
             $driver = self::$conn[self::$counter]->getAttribute(PDO::ATTR_DRIVER_NAME);
-            if ($driver !== 'dblib')
-            {
-                // rollback
-                self::$conn[self::$counter]->rollBack();
-            }
+            // rollback
+            self::$conn[self::$counter]->rollBack();
             self::$conn[self::$counter] = NULL;
             self::$uniqid[self::$counter] = NULL;
             self::$counter --;
@@ -131,11 +126,12 @@ class TTransaction
             $info = self::getDatabaseInfo();
             $fake = isset($info['fake']) ? $info['fake'] : FALSE;
             
-            if ($driver !== 'dblib' AND !$fake)
+            if (!$fake)
             {
                 // apply the pending operations
                 self::$conn[self::$counter]->commit();
             }
+            
             self::$conn[self::$counter] = NULL;
             self::$uniqid[self::$counter] = NULL;
             self::$counter --;

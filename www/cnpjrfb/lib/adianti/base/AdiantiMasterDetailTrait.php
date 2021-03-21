@@ -7,7 +7,7 @@ use Exception;
 /**
  * Master Detail Trait
  *
- * @version    7.1
+ * @version    7.3
  * @package    base
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -45,8 +45,8 @@ trait AdiantiMasterDetailTrait
                 $detail_object->fromArray($item);
                 $detail_pkey   = $detail_object->getPrimaryKey();
                 
-                if (is_int($key))
-                { 
+                if (is_int($key) || preg_match('/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/',$key))
+                {
                     $detail_object->$detail_pkey = $key;
                 }
                 

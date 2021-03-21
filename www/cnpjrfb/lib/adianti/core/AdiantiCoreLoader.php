@@ -7,7 +7,7 @@ use Adianti\Core\AdiantiClassMap;
 /**
  * Framework class autoloader
  *
- * @version    7.1
+ * @version    7.3
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -15,7 +15,7 @@ use Adianti\Core\AdiantiClassMap;
  */
 class AdiantiCoreLoader
 {
-    static private $classMap;
+    private static $classMap;
     
     /**
      * Load the class map

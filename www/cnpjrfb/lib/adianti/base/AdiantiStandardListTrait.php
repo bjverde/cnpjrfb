@@ -24,7 +24,7 @@ use Dompdf\Dompdf;
 /**
  * Standard List Trait
  *
- * @version    7.1
+ * @version    7.3
  * @package    base
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -202,6 +202,7 @@ trait AdiantiStandardListTrait
                         }
                         else if (method_exists($object, 'render'))
                         {
+                            $column_name = (strpos($column_name, '{') === FALSE) ? ( '{' . $column_name . '}') : $column_name;
                             $row[] = $object->render($column_name);
                         }
                     }
@@ -253,6 +254,7 @@ trait AdiantiStandardListTrait
                         }
                         else if (method_exists($object, 'render'))
                         {
+                            $column_name = (strpos($column_name, '{') === FALSE) ? ( '{' . $column_name . '}') : $column_name;
                             $value = $object->render($column_name);
                             $row->appendChild($dom->createElement($column_name_raw, $value));
                         }
@@ -286,11 +288,14 @@ trait AdiantiStandardListTrait
             $html = clone $this->datagrid;
             $contents = file_get_contents('app/resources/styles-print.html') . $html->getContents();
             
+            $options = new \Dompdf\Options();
+            $options-> setChroot (getcwd());
+            
             // converts the HTML template into PDF
-            $dompdf = new Dompdf;
-            $dompdf->loadHtml($contents);
-            $dompdf->setPaper('A4', 'portrait');
-            $dompdf->render();
+            $dompdf = new \Dompdf\Dompdf($options);
+            $dompdf-> loadHtml ($contents);
+            $dompdf-> setPaper ('A4', 'portrait');
+            $dompdf-> render ();
             
             // write and open file
             file_put_contents($output, $dompdf->output());
@@ -347,9 +352,9 @@ trait AdiantiStandardListTrait
             
             $window = TWindow::create('Export', 0.8, 0.8);
             $object = new TElement('object');
-            $object->data  = $output;
-            $object->type  = 'application/pdf';
-            $object->style = "width: 100%; height:calc(100% - 10px)";
+            $object->{'data'}  = $output;
+            $object->{'type'}  = 'application/pdf';
+            $object->{'style'} = "width: 100%; height:calc(100% - 10px)";
             $window->add($object);
             $window->show();
         }
