@@ -33,7 +33,7 @@ Adianti.onBeforeLoad = function(url)
 Adianti.onAfterLoad = function(url, data)
 { 
     loading = false; 
-    __adianti_unblock_ui();
+    __adianti_unblock_ui( true );
 };
 
 // set select2 language

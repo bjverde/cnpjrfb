@@ -24,6 +24,7 @@ class AdiantiHTMLDocumentParser
     private $totals;
     private $showEmptyDetails;
     private $enabledTranslation;
+    private $DOMOptions;
     
     /**
      * Constructor
@@ -46,6 +47,7 @@ class AdiantiHTMLDocumentParser
         $this->details  = [];
         $this->replaces = [];
         $this->totals   = [];
+        $this->DOMOptions = null;
     }
     
     /**
@@ -354,6 +356,14 @@ class AdiantiHTMLDocumentParser
     }
     
     /**
+     * Set DOM Options
+     */
+    public function setDOMOptions($options)
+    {
+        $this->DOMOptions = $options;
+    }
+    
+    /**
      * Save the HTML content as PDF with DOMPDF
      * @param  $filename Filename
      * @param  $format Page format
@@ -363,9 +373,16 @@ class AdiantiHTMLDocumentParser
     {
         $html = $this->getContents();
         
-        $options = new Options();
-        $options->set('dpi', '128');
-        $options->setIsRemoteEnabled(true);
+        if (!empty($this->DOMOptions))
+        {
+            $options = $this->DOMOptions;
+        }
+        else
+        {
+            $options = new Options();
+            $options->set('dpi', '128');
+            $options->setIsRemoteEnabled(true);
+        }
         
         if (preg_match("/<!DOCTYPE html>/i", $html))
         {
