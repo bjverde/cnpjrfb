@@ -1,3 +1,20 @@
+# v4.0.4 10/21/2019
+
+- version bump
+
+
+# v4.0.3 10/10/2019
+
+- Windows fixes
+
+# v4.0.2 9/12/2019
+
+- Misc fixes
+
+# v4.0.1 1/30/2019
+
+- Misc fixes
+
 # v4.0.0 4/4/2018
 
 - Relicense under MIT

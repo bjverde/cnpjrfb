@@ -16,15 +16,14 @@
             "OLE": "./"
         }
     },
-    "description": "More info available on: http://pear.php.net/package/OLE",
+    "description": "Derivation from pear OLE without PEAR dependency, and with Exceptions instead of PearErrors.",
     "include-path": [
         "./"
     ],
-    "license": "PHP",
+    "license": "PHP-3.01",
     "minimum-stability": "dev",
     "name": "pablodalloglio/ole",
     "support": {
-        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=OLE",
         "source": "https://github.com/pablodalloglio/OLE"
     },
     "type": "library"
