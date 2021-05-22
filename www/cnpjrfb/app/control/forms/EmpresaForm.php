@@ -22,6 +22,7 @@ class EmpresaForm extends TPage
         $this->addFilterField('nome_fantasia', 'like', 'nome_fantasia'); //campo, operador, campo do form
         $this->addFilterField('motivo_situacao', '=', 'motivo_situacao'); //campo, operador, campo do form
         $this->addFilterField('uf', '=', 'uf'); //campo, operador, campo do form
+        $this->addFilterField('municipio', 'like', 'municipio'); //campo, operador, campo do form
         $this->addFilterField('situacao', '=', 'situacao'); //campo, operador, campo do form
         $this->addFilterField('matriz_filial', '=', 'matriz_filial'); //campo, operador, campo do form
         $this->setDefaultOrder('cnpj', 'asc'); // define the default order
@@ -54,10 +55,10 @@ class EmpresaForm extends TPage
         $this->form->addFields( [new TLabel('Nome Fantasia')], [$nome_fantasia] );
         $this->form->addFields([new TLabel('Situação')], [$comboSituacao]
                               ,[new TLabel('Motivo Situação')], [$comboMotivoSituacao]
-                              );        
-        $this->form->addFields( [new TLabel('UF')], [$uf]
-                               ,[new TLabel('Matriz')], [$comboMatrizFilial]
                               );
+        $this->form->addFields( [new TLabel('UF')], [$uf]
+                              ,[new TLabel('Matriz')], [$comboMatrizFilial]
+                             );
 
 
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data'));

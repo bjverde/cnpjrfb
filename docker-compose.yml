@@ -16,7 +16,7 @@ services:
     build:      
       context: .
       dockerfile: Dockerfile
-    image: cnpjrfb:7.3-deb-apache
+    image: cnpjrfb:7.4-deb-apache
     container_name: apache_php
     restart: always    
     ports:

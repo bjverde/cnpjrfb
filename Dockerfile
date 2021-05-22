@@ -4,17 +4,17 @@
 # https://github.com/docker-library/php/blob/master/7.2/stretch/apache/Dockerfile
 
 #How to build
-#sudo docker build -f apache_php7.2.Dockerfile . -t bjverde/php7.2
+#sudo docker build -f Dockerfile . -t bjverde/php7.2
 
 #How use iterative mode container
-#sudo docker run -it devform:7.2-deb-apache /bin/bash
+#sudo docker run -it cnpjrfb:7.4-deb-apache /bin/bash
 
 #How use iterative mode image
-#sudo docker run -p 80:80 -it devform:7.2-deb-apache /bin/bash
-#sudo docker run -d -p 80:80 devform:7.2-deb-apache
+#sudo docker run -p 80:80 -it cnpjrfb:7.4-deb-apache /bin/bash
+#sudo docker run -d -p 80:80 cnpjrfb:7.4-deb-apache
 
 #######################################
-FROM php:7.3-apache 
+FROM php:7.4-apache 
 LABEL maintainer="bjverde@yahoo.com.br"
 #COPY ./www /var/www/html
 #WORKDIR /var/www/html
