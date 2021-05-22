@@ -14,7 +14,7 @@
 #sudo docker run -d -p 80:80 devform:7.2-deb-apache
 
 #######################################
-FROM php:7.3-apache 
+FROM php:7.4-apache 
 LABEL maintainer="bjverde@yahoo.com.br"
 #COPY ./www /var/www/html
 #WORKDIR /var/www/html
