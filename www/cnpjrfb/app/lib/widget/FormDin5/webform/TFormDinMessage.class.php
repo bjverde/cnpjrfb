@@ -6,6 +6,10 @@
  * @author Reinaldo A. Barrêto Junior
  * 
  * É uma reconstrução do FormDin 4 Sobre o Adianti 7.X
+ * @author Luís Eugênio Barbosa do FormDin 4
+ * 
+ * Adianti Framework é uma criação Adianti Solutions Ltd
+ * @author Pablo Dall'Oglio
  * ----------------------------------------------------------------------------
  * This file is part of Formdin Framework.
  *

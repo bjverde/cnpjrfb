@@ -6,6 +6,10 @@
  * @author Reinaldo A. Barrêto Junior
  * 
  * É uma reconstrução do FormDin 4 Sobre o Adianti 7.X
+ * @author Luís Eugênio Barbosa do FormDin 4
+ * 
+ * Adianti Framework é uma criação Adianti Solutions Ltd
+ * @author Pablo Dall'Oglio
  * ----------------------------------------------------------------------------
  * This file is part of Formdin Framework.
  *
@@ -58,6 +62,9 @@
  */
 class TFormDinMaskField extends TFormDinGenericField
 {    
+    private $strMask;
+    private $boolSendMask;
+
     /**
      * ------------------------------------------------------------------------
      * FormDin 5, que é uma reconstrução do FormDin 4 sobre o Adianti 7.X
@@ -94,7 +101,34 @@ class TFormDinMaskField extends TFormDinGenericField
     {
         $adiantiObj = new TEntry($id);
         parent::__construct($adiantiObj,$id,$label,$boolRequired,$value,$placeholder);
-        $this->getAdiantiObj()->setMask($strMask, $boolSendMask);
+        $this->setMask($strMask, $boolSendMask);
         return $this->getAdiantiObj();
-    }   
+    }
+
+    public function getMask(){
+        return $this->strMask;
+    }
+
+    /**
+     * Seta o formato da mascará
+     * S - Represents an alpha character (A-Z,a-z)
+     * 9 - Represents a numeric character (0-9)
+     * A - Represents an alphanumeric character (A-Z,a-z,0-9)
+     *
+     * @param string $strMask   - 1: Formato da mascará
+     * @param boolean $boolSendMask -2: Se as mascara deve ser enviada ou não para o post. DEFAULT = False.
+     * @return void
+     */
+    public function setMask($strMask, $boolSendMask=false){
+        if( empty($strMask) ){
+            throw new InvalidArgumentException(TFormDinMessage::ERROR_EMPTY_INPUT.' see. '.__METHOD__);
+        }
+        $this->strMask = $strMask;
+        $this->boolSendMask = $boolSendMask;
+        $this->getAdiantiObj()->setMask($strMask, $boolSendMask);
+    }
+
+    public function getBoolSendMask(){
+        return $this->boolSendMask;
+    }
 }

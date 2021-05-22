@@ -6,6 +6,10 @@
  * @author Reinaldo A. Barrêto Junior
  * 
  * É uma reconstrução do FormDin 4 Sobre o Adianti 7.X
+ * @author Luís Eugênio Barbosa do FormDin 4
+ * 
+ * Adianti Framework é uma criação Adianti Solutions Ltd
+ * @author Pablo Dall'Oglio
  * ----------------------------------------------------------------------------
  * This file is part of Formdin Framework.
  *
@@ -261,7 +265,10 @@ class FormDinHelper
      * @return void
      */
     public static function debug( $mixExpression,$strComentario='Debug', $boolExit=FALSE ) {
-        ini_set ( 'xdebug.max_nesting_level', 150 );
+        ini_set("xdebug.var_display_max_children", -1);
+        ini_set("xdebug.var_display_max_data", -1);
+        ini_set("xdebug.var_display_max_depth", -1);
+        //ini_set ( 'xdebug.max_nesting_level', 150 );
         if (defined('DEBUGAR') && !DEBUGAR){
             return;
         }

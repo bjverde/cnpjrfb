@@ -6,6 +6,10 @@
  * @author Reinaldo A. Barrêto Junior
  * 
  * É uma reconstrução do FormDin 4 Sobre o Adianti 7.X
+ * @author Luís Eugênio Barbosa do FormDin 4
+ * 
+ * Adianti Framework é uma criação Adianti Solutions Ltd
+ * @author Pablo Dall'Oglio
  * ----------------------------------------------------------------------------
  * This file is part of Formdin Framework.
  *
@@ -155,21 +159,21 @@ class DateTimeHelper
      * Qualquer outro formato ou entrada devolve null
      *
      * @param  string $dateSql - String da data
-     * @param boolean $permiteHora - saída com ou sem hora. Só coloca hora se entrada tiver hora
+     * @param boolean $showTime - saída com ou sem hora. Só coloca hora se entrada tiver hora
      * @return string
      */
-    public static function date2Mysql($dateSql,$permiteHora=false)
+    public static function date2Mysql($dateSql,$showTime=false)
     {
         $retorno = null;
         $dateSql = trim($dateSql);
-        if($permiteHora){
+        if($showTime){
             
             if( preg_match('/\d{4}-\d{2}-\d{2}/', $dateSql) ){
                 if( preg_match('/\d{4}-\d{2}-\d{2}$/', $dateSql) ){
                     $retorno = $dateSql;
-                }elseif( $permiteHora && preg_match('/\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}$/', $dateSql) ){
+                }elseif( $showTime && preg_match('/\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}$/', $dateSql) ){
                     $retorno = $dateSql;
-                }elseif( $permiteHora && preg_match('/\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2}$/', $dateSql) ){
+                }elseif( $showTime && preg_match('/\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2}$/', $dateSql) ){
                     $retorno = $dateSql;
                 }
             }elseif( preg_match('/\d{2}\/\d{2}\/\d{4}/', $dateSql) ){
@@ -211,13 +215,19 @@ class DateTimeHelper
     
     /**
      * Converter data no formato yyyy-mm-dd para dd/mm/yyyy
+     * Converter data no formato yyyy-mm-dd hh:mm para dd/mm/yyyy hh:mm
+     * Converter data no formato yyyy-mm-dd hh:mm:ss para dd/mm/yyyy hh:mm:ss
+     * 
      * Verifica se a data está no formato 'dd/mm/yyyy'
+     * 
+     * Qualquer outro formato ou entrada devolve null
      *
-     * @param  string $dateSql
-     * @param boolean $permiteHora
+     * @param  string $dateSql - String da data
+     * @param boolean $showTheTime - saída com ou sem hora. Só coloca hora se entrada tiver hora
+     * @param boolean $showSeconds - saída hora, minuto e segundo
      * @return string
-     */
-    public static function DateIso2DateBr($dateSql)
+     */     
+    public static function DateIso2DateBr($dateSql,$showTheTime=false,$showSeconds=false)
     {
         $retorno = null;
         if( preg_match('/\d{4}-\d{2}-\d{2}$/', $dateSql) ){
@@ -225,7 +235,13 @@ class DateTimeHelper
             $retorno = $dateTime->format('d/m/Y');
         }elseif( preg_match('/\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}/', $dateSql) ){
             $dateTime = new DateTime($dateSql);
-            $retorno = $dateTime->format('d/m/Y');
+            if($showSeconds == true){
+                $retorno = $dateTime->format('d/m/Y H:i:s');
+            }elseif($showTheTime == true){
+                $retorno = $dateTime->format('d/m/Y H:i');
+            }else{
+                $retorno = $dateTime->format('d/m/Y');
+            }             
         }elseif( preg_match('/\d{2}\/\d{2}\/\d{4}/', $dateSql) ){
             $retorno = $dateSql;
         }
