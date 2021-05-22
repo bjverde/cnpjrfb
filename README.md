@@ -32,6 +32,8 @@ Esse é um sistema foi feito com PHP usando o [Adianti FrameWork 7.1](https://ww
 
 # Instalando e rodando
 
+Você pode fazer a [instalação manual](#intalação-separada) etapa por etapa ou usar a [#intalação-via-docker-compose](#intalação-via-docker-compose)
+
 ## Requistos
 * PHP 7.2 ou superior. Configura o PHP conforme orientações do [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
 * Python 3.6 ou superior
@@ -46,7 +48,7 @@ Esse é um sistema foi feito com PHP usando o [Adianti FrameWork 7.1](https://ww
 1. Ter um servidor PHP 7.2 ou superior. Configura o PHP conforme orientações do [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
 1. Copie o conteudo da pasta `www` do projeto para o seu servidor PHP.
 1. Verifique se tudo dentro de `<caminho servidor>/cnjrfb/app/CNPJ-full` tem permissão de execução do servidor web. Se for Linux (Debian/Ubuntu) com Apache pode executar `sudo chown -R www-data:www-data`
-1. Abra o sistema em um navegador e verifique se os 3 menus dentre home está funcionando: Empresa, Socios e CNEA. ATENÇÃO a função de gerar grafo depende da parte 2 em Python para funcionar.
+1. Abra o sistema em um navegador e verifique se os 3 menus dentre home está funcionando: Empresa, Socios e CNEA. ATENÇÃO a função de gerar grafo depende da parte 2 em Python para funcionar. Nesse momento você está usando um mini banco de dados de exemplo com apenas 56 KB para mostrar que tudo está funcionando. A versão final do banco de dados tem mais de 6GB e depende da parte 3 para funcionar.
 
 ### Parte 2 - Python 
 Na primeira parte será a instalação dos elementos básicos sem banco de dados completo.
@@ -63,6 +65,7 @@ Na primeira parte será a instalação dos elementos básicos sem banco de dados
 
 1. Baixar todos dados [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) na pasta `<caminho servidor>/cnjrfb/app/CNPJ-full/downloads`
 1. Execute o comando da carga `python3 cnpj.py downloads sqlite data --dir` essa é parte mais demorada.
+1. Alterar o arquivo `<caminho servidor>/cnjrfb/app/config/cnpj_full.ini`. Altere o parametro de `name= "app/database/CNPJ_full.db"` para `name = "app/CNPJ-full/data/CNPJ_full.db"`
 
 
 ## Intalação via Docker-compose
@@ -72,5 +75,5 @@ Existem alguns arquivos em Docker-compose para criar todo o ambiente necessário
 * instale o Docker e Docker-compose 
 * clone o projeto
 * Execute o comando `sudo docker-compose build` para gerar todo o ambiente
-* Execute o comando `sudo docker-compose -f docker-compose.yml up -d` para rodar o ambiente já configurado.
-* Docker pretender resolver apenas [Parte 1 - PHP](#parte-1---php) e a [Parte 2 - Python](#parte-2---python). A [Parte 3 - O banco completo](#parte-3---o-banco-completo-) por ser algo muito demorado deve ser feita manualmente.
+* Execute o comando `sudo docker-compose -f docker-compose.yml up -d` para rodar o ambiente já configurado. O Docker pretender resolver apenas [Parte 1 - PHP](#parte-1---php) e a [Parte 2 - Python](#parte-2---python).
+* Executar o procedimento da [Parte 3 - O banco completo](#parte-3---o-banco-completo-) por ser algo muito demorado deve ser feita manualmente.
