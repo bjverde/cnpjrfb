@@ -4,8 +4,8 @@ class SituacaoCadastralEmpresa
 
     public static function getByid($id)
     {
-        if($id==0){
-            $id='00';
+        if($id===0){
+            $id='0';
         }
         $list = self::getList();
         return $list[$id];
@@ -14,16 +14,7 @@ class SituacaoCadastralEmpresa
     public static function getList()
     {
         $list = array(
-             '00'=>'NÃO DEFINIDO PELA RFB'
-            ,'01'=>'EXTINÇÃO POR ENCERRAMENTO LIQUIDAÇÃO VOLUNTÁRIA'
-            ,'02'=>'INCORPORAÇÃO'
-            ,'03'=>'FUSÃO'
-            ,'04'=>'CISÃO TOTAL'
-            ,'05'=>'ENCERRAMENTO DA FALÊNCIA'
-            ,'06'=>'ENCERRAMENTO DA LIQUIDAÇÃO'
-            ,'07'=>'ELEVAÇÃO A MATRIZ'
-            ,'08'=>'TRANSPASSE'
-            ,'09'=>'NÃO INÍCIO DE ATIVIDADE'
+            '0'=>'NÃO DEFINIDO PELA RFB'
             ,1=>'EXTINÇÃO POR ENCERRAMENTO LIQUIDAÇÃO VOLUNTÁRIA'
             ,2=>'INCORPORAÇÃO'
             ,3=>'FUSÃO'
