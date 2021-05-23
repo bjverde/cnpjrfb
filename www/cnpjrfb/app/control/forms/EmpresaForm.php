@@ -5,6 +5,7 @@ use Adianti\Registry\TSession;
 class EmpresaForm extends TPage
 {
     protected $form; // registration form
+    protected $frm;  //Registration component FormDin 5
     protected $datagrid; // listing
     protected $pageNavigation;
     
@@ -27,48 +28,35 @@ class EmpresaForm extends TPage
         $this->addFilterField('matriz_filial', '=', 'matriz_filial'); //campo, operador, campo do form
         $this->setDefaultOrder('cnpj', 'asc'); // define the default order
 
-        $this->form = new BootstrapFormBuilder;
-        $this->form->setFormTitle('Empresas');
-        $this->form->generateAria(); // automatic aria-label
+        $this->frm = new TFormDin($this,'Empresas');
+        $frm = $this->frm;
+        $frm->enableCSRFProtection(); // Protection cross-site request forgery 
 
         $listSituacaoCadastral = SituacaoCadastralEmpresa::getList();
-        
-        $cnpjLabel = 'CNPJ';
-        $formDinCnpjField = new TFormDinCnpjField('cnpj',$cnpjLabel);
-        $cnpj = $formDinCnpjField->getAdiantiObj();
 
-        $comboMotivoSituacao  = new TCombo('motivo_situacao');
-        $comboMotivoSituacao->addItems($listSituacaoCadastral);
+        $frm->addCnpjField('cnpj','CNPJ',false,null,false);
+        $frm->addTextField('razao_social', 'Razão Social',null,false,null,null,false);
+        $frm->addTextField('nome_fantasia', 'Nome Fantasia');
+        $frm->addSelectField('situacao','Situação',false,TipoEmpresaSituacao::getList());
+        $frm->addSelectField('motivo_situacao','Motivo Situação',false,$listSituacaoCadastral,false);
 
-        $razao_social = new TEntry('razao_social');
-        $nome_fantasia = new TEntry('nome_fantasia');
-        $uf = new TEntry('uf');
-        $comboMatrizFilial  = new TCombo('matriz_filial');
-        $comboMatrizFilial->addItems(TipoMatrizFilial::getList());
-        $comboSituacao      = new TCombo('situacao');
-        $comboSituacao->addItems(TipoEmpresaSituacao::getList());        
-        
+        $frm->addTextField('logradouro', 'Logradouro');
+        $frm->addSelectField('matriz_filial','Matriz',false,TipoMatrizFilial::getList(),false);
 
-        $this->form->addFields( [new TLabel($cnpjLabel)],[$cnpj]
-                               ,[new TLabel('Razão Social')],[$razao_social]
-                            );
-        $this->form->addFields( [new TLabel('Nome Fantasia')], [$nome_fantasia] );
-        $this->form->addFields([new TLabel('Situação')], [$comboSituacao]
-                              ,[new TLabel('Motivo Situação')], [$comboMotivoSituacao]
-                              );
-        $this->form->addFields( [new TLabel('UF')], [$uf]
-                              ,[new TLabel('Matriz')], [$comboMatrizFilial]
-                             );
+        $frm->addTextField('uf', 'UF');
+        $frm->addTextField('municipio', 'Município',null,false,null,null,false);
 
 
+        // O Adianti permite a Internacionalização - A função _t('string') serve
+        //para traduzir termos no sistema. Veja ApplicationTranslator escrevendo
+        //primeiro em ingles e depois traduzindo
+        $frm->setAction( _t('Find'), 'onSearch', null, 'fa:search', 'blue' );
+        $frm->setActionLink( _t('Clear'), 'clear', null, 'fa:eraser', 'red');
+
+
+        $this->form = $frm->show();
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data'));
 
-        // add form actions
-        $this->form->addAction('Find', new TAction([$this, 'onSearch']), 'fa:search blue');        
-        $this->form->addActionLink('Clear',  new TAction([$this, 'clear']), 'fa:eraser red');
-
-        // keep the form filled with the search data
-        $this->form->setData( TSession::getValue('StandardDataGridView_filter_data') );
 
         // create the datagrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
