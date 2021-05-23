@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '5998eb524542c73576ee17ef19940edd3a79c165',
+    'reference' => '3986c0f42d737b3b7f80f7a29a24aa93aedcb1cc',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '5998eb524542c73576ee17ef19940edd3a79c165',
+      'reference' => '3986c0f42d737b3b7f80f7a29a24aa93aedcb1cc',
     ),
     'adianti/pdfdesigner' => 
     array (
@@ -28,7 +28,7 @@
       array (
         0 => '9999999-dev',
       ),
-      'reference' => '8f8980c844caa24010ebdbb8009252402f3a8dd3',
+      'reference' => '76a371e28bfa05e31aaa9075a21b68a96032c5b0',
     ),
     'adianti/plugins' => 
     array (
@@ -60,21 +60,21 @@
     ),
     'firebase/php-jwt' => 
     array (
-      'pretty_version' => 'v5.2.0',
-      'version' => '5.2.0.0',
+      'pretty_version' => 'v5.2.1',
+      'version' => '5.2.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'feb0e820b8436873675fd3aca04f3728eb2185cb',
+      'reference' => 'f42c9110abe98dd6cfe9053c49bc86acc70b2d23',
     ),
     'linfo/linfo' => 
     array (
-      'pretty_version' => 'v4.0.4',
-      'version' => '4.0.4.0',
+      'pretty_version' => 'v4.0.6',
+      'version' => '4.0.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => '2cd1edf906b9ee4dbecfac7a4829d45ce9d585c0',
+      'reference' => 'aea87565d4fd1124e637581b66a41c8b86ee22bb',
     ),
     'pablodalloglio/fpdf' => 
     array (
@@ -84,7 +84,7 @@
       array (
         0 => '9999999-dev',
       ),
-      'reference' => '0339a0c546c66f975a1ac26431a62410a0a49c76',
+      'reference' => 'e1c7233cdc7c8854aa3b134762e1d349633b602a',
     ),
     'pablodalloglio/ole' => 
     array (
@@ -126,12 +126,12 @@
     ),
     'phpmailer/phpmailer' => 
     array (
-      'pretty_version' => 'v6.1.8',
-      'version' => '6.1.8.0',
+      'pretty_version' => 'v6.4.1',
+      'version' => '6.4.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '917ab212fa00dc6eacbb26e8bc387ebe40993bc1',
+      'reference' => '9256f12d8fb0cd0500f93b19e18c356906cbed3d',
     ),
     'phprtflite/phprtflite' => 
     array (

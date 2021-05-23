@@ -472,7 +472,7 @@ echo '
 				<tr>
 					<td>'.$device.'</td>'.($show_type ? '
 					<td>'.$stats['type'].'</td>' : '').($show_speed ? '
-					<td>'.(isset($stats['port_speed']) && $stats['port_speed'] !== false ? $stats['port_speed'].'Mb/s' : '').'</td>' : '').'
+					<td>'.(isset($stats['port_speed']) && $stats['port_speed'] !== false ? Common::byteConvert($stats['port_speed'], 2, 1000, true).'/s' : '').'</td>' : '').'
 					<td>'.Common::byteConvert($stats['sent']['bytes']).'</td>
 					<td>'.Common::byteConvert($stats['recieved']['bytes']).'</td>
 					<td class="net_'.$stats['state'].'">'.ucfirst($stats['state']).'</td>
@@ -619,12 +619,14 @@ echo '
 				';
         $num_devs = count($info['Devices']);
         if ($num_devs > 0) {
-            for ($i = 0; $i < $num_devs; ++$i) {
+            foreach($info['Devices'] as $device) {
                 echo '
 				<tr>
-					<td class="center">'.$info['Devices'][$i]['type'].'</td>
-					',$show_vendor ? '<td>'.($info['Devices'][$i]['vendor'] ? $info['Devices'][$i]['vendor'] : 'Unknown').'</td>' : '','
-					<td>'.$info['Devices'][$i]['device'].'</td>
+					<td class="center">'.$device['type'].'</td>
+					',$show_vendor ? '<td>'.($device['vendor'] ? $device['vendor'] : 'Unknown').'</td>' : '','
+					<td>'.$device['device'].(isset($device['count']) && $device['count'] > 1 ? ' <span class="subtitle">(x'.$device['count'].')</span>' : '' ).'
+					'.(isset($device['speed']) ? '<span class="subtitle">('.Common::byteConvert($device['speed'], 2, 1000, true).'/s)</span>' : '').'
+          </td>
 				</tr>';
             }
         } else {

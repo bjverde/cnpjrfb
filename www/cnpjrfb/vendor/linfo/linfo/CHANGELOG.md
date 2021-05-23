@@ -1,7 +1,19 @@
+# v4.0.6 1/28/2021
+
+- Fix PHP8 type error
+- Rewrite hwpci parser to be more efficient and track count of found PCI/USB devices
+- Apple M1 fixes/support
+- Misc fixes
+
+# v4.0.5 11/14/2020
+
+- Fixes to Linux Distro detection
+- Fixes to FreeBSD memory detection
+- Unit test modernization
+
 # v4.0.4 10/21/2019
 
 - version bump
-
 
 # v4.0.3 10/10/2019
 
@@ -29,6 +41,7 @@
 - Lots of bugfixes
 
 # v3.0.1 8/24/2016
+
 
 # v3.0.0 10/21/2015
  - Full code reorganization. Uses namespaces now. Easily used as a library from within composer

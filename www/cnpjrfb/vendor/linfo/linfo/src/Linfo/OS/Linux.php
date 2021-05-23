@@ -334,10 +334,10 @@ class Linux extends Unixcommon
         }
 
         // Seconds
-        list($seconds) = explode(' ', $contents, 1);
+        list($seconds,) = explode(' ', $contents);
 
         // Get it textual, as in days/minutes/hours/etc
-        $uptime = Common::secondsConvert(ceil($seconds));
+        $uptime = Common::secondsConvert(ceil((float)$seconds));
 
         // Now find out when the system was booted
         $contents = Common::getContents('/proc/stat', false);
@@ -377,7 +377,7 @@ class Linux extends Unixcommon
         // Get partitions
         $partitions = [];
         $partitions_contents = Common::getContents('/proc/partitions');
-        if (@preg_match_all('/(\d+)\s+([a-z]{3})(\d+)$/m', $partitions_contents, $partitions_match, PREG_SET_ORDER) > 0) {
+        if (@preg_match_all('/(\d+)\s+([a-z]{3}|nvme\d+n\d+)(p?\d+)$/m', $partitions_contents, $partitions_match, PREG_SET_ORDER) > 0) {
             // Go through each match
             foreach ($partitions_match as $partition) {
                 $partitions[$partition[2]][] = array(
@@ -523,11 +523,11 @@ class Linux extends Unixcommon
             // Wacky location
             foreach ((array) @glob('/sys/class/hwmon/hwmon*/{,device/}*_input', GLOB_NOSORT | GLOB_BRACE) as $path) {
                 $initpath = rtrim($path, 'input');
-                $value = Common::getContents($path);
+                $value = Common::getIntFromFile($path);
                 $base = basename($path);
                 $labelpath = $initpath.'label';
                 $showemptyfans = isset($this->settings['temps_show0rpmfans']) ? $this->settings['temps_show0rpmfans'] : false;
-                $drivername = @basename(@readlink(dirname($path).'/driver')) ?: false;
+                $drivername = basename(@readlink(dirname($path).'/driver')) ?: false;
 
                 // Temperatures
                 if (is_file($labelpath) && strpos($base, 'temp') === 0) {
@@ -746,8 +746,7 @@ class Linux extends Unixcommon
         $usb_ids || Errors::add('Linux Device Finder', 'Cannot find usb.ids; ensure usbutils is installed.');
 
         // Class that does it
-        $hw = new Hwpci($usb_ids, $pci_ids);
-        $hw->work('linux');
+        $hw = new Hwpci($usb_ids, $pci_ids, 'linux', true);
 
         return $hw->result();
     }
@@ -985,7 +984,7 @@ class Linux extends Unixcommon
                 // These were determined above
                 'state' => $state,
                 'type' => $type ?: 'N/A',
-                'port_speed' => $speed > 0 ? $speed : false,
+                'port_speed' => $speed > 0 ? $speed * 1000 * 1000 : false,
             );
         }
 
@@ -1403,6 +1402,17 @@ class Linux extends Unixcommon
         // - And even also supports empty files, and just uses said file to identify the distro and ignore version
 
         $contents_distros = array(
+            // Various redhat flavors/derivs
+            array(
+                'file' => '/etc/fedora-release',
+                'regex' => '/^Fedora(?: Core)? release (?P<version>\d+) \((?P<codename>[^)]+)\)$/',
+                'distro' => 'Fedora',
+            ),
+            array(
+                'file' => '/etc/oracle-release',
+                'regex' => '/^Oracle Linux Server release (?P<version>[\d\.]+)/',
+                'distro' => 'Oracle',
+            ),
             array(
                 'file' => '/etc/redhat-release',
                 'regex' => '/^CentOS.+release (?P<version>[\d\.]+) \((?P<codename>[^)]+)\)$/i',
@@ -1413,6 +1423,8 @@ class Linux extends Unixcommon
                 'regex' => '/^Red Hat.+release (?P<version>\S+) \((?P<codename>[^)]+)\)$/i',
                 'distro' => 'RedHat',
             ),
+
+            // Should catch most distros (Ubuntu/etc)
             array(
                 'file' => '/etc/lsb-release',
                 'closure' => function ($ini) {
@@ -1437,11 +1449,7 @@ class Linux extends Unixcommon
                     ) : false;
                  },
             ),
-            array(
-                'file' => '/etc/fedora-release',
-                'regex' => '/^Fedora(?: Core)? release (?P<version>\d+) \((?P<codename>[^)]+)\)$/',
-                'distro' => 'Fedora',
-            ),
+
             array(
                 'file' => '/etc/gentoo-release',
                 'regex' => '/(?P<version>[\d\.]+)$/',
@@ -1482,7 +1490,7 @@ class Linux extends Unixcommon
                     'name' => $distro['distro'],
                     'version' => $info['version'].(isset($info['codename']) ? ' ('.ucfirst($info['codename']).')' : ''),
                 );
-            } elseif (isset($distro['distro'])) {
+            } elseif (isset($distro['distro']) && !isset($distro['regex'])) {
                 return array(
                     'name' => $distro['distro'],
                     'version' => $contents,

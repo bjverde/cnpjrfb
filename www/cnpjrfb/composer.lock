@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b49c225774dae08e52a926558ed922b",
+    "content-hash": "4d500ef4e7971c0d6c1c1ca38f228d82",
     "packages": [
         {
             "name": "adianti/pdfdesigner",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/adianti/pdfdesigner.git",
-                "reference": "8f8980c844caa24010ebdbb8009252402f3a8dd3"
+                "reference": "76a371e28bfa05e31aaa9075a21b68a96032c5b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/adianti/pdfdesigner/zipball/8f8980c844caa24010ebdbb8009252402f3a8dd3",
-                "reference": "8f8980c844caa24010ebdbb8009252402f3a8dd3",
+                "url": "https://api.github.com/repos/adianti/pdfdesigner/zipball/76a371e28bfa05e31aaa9075a21b68a96032c5b0",
+                "reference": "76a371e28bfa05e31aaa9075a21b68a96032c5b0",
                 "shasum": ""
             },
             "require": {
@@ -50,7 +50,7 @@
                 "issues": "https://github.com/adianti/pdfdesigner/issues",
                 "source": "https://github.com/adianti/pdfdesigner"
             },
-            "time": "2020-10-25T19:44:06+00:00"
+            "time": "2021-03-26T13:21:01+00:00"
         },
         {
             "name": "adianti/plugins",
@@ -214,16 +214,16 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v5.2.0",
+            "version": "v5.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "feb0e820b8436873675fd3aca04f3728eb2185cb"
+                "reference": "f42c9110abe98dd6cfe9053c49bc86acc70b2d23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/feb0e820b8436873675fd3aca04f3728eb2185cb",
-                "reference": "feb0e820b8436873675fd3aca04f3728eb2185cb",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/f42c9110abe98dd6cfe9053c49bc86acc70b2d23",
+                "reference": "f42c9110abe98dd6cfe9053c49bc86acc70b2d23",
                 "shasum": ""
             },
             "require": {
@@ -262,22 +262,22 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/master"
+                "source": "https://github.com/firebase/php-jwt/tree/v5.2.1"
             },
-            "time": "2020-03-25T18:49:23+00:00"
+            "time": "2021-02-12T00:02:00+00:00"
         },
         {
             "name": "linfo/linfo",
-            "version": "v4.0.4",
+            "version": "v4.0.6",
             "source": {
                 "type": "git",
-                "url": "git@github.com:jrgp/linfo.git",
-                "reference": "2cd1edf906b9ee4dbecfac7a4829d45ce9d585c0"
+                "url": "https://github.com/jrgp/linfo.git",
+                "reference": "aea87565d4fd1124e637581b66a41c8b86ee22bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jrgp/linfo/zipball/2cd1edf906b9ee4dbecfac7a4829d45ce9d585c0",
-                "reference": "2cd1edf906b9ee4dbecfac7a4829d45ce9d585c0",
+                "url": "https://api.github.com/repos/jrgp/linfo/zipball/aea87565d4fd1124e637581b66a41c8b86ee22bb",
+                "reference": "aea87565d4fd1124e637581b66a41c8b86ee22bb",
                 "shasum": ""
             },
             "require": {
@@ -285,7 +285,7 @@
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.8.*"
+                "phpunit/phpunit": "9.4.3"
             },
             "suggest": {
                 "ext-com": "On Windows"
@@ -317,7 +317,11 @@
                 "specs",
                 "system"
             ],
-            "time": "2019-10-21T21:47:56+00:00"
+            "support": {
+                "issues": "https://github.com/jrgp/linfo/issues",
+                "source": "https://github.com/jrgp/linfo/tree/v4.0.6"
+            },
+            "time": "2021-01-28T17:51:22+00:00"
         },
         {
             "name": "pablodalloglio/fpdf",
@@ -325,12 +329,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pablodalloglio/fpdf.git",
-                "reference": "0339a0c546c66f975a1ac26431a62410a0a49c76"
+                "reference": "e1c7233cdc7c8854aa3b134762e1d349633b602a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pablodalloglio/fpdf/zipball/0339a0c546c66f975a1ac26431a62410a0a49c76",
-                "reference": "0339a0c546c66f975a1ac26431a62410a0a49c76",
+                "url": "https://api.github.com/repos/pablodalloglio/fpdf/zipball/e1c7233cdc7c8854aa3b134762e1d349633b602a",
+                "reference": "e1c7233cdc7c8854aa3b134762e1d349633b602a",
                 "shasum": ""
             },
             "default-branch": true,
@@ -359,7 +363,7 @@
                 "issues": "https://github.com/pablodalloglio/fpdf/issues",
                 "source": "https://github.com/pablodalloglio/fpdf"
             },
-            "time": "2020-11-22T20:45:21+00:00"
+            "time": "2021-03-08T21:58:36+00:00"
         },
         {
             "name": "pablodalloglio/ole",
