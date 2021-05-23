@@ -4,12 +4,6 @@ class TipoEmpresaSituacao
     public static function getByid($id)
     {
         $list = self::getList();
-        $idQtd = strlen($id);
-        /*
-        if($idQtd==1){
-            $id = '0'.$id;
-        }
-        */
         return $list[$id];
     }
 
