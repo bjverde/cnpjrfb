@@ -63,8 +63,20 @@ Na primeira parte será a instalação dos elementos básicos sem banco de dados
 ### Parte 3 - O banco completo !
 É algo demorado mesmo! Pois irá baixar 6 GB de dados da Receita Federal e depois criar o banco de dados completo.
 
-1. Baixar todos dados [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) na pasta `<caminho servidor>/cnjrfb/app/CNPJ-full/downloads`
-1. Execute o comando da carga `python3 cnpj.py downloads sqlite data --dir` essa é parte mais demorada.
+Baixar todos dados [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) na pasta `<caminho servidor>/cnjrfb/app/CNPJ-full/downloads`
+
+Conforme orientação no [CNPJ-FULL do Fabio Serpa](https://github.com/fabioserpa/CNPJ-full#dados-p%C3%BAblicos-cnpj---convers%C3%A3o-para-csvsqlite-e-consultas)
+```
+ATENÇÃO!
+
+A partir de março de 2021, a Receita Federal mudou completamente a forma de disponibilizar os dados públicos do CNPJ. O script de carga deste repositório ainda não foi atualizado para refletir estas alterações, e portanto não funcionará para os novos arquivos disponibilizados a partir desta data.
+
+A boa notícia é que agora os arquivos já estão sendo disponibilizados pela RF em formato CSV, o que, dependendo do seu caso, pode até dispensar o uso deste script.
+
+Os scripts deste repositório no entanto ainda assim serão atualizados para manter funcional a conversão dos dados para formato SQLite, assim como os scripts de consulta.
+```
+
+1. [Converta os arquivos ZIP para Sqlite conforme, CNPJ Full](https://github.com/fabioserpa/CNPJ-full#convers%C3%A3o-para-csv-ou-sqlite) 
 1. Alterar o arquivo `<caminho servidor>/cnjrfb/app/config/cnpj_full.ini`. Altere o parâmetro de `name= "app/database/CNPJ_full.db"` para `name = "app/CNPJ-full/data/CNPJ_full.db"`
 
 
