@@ -32,7 +32,7 @@ Esse é um sistema foi feito com PHP usando o [Adianti FrameWork 7.1](https://ww
 
 # Instalando e rodando
 
-Você pode fazer a [instalação manual](#intalação-separada) etapa por etapa ou usar a [#intalação-via-docker-compose](#intalação-via-docker-compose)
+Você pode fazer a [instalação manual](#intalação-separada) etapa por etapa ou usar a [Intalação via Docker-compose](#intalação-via-docker-compose)
 
 ## Requistos
 * PHP 7.2 ou superior. Configura o PHP conforme orientações do [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
@@ -71,9 +71,11 @@ Na primeira parte será a instalação dos elementos básicos sem banco de dados
 ## Intalação via Docker-compose
 Existem alguns arquivos em Docker-compose para criar todo o ambiente necessários para rodar tudo que é necessário. A ideia é com um comando o usuário consiga ter tudo funcionando sem muito esforço.
 
-### No Linux
-* instale o Docker e Docker-compose 
-* clone o projeto
-* Execute o comando `sudo docker-compose build` para gerar todo o ambiente
-* Execute o comando `sudo docker-compose -f docker-compose.yml up -d` para rodar o ambiente já configurado. O Docker pretender resolver apenas [Parte 1 - PHP](#parte-1---php) e a [Parte 2 - Python](#parte-2---python).
-* Executar o procedimento da [Parte 3 - O banco completo](#parte-3---o-banco-completo-) por ser algo muito demorado deve ser feita manualmente.
+1. Instale o Docker e Docker-compose 
+1. clone o projeto
+1. Abriu um terminal na raiz do projeto
+1. Execute o comando `docker-compose build` para gerar todo o ambiente.
+1. Execute o comando `docker-compose -f docker-compose.yml up -d` para rodar o ambiente já configurado. O Docker pretender resolver apenas [Parte 1 - PHP](#parte-1---php) e a [Parte 2 - Python](#parte-2---python).
+1. Verificando se a instalação está correta: Abra o sistema em um navegador e verifique se os 3 menus dentre home está funcionando: Empresa, Sócios e CNEA.
+1. Verificando se a instalação está correta: Abra o sistema em um navegador. Menu > Facilitadores >  Gera Grafo , sugestão é o CNPJ 00.000.000/0001-91
+1. Executar o procedimento da [Parte 3 - O banco completo](#parte-3---o-banco-completo-) por ser algo muito demorado deve ser feito manualmente.
