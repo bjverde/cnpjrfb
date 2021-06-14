@@ -48,13 +48,14 @@ Você pode fazer a [instalação manual](#intalação-separada) etapa por etapa 
 1. Ter um servidor PHP 7.2 ou superior. Configura o PHP conforme orientações do [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
 1. Copie o conteudo da pasta `www` do projeto para o seu servidor PHP.
 1. Verifique se tudo dentro de `<caminho servidor>/cnjrfb/app/CNPJ-full` tem permissão de execução do servidor web. Se for Linux (Debian/Ubuntu) com Apache pode executar `sudo chown -R www-data:www-data`
-1. Abra o sistema em um navegador e verifique se os 3 menus dentre home está funcionando: Empresa, Sócios e CNEA. ATENÇÃO a função de gerar grafo depende da parte 2 em Python para funcionar. Nesse momento você está usando um mini banco de dados de exemplo com apenas 56 KB para mostrar que tudo está funcionando. A versão final do banco de dados tem mais de 6GB e depende da parte 3 para funcionar.
+1. Abra o sistema em um navegador e verifique se os 3 menus dentro HOME está funcionando: Empresa, Sócios e CNEA. 
+
+**ATENÇÃO!! a função de gerar grafo depende da parte 2 em Python para funcionar**. Nesse momento você está usando um mini banco de dados de exemplo com apenas 56 KB para mostrar que tudo está funcionando. A versão final do banco de dados tem mais de 6GB e depende da parte 3 para funcionar.
 
 ### Parte 2 - Python 
-Na primeira parte será a instalação dos elementos básicos sem banco de dados completo.
+Na primeira parte foi a instalação dos elementos básicos sem banco de dados completo.
 
-1. Requisito atendidos: PHP, Python e Disco
-1. Copie o conteúdo da pasta `www` do projeto para o seu servidor PHP.
+1. Requisito: PHP, Python e Disco
 1. Copie o projeto [CNPJ-FULL](https://github.com/fabioserpa/CNPJ-full) e coloque na pasta `<caminho servidor>/cnjrfb/app/CNPJ-full`
     1. [Instale o PIP conforme orientação](https://github.com/fabioserpa/CNPJ-full#gerenciador-de-pacotes-do-python-pip)
     1. Instale os requisitos `pip install -r requirements.txt` USE o arquivo [requirements.txt aqui no projeto](https://github.com/bjverde/cnpjrfb/blob/master/requirements.txt)
