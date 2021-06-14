@@ -13,15 +13,16 @@ class GeraGrafoController
     public static function executa($param)
     {
         //FormDinHelper::debug($param,'Param');
+        $pythonCommand = stristr(PHP_OS, 'LINUX')?'python3':'python'; //Alteração devido o windows10
         $nome_arquivo=null;
         if( empty($param['nome_socio']) ){
             $cnpj = StringHelper::limpaCnpjCpf($param['cnpj']);
             $nome_arquivo = $cnpj;
-            $command = 'python3 consulta.py cnpj '.$cnpj.' graficos/'.$nome_arquivo.' --nivel 3 --viz';
+            $command = $pythonCommand.' consulta.py cnpj '.$cnpj.' graficos/'.$nome_arquivo.' --nivel 3 --viz';
         }else{
             $nome_socio = $param['nome_socio'];
             $nome_arquivo = $param['cnpj'].'_'.$param['cnpj_cpf_socio'];
-            $command = 'python3 consulta.py nome_socio "'.$nome_socio.'" graficos/'.$nome_arquivo.' --nivel 3 --viz';
+            $command = $pythonCommand.' consulta.py nome_socio "'.$nome_socio.'" graficos/'.$nome_arquivo.' --nivel 3 --viz';
         }
         if (! defined ( 'DS' )) {
             define ( 'DS', DIRECTORY_SEPARATOR );
