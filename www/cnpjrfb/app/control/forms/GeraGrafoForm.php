@@ -63,7 +63,16 @@ class GeraGrafoForm extends TPage
             $iframe->height = "700px";
             
             parent::add($iframe);
-        }else{
+        }else{            
+            $msg = '<b>Provável falha de configuração do Python</b>';
+            $msg = $msg.'<br>';
+            $msg = $msg.'<br> abaixo o dois comandos que são excutado para gerar o grafo. Abra um terminal do seu SO, copie e cole o comando ter certeza que está funcionando.';
+            $msg = $msg.'<br>';
+            $msg = $msg.'<br>';
+            $msg = $msg.'<b><pre>'.$resultado[GeraGrafoController::COMANDO].'</pre></b>';
+            $msg = $msg.'<br>';
+            $msg = $msg.'<br> abaixo a mensagem de retorno da exeução';
+            FormDinHelper::debug($msg);
             FormDinHelper::debug($resultado[GeraGrafoController::INFO]);
         }
     }

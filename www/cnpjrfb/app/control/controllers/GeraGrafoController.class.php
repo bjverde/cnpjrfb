@@ -4,6 +4,7 @@ class GeraGrafoController
     const GERAL = 'geral';
     const INFO = 'info';
     const ARQUIVO = 'arquvio';
+    const COMANDO = 'comando';
 
     /***
      * 1 - sudo docker-compose exec apache_php bash
@@ -35,7 +36,8 @@ class GeraGrafoController
         //FormDinHelper::debug($result01,'Result01');
         $resultado = array();
         $resultado[GeraGrafoController::GERAL]   = $result==0?true:false;
-        $resultado[GeraGrafoController::INFO]    = $result01;
+        $resultado[GeraGrafoController::INFO]    = StringHelper::str2utf8($result01);
+        $resultado[GeraGrafoController::COMANDO] = $command;
         $resultado[GeraGrafoController::ARQUIVO] = DS.'graficos'.DS.$nome_arquivo.DS.'grafo.html';
         return $resultado;
     }
