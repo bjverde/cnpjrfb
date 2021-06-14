@@ -13,8 +13,8 @@
 
 
 # Iginorando arquivos
-!/www/cnpjrfb/app/cnpj_full/banco/CNPJ_full.db
-/www/cnpjrfb/app/CNPJ-full/
+#!/www/cnpjrfb/app/cnpj_full/banco/CNPJ_full.db
+#/www/cnpjrfb/app/CNPJ-full/
 /www/cnpjrfb/tmp/
 !/www/cnpjrfb/tmp/.htaccess
 /www/cnpjrfb/tmp2/
