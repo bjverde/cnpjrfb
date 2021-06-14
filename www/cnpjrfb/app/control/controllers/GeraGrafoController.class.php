@@ -42,6 +42,15 @@ class GeraGrafoController
                 $output = shell_exec($command);
                 $result = null;
                 $result01 = null;
+                $msg = '<b>Infelizmente esse sistema não funciona muito bem windows :-( . Para um ambiente mais automatizado rode no Linux ou Usando Docker no Windows</b>';
+                $msg = $msg.'<br>';
+                $msg = $msg.'<br> Execute o comando abaixo em um terminal para gerar o grafo.';
+                $msg = $msg.'<br>';
+                $msg = $msg.'<b><pre>'.$command.'</pre></b>';
+                $msg = $msg.'<br>';
+                $msg = $msg.'<br>Depois de executar o comando o grafo vai aparecer';
+                $msg = $msg.'<br>';                
+                FormDinHelper::debug($msg);
             }
         } catch (Exception $e) {
             echo $e->getMessage();
