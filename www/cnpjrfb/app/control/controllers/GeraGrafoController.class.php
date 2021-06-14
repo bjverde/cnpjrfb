@@ -58,10 +58,10 @@ class GeraGrafoController
         } catch (Exception $e) {
             echo $e->getMessage();
         }
-        FormDinHelper::debug($command,'Command');
-        FormDinHelper::debug($output,'Output');
-        FormDinHelper::debug($result,'Result');
-        FormDinHelper::debug($result01,'Result01');
+        //FormDinHelper::debug($command,'Command');
+        //FormDinHelper::debug($output,'Output');
+        //FormDinHelper::debug($result,'Result');
+        //FormDinHelper::debug($result01,'Result01');
         $resultado = array();
         $resultado[GeraGrafoController::GERAL]   = $result==0?true:false;
         $resultado[GeraGrafoController::INFO]    = StringHelper::str2utf8($result01);
