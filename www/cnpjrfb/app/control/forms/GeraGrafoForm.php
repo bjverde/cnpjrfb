@@ -50,7 +50,7 @@ class GeraGrafoForm extends TPage
             $this->html = new THtmlRenderer('app/resources/link_grafo.html');
             
             $replaces = [];
-            $replaces['link']  = ServerHelper::homeUrl().'app/CNPJ-full'.$resultado[GeraGrafoController::ARQUIVO];
+            $replaces['link']  = ServerHelper::getHomeUrl().'app/CNPJ-full'.$resultado[GeraGrafoController::ARQUIVO];
             $this->html->enableSection('main', $replaces);
             parent::add($this->html);
 
