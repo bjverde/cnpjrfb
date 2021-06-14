@@ -30,7 +30,22 @@ class GeraGrafoController
         $path = dirname ( __FILE__ );
         $path = $path.DS.'..'.DS.'..'.DS.'CNPJ-full'.DS;
         $command = 'cd '.$path.';'.$command.' 2>&1';
-        $result01 = exec($command, $output, $result);        
+
+        //POG para funcionar no windows
+        //https://stackoverflow.com/questions/12757891/enable-shell-exec-in-wamp-server
+        //https://qastack.com.br/programming/14062055/composer-warning-openssl-extension-is-missing-how-to-enable-in-wamp
+        //https://php.docow.com/habilite-shell_exec-no-servidor-wamp.html
+        try {
+            if(stristr(PHP_OS, 'LINUX')){
+                $result01 = exec($command, $output, $result);
+            }else{
+                $output = shell_exec($command);
+                $result = null;
+                $result01 = null;
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
         //FormDinHelper::debug($command,'Command');
         //FormDinHelper::debug($output,'Output');
         //FormDinHelper::debug($result,'Result');
