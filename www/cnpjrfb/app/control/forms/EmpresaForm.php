@@ -41,15 +41,17 @@ class EmpresaForm extends TPage
        
 
         $frm->addFields([new Tlabel($cnpjLabel)],[$cnpj]);
+        $frm->addSelectField('matriz_filial','Matriz',false,TipoMatrizFilial::getList(),false);
 
         //$frm->addCnpjField('cnpj','CNPJ',false,null,false);
-        $frm->addTextField('razao_social', 'Razão Social',null,false,null,null,false);
-        $frm->addTextField('nome_fantasia', 'Nome Fantasia');
+        $frm->addTextField('razao_social', 'Razão Social',null,false,null,null,true);
+        $frm->addTextField('nome_fantasia', 'Nome Fantasia',null,null,null,null,false);
+        
         $frm->addSelectField('situacao','Situação',false,TipoEmpresaSituacao::getList());
         $frm->addSelectField('motivo_situacao','Motivo Situação',false,$listSituacaoCadastral,false);
 
-        $frm->addTextField('logradouro', 'Logradouro');
-        $frm->addSelectField('matriz_filial','Matriz',false,TipoMatrizFilial::getList(),false);
+        //$frm->addTextField('logradouro', 'Logradouro');
+        
 
         $frm->addTextField('uf', 'UF');
         $frm->addTextField('municipio', 'Município',null,false,null,null,false);
