@@ -23,7 +23,7 @@ class EmpresaForm extends TPage
         $this->addFilterField('nome_fantasia', '=', 'nome_fantasia'); //campo, operador, campo do form
         $this->addFilterField('motivo_situacao', '=', 'motivo_situacao'); //campo, operador, campo do form
         $this->addFilterField('uf', '=', 'uf'); //campo, operador, campo do form
-        $this->addFilterField('municipio', '-', 'municipio'); //campo, operador, campo do form
+        $this->addFilterField('municipio', '=', 'municipio'); //campo, operador, campo do form
         $this->addFilterField('situacao', '=', 'situacao'); //campo, operador, campo do form
         $this->addFilterField('matriz_filial', '=', 'matriz_filial'); //campo, operador, campo do form
         $this->setDefaultOrder('cnpj', 'asc'); // define the default order
