@@ -26,6 +26,11 @@ class EmpresaForm extends TPage
         $this->addFilterField('municipio', '=', 'municipio'); //campo, operador, campo do form
         $this->addFilterField('situacao', '=', 'situacao'); //campo, operador, campo do form
         $this->addFilterField('matriz_filial', '=', 'matriz_filial'); //campo, operador, campo do form
+
+        $this->addFilterField('razao_social', 'like', 'razao_social_like'); //campo, operador, campo do form
+        $this->addFilterField('nome_fantasia', 'like', 'nome_fantasia_like'); //campo, operador, campo do form
+        $this->addFilterField('municipio', 'like', 'municipio_like'); //campo, operador, campo do form
+
         $this->setDefaultOrder('cnpj', 'asc'); // define the default order
 
         $this->frm = new TFormDin($this,'Empresas');
@@ -39,6 +44,8 @@ class EmpresaForm extends TPage
         $cnpj = $formDinCnpjField->getAdiantiObj();
         $cnpj->setMask('99.999.999/9999-99',true);
        
+        $frm->addGroupField('textoExato','Busca exata');
+        $frm->addHtmlField('msgTextoExato','Os campos abaixo fazem a pesquisa exata oferecem uma performasse melhor no resultado da busca');
 
         $frm->addFields([new Tlabel($cnpjLabel)],[$cnpj]);
         $frm->addSelectField('matriz_filial','Matriz',false,TipoMatrizFilial::getList(),false);
@@ -56,6 +63,11 @@ class EmpresaForm extends TPage
         $frm->addTextField('uf', 'UF');
         $frm->addTextField('municipio', 'Município',null,false,null,null,false);
 
+        $frm->addGroupField('textoLike','Busca por parte do texto');
+        $frm->addHtmlField('msgTextoLike','Os campos abaixo fazem a pesquisa procurando parte do texto. Cuidado ao usar opção abaixo, o tempo de resposta pode demorar muito.');
+        $frm->addTextField('razao_social_like', 'Razão Social',null,false,null,null,true);
+        $frm->addTextField('nome_fantasia_like', 'Nome Fantasia',null,null,null,null,false);
+        $frm->addTextField('municipio_like', 'Município',null,false,null,null);
 
         // O Adianti permite a Internacionalização - A função _t('string') serve
         //para traduzir termos no sistema. Veja ApplicationTranslator escrevendo
