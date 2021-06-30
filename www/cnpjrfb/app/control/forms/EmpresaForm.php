@@ -34,15 +34,7 @@ class EmpresaForm extends TPage
 
         $listSituacaoCadastral = SituacaoCadastralEmpresa::getList();
 
-        $cnpjLabel = 'CNPJ';
-        $formDinCnpjField = new TFormDinCnpjField('cnpj',$cnpjLabel,false,true);
-        $cnpj = $formDinCnpjField->getAdiantiObj();
-        $cnpj->setMask('99.999.999/9999-99',true);
-       
-
-        $frm->addFields([new Tlabel($cnpjLabel)],[$cnpj]);
-
-        //$frm->addCnpjField('cnpj','CNPJ',false,null,false);
+        $frm->addCnpjField('cnpj','CNPJ',false,null,false);
         $frm->addTextField('razao_social', 'Razão Social',null,false,null,null,false);
         $frm->addTextField('nome_fantasia', 'Nome Fantasia');
         $frm->addSelectField('situacao','Situação',false,TipoEmpresaSituacao::getList());
