@@ -29,6 +29,7 @@ services:
     volumes:
       - ./www:/var/www/html:rw                     #Linux
       - ./logs:/var/log/apache2:rw
+      - ./postgresql:/var/lib/postgresql/data:rw
 
 networks: 
     cnpj-network:
