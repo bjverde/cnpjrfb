@@ -1,5 +1,6 @@
 # sudo docker-compose build
 # sudo docker-compose up
+# sudo docker-compose up --build
 
 # Subir em background
 # sudo docker-compose -f docker-compose.yml up -d
@@ -7,9 +8,11 @@
 # How use iterative mode container
 # sudo docker-compose exec apache_php bash
 
+
 #Purging All Unused or Dangling Images, Containers, Volumes, and Networks
 #sudo docker system prune -a
-version: '3.2'
+
+version: '3.8'
 services:
 
   apache_php:
@@ -24,7 +27,8 @@ services:
     networks:
       - cnpj-network
     volumes:
-      - ./www:/var/www/html
+      - ./www:/var/www/html:rw                     #Linux
+      - ./logs:/var/log/apache2:rw
 
 networks: 
     cnpj-network:
