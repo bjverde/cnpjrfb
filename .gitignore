@@ -11,8 +11,10 @@
 /.project
 /.buildpath
 
+# Iginorando arquivos de log
+/logs/
 
-# Iginorando arquivos
+# Iginorando arquivos do projeto
 !/www/cnpjrfb/app/cnpj_full/banco/CNPJ_full.db
 !/www/cnpjrfb/app/cnpj_full/graficos/readme.md
 /www/cnpjrfb/app/CNPJ-full/
