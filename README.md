@@ -1,6 +1,10 @@
 # cnpjrfb
 Sistema para Consultar os [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) fornecidos pela Receita Federal do Brasil.
 
+Versão 2.0.0 - depois das alterações de 21/03/2021
+
+Baseado no projeto https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
+
 ## Vídeos no Youtube sobre
 
 *Apresentação rápida - Consultar os Dados públicos CNPJ fornecidos pela Receita Federal do Brasil*
