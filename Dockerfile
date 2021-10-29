@@ -28,51 +28,90 @@ EXPOSE 80
 
 ENV DEBIAN_FRONTEND noninteractive
 
-#PHP Modules : curl, date, dom, fileinfo, filter, ftp, hash, iconv, json, libxml, libxml, mbstring, openssl, PDO, pdo_sqlite, Phar, posix, SimpleXML
-
-#Change PHP.INI for Desenv
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+#Install update
+RUN apt-get update
+RUN apt-get upgrade -y
 
 #Install facilitators
-RUN apt-get update && apt-get install -y locate mlocate curl nano wget rpl apt-utils
+RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release \
+             ca-certificates software-properties-common zip unzip vim rpl apt-utils
 
+#install PostgreSQL
+RUN  apt-get install postgresql postgresql-contrib
+
+
+## ------------- Install Apache2 + PHP 8.0  x86_64 ------------------
+#Thread Safety 	disabled 
+#PHP Modules : calendar,Core,ctype,date,exif,fileinfo,filter,ftp,gettext,hash,iconv,json,libxml
+#PHP Modules : ,openssl,pcntl,pcre,PDO,Phar,posix,readline,Reflection,session,shmop,sockets,SPL,standard
+#PHP Modules : ,sysvmsg,sysvsem,sysvshm,tokenizer,Zend OPcache,zlib
+
+RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
+
+#Install update
+RUN apt-get update
+
+
+# Set Timezone
+RUN ln -fs /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends tzdata \
+    && dpkg-reconfigure --frontend noninteractive tzdata
+
+#intall Apache + PHP
+RUN apt-get -y install apache2 libapache2-mod-php8.0 php8.0 php8.0-cli php8.0-common php8.0-opcache
+
+#PHP Install CURl
+RUN apt-get -y install curl php8.0-curl
+
+#PHP Intall DOM, Json, XML e Zip
+RUN apt-get -y install php8.0-dom php8.0-xml php8.0-zip php8.0-soap php8.0-intl php8.0-xsl
+
+#PHP Install MbString
+RUN apt-get -y install php8.0-mbstring
+
+#PHP Install GD
+RUN apt-get -y install php8.0-gd
+
+#PHP Install PDO SqLite
+RUN apt-get -y install php8.0-pdo php8.0-pdo-sqlite php8.0-sqlite3
+
+#PHP Install PDO MySQL
+RUN apt-get -y install php8.0-pdo php8.0-pdo-mysql php8.0-mysql 
+
+#PHP Install PDO PostGress
+RUN apt-get -y install php8.0-pdo php8.0-pgsql
+
+## -------- Config Apache ----------------
+RUN a2dismod mpm_event
+RUN a2dismod mpm_worker
+RUN a2enmod  mpm_prefork
+RUN a2enmod  rewrite
+RUN a2enmod  php8.0
+
+# Enable .htaccess reading
+RUN LANG="en_US.UTF-8" rpl "AllowOverride None" "AllowOverride All" /etc/apache2/apache2.conf
+
+## ------------- LDAP ------------------
+#PHP Install LDAP
+RUN apt-get -y install php8.0-ldap
+
+#Apache2 enebla LDAP
+RUN a2enmod authnz_ldap
+RUN a2enmod ldap
+
+## ------------- Add-ons ------------------
 #Install GIT
-RUN apt-get install -y git-core
+RUN apt-get -y install -y git-core
 
 #PHP Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-#PHP PDO 
-#RUN docker-php-ext-install pdo
-
-#PHP PDO MySQL
-#RUN docker-php-ext-install pdo_mysql mysqli
-
-#PHP PDO PostgreSql
-#RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo_pgsql
-
-#PHP Zip
-RUN apt-get install -y libzip-dev && docker-php-ext-install zip
-
-#PHP GD
-RUN apt-get install -y libpng-dev
-RUN docker-php-ext-install gd
-
-#Python 
-RUN apt-get install -y python3 python3-pip
-RUN python3 -m pip install --upgrade pip
-
-## ------ Install Python Requirements ------------
-
-COPY --chown=www-data:www-data requirements.txt /var/www/requirements.txt
-RUN pip3 install -r /var/www/requirements.txt
-
-#COPY --chown=www-data:www-data install_base_formdin.sh /var/www/install_base_formdin.sh
-#RUN chmod 711 /var/www/install_base_formdin.sh
-#RUN /bin/bash /var/www/install_base_formdin.sh
-
-#COPY --chown=www-data:www-data install_base_formdin_cp.sh /var/www/install_base_formdin_cp.sh
-#RUN chmod 711 /var/www/install_base_formdin_cp.sh
+#PHP Install PHPUnit
+#https://phpunit.de/announcements/phpunit-9.html
+RUN wget -O /usr/local/bin/phpunit-9.phar https://phar.phpunit.de/phpunit-9.phar; chmod +x /usr/local/bin/phpunit-9.phar; \
+ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 
 ## ------------- Finishing ------------------
 RUN apt-get clean
