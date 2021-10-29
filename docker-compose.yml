@@ -29,7 +29,7 @@ services:
     volumes:
       - ./www:/var/www/html:rw            #WWW ROOT
       - ./log_apache:/var/log/apache2:rw  #Log Apahce
-      - ./log_postgresql:/var/log/postgresql:rw  #Log Apahce
+      - ./log_postgresql:/var/log/postgresql:rw  #Log PosgreSQL
       - ./postgresql:/var/lib/postgresql/data:rw
 
 networks: 

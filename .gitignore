@@ -12,7 +12,8 @@
 /.buildpath
 
 # Iginorando arquivos de log
-/logs/
+/log_apache/
+/log_postgresql/
 
 # Iginorando arquivos do projeto
 !/www/cnpjrfb/app/cnpj_full/banco/CNPJ_full.db
