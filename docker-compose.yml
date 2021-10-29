@@ -27,8 +27,9 @@ services:
     networks:
       - cnpj-network
     volumes:
-      - ./www:/var/www/html:rw        #WWW ROOT
-      - ./logs:/var/log/apache2:rw    #Log Apahce
+      - ./www:/var/www/html:rw            #WWW ROOT
+      - ./log_apache:/var/log/apache2:rw  #Log Apahce
+      - ./log_postgresql:/var/log/postgresql:rw  #Log Apahce
       - ./postgresql:/var/lib/postgresql/data:rw
 
 networks: 
