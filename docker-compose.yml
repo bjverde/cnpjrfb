@@ -15,12 +15,12 @@
 version: '3.8'
 services:
 
-  apache_php:
+  cnpjrfb:
     build:      
       context: .
       dockerfile: Dockerfile
-    image: cnpjrfb:deb-apache
-    container_name: apache_php
+    image: cnpjrfb:v2
+    container_name: cnpjrfb
     restart: always    
     ports:
       - "80:80"

@@ -37,7 +37,7 @@ RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https ls
              ca-certificates software-properties-common zip unzip vim rpl apt-utils
 
 #install PostgreSQL
-RUN  apt-get install postgresql postgresql-contrib
+RUN  apt-get -y install postgresql postgresql-contrib
 
 
 ## ------------- Install Apache2 + PHP 8.0  x86_64 ------------------
@@ -119,3 +119,6 @@ RUN apt-get autoremove -y
 
 #Creating index of files
 RUN updatedb
+
+EXPOSE 80
+CMD apachectl -D FOREGROUND
