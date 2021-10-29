@@ -113,6 +113,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN wget -O /usr/local/bin/phpunit-9.phar https://phar.phpunit.de/phpunit-9.phar; chmod +x /usr/local/bin/phpunit-9.phar; \
 ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 
+## ------------- Start Banco ------------------
+
+COPY --chown=www-data:www-data strat_banco.sh /var/www/strat_banco.sh
+RUN chmod 711 /var/www/strat_banco.sh
+RUN /bin/bash /var/www/strat_banco.sh
+
 ## ------------- Finishing ------------------
 RUN apt-get clean
 RUN apt-get autoremove -y
