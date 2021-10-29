@@ -40,6 +40,10 @@ RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https ls
 RUN  apt-get -y install postgresql postgresql-contrib
 
 
+#Python 
+RUN apt-get install -y python3 python3-pip
+RUN python3 -m pip install --upgrade pip
+
 ## ------------- Install Apache2 + PHP 8.0  x86_64 ------------------
 #Thread Safety 	disabled 
 #PHP Modules : calendar,Core,ctype,date,exif,fileinfo,filter,ftp,gettext,hash,iconv,json,libxml
@@ -115,9 +119,9 @@ ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 
 ## ------------- Start Banco ------------------
 
-COPY --chown=www-data:www-data strat_banco.sh /var/www/strat_banco.sh
-RUN chmod 711 /var/www/strat_banco.sh
-RUN /bin/bash /var/www/strat_banco.sh
+COPY --chown=www-data:www-data strat_banco.sh /var/opt/strat_banco.sh
+RUN chmod 711 /var/opt/strat_banco.sh
+RUN /bin/bash /var/opt/strat_banco.sh
 
 ## ------------- Finishing ------------------
 RUN apt-get clean

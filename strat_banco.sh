@@ -16,8 +16,13 @@ echo -e "${YBLUE} Script START BANCO PostgreSQL ${NC}"
 echo ''
 
 echo -e "${LGREEN} Etapa 1/3 - Clonando Projeto Dados CNPJ do  aphonsoar ${NC}"
+cd /var/opt
+git clone https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ.git aphonsoar
 
-git clone https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ.git
+
+echo -e "${LGREEN} Etapa 2/3 - Python install requirements ${NC}"
+cd /var/opt/aphonsoar
+pip install -r requirements.txt
 
 echo ''
 echo -e "${YBLUE} Alteração feita em $DESTINO ${NC}"
