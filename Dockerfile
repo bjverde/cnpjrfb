@@ -45,6 +45,10 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg ma
 RUN apt-get update; apt-get upgrade -y
 RUN apt-get -y install postgresql-13 postgresql-client-13
 
+#Install pgAdmin 4 on Debian 10
+RUN apt-get -y install pgadmin4  pgadmin4-apache2
+
+
 
 #Install Python 3.8 on Debian 10
 # https://tecnstuff.net/how-to-install-python-3-8-on-debian-10/
