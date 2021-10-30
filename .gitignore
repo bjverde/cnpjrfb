@@ -14,6 +14,7 @@
 # Iginorando arquivos de log
 /log_apache/
 /log_postgresql/
+/postgresql/
 
 # Iginorando arquivos do projeto
 !/www/cnpjrfb/app/cnpj_full/banco/CNPJ_full.db
