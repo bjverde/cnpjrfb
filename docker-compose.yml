@@ -31,6 +31,7 @@ services:
       - ./log_apache:/var/log/apache2:rw  #Log Apahce
       - ./log_postgresql:/var/log/postgresql:rw  #Log PosgreSQL
       - ./postgresql:/var/lib/postgresql/data:rw
+      - ./dados_receita:/var/opt/dados_receita:rw
 
 networks: 
     cnpj-network:
