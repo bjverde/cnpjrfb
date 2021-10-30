@@ -23,6 +23,7 @@ git clone https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publico
 echo -e "${LGREEN} Etapa 2/4 - Python install requirements ${NC}"
 cd /var/opt/aphonsoar
 python3.8 -m pip install --upgrade pip
+pip install python-dotenv
 pip install -r requirements.txt
 
 echo -e "${LGREEN} Etapa 3/4 - Python install requirements ${NC}"
