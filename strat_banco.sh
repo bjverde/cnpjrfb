@@ -26,7 +26,7 @@ python3 -m pip install --upgrade pip
 pip install -r requirements.txt
 
 echo -e "${LGREEN} Etapa 3/4 - Python install requirements ${NC}"
-cd /var/opt/aphonsoar
+cd /var/opt/aphonsoar/code
 python3 pip ETL_coletar_dados_e_gravar_BD.py
 
 echo ''
