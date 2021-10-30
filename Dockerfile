@@ -138,9 +138,9 @@ ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 
 ## ------------- Start Banco ------------------
 
-COPY --chown=www-data:www-data strat_banco.sh /var/opt/strat_banco.sh
-RUN chmod 711 /var/opt/strat_banco.sh
-RUN /bin/bash /var/opt/strat_banco.sh
+COPY --chown=www-data:www-data start_banco.sh /var/opt/start_banco.sh
+RUN chmod 711 /var/opt/start_banco.sh
+RUN /bin/bash /var/opt/start_banco.sh
 
 ## ------------- Finishing ------------------
 RUN apt-get clean
