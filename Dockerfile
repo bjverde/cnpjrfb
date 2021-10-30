@@ -34,15 +34,32 @@ RUN apt-get upgrade -y
 
 #Install facilitators
 RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release \
-             ca-certificates software-properties-common zip unzip vim rpl apt-utils
+             ca-certificates software-properties-common zip unzip vim rpl apt-utils sudo gnupg gnupg2
 
-#install PostgreSQL
-RUN  apt-get -y install postgresql postgresql-contrib
+#Install PostgreSQL 13 on Debian 10
+# https://www.osradar.com/how-to-install-postgresql-13-debian-10/
+# https://codepre.com/install-postgresql-13-on-debian-10-debian-9.html
+# https://computingforgeeks.com/install-postgresql-on-debian-linux/
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+RUN apt-get update; apt-get upgrade -y
+RUN apt-get -y install postgresql-13 postgresql-client-13
 
 
-#Python 
-RUN apt-get install -y python3 python3-pip
-RUN python3 -m pip install --upgrade pip
+#Install Python 3.8 on Debian 10
+# https://tecnstuff.net/how-to-install-python-3-8-on-debian-10/
+# https://linuxize.com/post/how-to-install-python-3-8-on-debian-10/
+# https://stackoverflow.com/questions/62830862/how-to-install-python3-8-on-debian-10
+RUN  apt-get -y install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev gcc
+
+WORKDIR /var/opt
+RUN wget -c https://www.python.org/ftp/python/3.8.2/Python-3.8.2.tgz
+RUN tar -xf Python-3.8.2.tgz
+WORKDIR /var/opt/Python-3.8.2
+RUN ./configure --enable-optimizations
+RUN make -j 4
+RUN make altinstall
+
 
 ## ------------- Install Apache2 + PHP 8.0  x86_64 ------------------
 #Thread Safety 	disabled 
