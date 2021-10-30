@@ -12,7 +12,7 @@ NC='\033[0m' # No Color
 #Codigo
 
 echo ''
-echo -e "${YBLUE} Download Arquivos ${NC}"
+echo -e "${YBLUE} Download Arquivos dados outubro 2021${NC}"
 echo ''
 wget -c http://200.152.38.155/CNPJ/F.K03200$W.SIMPLES.CSV.D11009.zip
 wget -c http://200.152.38.155/CNPJ/F.K03200$Z.D11009.CNAECSV.zip

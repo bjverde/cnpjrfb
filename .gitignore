@@ -14,6 +14,12 @@
 # Iginorando arquivos de log
 /log_apache/
 /log_postgresql/
+
+#Arquivos da receita federal
+!/dados_receita/output_files/download_files.sh
+/dados_receita/output_files/
+
+#Banco de dados
 /postgresql/
 
 # Iginorando arquivos do projeto
