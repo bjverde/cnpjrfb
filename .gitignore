@@ -18,6 +18,7 @@
 #Arquivos da receita federal
 !/dados_receita/output_files/download_files.sh
 /dados_receita/output_files/
+/dados_receita/output_files_bk/
 
 #Banco de dados
 /postgresql/
