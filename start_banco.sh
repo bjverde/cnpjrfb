@@ -26,7 +26,7 @@ pip install python-dotenv
 pip install -r requirements.txt
 
 echo -e "${LGREEN} Etapa 3/3 - Executa ETL e criar banco ${NC}"
-python3.8 /var/opt/aphonsoar/code/ETL_coletar_dados_e_gravar_BD.py
+python3.8 /var/opt/dados_receita/ETL_coletar_dados_e_gravar_BD.py
 
 echo ''
 echo -e "${YBLUE} Alteração feita em $DESTINO ${NC}"
