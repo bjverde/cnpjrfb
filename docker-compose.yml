@@ -55,7 +55,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: user@domain.com
       PGADMIN_DEFAULT_PASSWORD: 123456
     ports:
-      - "8080:8080"
+      - "5050:5050"
     networks:
       - cnpj-network      
 
