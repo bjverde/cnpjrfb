@@ -15,13 +15,12 @@ echo ''
 echo -e "${YBLUE} Script START BANCO PostgreSQL ${NC}"
 echo ''
 
-echo -e "${LGREEN} Etapa 1/4 - Clonando Projeto Dados CNPJ do  aphonsoar ${NC}"
-cd /var/opt
-git clone https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ.git aphonsoar
+echo -e "${LGREEN} Etapa 1/4 - Download arquivos com wget ${NC}"
+#/var/opt/dados_receita/download_files.sh
 
 
 echo -e "${LGREEN} Etapa 2/5 - Python install requirements ${NC}"
-cd /var/opt/aphonsoar
+cd /var/opt/dados_receita
 python3.8 -m pip install --upgrade pip
 pip install python-dotenv
 pip install -r requirements.txt
