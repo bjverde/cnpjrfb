@@ -19,6 +19,8 @@
 !/dados_receita/output_files/download_files.sh
 /dados_receita/output_files/
 /dados_receita/output_files_bk/
+!/dados_receita/extracted_files/readme.md
+/dados_receita/extracted_files/
 
 #Banco de dados
 /postgresql/
