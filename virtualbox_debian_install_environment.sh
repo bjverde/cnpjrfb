@@ -82,7 +82,26 @@ apt-get -y install php8.0-ldap
 a2enmod authnz_ldap
 a2enmod ldap
 
-echo -e "${LGREEN} Etapa 5/${ETAPAS} - Install PostgreSql 13 ${NC}"
+
+echo -e "${LGREEN} Etapa 5/${ETAPAS} - Install Python 3.8 ${NC}"
+#Install Python 3.8 on Debian 10
+# https://tecnstuff.net/how-to-install-python-3-8-on-debian-10/
+# https://linuxize.com/post/how-to-install-python-3-8-on-debian-10/
+# https://stackoverflow.com/questions/62830862/how-to-install-python3-8-on-debian-10
+apt-get -y install build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev \
+                        libssl-dev libsqlite3-dev libreadline-dev libffi-dev curl libbz2-dev \
+                        libpq-dev lzma liblzma-dev
+
+cd /var/opt
+wget -c https://www.python.org/ftp/python/3.8.2/Python-3.8.2.tgz
+tar -xf Python-3.8.2.tgz
+cd /var/opt/Python-3.8.2
+./configure --enable-optimizations
+make -j 4
+make altinstall
+
+
+echo -e "${LGREEN} Etapa 6/${ETAPAS} - Install PostgreSql 13 ${NC}"
 # https://www.osradar.com/how-to-install-postgresql-13-debian-10/
 # https://codepre.com/install-postgresql-13-on-debian-10-debian-9.html
 # https://computingforgeeks.com/install-postgresql-on-debian-linux/
@@ -94,12 +113,24 @@ apt-get -y install postgresql-13 postgresql-client-13 postgresql-contrib-13
 
 echo -e "${LGREEN} Etapa 6/${ETAPAS} - Install PgAdmin4 ${NC}"
 # https://www.pgadmin.org/download/pgadmin-4-apt/
+# https://www.rosehosting.com/blog/install-pgadmin-4-on-debian-10/
 curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo apt-key add
 sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
 apt-get -y install pgadmin4 pgadmin4-web 
 #pgadmin4-web 
 sudo /usr/pgadmin4/bin/setup-web.sh
 
+echo ''
+echo -e "${LGREEN} Execute os comandos abaixo na sequencia para alterar a senha e criar o banco de dados dados_rfb. INCLUIR os ponto e virgula ${NC}"
+# https://stackoverflow.com/questions/24917832/how-connect-postgres-to-localhost-server-using-pgadmin-on-ubuntu
+echo -e "${LGREEN} --------- ${NC}"
+echo -e "${YBLUE} sudo -u postgres psql postgres ${NC}"
+echo -e "${YBLUE} alter user postgres with password 'postgres'; ${NC}"
+echo -e "${YBLUE} DROP DATABASE IF EXISTS dados_rfb; ${NC}"
+echo -e "${YBLUE} CREATE DATABASE dados_rfb; ${NC}"
+echo -e "${YBLUE} \q ${NC}"
+echo -e "${LGREEN} --------- ${NC}"
+echo ''
 echo -e "${LGREEN} Acesse o link para ver o PGADMIN4 http://localhost/pgadmin4 ${NC}"
 
 
