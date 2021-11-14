@@ -102,5 +102,11 @@ Abaixo um breve tutorial para quem deseja instalar dentro do VirtualBox.
 1. Instalar o VirtualBox no sistema operacional nativo (Windows 7, 10)
 1. Baixa o ISO do Debian 10 https://www.debian.org/releases/buster/debian-installer/
 1. Instarlar o Debian 10
+1. Se for usar pasta compatilhada no VirtualBox 
+    * instale virtual guest additional https://linuxize.com/post/how-to-install-virtualbox-guest-additions-on-debian-10/
+    * coloque o usuário principal no sudores `/sbin/usermod -aG sudo <NOME_USUARIO>`
+    * reiniciar a VM
+    * colocar usuário no grupo virtual box `sudo usermod -a -G vboxsf $USER`
+    * reiniciar a VM
 1. Clonar o baixar esse projeto
-1. rodar o script debian_install_environment.sh
+1. rodar o script `virtualbox_debian_install_environment.sh`

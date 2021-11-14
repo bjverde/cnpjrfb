@@ -25,6 +25,9 @@ apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-re
 
 
 echo -e "${LGREEN} Etapa 3/${ETAPAS} - Install PostgreSql 13 ${NC}"
+# https://www.osradar.com/how-to-install-postgresql-13-debian-10/
+# https://codepre.com/install-postgresql-13-on-debian-10-debian-9.html
+# https://computingforgeeks.com/install-postgresql-on-debian-linux/
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
 apt-get update; apt-get upgrade -y
