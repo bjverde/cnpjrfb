@@ -60,12 +60,6 @@ def bar_progress(current, total, width=80):
   sys.stdout.write("\r" + progress_message)
   sys.stdout.flush()
 
-#%%
-# Download layout:
-Layout = 'https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros/consultas/arquivos/NOVOLAYOUTDOSDADOSABERTOSDOCNPJ.pdf'
-print('Baixando layout:')
-wget.download(Layout, out=output_files, bar=bar_progress)
-
 ####################################################################################################################################################
 #%%
 # Creating directory to store the extracted files:
