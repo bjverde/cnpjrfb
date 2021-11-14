@@ -140,16 +140,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN wget -O /usr/local/bin/phpunit-9.phar https://phar.phpunit.de/phpunit-9.phar; chmod +x /usr/local/bin/phpunit-9.phar; \
 ln -s /usr/local/bin/phpunit-9.phar /usr/local/bin/phpunit
 
-## ------------- Start Banco ------------------
-
-WORKDIR /var/opt/dados_receita
-RUN python3.8 -m pip install --upgrade pip
-RUN pip install python-dotenv
-
-COPY --chown=www-data:www-data start_banco.sh /var/opt/start_banco.sh
-RUN chmod 711 /var/opt/start_banco.sh
-RUN /bin/bash /var/opt/start_banco.sh
-
 ## ------------- Finishing ------------------
 RUN apt-get clean
 RUN apt-get autoremove -y
