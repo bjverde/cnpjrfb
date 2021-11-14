@@ -94,3 +94,13 @@ Existem alguns arquivos em Docker-compose para criar todo o ambiente necessário
 1. Verificando se a instalação está correta: Abra o sistema em um navegador e verifique se os 3 menus dentre home está funcionando: Empresa, Sócios e CNEA.
 1. Verificando se a instalação está correta: Abra o sistema em um navegador. Menu > Facilitadores >  Gera Grafo , sugestão é o CNPJ 00.000.000/0001-91
 1. Executar o procedimento da [Parte 3 - O banco completo](#parte-3---o-banco-completo-) por ser algo muito demorado deve ser feito manualmente.
+
+
+## Intalação com VirtualBox
+Abaixo um breve tutorial para quem deseja instalar dentro do VirtualBox.
+
+1. Instalar o VirtualBox no sistema operacional nativo (Windows 7, 10)
+1. Baixa o ISO do Debian 10 https://www.debian.org/releases/buster/debian-installer/
+1. Instarlar o Debian 10
+1. Clonar o baixar esse projeto
+1. rodar o script debian_install_environment.sh
