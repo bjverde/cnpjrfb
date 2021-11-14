@@ -46,7 +46,7 @@ RUN apt-get update; apt-get upgrade -y
 RUN apt-get -y install postgresql-13 postgresql-client-13
 
 #Install pgAdmin 4 on Debian 10
-RUN apt-get -y install pgadmin4  pgadmin4-apache2
+#RUN apt-get -y install pgadmin4  pgadmin4-apache2
 
 
 
