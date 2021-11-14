@@ -121,7 +121,7 @@ apt-get -y install pgadmin4 pgadmin4-web
 sudo /usr/pgadmin4/bin/setup-web.sh
 
 echo ''
-echo -e "${LGREEN} Execute os comandos abaixo na sequencia para alterar a senha e criar o banco de dados dados_rfb. INCLUIR os ponto e virgula ${NC}"
+echo -e "${LGREEN} Etapa 7/${ETAPAS} Execute os comandos abaixo na sequencia para alterar a senha e criar o banco de dados dados_rfb. INCLUIR os ponto e virgula ${NC}"
 # https://stackoverflow.com/questions/24917832/how-connect-postgres-to-localhost-server-using-pgadmin-on-ubuntu
 echo -e "${LGREEN} --------- ${NC}"
 echo -e "${YBLUE} sudo -u postgres psql postgres ${NC}"
@@ -131,6 +131,10 @@ echo -e "${YBLUE} CREATE DATABASE dados_rfb; ${NC}"
 echo -e "${YBLUE} \q ${NC}"
 echo -e "${LGREEN} --------- ${NC}"
 echo ''
+echo -e "${LGREEN} Etapa 8/${ETAPAS} - Executa ETL e criar banco ${NC}"
+echo -e "${LGREEN} --------- ${NC}"
+echo -e "${YBLUE} cd dados_receita; python3.8 ETL_coletar_dados_e_gravar_BD.py ${NC}"
+echo -e "${LGREEN} --------- ${NC}"
 echo -e "${LGREEN} Acesse o link para ver o PGADMIN4 http://localhost/pgadmin4 ${NC}"
 
 
