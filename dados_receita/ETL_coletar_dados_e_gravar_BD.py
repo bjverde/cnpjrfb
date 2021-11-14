@@ -61,17 +61,6 @@ def bar_progress(current, total, width=80):
   sys.stdout.flush()
 
 #%%
-# Download arquivos ################################################################################################################################
-i_l = 0
-for l in Files:
-    # Download dos arquivos
-    i_l += 1
-    print('Baixando arquivo:')
-    print(str(i_l) + ' - ' + l)
-    url = dados_rf+l
-    wget.download(url, out=output_files, bar=bar_progress)
-
-#%%
 # Download layout:
 Layout = 'https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros/consultas/arquivos/NOVOLAYOUTDOSDADOSABERTOSDOCNPJ.pdf'
 print('Baixando layout:')
