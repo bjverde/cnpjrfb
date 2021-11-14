@@ -24,14 +24,12 @@ echo -e "${LGREEN} Etapa 2/${ETAPAS} - Install facilitators ${NC}"
 apt-get -y install locate mlocate wget apt-utils curl apt-transport-https lsb-release ca-certificates software-properties-common zip unzip vim rpl apt-utils sudo gnupg gnupg2
 
 
-echo -e "${LGREEN} Etapa 2/${ETAPAS} - Python install requirements ${NC}"
-cd /var/opt/dados_receita
-python3.8 -m pip install --upgrade pip
-pip install python-dotenv
-pip install -r requirements.txt
+echo -e "${LGREEN} Etapa 3/${ETAPAS} - Install PostgreSql 13 ${NC}"
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+apt-get update; apt-get upgrade -y
+apt-get -y install postgresql-13 postgresql-client-13 postgresql-contrib-13
 
-echo -e "${LGREEN} Etapa 3/3 - Executa ETL e criar banco ${NC}"
-python3.8 /var/opt/dados_receita/ETL_coletar_dados_e_gravar_BD.py
 
 echo ''
 echo -e "${YBLUE} Alteração feita em $DESTINO ${NC}"
