@@ -13,7 +13,7 @@ NC='\033[0m' # No Color
 ETAPAS=10
 
 echo ''
-echo -e "${YBLUE} Script Debian 10 install Environment ${NC}"
+echo -e "${YBLUE} Script Debian 10 install Environment - Parte 01 de 02${NC}"
 echo ''
 
 echo -e "${LGREEN} Etapa 1/${ETAPAS} - Install update ${NC}"
@@ -131,13 +131,4 @@ echo -e "${YBLUE} CREATE DATABASE dados_rfb; ${NC}"
 echo -e "${YBLUE} \q ${NC}"
 echo -e "${LGREEN} --------- ${NC}"
 echo ''
-echo -e "${LGREEN} Etapa 8/${ETAPAS} - Executa ETL e criar banco ${NC}"
-echo -e "${LGREEN} --------- ${NC}"
-echo -e "${YBLUE} cd dados_receita; python3.8 ETL_coletar_dados_e_gravar_BD.py ${NC}"
-echo -e "${LGREEN} --------- ${NC}"
-echo -e "${LGREEN} Acesse o link para ver o PGADMIN4 http://localhost/pgadmin4 ${NC}"
-
-
-echo ''
-echo -e "${YBLUE} Alteração feita em $DESTINO ${NC}"
-echo ''
+echo -e "${LGREEN} Depois de executar os comandos acima executar vbox_environment_2.sh ${NC}"
