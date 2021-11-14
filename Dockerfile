@@ -40,10 +40,10 @@ RUN apt-get -y install locate mlocate wget apt-utils curl apt-transport-https ls
 # https://www.osradar.com/how-to-install-postgresql-13-debian-10/
 # https://codepre.com/install-postgresql-13-on-debian-10-debian-9.html
 # https://computingforgeeks.com/install-postgresql-on-debian-linux/
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
-RUN apt-get update; apt-get upgrade -y
-RUN apt-get -y install postgresql-13 postgresql-client-13
+#RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+#RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |sudo tee  /etc/apt/sources.list.d/pgdg.list
+#RUN apt-get update; apt-get upgrade -y
+#RUN apt-get -y install postgresql-13 postgresql-client-13 postgresql-contrib-13
 
 #Install pgAdmin 4 on Debian 10
 #RUN apt-get -y install pgadmin4  pgadmin4-apache2

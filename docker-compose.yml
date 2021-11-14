@@ -29,9 +29,35 @@ services:
     volumes:
       - ./www:/var/www/html:rw            #WWW ROOT
       - ./log_apache:/var/log/apache2:rw  #Log Apahce
-      - ./log_postgresql:/var/log/postgresql:rw  #Log PosgreSQL
-      - ./postgresql:/var/lib/postgresql/data:rw
       - ./dados_receita:/var/opt/dados_receita:rw
+
+  database:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - cnpj-network
+    volumes:
+      - ./log_postgresql:/var/log/postgresql:rw  #Log PosgreSQL
+      #- ./postgresql:/var/lib/postgresql/data:rw      
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgAdmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: 123456
+    ports:
+      - "8080:8080"
+    networks:
+      - cnpj-network      
 
 networks: 
     cnpj-network:
