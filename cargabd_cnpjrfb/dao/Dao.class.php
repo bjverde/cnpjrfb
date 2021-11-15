@@ -39,7 +39,9 @@ class Dao
     {
         $sql = 'select count(codigo) as qtd from '.$this->getTabelaName();
         $result = $this->tpdo->executeSql($sql);
-        return $result['QTD'][0];
+        $result = ArrayHelper::getArray($result,0);
+        $result = ArrayHelper::get($result,'qtd');
+        return $result;
     }
     //--------------------------------------------------------------------------------
     public function truncate()
