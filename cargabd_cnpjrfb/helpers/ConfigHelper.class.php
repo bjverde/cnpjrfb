@@ -20,7 +20,6 @@ class ConfigHelper
         }else{
             throw new InvalidArgumentException('ERRO: Arquivo Config não encontrado');
         }
-
     }
 
     public static function getExtractedFilesPath()
@@ -30,6 +29,9 @@ class ConfigHelper
         if( empty($path) ){
             throw new InvalidArgumentException('ERRO: Caminho do arquivos descompactados não informado');
         }
+        if( !is_dir($path) ){
+            throw new InvalidArgumentException('ERRO: Caminho informado '.$path.' não é válido');
+        }        
         return $path;
     }
 
