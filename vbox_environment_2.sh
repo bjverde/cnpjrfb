@@ -17,11 +17,12 @@ echo -e "${YBLUE} Script Debian 10 install Environment - Parte 02 de 02${NC}"
 echo ''
 
 echo -e "${LGREEN} Etapa 8/${ETAPAS} -  Download arquivos com wget ${NC}"
-./dados_receita/output_files/download_files.sh
+cd dados_receita/output_files/
+./download_files.sh
 
 
 echo -e "${LGREEN} Etapa 9/${ETAPAS} - Python install requirements ${NC}"
-cd dados_receita
+cd ../
 python3.8 -m pip install --upgrade pip
 pip install python-dotenv
 pip install -r requirements.txt
