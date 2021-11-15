@@ -10,7 +10,7 @@
  */
 
 if ( !function_exists( 'cargabd_cnpjrfb_autoload') ) {
-    function concursomembrointranet_autoload( $class_name )
+    function cargabd_cnpjrfb_autoload( $class_name )
     {
         $path = __DIR__.DS.$class_name.'.class.php';
         if (file_exists($path)){
@@ -19,5 +19,5 @@ if ( !function_exists( 'cargabd_cnpjrfb_autoload') ) {
             return false;
         }
     }
-spl_autoload_register('cargabd_cnpjrfb_autoload');
+    spl_autoload_register('cargabd_cnpjrfb_autoload');
 }
