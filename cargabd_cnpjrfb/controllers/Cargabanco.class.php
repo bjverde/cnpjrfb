@@ -47,6 +47,7 @@ class Cargabanco
             echo 'TRUNCATE '.$classDao->getTabelaName().' tem ZERO registros, não rodou truncate';
         }else{
             echo 'TRUNCATE '.$classDao->getTabelaName().' com '.$qtd.' registros apagados';
+            $classDao->truncate();
         }
         $this->quebraLinha();
     }
