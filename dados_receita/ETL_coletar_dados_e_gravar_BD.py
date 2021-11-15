@@ -165,7 +165,8 @@ for e in range(0, len(arquivos_empresa)):
                           #nrows=100,
                           skiprows=0,
                           header=None,
-                          dtype=empresa_dtypes)
+                          dtype=empresa_dtypes,
+                          encoding="ISO-8859-1")
 
     # Tratamento do arquivo antes de inserir na base:
     empresa = empresa.reset_index()
