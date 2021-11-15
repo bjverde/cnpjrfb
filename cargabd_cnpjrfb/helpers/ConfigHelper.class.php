@@ -13,7 +13,7 @@ class ConfigHelper
 
     public static function loadAll()
     {        
-        $filep = ROOT_FOLDER.DS.'config.php';
+        $filep = ROOT_PATH.DS.'config.php';
         if (file_exists($filep)){
             $ini = require $filep;
             return $ini;
