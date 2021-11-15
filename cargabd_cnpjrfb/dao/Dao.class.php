@@ -48,7 +48,7 @@ class Dao
     {
         $sql = 'TRUNCATE '.$this->getTabelaName();
         $result = $this->tpdo->executeSql($sql);
-        return $result['QTD'][0];
+        return $result;
     }
 }
 ?>
