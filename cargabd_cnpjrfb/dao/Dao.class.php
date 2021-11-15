@@ -13,7 +13,6 @@ class Dao
 {
     private $tpdo = null;
     public  $tabableName = null;
-    public  $nomeArquivoCsv = null;
 
     public function __construct($tpdo=null)
     {
@@ -34,15 +33,7 @@ class Dao
     public function setTabelaName($tabableName)
     {
         $this->tabableName = $tabableName;
-    }
-    public function getNomeArquivoCsv()
-    {
-        return $this->nomeArquivoCsv;
-    }
-    public function setNomeArquivoCsv($nomeArquivoCsv)
-    {
-        $this->nomeArquivoCsv = $nomeArquivoCsv;
-    }        
+    }       
     //--------------------------------------------------------------------------------
     public function selectCount()
     {

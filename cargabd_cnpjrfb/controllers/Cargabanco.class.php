@@ -18,10 +18,7 @@ class Cargabanco
         $tpdo::connect();
 
         $this->cnaeDAO = new CnaeDAO($tpdo);
-        $this->cnaeDAO->setNomeArquivoCsv('F.K03200$Z.D11009.CNAECSV');
-
         $this->qualsDAO = new QualsDAO($tpdo);
-        $this->qualsDAO->setNomeArquivoCsv('F.K03200$Z.D11009.QUALSCSV');
     }
     public function executar(){
         try{
@@ -59,11 +56,11 @@ class Cargabanco
         $this->quebraLinha();
     }
     public function carregaDados(){
-        $this->carregaDadosTabela($this->cnaeDAO);
-        $this->carregaDadosTabela($this->qualsDAO);
+        $this->carregaDadosTabela($this->cnaeDAO,'F.K03200$Z.D11009.CNAECSV');
+        $this->carregaDadosTabela($this->qualsDAO,'F.K03200$Z.D11009.QUALSCSV');
     }
-    public function carregaDadosTabela(Dao $classDao){
-        $arquivoCsv = $this->path.DS.$classDao->getNomeArquivoCsv();
+    public function carregaDadosTabela(Dao $classDao, string $arquivoCsv){
+        $arquivoCsv = $this->path.DS.$arquivoCsv;
         if (!file_exists($arquivoCsv)){
             throw new InvalidArgumentException('ERRO: o arquivo '.$arquivoCsv.' não encontrado');
         }
