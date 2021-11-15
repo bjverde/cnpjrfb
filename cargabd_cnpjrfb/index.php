@@ -12,3 +12,6 @@ require_once 'controllers/autoload_cargabd_cnpjrfb.php';
 require_once 'dao/autoload_cargabd_cnpjrfb_dao.php';
 
 ValidarHelper::InformacoesIniciais();
+
+$carga = new Cargabanco();
+$carga->executar();
