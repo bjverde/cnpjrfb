@@ -9,32 +9,17 @@
  * 
  * System concursomembroadm created in: 2021-03-10 20:42:27
  */
-class CnaeDAO 
+class CnaeDAO  extends Dao
 {
     private static $sqlBasicSelect = "select
                                       codigo
                                      ,descricao
                                      from cnae ";
 
-    private $tpdo = null;
-
     public function __construct($tpdo=null)
     {
-        $this->tpdo=$tpdo;
-    }
-    //--------------------------------------------------------------------------------
-    public function selectCount()
-    {
-        $sql = 'select count(codigo) as qtd from cnae';
-        $result = $this->tpdo->executeSql($sql);
-        return $result['QTD'][0];
-    }
-    //--------------------------------------------------------------------------------
-    public function truncate()
-    {
-        $sql = 'TRUNCATE cnae';
-        $result = $this->tpdo->executeSql($sql);
-        return $result['QTD'][0];
+        parent::__construct($tpdo);
+        $this->setTabelaName('cnae');
     }
     //--------------------------------------------------------------------------------
     public function insert( ConcursoVO $objVo )
