@@ -66,9 +66,10 @@ class TPDOConnection {
     public static function connect() {        
         try {
             $dsn = self::defineDsnPDO();
-            self::$instance[ self::getDatabaseName()] = new PDO( $dsn, self::$username, self::$password );
+            $username = ConfigHelper::getDdUser();
+            $password = ConfigHelper::getDdPassword();
+            self::$instance[ self::getDatabaseName()] = new PDO( $dsn, $username, $password );
             self::$instance[ self::getDatabaseName()]->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-            self::getExtraConfigPDO();
         } catch( PDOException $e ){
             $msg = 'Erro de conexão.<br><b>DNS:</b><br>'
                   .$dsn
@@ -89,7 +90,7 @@ class TPDOConnection {
      * @return string
      */
     private static function defineDsnPDO() {
-        $host = self::getHost();
+        $host = ConfigHelper::getDdHost();
         $database = self::getDataBaseName();
         $port = self::getPort();
         

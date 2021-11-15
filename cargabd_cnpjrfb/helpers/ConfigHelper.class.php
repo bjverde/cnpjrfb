@@ -10,8 +10,11 @@ class ConfigHelper
 {
     const EXTRACTED_FILES_PATH = "EXTRACTED_FILES_PATH";
     const DB_DRIVE = "db_drive";
+    const DB_HOST = "db_host";
     const DB_PORT = "db_port";
     const DB_NAME = "db_name";
+    const DB_USER = "db_user";
+    const DB_PASS = "db_password";
 
     public static function loadAll()
     {        
@@ -41,6 +44,12 @@ class ConfigHelper
         $drive = ArrayHelper::get($ini,self::DB_DRIVE);
         return $drive;
     }
+    public static function getDdHost()
+    {
+        $ini = self::loadAll();
+        $drive = ArrayHelper::get($ini,self::DB_HOST);
+        return $drive;
+    }    
     public static function getDdPort()
     {
         $ini = self::loadAll();
@@ -51,6 +60,18 @@ class ConfigHelper
     {
         $ini = self::loadAll();
         $drive = ArrayHelper::get($ini,self::DB_NAME);
+        return $drive;
+    }
+    public static function getDdUser()
+    {
+        $ini = self::loadAll();
+        $drive = ArrayHelper::get($ini,self::DB_USER);
+        return $drive;
+    }
+    public static function getDdPassword()
+    {
+        $ini = self::loadAll();
+        $drive = ArrayHelper::get($ini,self::DB_PASS);
         return $drive;
     }
 }
