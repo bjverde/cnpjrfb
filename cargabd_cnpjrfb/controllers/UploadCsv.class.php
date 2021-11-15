@@ -12,6 +12,7 @@ class UploadCsv {
     }
 
 	public function executar(){
+        $numRegistros = 0;
         $separador = ';';
         $file = fopen($this->arquivoCsv, 'r');
         while ( ($line = fgets ($file)) !== false ){
@@ -22,8 +23,9 @@ class UploadCsv {
             $line = strtr($line, chr(10), chr(32));// For LF
             $line = explode($separador, $line);
             $this->dao->insert( $line );
+            $numRegistros = $numRegistros+1;;
         }
         fclose($file);
-		return true;
+		return $numRegistros;
 	}
 }
