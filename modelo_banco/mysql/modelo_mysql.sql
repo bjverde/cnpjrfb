@@ -29,6 +29,17 @@ CREATE TABLE IF NOT EXISTS `cnae` (
   PRIMARY KEY (`codigo`))
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `natju`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `natju` ;
+
+CREATE TABLE IF NOT EXISTS `natju` (
+  `codigo` INT NOT NULL,
+  `descricao` VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (`codigo`))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `simples`
@@ -36,7 +47,13 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `simples` ;
 
 CREATE TABLE IF NOT EXISTS `simples` (
-  `cnpj_basico` INT NOT NULL,
+  `cnpj_basico` VARCHAR(14) NOT NULL,
+  `opcao_pelo_simples` CHAR(1) NOT NULL,
+  `data_opcao_simples` DATE NULL,
+  `data_exclusao_simples` DATE NULL,
+  `opcao_mei` CHAR(1) NOT NULL,
+  `data_opcao_mei` DATE NULL,
+  `data_exclusao_mei` DATE NULL,
   PRIMARY KEY (`cnpj_basico`))
 ENGINE = InnoDB;
 
@@ -50,6 +67,68 @@ CREATE TABLE IF NOT EXISTS `quals` (
   `codigo` INT NOT NULL,
   `descricao` VARCHAR(1000) NOT NULL,
   PRIMARY KEY (`codigo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pais`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pais` ;
+
+CREATE TABLE IF NOT EXISTS `pais` (
+  `codigo` INT NOT NULL,
+  `descricao` VARCHAR(500) NOT NULL,
+  PRIMARY KEY (`codigo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `moti`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `moti` ;
+
+CREATE TABLE IF NOT EXISTS `moti` (
+  `codigo` INT NOT NULL,
+  `descricao` VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (`codigo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `moti`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `moti` ;
+
+CREATE TABLE IF NOT EXISTS `moti` (
+  `codigo` INT NOT NULL,
+  `descricao` VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (`codigo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `munic`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `munic` ;
+
+CREATE TABLE IF NOT EXISTS `munic` (
+  `codigo` INT NOT NULL,
+  `descricao` VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (`codigo`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `socios`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `socios` ;
+
+CREATE TABLE IF NOT EXISTS `socios` (
+  `cnpj_basico` VARCHAR(14) NOT NULL,
+  `identificador_socio` INT NOT NULL,
+  `nome_socio_razao_social` VARCHAR(1000) NULL,
+  `socioscol` VARCHAR(45) NULL,
+  PRIMARY KEY (`cnpj_basico`))
 ENGINE = InnoDB;
 
 
