@@ -42,8 +42,13 @@ class Cargabanco
         echo $string;
     }
     public function truncateDados(){
+        $time_start = microtime(true);
         $this->truncateTabela($this->cnaeDAO);
         $this->truncateTabela($this->qualsDAO);
+        $time_end = microtime(true);
+        $time = $time_end - $time_start; //calculate the difference between start and stop
+        echo "Tempo total em segundos para todos os truncates: $time";
+        $this->quebraLinha();
     }
     public function truncateTabela(Dao $classDao){
         $qtd = $classDao->selectCount();
@@ -56,15 +61,28 @@ class Cargabanco
         $this->quebraLinha();
     }
     public function carregaDados(){
+        $this->quebraLinha();
+        echo "---- Carga dos dados ----";
+        $this->quebraLinha();
+        $time_start = microtime(true);
         $this->carregaDadosTabela($this->cnaeDAO,'F.K03200$Z.D11009.CNAECSV');
         $this->carregaDadosTabela($this->qualsDAO,'F.K03200$Z.D11009.QUALSCSV');
+        $time_end = microtime(true);
+        $time = $time_end - $time_start; //calculate the difference between start and stop
+        echo "Tempo total em segundos para toda as cargas: $time";
+        $this->quebraLinha();
     }
     public function carregaDadosTabela(Dao $classDao, string $arquivoCsv){
+        $time_start = microtime(true);
         $arquivoCsv = $this->path.DS.$arquivoCsv;
         if (!file_exists($arquivoCsv)){
             throw new InvalidArgumentException('ERRO: o arquivo '.$arquivoCsv.' não encontrado');
         }
         $uploadCsv = new UploadCsv($classDao,$arquivoCsv);
         $uploadCsv->executar();
+        $time_end = microtime(true);
+        $time = $time_end - $time_start; //calculate the difference between start and stop
+        echo $time.' segundos para a carga na tabela: '.$classDao->getTabelaName();
+        $this->quebraLinha();           
     }    
 }
