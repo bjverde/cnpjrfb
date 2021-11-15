@@ -4,16 +4,18 @@ class Cargabanco
 {    
     private $cnaeDAO = null;
     private $is_cli  = false;
+    private $path    = null;
 
     public function __construct()
     {
-        $tpdo = New TPDOConnection();
-        $tpdo::connect();
-        $this->cnaeDAO = new CnaeDAO($tpdo);
-        
         if (php_sapi_name() == "cli") {
             $this->is_cli = true;
         }
+        $this->path=ConfigHelper::getExtractedFilesPath();
+        $tpdo = New TPDOConnection();
+        $tpdo::connect();
+        $this->cnaeDAO = new CnaeDAO($tpdo);
+        $this->cnaeDAO->setNomeArquivoCsv('F.K03200$Z.D11009.CNAECSV');
     }
     public function executar(){
         try{
@@ -23,7 +25,7 @@ class Cargabanco
             $this->quebraLinha();
             $this->quebraLinha();
             $this->truncateDados();
-            
+            $this->carregaDados();
         }
         catch (Exception $e) {
             print($e->getMessage());
@@ -42,10 +44,21 @@ class Cargabanco
     public function truncateTabela(Dao $classDao){
         $qtd = $classDao->selectCount();
         if( $qtd==0 ){
-            echo 'Tabela: '.$classDao->getTabelaName().' tem ZERO registros, não rodou truncate';
+            echo 'TRUNCATE '.$classDao->getTabelaName().' tem ZERO registros, não rodou truncate';
         }else{
-            echo 'Tabela: '.$classDao->getTabelaName().' com '.$qtd.' registros apagados';
+            echo 'TRUNCATE '.$classDao->getTabelaName().' com '.$qtd.' registros apagados';
         }
         $this->quebraLinha();
     }
+    public function carregaDados(){
+        $this->carregaDadosTabela($this->cnaeDAO);
+    }
+    public function carregaDadosTabela(Dao $classDao){
+        $arquivoCsv = $this->path.DS.$classDao->getNomeArquivoCsv();
+        if (!file_exists($arquivoCsv)){
+            throw new InvalidArgumentException('ERRO: o arquivo '.$arquivoCsv.' não encontrado');
+        }
+        //$uploadCsv = new UploadCsv($classDao);
+        //$uploadCsv->executar();
+    }    
 }
