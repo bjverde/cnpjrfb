@@ -22,32 +22,17 @@ class CnaeDAO  extends Dao
         $this->setTabelaName('cnae');
     }
     //--------------------------------------------------------------------------------
-    public function insert( ConcursoVO $objVo )
+    public function insert( array $linhaArquivoCsv )
     {
-        $values = array(  $objVo->getSnome() 
-                        , $objVo->getMvalorinscricao() 
-                        , $objVo->getDtinicioinscricao() 
-                        , $objVo->getDtfiminscricao() 
-                        , $objVo->getIminimoquestaocorretaprovaobjetiva() 
-                        , $objVo->getDtiniciogru() 
-                        , $objVo->getDtfimgru() 
-                        , $objVo->getDtiniciocomprovante() 
-                        , $objVo->getDtfimcomprovante() 
+        $values = array(  $linhaArquivoCsv[0]
+                        , $linhaArquivoCsv[1]
                         );
-        $sql = 'insert into dbo.concurso(
-                                 snome
-                                ,mvalorinscricao
-                                ,dtinicioinscricao
-                                ,dtfiminscricao
-                                ,iminimoquestaocorretaprovaobjetiva
-                                ,dtiniciogru
-                                ,dtfimgru
-                                ,dtiniciocomprovante
-                                ,dtfimcomprovante
-                                ) values (?,?,?,?,?,?,?,?,?)';
-        $result = $this->tpdo->executeSql($sql, $values);
-        $result = $this->tpdo->getLastInsertId();
-        return intval($result);
+        $sql = 'insert into cnae(
+                                 codigo
+                                ,descricao
+                                ) values (?,?)';
+        $result = $this->getTPDOConnection()->executeSql($sql, $values);
+        return true;
     }
 }
 ?>

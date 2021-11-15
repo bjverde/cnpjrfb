@@ -58,7 +58,7 @@ class Cargabanco
         if (!file_exists($arquivoCsv)){
             throw new InvalidArgumentException('ERRO: o arquivo '.$arquivoCsv.' não encontrado');
         }
-        //$uploadCsv = new UploadCsv($classDao);
-        //$uploadCsv->executar();
+        $uploadCsv = new UploadCsv($classDao,$arquivoCsv);
+        $uploadCsv->executar();
     }    
 }
