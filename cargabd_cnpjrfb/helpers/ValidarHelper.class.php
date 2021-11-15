@@ -1,6 +1,6 @@
 <?php
 
-class Validar
+class ValidarHelper
 {        
     public static function InformacoesIniciais()
     {
