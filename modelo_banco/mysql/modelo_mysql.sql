@@ -61,4 +61,4 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 DROP USER IF EXISTS 'dados_rfb'@'%';
 CREATE USER 'dados_rfb'@'%' IDENTIFIED BY '123456';
-GRANT DELETE,EXECUTE,INSERT,SELECT,UPDATE ON dados_rfb.* TO 'dados_rfb'@'%';
+GRANT ALL PRIVILEGES ON dados_rfb.* TO 'dados_rfb'@'%';
