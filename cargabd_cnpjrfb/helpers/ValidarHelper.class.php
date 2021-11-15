@@ -6,6 +6,7 @@ class ValidarHelper
     {
         try{
             TPDOConnection::validarDrive();
+            TPDOConnection::validarDBMS();
             ConfigHelper::getExtractedFilesPath();
         }
         catch (Exception $e) {

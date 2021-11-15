@@ -34,6 +34,14 @@ class TPDOConnection {
             throw new PDOException ("ERRO: O drive informado não está intaldo no PHP");
         }
     }
+    public static function validarDBMS()
+    {
+        $listDbms = array(self::DBMS_MYSQL,self::DBMS_POSTGRES, self::DBMS_SQLITE, self::DBMS_SQLSERVER);
+        $drive = ConfigHelper::getDBDrive();
+        if (!in_array($drive,$listDbms,TRUE)){
+            throw new PDOException ("ERRO: o sistema não funciona com drive: ".$drive);
+        }
+    }    
     //--------------------------------------------------------------------------------------
     public static function getDBMS() {
         return  self::$dbms;
