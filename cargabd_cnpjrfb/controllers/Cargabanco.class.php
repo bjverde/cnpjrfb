@@ -2,9 +2,11 @@
 
 class Cargabanco
 {    
-    private $cnaeDAO = null;
     private $is_cli  = false;
     private $path    = null;
+    
+    private $cnaeDAO  = null;
+    private $qualsDAO = null;
 
     public function __construct()
     {
@@ -14,8 +16,12 @@ class Cargabanco
         $this->path=ConfigHelper::getExtractedFilesPath();
         $tpdo = New TPDOConnection();
         $tpdo::connect();
+
         $this->cnaeDAO = new CnaeDAO($tpdo);
         $this->cnaeDAO->setNomeArquivoCsv('F.K03200$Z.D11009.CNAECSV');
+
+        $this->qualsDAO = new QualsDAO($tpdo);
+        $this->qualsDAO->setNomeArquivoCsv('F.K03200$Z.D11009.QUALSCSV');
     }
     public function executar(){
         try{
@@ -40,6 +46,7 @@ class Cargabanco
     }
     public function truncateDados(){
         $this->truncateTabela($this->cnaeDAO);
+        $this->truncateTabela($this->qualsDAO);
     }
     public function truncateTabela(Dao $classDao){
         $qtd = $classDao->selectCount();
@@ -53,6 +60,7 @@ class Cargabanco
     }
     public function carregaDados(){
         $this->carregaDadosTabela($this->cnaeDAO);
+        $this->carregaDadosTabela($this->qualsDAO);
     }
     public function carregaDadosTabela(Dao $classDao){
         $arquivoCsv = $this->path.DS.$classDao->getNomeArquivoCsv();
