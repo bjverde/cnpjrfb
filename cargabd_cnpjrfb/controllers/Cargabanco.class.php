@@ -12,9 +12,14 @@ class Cargabanco
     }
 
     public function executar(){
-        echo 'Esse procedimento vai apagar todo o banco e carregar com os dados dos arquivos CSV';
-        echo '<br>';
-        $this->truncateDados();
+        try{
+            echo 'Esse procedimento vai apagar todo o banco e carregar com os dados dos arquivos CSV';
+            echo '<br>';
+            $this->truncateDados();
+        }
+        catch (Exception $e) {
+            print($e->getMessage());
+        }
     }
 
     public function truncateDados(){
