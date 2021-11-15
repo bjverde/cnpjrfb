@@ -9,6 +9,7 @@
 class ConfigHelper
 {
     const EXTRACTED_FILES_PATH = "EXTRACTED_FILES_PATH";
+    const DB_DRIVE = "db_drive";
 
     public static function loadAll()
     {        
@@ -30,5 +31,12 @@ class ConfigHelper
             throw new InvalidArgumentException('ERRO: Caminho do arquivos descompactados não informado');
         }
         return $path;
+    }
+
+    public static function getDBDrive()
+    {
+        $ini = self::loadAll();
+        $drive = ArrayHelper::get($ini,self::DB_DRIVE);
+        return $drive;
     }
 }
