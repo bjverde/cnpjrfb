@@ -17,10 +17,12 @@ class Cargabanco
         $tpdo = New TPDOConnection();
         $tpdo::connect();
 
-        $this->cnaeDAO = new CnaeDAO($tpdo);
-        $this->qualsDAO = new QualsDAO($tpdo);
+        $this->cnaeDAO  = new CnaeDAO($tpdo);
+        $this->motiDAO  = new MotiDAO($tpdo);
+        $this->municDAO = new MunicDAO($tpdo);
         $this->natjuDAO = new NatjuDAO($tpdo);
-        $this->paisDAO = new PaisDAO($tpdo);
+        $this->paisDAO  = new PaisDAO($tpdo);
+        $this->qualsDAO = new QualsDAO($tpdo);
     }
     public function executar(){
         try{
@@ -46,9 +48,11 @@ class Cargabanco
     public function truncateDados(){
         $time_start = microtime(true);
         $this->truncateTabela($this->cnaeDAO);
-        $this->truncateTabela($this->qualsDAO);
+        $this->truncateTabela($this->motiDAO);
+        $this->truncateTabela($this->municDAO);
         $this->truncateTabela($this->natjuDAO);
         $this->truncateTabela($this->paisDAO);
+        $this->truncateTabela($this->qualsDAO);
         $time_end = microtime(true);
         $time = $time_end - $time_start; //calculate the difference between start and stop
         echo "Tempo total em segundos para todos os truncates: $time";
@@ -69,10 +73,12 @@ class Cargabanco
         echo "---- Carga dos dados ----";
         $this->quebraLinha();
         $time_start = microtime(true);
-        $this->carregaDadosTabela($this->cnaeDAO,'F.K03200$Z.D11009.CNAECSV');
-        $this->carregaDadosTabela($this->qualsDAO,'F.K03200$Z.D11009.QUALSCSV');
+        $this->carregaDadosTabela($this->cnaeDAO ,'F.K03200$Z.D11009.CNAECSV');
+        $this->carregaDadosTabela($this->motiDAO ,'F.K03200$Z.D11009.MOTICSV');
+        $this->carregaDadosTabela($this->municDAO,'F.K03200$Z.D11009.MUNICCSV');
         $this->carregaDadosTabela($this->natjuDAO,'F.K03200$Z.D11009.NATJUCSV');
-        $this->carregaDadosTabela($this->paisDAO,'F.K03200$Z.D11009.PAISCSV');
+        $this->carregaDadosTabela($this->paisDAO ,'F.K03200$Z.D11009.PAISCSV');
+        $this->carregaDadosTabela($this->qualsDAO,'F.K03200$Z.D11009.QUALSCSV');
         $time_end = microtime(true);
         $time = $time_end - $time_start; //calculate the difference between start and stop
         echo "Tempo total em segundos para toda as cargas: $time";
