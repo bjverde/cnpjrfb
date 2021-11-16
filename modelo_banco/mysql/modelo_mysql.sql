@@ -175,10 +175,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `socios` ;
 
 CREATE TABLE IF NOT EXISTS `socios` (
-  `cnpj_basico` CHAR(8) NOT NULL COMMENT 'NÚMERO BASE DE INSCRIÇÃO NO CNPJ (CADASTRO NACIONAL DA PESSOA JURÍDICA)',
+  `cnpj_basico` CHAR(8) NOT NULL COMMENT 'NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).',
   `identificador_socio` INT NOT NULL COMMENT 'CÓDIGO DO IDENTIFICADOR DE SÓCIO\n1 – PESSOA JURÍDICA\n2 – PESSOA FÍSICA\n3 – ESTRANGEIRO',
   `nome_socio_razao_social` VARCHAR(1000) NULL COMMENT 'NOME DO SÓCIO PESSOA FÍSICA OU A RAZÃO SOCIAL E/OU \nNOME \nEMPRESARIAL DA PESSOA JURÍDICA E/OU NOME DO \nSÓCIO/RAZÃO SOCIAL DO SÓCIO ESTRANGEIRO',
-  `cpf_cnpj_socio` VARCHAR(45) NULL COMMENT 'CPF OU CNPJ DO SÓCIO (SÓCIO ESTRANGEIRO NÃO TEM \nESTA INFORMAÇÃO).',
+  `cpf_cnpj_socio` VARCHAR(45) NULL COMMENT 'CPF OU CNPJ DO SÓCIO (SÓCIO ESTRANGEIRO NÃO TEM ESTA INFORMAÇÃO).',
   `qualificacao_socio` INT NOT NULL COMMENT 'CÓDIGO DA QUALIFICAÇÃO DO SÓCIO',
   `data_entrada_sociedade` DATE NULL,
   `pais` INT NOT NULL COMMENT 'CÓDIGO PAÍS DO SÓCIO ESTRANGEIRO',
@@ -188,17 +188,11 @@ CREATE TABLE IF NOT EXISTS `socios` (
   `faixa_etaria` INT NULL COMMENT 'CÓDIGO CORRESPONDENTE À FAIXA ETÁRIA DO SÓCIO.\nBaseada na data de nascimento do CPF de cada sócio, deverá ser criado o valor para o\ncampo \"Faixa Etária\" conforme a regra abaixo:\n- 1 para os intervalos entre 0 a 12 anos;\n- 2 para os intervalos entre 13 a 20 anos;\n- 3 para os intervalos entre 21 a 30 anos;\n- 4 para os intervalos entre 31 a 40 anos;\n- 5 para os intervalos entre 41 a 50 anos;\n- 6 para os intervalos entre 51 a 60 anos;\n- 7 para os intervalos entre 61 a 70 anos;\n- 8 para os intervalos entre 71 a 80 anos; - 9 para maiores de 80 anos.\n- 0 para não se aplica',
   PRIMARY KEY (`cnpj_basico`),
   INDEX `fk_socios_quals1_idx` (`qualificacao_socio` ASC) VISIBLE,
-  INDEX `fk_socios_estabelecimento1_idx` (`cnpj_basico` ASC) VISIBLE,
   INDEX `fk_socios_pais1_idx` (`pais` ASC) VISIBLE,
   INDEX `fk_socios_quals2_idx` (`qualificacao_representante_legal` ASC) VISIBLE,
   CONSTRAINT `fk_socios_quals1`
     FOREIGN KEY (`qualificacao_socio`)
     REFERENCES `dados_rfb`.`quals` (`codigo`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_socios_estabelecimento1`
-    FOREIGN KEY (`cnpj_basico`)
-    REFERENCES `dados_rfb`.`estabelecimento` (`cnpj_basico`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_socios_pais1`
