@@ -93,19 +93,6 @@ CREATE TABLE IF NOT EXISTS `moti` (
   PRIMARY KEY (`codigo`))
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `moti`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `moti` ;
-
-CREATE TABLE IF NOT EXISTS `moti` (
-  `codigo` INT NOT NULL,
-  `descricao` VARCHAR(1000) NOT NULL,
-  PRIMARY KEY (`codigo`))
-ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `munic`
 -- -----------------------------------------------------
