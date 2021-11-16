@@ -57,6 +57,7 @@ class Cargabanco
         $this->truncateTabela($this->qualsDAO);
         $time_end = microtime(true);
         $time = $time_end - $time_start; //calculate the difference between start and stop
+        $time = number_format($time, 3, ',', '.');
         echo "Tempo total em segundos para todos os truncates: $time";
         $this->quebraLinha();
     }
@@ -84,6 +85,7 @@ class Cargabanco
         $this->carregaDadosTabela($this->estabelecimentoDAO,'K3241.K03200Y0.D11009.ESTABELE');
         $time_end = microtime(true);
         $time = $time_end - $time_start; //calculate the difference between start and stop
+        $time = number_format($time, 3, ',', '.');
         echo "Tempo total em segundos para toda as cargas: $time";
         $this->quebraLinha();
     }
@@ -97,6 +99,7 @@ class Cargabanco
         $numRegistros = $uploadCsv->executar();
         $time_end = microtime(true);
         $time = $time_end - $time_start; //calculate the difference between start and stop
+        $time = number_format($time, 3, ',', '.');
         echo $time.' segundos para a carga na tabela: '.$classDao->getTabelaName().' quantidade de registros: '.$numRegistros;
         $this->quebraLinha();           
     }    
