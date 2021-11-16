@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `estabelecimento` (
   `pais` INT NOT NULL COMMENT 'CÓDIGO DO PAIS',
   `data_inicio_atividade` DATETIME NULL COMMENT 'DATA DE INÍCIO DA ATIVIDADE',
   `cnae_fiscal_principal` INT NOT NULL COMMENT 'CÓDIGO DA ATIVIDADE ECONÔMICA PRINCIPAL DO ESTABELECIMENTO',
-  `cnae_fiscal_secundaria` INT NOT NULL COMMENT 'CÓDIGO DA(S) ATIVIDADE(S) ECONÔMICA(S) SECUNDÁRIA(S) DO ESTABELECIMENTO',
+  `cnae_fiscal_secundaria` VARCHAR(1000) NULL COMMENT 'CÓDIGO DA(S) ATIVIDADE(S) ECONÔMICA(S) SECUNDÁRIA(S) DO ESTABELECIMENTO',
   `tipo_logradouro` VARCHAR(500) NULL,
   `logradouro` VARCHAR(1000) NULL COMMENT 'NOME DO LOGRADOURO ONDE SE LOCALIZA O ESTABELECIMENTO.',
   `numero` VARCHAR(45) NULL COMMENT 'NÚMERO ONDE SE LOCALIZA O ESTABELECIMENTO. QUANDO NÃO HOUVER PREENCHIMENTO DO NÚMERO HAVERÁ ‘S/N’.',
@@ -145,7 +145,6 @@ CREATE TABLE IF NOT EXISTS `estabelecimento` (
   INDEX `fk_estabelecimento_pais_idx` (`pais` ASC) VISIBLE,
   INDEX `fk_estabelecimento_munic1_idx` (`municipio` ASC) VISIBLE,
   INDEX `fk_estabelecimento_cnae1_idx` (`cnae_fiscal_principal` ASC) VISIBLE,
-  INDEX `fk_estabelecimento_cnae2_idx` (`cnae_fiscal_secundaria` ASC) VISIBLE,
   INDEX `fk_estabelecimento_moti1_idx` (`motivo_situacao_cadastral` ASC) VISIBLE,
   CONSTRAINT `fk_estabelecimento_pais`
     FOREIGN KEY (`pais`)
@@ -159,11 +158,6 @@ CREATE TABLE IF NOT EXISTS `estabelecimento` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_estabelecimento_cnae1`
     FOREIGN KEY (`cnae_fiscal_principal`)
-    REFERENCES `dados_rfb`.`cnae` (`codigo`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_estabelecimento_cnae2`
-    FOREIGN KEY (`cnae_fiscal_secundaria`)
     REFERENCES `dados_rfb`.`cnae` (`codigo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
