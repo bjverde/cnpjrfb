@@ -153,16 +153,7 @@ class EstabelecimentoDAO  extends Dao
         ,?
         ,?
         ,?)';
-
-        $tpdo = $this->getTPDOConnection();
-        if( $tpdo->getDBMS()==TPDOConnection::DBMS_MYSQL ){
-            //https://pt.stackoverflow.com/questions/256158/existe-algum-risco-em-usar-set-foreign-key-checks-0
-            $sql = 'SET FOREIGN_KEY_CHECKS=0;'.$sql.';SET FOREIGN_KEY_CHECKS=1;';
-        }elseif($tpdo->getDBMS()==TPDOConnection::DBMS_POSTGRES){
-            //https://stackoverflow.com/questions/38112379/disable-postgresql-foreign-key-checks-for-migrations
-            $sql = "SET session_replication_role = 'replica';".$sql.";SET session_replication_role = 'origin';";
-        }
-        $result = $tpdo->executeSql($sql, $values);
+        $result = $this->executeSql($sql, $values);
         return true;
     }
 }

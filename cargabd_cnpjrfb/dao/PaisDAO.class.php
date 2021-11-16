@@ -31,7 +31,7 @@ class PaisDAO  extends Dao
                                  codigo
                                 ,descricao
                                 ) values (?,?)';
-        $result = $this->getTPDOConnection()->executeSql($sql, $values);
+        $result = $this->executeSql($sql, $values);
         return true;
     }
 }
