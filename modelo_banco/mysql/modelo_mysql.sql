@@ -39,25 +39,6 @@ CREATE TABLE IF NOT EXISTS `natju` (
   `descricao` VARCHAR(1000) NOT NULL,
   PRIMARY KEY (`codigo`))
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `simples`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `simples` ;
-
-CREATE TABLE IF NOT EXISTS `simples` (
-  `cnpj_basico` VARCHAR(14) NOT NULL,
-  `opcao_pelo_simples` CHAR(1) NOT NULL,
-  `data_opcao_simples` DATE NULL,
-  `data_exclusao_simples` DATE NULL,
-  `opcao_mei` CHAR(1) NOT NULL,
-  `data_opcao_mei` DATE NULL,
-  `data_exclusao_mei` DATE NULL,
-  PRIMARY KEY (`cnpj_basico`))
-ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `quals`
 -- -----------------------------------------------------
@@ -120,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `estabelecimento` (
   `data_situacao_cadastral` DATE NULL COMMENT 'DATA DO EVENTO DA SITUAÇÃO CADASTRAL',
   `motivo_situacao_cadastral` INT NOT NULL COMMENT 'CÓDIGO DO MOTIVO DA SITUAÇÃO CADASTRAL',
   `nome_cidade_exterior` VARCHAR(45) NULL COMMENT 'NOME DA CIDADE NO EXTERIOR',
-  `pais` INT NOT NULL COMMENT 'CÓDIGO DO PAIS',
+  `pais` INT NULL COMMENT 'CÓDIGO DO PAIS',
   `data_inicio_atividade` DATETIME NULL COMMENT 'DATA DE INÍCIO DA ATIVIDADE',
   `cnae_fiscal_principal` INT NOT NULL COMMENT 'CÓDIGO DA ATIVIDADE ECONÔMICA PRINCIPAL DO ESTABELECIMENTO',
   `cnae_fiscal_secundaria` VARCHAR(1000) NULL COMMENT 'CÓDIGO DA(S) ATIVIDADE(S) ECONÔMICA(S) SECUNDÁRIA(S) DO ESTABELECIMENTO',
@@ -131,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `estabelecimento` (
   `bairro` VARCHAR(45) NULL COMMENT 'BAIRRO ONDE SE LOCALIZA O ESTABELECIMENTO.',
   `cep` VARCHAR(45) NULL COMMENT 'CÓDIGO DE ENDEREÇAMENTO POSTAL REFERENTE AO LOGRADOURO NO QUAL O ESTABELECIMENTO ESTA LOCALIZADO',
   `uf` VARCHAR(45) NULL COMMENT 'SIGLA DA UNIDADE DA FEDERAÇÃO EM QUE SE ENCONTRA O ESTABELECIMENTO',
-  `municipio` INT NOT NULL COMMENT 'CÓDIGO DO MUNICÍPIO DE JURISDIÇÃO ONDE SE ENCONTRA O ESTABELECIMENTO',
+  `municipio` INT NULL COMMENT 'CÓDIGO DO MUNICÍPIO DE JURISDIÇÃO ONDE SE ENCONTRA O ESTABELECIMENTO',
   `ddd_1` VARCHAR(45) NULL,
   `telefone_1` VARCHAR(45) NULL,
   `ddd_2` VARCHAR(45) NULL,
@@ -170,6 +151,27 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `simples`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `simples` ;
+
+CREATE TABLE IF NOT EXISTS `simples` (
+  `cnpj_basico` CHAR(8) NOT NULL COMMENT 'NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).',
+  `opcao_pelo_simples` CHAR(1) NULL COMMENT 'INDICADOR DA EXISTÊNCIA DA OPÇÃO PELO SIMPLES.\n S - SIM\n N - NÃO\n EM BRANCO – OUTROS',
+  `data_opcao_simples` DATE NULL COMMENT 'DATA DE OPÇÃO PELO SIMPLES',
+  `data_exclusao_simples` DATE NULL COMMENT 'DATA DE EXCLUSÃO DO SIMPLES',
+  `opcao_mei` CHAR(1) NULL COMMENT 'INDICADOR DA EXISTÊNCIA DA OPÇÃO PELO MEI\n S - SIM\n N - NÃO\n EM BRANCO - OUTROS',
+  `data_opcao_mei` DATE NULL COMMENT 'DATA DE OPÇÃO PELO MEI',
+  `data_exclusao_mei` DATE NULL COMMENT 'DATA DE EXCLUSÃO DO MEI',
+  INDEX `fk_simples_estabelecimento1_idx` (`cnpj_basico` ASC) VISIBLE,
+  PRIMARY KEY (`cnpj_basico`),
+  CONSTRAINT `fk_simples_estabelecimento1`
+    FOREIGN KEY (`cnpj_basico`)
+    REFERENCES `dados_rfb`.`estabelecimento` (`cnpj_basico`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+-- -----------------------------------------------------
 -- Table `socios`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `socios` ;
@@ -177,19 +179,19 @@ DROP TABLE IF EXISTS `socios` ;
 CREATE TABLE IF NOT EXISTS `socios` (
   `cnpj_basico` CHAR(8) NOT NULL COMMENT 'NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).',
   `identificador_socio` INT NOT NULL COMMENT 'CÓDIGO DO IDENTIFICADOR DE SÓCIO\n1 – PESSOA JURÍDICA\n2 – PESSOA FÍSICA\n3 – ESTRANGEIRO',
-  `nome_socio_razao_social` VARCHAR(1000) NULL COMMENT 'NOME DO SÓCIO PESSOA FÍSICA OU A RAZÃO SOCIAL E/OU \nNOME \nEMPRESARIAL DA PESSOA JURÍDICA E/OU NOME DO \nSÓCIO/RAZÃO SOCIAL DO SÓCIO ESTRANGEIRO',
+  `nome_socio_razao_social` VARCHAR(1000) NULL COMMENT 'NOME DO SÓCIO PESSOA FÍSICA OU A RAZÃO SOCIAL \nE/OU NOME EMPRESARIAL DA PESSOA JURÍDICA \nE/OU NOME DO SÓCIO/RAZÃO SOCIAL DO SÓCIO ESTRANGEIRO',
   `cpf_cnpj_socio` VARCHAR(45) NULL COMMENT 'CPF OU CNPJ DO SÓCIO (SÓCIO ESTRANGEIRO NÃO TEM ESTA INFORMAÇÃO).',
-  `qualificacao_socio` INT NOT NULL COMMENT 'CÓDIGO DA QUALIFICAÇÃO DO SÓCIO',
+  `qualificacao_socio` INT NULL COMMENT 'CÓDIGO DA QUALIFICAÇÃO DO SÓCIO',
   `data_entrada_sociedade` DATE NULL,
-  `pais` INT NOT NULL COMMENT 'CÓDIGO PAÍS DO SÓCIO ESTRANGEIRO',
+  `pais` INT NULL COMMENT 'CÓDIGO PAÍS DO SÓCIO ESTRANGEIRO',
   `representante_legal` VARCHAR(45) NULL COMMENT 'NÚMERO DO CPF DO REPRESENTANTE LEGAL',
   `nome_do_representante` VARCHAR(500) NULL,
-  `qualificacao_representante_legal` INT NOT NULL COMMENT 'CÓDIGO DA QUALIFICAÇÃO DO REPRESENTANTE LEGAL',
+  `qualificacao_representante_legal` INT NULL COMMENT 'CÓDIGO DA QUALIFICAÇÃO DO REPRESENTANTE LEGAL',
   `faixa_etaria` INT NULL COMMENT 'CÓDIGO CORRESPONDENTE À FAIXA ETÁRIA DO SÓCIO.\nBaseada na data de nascimento do CPF de cada sócio, deverá ser criado o valor para o\ncampo \"Faixa Etária\" conforme a regra abaixo:\n- 1 para os intervalos entre 0 a 12 anos;\n- 2 para os intervalos entre 13 a 20 anos;\n- 3 para os intervalos entre 21 a 30 anos;\n- 4 para os intervalos entre 31 a 40 anos;\n- 5 para os intervalos entre 41 a 50 anos;\n- 6 para os intervalos entre 51 a 60 anos;\n- 7 para os intervalos entre 61 a 70 anos;\n- 8 para os intervalos entre 71 a 80 anos; - 9 para maiores de 80 anos.\n- 0 para não se aplica',
-  PRIMARY KEY (`cnpj_basico`),
   INDEX `fk_socios_quals1_idx` (`qualificacao_socio` ASC) VISIBLE,
   INDEX `fk_socios_pais1_idx` (`pais` ASC) VISIBLE,
   INDEX `fk_socios_quals2_idx` (`qualificacao_representante_legal` ASC) VISIBLE,
+  PRIMARY KEY (`cnpj_basico`),
   CONSTRAINT `fk_socios_quals1`
     FOREIGN KEY (`qualificacao_socio`)
     REFERENCES `dados_rfb`.`quals` (`codigo`)
@@ -202,6 +204,41 @@ CREATE TABLE IF NOT EXISTS `socios` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_socios_quals2`
     FOREIGN KEY (`qualificacao_representante_legal`)
+    REFERENCES `dados_rfb`.`quals` (`codigo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `empresa`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `empresa` ;
+
+CREATE TABLE IF NOT EXISTS `empresa` (
+  `cnpj_basico` CHAR(8) NOT NULL,
+  `razao_social` VARCHAR(1000) NULL COMMENT 'NOME EMPRESARIAL DA PESSOA JURÍDICA',
+  `natureza_juridica` INT NULL COMMENT 'CÓDIGO DA NATUREZA JURÍDICA',
+  `qualificacao_responsavel` INT NULL COMMENT 'QUALIFICAÇÃO DA PESSOA FÍSICA RESPONSÁVEL PELA EMPRESA',
+  `capital_social` VARCHAR(45) NULL COMMENT 'CAPITAL SOCIAL DA EMPRESA',
+  `porte_empresa` VARCHAR(45) NULL COMMENT 'CÓDIGO DO PORTE DA EMPRESA:\n1 – NÃO INFORMADO\n2 - MICRO EMPRESA\n03 - EMPRESA DE PEQUENO PORTE\n05 - DEMAIS',
+  `ente_federativo_responsavel` VARCHAR(45) NULL COMMENT 'O ENTE FEDERATIVO RESPONSÁVEL É PREENCHIDO PARA OS CASOS DE ÓRGÃOS E ENTIDADES DO GRUPO DE NATUREZA JURÍDICA 1XXX. PARA AS DEMAIS NATUREZAS, ESTE ATRIBUTO FICA EM BRANCO',
+  INDEX `fk_empresa_estabelecimento1_idx` (`cnpj_basico` ASC) VISIBLE,
+  PRIMARY KEY (`cnpj_basico`),
+  INDEX `fk_empresa_natju1_idx` (`natureza_juridica` ASC) VISIBLE,
+  INDEX `fk_empresa_quals1_idx` (`qualificacao_responsavel` ASC) VISIBLE,
+  CONSTRAINT `fk_empresa_estabelecimento1`
+    FOREIGN KEY (`cnpj_basico`)
+    REFERENCES `dados_rfb`.`estabelecimento` (`cnpj_basico`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_empresa_natju1`
+    FOREIGN KEY (`natureza_juridica`)
+    REFERENCES `dados_rfb`.`natju` (`codigo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_empresa_quals1`
+    FOREIGN KEY (`qualificacao_responsavel`)
     REFERENCES `dados_rfb`.`quals` (`codigo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
