@@ -23,6 +23,7 @@ class Cargabanco
         $this->natjuDAO = new NatjuDAO($tpdo);
         $this->paisDAO  = new PaisDAO($tpdo);
         $this->qualsDAO = new QualsDAO($tpdo);
+        $this->estabelecimentoDAO = new EstabelecimentoDAO($tpdo);
     }
     public function executar(){
         try{
@@ -47,6 +48,7 @@ class Cargabanco
     }
     public function truncateDados(){
         $time_start = microtime(true);
+        $this->truncateTabela($this->estabelecimentoDAO);
         $this->truncateTabela($this->cnaeDAO);
         $this->truncateTabela($this->motiDAO);
         $this->truncateTabela($this->municDAO);
@@ -79,6 +81,7 @@ class Cargabanco
         $this->carregaDadosTabela($this->natjuDAO,'F.K03200$Z.D11009.NATJUCSV');
         $this->carregaDadosTabela($this->paisDAO ,'F.K03200$Z.D11009.PAISCSV');
         $this->carregaDadosTabela($this->qualsDAO,'F.K03200$Z.D11009.QUALSCSV');
+        $this->carregaDadosTabela($this->estabelecimentoDAO,'K3241.K03200Y0.D11009.ESTABELE');
         $time_end = microtime(true);
         $time = $time_end - $time_start; //calculate the difference between start and stop
         echo "Tempo total em segundos para toda as cargas: $time";
