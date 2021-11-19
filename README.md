@@ -1,38 +1,11 @@
 # cnpjrfb
-Sistema para Consultar os [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) fornecidos pela Receita Federal do Brasil.
+Sistema web para consultar os [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) fornecidos pela Receita Federal do Brasil.
 
 Versão 2.0.0 - depois das alterações de 21/03/2021
 
-Baseado no projeto https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
-
-## Vídeos no Youtube sobre
-
-*Apresentação rápida - Consultar os Dados públicos CNPJ fornecidos pela Receita Federal do Brasil*
-
-[![Apresentação rápida - Consultar os Dados públicos CNPJ fornecidos pela Receita Federal do Brasil](http://img.youtube.com/vi/jgnj-rcs5WE/0.jpg)](http://www.youtube.com/watch?v=jgnj-rcs5WE "Apresentação rápida - Consultar os Dados públicos CNPJ fornecidos pela Receita Federal do Brasil")
-
-*Detalhando as funções do cnpjrfb*
-
-[![Detalhando as funções do cnpjrfb](http://img.youtube.com/vi/p0vgvzox-BM/0.jpg)](http://www.youtube.com/watch?v=p0vgvzox-BM "Detalhando as funções do cnpjrfb")
-
-
-## Desktop
-Esse é um sistema foi feito com PHP usando o [Adianti FrameWork 7.1](https://www.adianti.com.br/framework) e [CNPJ-FULL do Fabio Serpa](https://github.com/fabioserpa/CNPJ-full).
-
-![Tela de Pesquisa Empresa](www/cnpjrfb/app/images/tela_pesquisa_empresa.png?raw=true "Tela de Pesquisa Empresa")
-
-![Tela de Pesquisa Socio](www/cnpjrfb/app/images/tela_pesquisa_socio.png?raw=true "Tela de Pesquisa Socio")
-
-## Celular
-![Visão no Celular](www/cnpjrfb/app/images/celular_empresa_visao.png?raw=true "Visão no Celular")
-
-![Visão no Celular menu CNAE](www/cnpjrfb/app/images/celular_empresa_pesquisa.png?raw=true "Visão no Celular menu CNAE")
-
-![Visão no Celular menu](www/cnpjrfb/app/images/celular_menu.png?raw=true "Visão no Celular menu")
-
-## Tablet
-
-![Visão no Tablet](www/cnpjrfb/app/images/tablet.png?raw=true "Visão no Tablet")
+Agradecimento especial para todas as pessoas que contribuíram com os projetos abaixo, sem essas pessoas o trabalho seria bem mais difícil : 
+* Aphonso Henrique do Amaral Rafael - https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
+* Fabio Serpa - https://github.com/fabioserpa/CNPJ-full
 
 # Instalando e rodando
 
@@ -45,6 +18,26 @@ Você pode fazer a [instalação manual](#intalação-separada) etapa por etapa 
     * 5 GB arquivos zip da Receita Federal. Pode ser liberado depois
     * 18 GB para arquivos texto descompactados. Pode ser liberado depois.
     * 18 GB para banco de dados PostgreSQL.
+
+## Intalação com VirtualBox
+Abaixo um breve tutorial para quem deseja rodar dentro do VirtualBox.
+
+1. Instalar o VirtualBox
+1. Baixa o ISO do Debian 10 https://www.debian.org/releases/buster/debian-installer/
+1. Instarlar o Debian 10
+1. Instale virtual guest additional https://averagelinuxuser.com/virtualbox-shared-folder/
+    * logar como root 
+    * coloque o usuário principal no sudores `/sbin/usermod -aG sudo <NOME_USUARIO>`
+    * colocar usuário no grupo virtual box `/sbin/usermod -aG vboxsf <NOME_USUARIO>`
+    * reiniciar a VM
+1. Se for usar pasta compatilhada no VirtualBox faça o mapeamento
+    * copiar `www/cnpjrfb` para `/var/www/httpd/cnpjrfb/`
+    * copiar `www/cnpjrfb` para `/var/opt/dados_receita/`
+1. Se for clonar ou baixar esse projeto
+    *  copiar a pasta `dados_receita` para `/var/opt/dados_receita/`
+    * copiar `www/cnpjrfb` para `/var/www/httpd/cnpjrfb/`
+1. rodar o script `vbox_environment_1.sh`
+1. rodar o script `vbox_environment_2.sh`
 
 ## Intalação separada
 
@@ -96,20 +89,3 @@ Existem alguns arquivos em Docker-compose para criar todo o ambiente necessário
 1. Executar o procedimento da [Parte 3 - O banco completo](#parte-3---o-banco-completo-) por ser algo muito demorado deve ser feito manualmente.
 
 
-## Intalação com VirtualBox
-Abaixo um breve tutorial para quem deseja instalar dentro do VirtualBox.
-
-1. Instalar o VirtualBox no sistema operacional nativo (Windows 7, 10)
-1. Baixa o ISO do Debian 10 https://www.debian.org/releases/buster/debian-installer/
-1. Instarlar o Debian 10
-1. Se for clonar ou baixar esse projeto
-    *  copiar a pasta `dados_receita` para `/var/opt/dados_receita/`
-1. Se for usar pasta compatilhada no VirtualBox 
-    * instale virtual guest additional https://averagelinuxuser.com/virtualbox-shared-folder/
-    * coloque o usuário principal no sudores `/sbin/usermod -aG sudo <NOME_USUARIO>`
-    * reiniciar a VM
-    * colocar usuário no grupo virtual box `sudo usermod -a -G vboxsf $USER`
-    * reiniciar a VM
-1. rodar o script `vbox_environment_1.sh`
-1. rodar o script `vbox_environment_2.sh`
-1. copiar `www/cnpjrfb` para `/var/www/httpd/cnpjrfb/`
