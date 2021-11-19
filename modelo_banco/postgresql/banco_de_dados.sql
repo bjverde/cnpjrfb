@@ -89,6 +89,37 @@ CREATE TABLE IF NOT EXISTS estabelecimento (
 ALTER TABLE estabelecimento OWNER TO postgres;
 
 
+DROP TABLE IF EXISTS simples;
+CREATE TABLE IF NOT EXISTS simples (
+   cnpj_basico CHAR(8)
+  ,opcao_pelo_simples CHAR(1) NULL
+  ,data_opcao_simples DATE NULL
+  ,data_exclusao_simples DATE NULL
+  ,opcao_mei CHAR(1) NULL
+  ,data_opcao_mei DATE NULL
+  ,data_exclusao_mei DATE NULL
+  );
+ALTER TABLE simples OWNER TO postgres;
+
+
+DROP TABLE IF EXISTS socios;
+CREATE TABLE IF NOT EXISTS socios (
+   cnpj_basico CHAR(8) NOT NULL
+  ,identificador_socio INT NOT NULL
+  ,nome_socio_razao_social VARCHAR(1000) NULL
+  ,cpf_cnpj_socio VARCHAR(45) NULL
+  ,qualificacao_socio INT NULL
+  ,data_entrada_sociedade DATE NULL
+  ,pais INT NULL
+  ,representante_legal VARCHAR(45) NULL
+  ,nome_do_representante VARCHAR(500) NULL
+  ,qualificacao_representante_legal INT NULL
+  ,faixa_etaria INT NULL
+  );
+ALTER TABLE socios OWNER TO postgres;
+
+
+
 DROP TABLE IF EXISTS empresa;
 CREATE TABLE IF NOT EXISTS empresa (
     cnpj_basico char(8),
@@ -99,7 +130,7 @@ CREATE TABLE IF NOT EXISTS empresa (
     porte_empresa text COLLATE pg_catalog."default",
     ente_federativo_responsavel text COLLATE pg_catalog."default"
 );
-ALTER TABLE natju OWNER TO postgres;
+ALTER TABLE empresa OWNER TO postgres;
 
 -- Diretório físico do banco de dados:
 --SHOW data_directory;
