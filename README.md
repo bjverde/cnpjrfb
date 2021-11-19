@@ -26,8 +26,12 @@ Abaixo um breve tutorial para quem deseja rodar dentro do VirtualBox.
 1. Baixa o ISO do Debian 10 https://www.debian.org/releases/buster/debian-installer/
 1. Instarlar o Debian 10
 1. Instale virtual guest additional https://averagelinuxuser.com/virtualbox-shared-folder/
-    * logar como root 
+    * montar CD do Virtual Box
+    * logar como root
     * coloque o usuário principal no sudores `/sbin/usermod -aG sudo <NOME_USUARIO>`
+    * executar `apt-get update; apt-get -y install build-essential dkms linux-headers-$(uname -r)`
+    * rodar `sh /media/cdrom/VBoxLinuxAdditions.sh`
+    * reiniciar a VM
     * colocar usuário no grupo virtual box `/sbin/usermod -aG vboxsf <NOME_USUARIO>`
     * reiniciar a VM
 1. Se for usar pasta compatilhada no VirtualBox faça o mapeamento
