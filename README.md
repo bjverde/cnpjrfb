@@ -1,5 +1,5 @@
 # cnpjrfb
-Sistema web para consultar os [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) fornecidos pela Receita Federal do Brasil.
+Sistema web em PHP para consultar os [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) fornecidos pela Receita Federal do Brasil.
 
 Versão 2.0.0 - depois das alterações de 21/03/2021
 
@@ -7,17 +7,33 @@ Agradecimento especial para todas as pessoas que contribuíram com os projetos a
 * Aphonso Henrique do Amaral Rafael - https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
 * Fabio Serpa - https://github.com/fabioserpa/CNPJ-full
 
+
 # Instalando e rodando
 
 Você pode fazer a [instalação manual](#intalação-separada) etapa por etapa ou usar a [Intalação via Docker-compose](#intalação-via-docker-compose) que um pouco mais automatizada
 
-## Requistos
-* PHP 7.4 ou superior. Configura o PHP conforme orientações do [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
-* Python 3.8 ou superior
+## Requisitos
+
+
+* PHP 7.4 ou superior
+* [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
+* [FormDin 5](https://github.com/bjverde/formDin5)
+* Python 3.8, para fazer ETL para PostgreSQL
+* Banco de Dados Relacional escolha um deles PostgreSQL, MySQL, MariaDB, SQLite !
+* Linux (Debian 10), pode funcionar no Windows porém não foi testado
 * Aproximadamente 50 GB de espaço livre em disco para a instalação:
     * 5 GB arquivos zip da Receita Federal. Pode ser liberado depois
     * 18 GB para arquivos texto descompactados. Pode ser liberado depois.
     * 18 GB para banco de dados PostgreSQL.
+
+## Banco de dados e carga ETL
+
+Tabela | Quantidade de linhas | Tamanho em MB
+------ | ------------------ | --------------------
+empresa | 45.811.638 | 
+estabelecimento | 48.421.619 | 
+socios | 20.426.417 | 
+simples | 27.893.923 |
 
 ## Intalação com VirtualBox
 Abaixo um breve tutorial para quem deseja rodar dentro do VirtualBox.
