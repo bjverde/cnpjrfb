@@ -834,6 +834,7 @@ abstract class TRecord implements IteratorAggregate
             if (isset($dbinfo['prep']) AND $dbinfo['prep'] == '1') // prepared ON
             {
                 $result = $conn-> prepare ( $sql->getInstruction( TRUE ) , array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                $conn->setAttribute(PDO::ATTR_CASE, PDO::CASE_UPPER);
                 $result-> execute ( $criteria->getPreparedVars() );
             }
             else

@@ -1,6 +1,6 @@
 {
   "require": {
-    "phpmailer/phpmailer": "^6.4",
+    "phpmailer/phpmailer": "^6.0",
     "tburry/pquery": "^1.1",
     "picqer/php-barcode-generator": "^0.2.2",
     "dompdf/dompdf": "^0.8.1",

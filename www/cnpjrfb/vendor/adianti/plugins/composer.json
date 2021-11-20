@@ -1,0 +1,18 @@
+{
+    "name": "adianti/plugins",
+    "description": "Plugins for Adianti Framework",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pablo Dall Oglio",
+            "email": "pablo@dalloglio.net"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Adianti\\Plugins\\": "src"
+        }
+    }
+}
