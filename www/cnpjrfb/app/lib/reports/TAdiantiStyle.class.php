@@ -80,7 +80,7 @@ class TAdiantiStyle
             echo $style;
             
             // mark the style as loaded
-            // comentado por que no cliente ele sรณ exibe o estilo uma vez
+            // comentado por que no cliente ele só exibe o estilo uma vez
             // self::$loaded[$this->name] = TRUE;
         }
     }

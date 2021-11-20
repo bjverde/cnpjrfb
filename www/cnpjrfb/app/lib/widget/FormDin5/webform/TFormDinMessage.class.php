@@ -88,6 +88,7 @@ class TFormDinMessage {
     const ERROR_TYPE_WRONG     = 'Tipo de dados errado';
     const ERROR_SQL_NULL       = 'O SQL está em branco';
     const ERROR_SQL_PARAM      = 'Quantidade de parametros diferente da quantidade utilizada na instrução sql!';
+    const ERROR_SQL_NULL_DBMA  = 'O Tipo do Database management system está em branco';
 
     const ERROR_FD5  = 'ERRO FormDin5: ';
     const ERROR_FD5_PARAM_MIGRA  = 'Falha na migração do FormDin 4 para 5.';

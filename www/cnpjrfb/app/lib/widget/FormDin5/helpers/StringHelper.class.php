@@ -83,6 +83,14 @@ class StringHelper
         return $string;
     }
 
+    public static function convert_encoding($string,$to_encoding='UTF-8',$from_encoding='ASCII')
+    {
+        if ( mb_detect_encoding($string, $to_encoding, true)!=$to_encoding ){
+            $string = mb_convert_encoding($string,$to_encoding,$from_encoding);
+        }
+        return $string;
+    }
+
     /**
      * Recebe uma string e formata com CPF ou CNPJ
      * https://gist.github.com/davidalves1/3c98ef866bad4aba3987e7671e404c1e

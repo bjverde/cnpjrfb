@@ -443,10 +443,10 @@ class TFormDin
     *
     * <code>
     * 	$frm->setMessage('Nova mensagem'); // limpa e define uma nova mensagem
-    * 	$frm->setMessage(array('Mensagem linha 1','mensagem linha 2');
+    * 	$frm->setMessage(array('Mensagem linha 1','mensagem linha 2'));
     * </code>
     *
-    * @param string $message   - 1: Texto da mensagem ser HTML
+    * @param string $message   - 1: Texto da mensagem pode ser TXT, HTML ou array cada elemento é uma linha
     * @param string $type      - 2: FORMDIN5 Type mensagem: DEFAULT=info, error, warning. Use TFormDinMessage::TYPE_
     * @param TAction $action   - 3: FORMDIN5 Classe TAction do Adianti
     * @param string $title_msg - 4: FORMDIN5 titulo da mensagem
@@ -789,9 +789,9 @@ class TFormDin
      * @param string $boolShowCountChar 13: FORMDIN5 Mostra o contador de caractes.  Default TRUE = mostra, FASE = não mostra
      * @return TFormDinMemoField
      */
-    public function addMemoField( $strName
-   		                       , $strLabel=null
-   		                       , $intMaxLength
+    public function addMemoField(string $strName
+   		                       , string $strLabel
+   		                       , int $intMaxLength
    		                       , $boolRequired=null
    		                       , $intColumns=null
    		                       , $intRows=null
@@ -971,6 +971,50 @@ class TFormDin
 
         return $formField;
     }
+
+    /**
+     * Campo para entrada de senhas
+     * ------------------------------------------------------------------------
+     * Esse é o FormDin 5, que é uma reconstrução do FormDin 4 Sobre o Adianti 7.X
+     * os parâmetros do metodos foram marcados veja documentação da classe para
+     * saber o que cada marca singinifica.
+     * ------------------------------------------------------------------------    
+     *
+     * @param string $strName             - 1: id do campo
+     * @param string $strLabel            - 2: Rotulo do campo que irá aparece na tela
+     * @param boolean $boolRequired       - 3: Campo obrigatório ou não. Default FALSE = não obrigatório, TRUE = obrigatório
+     * @param boolean $boolNewLine        - 4: Em nova linha, DEFALUT is TRUE não obrigatorio.
+     * @param integer $intmaxLength       - 5: Tamanho maximo
+     * @param string $strValue            - 6: Valor inicial
+     * @param boolean $boolLabelAbove     - 7: Label acima, DEFAULT is FALSE na mesma linha
+     * @param boolean $boolNoWrapLabel    - 8: NOT_IMPLEMENTED true ou false para quebrar ou não o valor do label se não couber na coluna do formulario
+     * @param integer $intSize            - 9: NOT_IMPLEMENTED quantidade de caracteres visíveis
+     * @param boolean $boolUseVirtualKeyboard
+     * @param boolean $boolShowVirtualKeyboardImage
+     * @param boolean $boolReadOnly
+     * @return TFormDinPassword
+     */
+    public function addPasswordField( string $strName
+                                    , string $strLabel=null
+                                    , $boolRequired=null
+                                    , $boolNewLine=null
+                                    , $intmaxLength=null
+                                    , $strValue=null
+                                    , $boolLabelAbove=null
+                                    , $boolNoWrapLabel=null
+                                    , $intSize=null
+                                    , $boolUseVirtualKeyboard=null
+                                    , $boolShowVirtualKeyboardImage=null
+                                    , $boolReadOnly=null )
+    {
+        $formField = new TFormDinSwitch($id,$strLabel,$boolRequired,$itens);
+        $objField = $formField->getAdiantiObj();
+        $label = $formField->getLabel();
+        //$this->addFields($label ,$objField ,$boolLabelAbove);
+        $this->addElementFormList($objField,self::TYPE_FIELD,$label,$boolNewLine,$boolLabelAbove);
+
+        return $formField;
+    }    
 
     /**
      * Campos para anexar arquivo. Pode ser um carregamento sincrono ou assincrono via ajax.
@@ -1434,6 +1478,7 @@ class TFormDin
      * @param string $strHeight      - 6: Altura  em % ou px
      * @param boolean $boolNewLine   - 7: Default TRUE = campo em nova linha, FALSE continua na linha anterior
      * @param boolean $boolLabelAbove  8: Label sobre o campo. Default FALSE = Label mesma linha, TRUE = Label acima
+     * @param boolean $boolNoWrapLabel   - 7: NOT_IMPLEMENTED true ou false para quebrar ou não o valor do label se não couber na coluna do formulario
      * @return THtml Field
      */
     public function addHtmlField( string $id
@@ -1659,6 +1704,54 @@ class TFormDin
         $this->addElementFormList($objField,self::TYPE_FIELD,$label,$boolNewLine,$boolLabelAbove);
         return $formField;
 	}
+
+	/**
+	 * Adiciona campo para entrada de endereço eletrônico - e-mail
+     * ------------------------------------------------------------------------
+     * Esse é o FormDin 5, que é uma reconstrução do FormDin 4 Sobre o Adianti 7.X
+     * os parâmetros do metodos foram marcados veja documentação da classe para
+     * saber o que cada marca singinifica.
+     * ------------------------------------------------------------------------
+	 * @param string  $strName       -01: ID do campo
+	 * @param string  $strLabel      -02: Label do campo, que irá aparecer na tela do usuario
+	 * @param integer $intMaxLength  -03: Tamanho maximo de caracteres
+	 * @param boolean $boolRequired  -04: Obrigatorio
+	 * @param integer $intSize       -05: Tamanho do campo na tela
+	 * @param boolean $boolNewLine   -06: Campo em nova linha
+	 * @param string  $strValue      -07: valor inicial do campo
+	 * @param boolean $boolLabelAbove-08: Label acima, DEFAULT is FALSE na mesma linha
+     * @param string $placeholder    -09: FORMDIN5: Texto do Place Holder
+	 * @return TFormDinEmailField
+	 */
+	public function addEmailField( $strName
+                                 , $strLabel=null
+                                 , $intMaxLength
+                                 , $boolRequired=null
+                                 , $intSize=null
+                                 , $boolNewLine=null
+                                 , $strValue=null
+                                 , $boolLabelAbove=null
+                                 , $boolNoWrapLabel=null 
+                                 , $placeholder=null
+                                 )
+	{
+        $formField = new TFormDinEmailField( $strName
+                                            , $strLabel
+                                            , $intMaxLength
+                                            , $boolRequired
+                                            , $intSize
+                                            , $boolNewLine
+                                            , $strValue
+                                            , $boolLabelAbove
+                                            , $boolNoWrapLabel
+                                            , $placeholder
+                                            );
+        $objField = $formField->getAdiantiObj();
+        $label = $formField->getLabel();
+        $this->addElementFormList($objField,self::TYPE_FIELD,$label,$boolNewLine,$boolLabelAbove);
+        return $formField;
+	}
+
 
     //----------------------------------------------------------------
     //----------------------------------------------------------------

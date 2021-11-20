@@ -60,7 +60,7 @@ class UrlHelper
      */
     public static function homeUrl() 
     {
-        return ServerHelper::gethomeUrl();
+        return ServerHelper::homeUrl();
     }
 
 }

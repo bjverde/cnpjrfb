@@ -59,7 +59,7 @@ class TFormDinPdoConnection
     private $case = null;
     private $outputFormat = null;
     private $outputFormatDefault = ArrayHelper::TYPE_ADIANTI;
-    private $caseDefault = PDO::CASE_NATURAL;
+    private $caseDefault = PDO::CASE_UPPER;
 
 
     private $host;
@@ -225,7 +225,15 @@ class TFormDinPdoConnection
     {
         $this->pass = $pass;
     }
-    
+
+    public function getDbms()
+    {
+        return $this->getType();
+    }
+    public function setDdms($dbms)
+    {
+        return $this->setType($dbms);
+    }
     public function getType()
     {
         return $this->type;
@@ -332,6 +340,31 @@ class TFormDinPdoConnection
     }
 
     /**
+     * Recebe um array de entrada de dados e verifica o tipo está correto
+     *
+     * @param array $arrDados
+     * @return array
+     */
+    public function prepareArray( $arrDados = null ) {
+        $result = array();        
+        if ( is_array( $arrDados ) ) {
+            foreach( $arrDados as $k => $v ) {
+                if ( !is_null($v) && !empty($v) ){
+                    $arrDados[ $k ] = $v;
+                } else if( is_int($v) ) {
+                    $arrDados[ $k ] = $v;
+                } else if( $v === '0' ) {
+                    $arrDados[ $k ] = $v;
+                } else {
+                    $arrDados[ $k ] = null;
+                }
+            }
+            $result = $arrDados;
+        }
+        return $result;
+    }
+
+    /**
      * Executa o comando sql recebido retornando o cursor ou verdadeiro o falso
      * se a operação foi bem sucedida.
      *
@@ -343,6 +376,7 @@ class TFormDinPdoConnection
     {
         try {
             $this->validarQtdParametros($sql, $arrParams);
+            $arrParams = $this->prepareArray( $arrParams );
             $configConnect = $this->getConfigConnect();
             $database = $configConnect['database'];
             $db = $configConnect['db'];
@@ -359,8 +393,9 @@ class TFormDinPdoConnection
             $stmt = $conn->prepare( $sql );
             $result = $stmt->execute( $arrParams );
 
-            if ( $result ) {                
-                if ( preg_match( '/^select/i', $sql ) > 0  ) {
+            if ( $result ) {
+                
+                if ( preg_match( '/^select/i', $sql ) > 0 || preg_match( '/returning/i', $sql ) > 0 || preg_match( '/^with/i', $sql ) > 0  ) {
                     $result = $stmt->fetchall();
                     $result = $this->convertArrayResult($result);
                 }else if( preg_match( '/^insert/i', $sql ) > 0  ){
@@ -378,7 +413,7 @@ class TFormDinPdoConnection
                 }else if( preg_match( '/^call/i', $sql ) > 0  ){ // Para stored procedure do MySQL
                     $result = $stmt->fetchall();
                     $result = $this->convertArrayResult($result);
-                }else{
+                }else if( preg_match( '/^PRAGMA/i', $sql ) > 0  ){//Informações do SqLite
                     $result = $stmt->fetchall();
                     $result = $this->convertArrayResult($result);
                 }
