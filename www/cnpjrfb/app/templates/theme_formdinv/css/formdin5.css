@@ -1,0 +1,257 @@
+/*
+ * FormDin 5 Framework
+ * Created by Reinaldo A. Barrêto Jr in 2019
+ * Based on the FormDin 4 of Luís Eugênio Barbosa
+ * https://github.com/bjverde/formDin5
+ *
+ * ----------------------------------------------------------------------------
+ * This file is part of Formdin Framework.
+ *
+ * Formdin Framework is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License version 3
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License version 3
+ * along with this program; if not,  see <http://www.gnu.org/licenses/>
+ * or write to the Free Software Foundation, Inc., 51 Franklin Street,
+ * Fifth Floor, Boston, MA  02110-1301, USA.
+ * ----------------------------------------------------------------------------
+ * Este arquivo é parte do Framework Formdin.
+ *
+ * O Framework Formdin é um software livre; você pode redistribuí-lo e/ou
+ * modificá-lo dentro dos termos da GNU LGPL versão 3 como publicada pela Fundação
+ * do Software Livre (FSF).
+ *
+ * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
+ * GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou
+ * APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU/LGPL em português
+ * para maiores detalhes.
+ *
+ * Você deve ter recebido uma cópia da GNU LGPL versão 3, sob o título
+ * "LICENCA.txt", junto com esse programa. Se não, acesse <http://www.gnu.org/licenses/>
+ * ou escreva para a Fundação do Software Livre (FSF) Inc.,
+ * 51 Franklin St, Fifth Floor, Boston, MA 02111-1301, USA.
+ */
+
+/*
+Estilo do index.php da aplicação
+*/
+header
+{
+	display     :table;
+	width	    :100%;
+	height	    :55px;
+	border	    :0px;
+	padding		:0px;
+	margin		:0px;
+    top: 0px;
+    bottom: auto;
+    left: 0px;
+    right: 0px;	
+	background	:#efefef;
+	background-repeat:repeat-x;
+	background-image:url(../img/headerbgsilver.gif);
+	font-family: arial, times new roman;
+	color: #000000;
+}
+#app_header_logo
+{
+	display     :table-cell;
+	width       :20%;
+	height	    :55px;
+	font-size	:14px;
+	font-weight	:bold;
+	text-align	:center;
+    vertical-align: middle;
+}
+#app_header_logo img
+{
+	max-width   : 100%;
+	max-height  : 100%;
+	border      : none;
+	padding     : 0px;
+    display     : block;
+    margin      : auto auto;
+}
+#app_header_title
+{	
+	display     : table-cell;	
+	width       : 60%;
+	vertical-align: top;
+}
+#app_header_title_main
+{
+	background	:transparent;
+	font-size	:24px;
+	font-weight	:bold;
+	text-align	:center;
+}
+#app_header_subtitle
+{
+	background	:transparent;
+	font-size	:15px;
+	font-weight	:bold;
+	text-align	:center;
+}
+#app_header_login
+{
+	display     : table-cell;
+  	vertical-align: middle;
+	width       :20%;
+	font-size	:12px;
+	text-align	:center;
+}
+
+
+#app_main_menu
+{
+	border-left	:1px solid silver;
+	border-right:1px solid silver;
+	font-size	:12px;
+	background	:#efefef;
+	text-align	:center;
+}
+#app_center
+{
+	border			:0px;
+	font-size		:12px;
+	background		:white;
+	text-align		:center;
+	vertical-align	:top;
+	padding-top		:5px;
+	background-color:transparent;
+}
+
+footer
+{
+	position        :fixed;
+    left            :0;
+    bottom          :0;
+    width           :100%;
+	border			:0px;
+	font-size		:10px;
+	text-align		:center;
+	vertical-align	:middle;
+	color			:navy;
+	background		:#efefef;
+	height          :20px;
+	background-repeat:repeat-x;
+	background-image:url('../img/footerbgsilver.gif');
+	font-family: arial, times new roman;
+	color: #000000;
+	z-index: 910;
+}
+#app_footer_message
+{
+	float: left;
+	width: 30%;
+}
+#app_footer_company
+{
+	float: left;
+	width: 40%;
+}
+#app_footer_module
+{
+	float: right;
+	width: 30%;	
+}
+.main-sidebar{
+	margin-top :56px;
+	margin-bottom: 20px;
+	min-height: unset;
+}
+.table-hover tbody tr:hover {
+	color: #000;
+	background-color: rgb(255, 249, 153);
+}
+
+
+@media (max-width: 575.98px) { 
+
+	#app_header_logo
+	{
+		display     :table-cell;
+		width       :20%;
+		height	    :55px;
+		font-size	:9px;
+		font-weight	:bold;
+		text-align	:center;
+		vertical-align: middle;
+	}
+
+	#app_header_title_main
+	{
+		background	:transparent;
+		font-size	:12px;
+		font-weight	:bold;
+		text-align	:center;
+	}
+	#app_header_subtitle
+	{
+		background	:transparent;
+		font-size	:9px;
+		font-weight	:bold;
+		text-align	:center;
+	}
+	#app_header_login
+	{
+		display     : table-cell;
+		  vertical-align: middle;
+		width       :20%;
+		font-size	:9px;
+		text-align	:center;
+	}
+	
+	footer
+    {
+        font-size       :8px;
+    }
+
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) { 
+
+	#app_header_logo
+	{
+		display     :table-cell;
+		width       :20%;
+		height	    :55px;
+		font-size	:10px;
+		font-weight	:bold;
+		text-align	:center;
+		vertical-align: middle;
+	}
+
+	#app_header_title_main
+	{
+		background	:transparent;
+		font-size	:14px;
+		font-weight	:bold;
+		text-align	:center;
+	}
+	#app_header_subtitle
+	{
+		background	:transparent;
+		font-size	:10px;
+		font-weight	:bold;
+		text-align	:center;
+	}
+	#app_header_login
+	{
+		display     : table-cell;
+		vertical-align: middle;
+		width       :20%;
+		font-size	:10px;
+		text-align	:center;
+	}
+	footer
+	{
+	    font-size       :8px;
+	}
+}

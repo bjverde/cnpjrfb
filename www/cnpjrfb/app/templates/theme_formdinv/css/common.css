@@ -1,0 +1,518 @@
+/** General **/
+html, body
+{
+    height: 95.5%;
+    margin: 0px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+}
+
+hr
+{
+    margin: 20px 0;
+    border: 0;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+hr.slim
+{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+a
+{
+    text-decoration: none;
+}
+
+label
+{
+    margin-bottom: 5px;
+}
+
+label, input, button, select, textarea
+{
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+}
+
+.btn:not(.btn-link):not(.btn-circle) i
+{
+    font-size: 12px !important;
+    position: initial !important;
+    top: initial !important;
+}
+
+/** Jquery Widgets **/
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
+{
+    font-size: 12px;
+    margin: 0px;
+}
+
+.ui-widget
+{
+    font-family: inherit;
+    font-size: inherit;
+}
+
+/** Window **/
+.ui-dialog .window_modal
+{
+    padding:0.2px;
+}
+
+.ui-dialog .window_modal .panel
+{
+    margin-bottom:0;
+    border-top:0;
+    border-radius:0;
+    overflow:hidden;
+}
+
+/** Navbars **/
+.navbar-default .navbar-brand
+{
+    font-family: 'Open Sans';
+}
+
+.sidebar
+{
+    font-family: 'Open Sans';
+}
+
+.navbar-right {
+    margin-right: 0 !important;
+}
+
+ul.navbar-top-links > li.dropdown >a {
+    background: inherit;
+}
+
+ul.navbar-top-links > li.dropdown > a:hover {
+    background: #4A9FE0;
+}
+
+ul.navbar-top-links .open>a, ul.navbar-top-links .open>a:hover, ul.navbar-top-links .open>a:focus {
+    background: #4A9FE0;
+}
+
+.navbar-custom-menu > .navbar-nav {
+    float: right;
+}
+
+/** Dropdowns **/
+.dropdown-menu li a {
+    display: block;
+    text-decoration: unset;
+    padding: 8px 12px;
+    white-space: nowrap;
+}
+
+/** Popover **/
+.popover.fade:not(.show) {
+    display: none; /* Evita overlap */
+}
+.popover-table
+{
+    border: 1px solid #e0e0e0;
+    border-collapse: collapse;
+}
+
+.popover-table td
+{
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+}
+
+.popover-body img, .popover-content img{
+    width: 100%; /* Imagens dentro de popovers */
+}
+
+/** Panels **/
+.panel{
+    border-radius: initial;
+    background: #fff;
+    min-height: 50px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    border: 1px solid rgba(0,0,0,.125);
+    
+}
+
+.panel-heading{
+    display: flex;
+    align-items: center;
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.panel-heading:first-child {
+    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+}
+
+.panel-body{
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.panel-footer
+{
+    background: initial;
+}
+
+.panel-footer:last-child {
+    border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
+}
+
+div > div.panel > .panel-body {
+    padding: 10px;
+}
+
+/** Form components **/
+input[widget="tslider"] {
+    margin: auto;
+}
+
+.tcheckgroup_label, .tcheckgroup_label > input
+{
+    cursor:pointer;
+}
+
+.input-group {
+    flex-wrap: unset; /** Spinner **/
+}
+
+input[type="radio"], input[type="checkbox"]
+{
+    margin-right: 4px !important;
+}
+
+.header-actions .btn label
+{
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
+/* nao deixar o botao fora do campo tile*/
+input.form-control.tfield[widget="tfile"], input.form-control.tfield[widget="tmultifile"] {
+    padding: 1px;
+}
+
+/** Classic forms **/
+.tform
+{
+    box-shadow: none;
+    background: white !important;
+    border: none !important;
+    border-radius: none !important;
+    padding: 0px !important;
+    margin-bottom: 20px !important;
+}
+
+.tformtitle + tr > td
+{
+    padding-top: 15px !important;
+}
+
+.tformtitle > td
+{
+    background-color: #3c8dbc !important;
+    padding: 8px 0px 8px 5px !important;
+}
+
+.tformtitle > td > label
+{
+    color: white !important;
+}
+
+.tformaction > td
+{
+    padding: 12px !important;
+}
+
+
+.tform .tformtitle > td:first-child
+{
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.tform .tformtitle > td:last-child
+{
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.tform > table
+{
+    background: #fff;
+    border: 1px solid #C6C6C6 !important;
+    padding: 0px !important;
+}
+
+/** BFBuilder **/
+
+.col-form-label {
+    text-align: unset;
+}
+
+.control-label {
+    text-align: unset !important;
+    padding-top: calc(.375rem + 1px);
+    padding-bottom: calc(.375rem + 1px);
+    margin-bottom: 0;
+    font-size: inherit;
+    line-height: 1.5;
+}
+
+@media (min-width: 576px) {
+    .col-form-label {
+        text-align: right;
+    }
+
+    .control-label {
+        text-align: right !important;
+    }
+}
+
+.header-actions {
+    margin-left: auto;
+}
+
+.header-actions .btn {
+    margin-bottom: 2px;
+}
+
+.fb-field-container:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.fb-inline-field-container > .panel, .panel-body .panel {
+    box-shadow: none;
+}
+
+/** Buttons **/
+.btn-group .btn.btn-default.active {
+    background: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.btn.focus, .btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(142, 142, 142, 0.58);
+}
+
+[type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: unset;
+}
+
+/** Classic datagrid **/
+table.tdatagrid_table
+{
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.tdatagrid_head tr td
+{
+    height: 34px;
+}
+
+.tdatagrid_body tr td
+{
+    height: 30px;
+}
+
+.tdatagrid_body tr td input
+{
+    height: 24px;
+    margin: 0;
+    padding: 0px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+
+/** Datagrid **/
+.panel > .panel-footer > .tpagenavigation, .panel > .panel-footer > .tpagenavigation_resume
+{
+    padding-top:0;
+}
+
+.table>thead[noborder="1"]>tr>th.tdatagrid_col, .table>thead[noborder="1"]>tr>th.tdatagrid_action
+{
+    border:0;
+}
+
+/** Checklist **/
+table.table[widget="tchecklist"]>thead>tr>th, table.table[widget="tchecklist"]>tbody>tr>td
+{
+    user-select:none;
+}
+
+table.table[widget="tchecklist"]>thead>tr>th:first-child
+{
+    min-width: 50px;
+}
+
+table.table[widget="tchecklist"]>tbody>tr>td:first-child
+{
+    min-width: 50px;
+}
+
+/** Right panel **/
+#adianti_right_panel .panel[widget="bootstrapformbuilder"]
+{
+    border:0;
+    box-shadow:none;
+}
+
+#adianti_right_panel > div > div.panel > div.panel-heading
+{
+    border-top: 0;
+    background: #f9f9f9;
+}
+
+
+
+/** Login form **/
+#form_login table > tbody > tr.tformtitle > td
+{
+    text-align: center;
+}
+
+#form_login table > tbody > tr.tformtitle > td > label
+{
+    padding: 0;
+    padding: 8px;
+    font-size: 17pt;
+}
+
+
+/** Kanban **/
+.kanban-item-actions i.fa, .card-item-actions i.fa,
+.kanban-item-actions i.fas, .card-item-actions i.fas,
+.kanban-item-actions i.far, .card-item-actions i.far
+{
+    display: inline-block;
+    border-radius: 60px;
+    box-shadow: 0px 0px 2px #888;
+    padding: 0.5em 0.6em;
+}
+
+.kanban-item-actions i.fa:hover, .card-item-actions i.fa:hover,
+.kanban-item-actions i.fas:hover, .card-item-actions i.fas:hover,
+.kanban-item-actions i.far:hover, .card-item-actions i.far:hover
+{
+    background: whitesmoke !important;
+    color:black !important;
+}
+
+/** Charts **/
+.chart
+{
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    background: white;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+/** Cards **/
+.card-item
+{
+    border-radius: 3px;
+}
+
+.card-header {
+    display: flex;
+}
+
+.card-title {
+    font-size: 16px;
+}
+
+
+/** btn cadastrar **/
+.inline-button {
+    position:absolute !important;
+    border-radius:0 !important;
+    border-left:0 !important;
+    box-shadow:none !important;
+}
+
+/** TMessage **/
+.modal-dialog .modal-content .modal-header {
+    display: block;
+}
+
+/** tags **/
+.label {
+    color: white;
+    padding: .2em .6em .3em;
+    font-weight: 700;
+}
+
+/** BC: blockquote **/
+blockquote {
+    border-left: 5px solid #eee;
+    border-left-style: solid;
+    border-left-width: 5px;
+    font-size: 17.5px;
+    padding: 10px 20px;
+}
+
+
+blockquote .small, blockquote footer, blockquote small {
+    display: block;
+    font-size: 80%;
+    line-height: 1.42857143;
+    color: #777;
+}
+
+/** BC: Bootstrap **/
+.pull-left {
+    float: left !important;
+}
+.pull-right {
+    float: right !important;
+}
+
+/** fullcalendar **/
+.fc-event {
+    color : white !important;
+}
+
+/** html editor **/
+.note-toolbar {
+    display: flow-root;
+}
+
+/** tslider **/
+.tslidercontainer div.label {
+    text-align: center;
+}
+
+/** iconpicker cortina **/
+.fade {
+    opacity: 1 !important;
+}
+
+/* Alinhar caret menu builder */
+.menueditor-dropdown-menu .caret {
+    margin: unset !important;
+}
