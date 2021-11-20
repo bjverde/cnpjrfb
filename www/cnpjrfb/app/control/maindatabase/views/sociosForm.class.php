@@ -7,7 +7,7 @@
  * SysGen  Version: 0.6.0
  * FormDin Version: 5.0.0
  * 
- * System cnpjrfb created in: 2021-11-19 22:41:14
+ * System cnpjrfb2 created in: 2021-11-20 00:51:44
  */
 
 class sociosForm extends TPage
@@ -43,27 +43,26 @@ class sociosForm extends TPage
 2 – PESSOA FÍSICA
 3 – ESTRANGEIRO');
         $frm->addMemoField('NOME_SOCIO_RAZAO_SOCIAL', 'Nome Socio Razao Social',1000,false,80,3);
-        //$frm->getLabel('NOME_SOCIO_RAZAO_SOCIAL')->setToolTip('NOME DO SÓCIO PESSOA FÍSICA OU A RAZÃO SOCIAL E/OU 
-NOME 
-EMPRESARIAL DA PESSOA JURÍDICA E/OU NOME DO 
-SÓCIO/RAZÃO SOCIAL DO SÓCIO ESTRANGEIRO');
+        //$frm->getLabel('NOME_SOCIO_RAZAO_SOCIAL')->setToolTip('NOME DO SÓCIO PESSOA FÍSICA OU A RAZÃO SOCIAL 
+E/OU NOME EMPRESARIAL DA PESSOA JURÍDICA 
+E/OU NOME DO SÓCIO/RAZÃO SOCIAL DO SÓCIO ESTRANGEIRO');
         $frm->addTextField('CPF_CNPJ_SOCIO', 'Cpf Cnpj Socio',45,false,45);
         //$frm->getLabel('CPF_CNPJ_SOCIO')->setToolTip('CPF OU CNPJ DO SÓCIO (SÓCIO ESTRANGEIRO NÃO TEM ESTA INFORMAÇÃO).');
         $controllerQuals = new QualsController();
         $listQuals = $controllerQuals->selectAll();
-        $frm->addSelectField('QUALIFICACAO_SOCIO', 'Qualificação Socio',true,$listQuals,null,null,null,null,null,null,' ',null);
+        $frm->addSelectField('QUALIFICACAO_SOCIO', 'Qualificação Socio',false,$listQuals,null,null,null,null,null,null,' ',null);
         //$frm->getLabel('QUALIFICACAO_SOCIO')->setToolTip('CÓDIGO DA QUALIFICAÇÃO DO SÓCIO');
         $frm->addDateTimeField('DATA_ENTRADA_SOCIEDADE', 'Data Entrada Sociedade',false,null,null,null,null,'dd/mm/yyyy hh:ii',null,null,null,null,'yyyy-mm-dd hh:ii');
         $controllerPais = new PaisController();
         $listPais = $controllerPais->selectAll();
-        $frm->addSelectField('PAIS', 'Pais',true,$listPais,null,null,null,null,null,null,' ',null);
+        $frm->addSelectField('PAIS', 'Pais',false,$listPais,null,null,null,null,null,null,' ',null);
         //$frm->getLabel('PAIS')->setToolTip('CÓDIGO PAÍS DO SÓCIO ESTRANGEIRO');
         $frm->addTextField('REPRESENTANTE_LEGAL', 'Representante Legal',45,false,45);
         //$frm->getLabel('REPRESENTANTE_LEGAL')->setToolTip('NÚMERO DO CPF DO REPRESENTANTE LEGAL');
         $frm->addMemoField('NOME_DO_REPRESENTANTE', 'Nome Do Representante',500,false,80,3);
         $controllerQuals = new QualsController();
         $listQuals = $controllerQuals->selectAll();
-        $frm->addSelectField('QUALIFICACAO_REPRESENTANTE_LEGAL', 'Qualificação Representante Legal',true,$listQuals,null,null,null,null,null,null,' ',null);
+        $frm->addSelectField('QUALIFICACAO_REPRESENTANTE_LEGAL', 'Qualificação Representante Legal',false,$listQuals,null,null,null,null,null,null,' ',null);
         //$frm->getLabel('QUALIFICACAO_REPRESENTANTE_LEGAL')->setToolTip('CÓDIGO DA QUALIFICAÇÃO DO REPRESENTANTE LEGAL');
         $frm->addNumberField('FAIXA_ETARIA', 'Faixa Etaria',10,false,0);
         //$frm->getLabel('FAIXA_ETARIA')->setToolTip('CÓDIGO CORRESPONDENTE À FAIXA ETÁRIA DO SÓCIO.

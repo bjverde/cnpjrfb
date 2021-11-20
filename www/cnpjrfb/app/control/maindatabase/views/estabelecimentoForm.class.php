@@ -7,7 +7,7 @@
  * SysGen  Version: 0.6.0
  * FormDin Version: 5.0.0
  * 
- * System cnpjrfb created in: 2021-11-19 22:41:13
+ * System cnpjrfb2 created in: 2021-11-20 00:51:44
  */
 
 class estabelecimentoForm extends TPage
@@ -64,7 +64,7 @@ class estabelecimentoForm extends TPage
         //$frm->getLabel('NOME_CIDADE_EXTERIOR')->setToolTip('NOME DA CIDADE NO EXTERIOR');
         $controllerPais = new PaisController();
         $listPais = $controllerPais->selectAll();
-        $frm->addSelectField('PAIS', 'Pais',true,$listPais,null,null,null,null,null,null,' ',null);
+        $frm->addSelectField('PAIS', 'Pais',false,$listPais,null,null,null,null,null,null,' ',null);
         //$frm->getLabel('PAIS')->setToolTip('CÓDIGO DO PAIS');
         $frm->addDateTimeField('DATA_INICIO_ATIVIDADE', 'Data Inicio Atividade',false,null,null,null,null,'dd/mm/yyyy hh:ii',null,null,null,null,'yyyy-mm-dd hh:ii');
         //$frm->getLabel('DATA_INICIO_ATIVIDADE')->setToolTip('DATA DE INÍCIO DA ATIVIDADE');
@@ -89,7 +89,7 @@ class estabelecimentoForm extends TPage
         //$frm->getLabel('UF')->setToolTip('SIGLA DA UNIDADE DA FEDERAÇÃO EM QUE SE ENCONTRA O ESTABELECIMENTO');
         $controllerMunic = new MunicController();
         $listMunic = $controllerMunic->selectAll();
-        $frm->addSelectField('MUNICIPIO', 'Municipio',true,$listMunic,null,null,null,null,null,null,' ',null);
+        $frm->addSelectField('MUNICIPIO', 'Municipio',false,$listMunic,null,null,null,null,null,null,' ',null);
         //$frm->getLabel('MUNICIPIO')->setToolTip('CÓDIGO DO MUNICÍPIO DE JURISDIÇÃO ONDE SE ENCONTRA O ESTABELECIMENTO');
         $frm->addTextField('DDD_1', 'Ddd 1',45,false,45);
         $frm->addTextField('TELEFONE_1', 'Telefone 1',45,false,45);

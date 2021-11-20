@@ -10,7 +10,7 @@
  * System cnpjrfb2 created in: 2021-11-20 00:51:44
  */
 
-class simplesForm extends TPage
+class empresaForm extends TPage
 {
 
     protected $form; //Registration form Adianti
@@ -29,34 +29,35 @@ class simplesForm extends TPage
         // $this->adianti_target_container = 'adianti_right_panel';
 
         $this->setDatabase('maindatabase'); // define the database
-        $this->setActiveRecord('simples'); // define the Active Record
+        $this->setActiveRecord('empresa'); // define the Active Record
         $this->setDefaultOrder('CNPJ_BASICO', 'asc'); // define the default order
 
         $primaryKey = 'CNPJ_BASICO';
-        $this->frm = new TFormDin($this,'simples');
+        $this->frm = new TFormDin($this,'empresa');
         $frm = $this->frm;
         $frm->enableCSRFProtection(); // Protection cross-site request forgery 
         $frm->addHiddenField( $primaryKey );   // coluna chave da tabela
         $frm->addTextField('CNPJ_BASICO', 'Cnpj Basico',8,true,8);
-        //$frm->getLabel('CNPJ_BASICO')->setToolTip('NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).');
-        $frm->addTextField('OPCAO_PELO_SIMPLES', 'Opção Pelo Simples',1,false,1);
-        //$frm->getLabel('OPCAO_PELO_SIMPLES')->setToolTip('INDICADOR DA EXISTÊNCIA DA OPÇÃO PELO SIMPLES.
- S - SIM
- N - NÃO
- EM BRANCO – OUTROS');
-        $frm->addDateTimeField('DATA_OPCAO_SIMPLES', 'Data Opção Simples',false,null,null,null,null,'dd/mm/yyyy hh:ii',null,null,null,null,'yyyy-mm-dd hh:ii');
-        //$frm->getLabel('DATA_OPCAO_SIMPLES')->setToolTip('DATA DE OPÇÃO PELO SIMPLES');
-        $frm->addDateTimeField('DATA_EXCLUSAO_SIMPLES', 'Data Exclusão Simples',false,null,null,null,null,'dd/mm/yyyy hh:ii',null,null,null,null,'yyyy-mm-dd hh:ii');
-        //$frm->getLabel('DATA_EXCLUSAO_SIMPLES')->setToolTip('DATA DE EXCLUSÃO DO SIMPLES');
-        $frm->addTextField('OPCAO_MEI', 'Opção Mei',1,false,1);
-        //$frm->getLabel('OPCAO_MEI')->setToolTip('INDICADOR DA EXISTÊNCIA DA OPÇÃO PELO MEI
- S - SIM
- N - NÃO
- EM BRANCO - OUTROS');
-        $frm->addDateTimeField('DATA_OPCAO_MEI', 'Data Opção Mei',false,null,null,null,null,'dd/mm/yyyy hh:ii',null,null,null,null,'yyyy-mm-dd hh:ii');
-        //$frm->getLabel('DATA_OPCAO_MEI')->setToolTip('DATA DE OPÇÃO PELO MEI');
-        $frm->addDateTimeField('DATA_EXCLUSAO_MEI', 'Data Exclusão Mei',false,null,null,null,null,'dd/mm/yyyy hh:ii',null,null,null,null,'yyyy-mm-dd hh:ii');
-        //$frm->getLabel('DATA_EXCLUSAO_MEI')->setToolTip('DATA DE EXCLUSÃO DO MEI');
+        $frm->addMemoField('RAZAO_SOCIAL', 'Razao Social',1000,false,80,3);
+        //$frm->getLabel('RAZAO_SOCIAL')->setToolTip('NOME EMPRESARIAL DA PESSOA JURÍDICA');
+        $controllerNatju = new NatjuController();
+        $listNatju = $controllerNatju->selectAll();
+        $frm->addSelectField('NATUREZA_JURIDICA', 'Natureza Juridica',false,$listNatju,null,null,null,null,null,null,' ',null);
+        //$frm->getLabel('NATUREZA_JURIDICA')->setToolTip('CÓDIGO DA NATUREZA JURÍDICA');
+        $controllerQuals = new QualsController();
+        $listQuals = $controllerQuals->selectAll();
+        $frm->addSelectField('QUALIFICACAO_RESPONSAVEL', 'Qualificação Responsavel',false,$listQuals,null,null,null,null,null,null,' ',null);
+        //$frm->getLabel('QUALIFICACAO_RESPONSAVEL')->setToolTip('QUALIFICAÇÃO DA PESSOA FÍSICA RESPONSÁVEL PELA EMPRESA');
+        $frm->addTextField('CAPITAL_SOCIAL', 'Capital Social',45,false,45);
+        //$frm->getLabel('CAPITAL_SOCIAL')->setToolTip('CAPITAL SOCIAL DA EMPRESA');
+        $frm->addTextField('PORTE_EMPRESA', 'Porte Empresa',45,false,45);
+        //$frm->getLabel('PORTE_EMPRESA')->setToolTip('CÓDIGO DO PORTE DA EMPRESA:
+1 – NÃO INFORMADO
+2 - MICRO EMPRESA
+03 - EMPRESA DE PEQUENO PORTE
+05 - DEMAIS');
+        $frm->addTextField('ENTE_FEDERATIVO_RESPONSAVEL', 'Ente Federativo Responsavel',45,false,45);
+        //$frm->getLabel('ENTE_FEDERATIVO_RESPONSAVEL')->setToolTip('O ENTE FEDERATIVO RESPONSÁVEL É PREENCHIDO PARA OS CASOS DE ÓRGÃOS E ENTIDADES DO GRUPO DE NATUREZA JURÍDICA 1XXX. PARA AS DEMAIS NATUREZAS, ESTE ATRIBUTO FICA EM BRANCO');
 
         // O Adianti permite a Internacionalização - A função _t('string') serve
         //para traduzir termos no sistema. Veja ApplicationTranslator escrevendo
@@ -69,23 +70,23 @@ class simplesForm extends TPage
 
         $mixUpdateFields = $primaryKey.'|'.$primaryKey
                         .',CNPJ_BASICO|CNPJ_BASICO'
-                        .',OPCAO_PELO_SIMPLES|OPCAO_PELO_SIMPLES'
-                        .',DATA_OPCAO_SIMPLES|DATA_OPCAO_SIMPLES'
-                        .',DATA_EXCLUSAO_SIMPLES|DATA_EXCLUSAO_SIMPLES'
-                        .',OPCAO_MEI|OPCAO_MEI'
-                        .',DATA_OPCAO_MEI|DATA_OPCAO_MEI'
-                        .',DATA_EXCLUSAO_MEI|DATA_EXCLUSAO_MEI'
+                        .',RAZAO_SOCIAL|RAZAO_SOCIAL'
+                        .',NATUREZA_JURIDICA|NATUREZA_JURIDICA'
+                        .',QUALIFICACAO_RESPONSAVEL|QUALIFICACAO_RESPONSAVEL'
+                        .',CAPITAL_SOCIAL|CAPITAL_SOCIAL'
+                        .',PORTE_EMPRESA|PORTE_EMPRESA'
+                        .',ENTE_FEDERATIVO_RESPONSAVEL|ENTE_FEDERATIVO_RESPONSAVEL'
                         ;
         $grid = new TFormDinGrid($this,'gd','Data Grid');
         $grid->setUpdateFields($mixUpdateFields);
         $grid->addColumn($primaryKey,'id');
         $grid->addColumn('CNPJ_BASICO','Cnpj Basico');
-        $grid->addColumn('OPCAO_PELO_SIMPLES','Opção Pelo Simples');
-        $grid->addColumnFormatDate('DATA_OPCAO_SIMPLES','Data Opção Simples',null,'left','dd/mm/yyyy hh:ii');
-        $grid->addColumnFormatDate('DATA_EXCLUSAO_SIMPLES','Data Exclusão Simples',null,'left','dd/mm/yyyy hh:ii');
-        $grid->addColumn('OPCAO_MEI','Opção Mei');
-        $grid->addColumnFormatDate('DATA_OPCAO_MEI','Data Opção Mei',null,'left','dd/mm/yyyy hh:ii');
-        $grid->addColumnFormatDate('DATA_EXCLUSAO_MEI','Data Exclusão Mei',null,'left','dd/mm/yyyy hh:ii');
+        $grid->addColumn('RAZAO_SOCIAL','Razao Social');
+        $grid->addColumn('NATUREZA_JURIDICA','Natureza Juridica');
+        $grid->addColumn('QUALIFICACAO_RESPONSAVEL','Qualificação Responsavel');
+        $grid->addColumn('CAPITAL_SOCIAL','Capital Social');
+        $grid->addColumn('PORTE_EMPRESA','Porte Empresa');
+        $grid->addColumn('ENTE_FEDERATIVO_RESPONSAVEL','Ente Federativo Responsavel');
 
         $this->datagrid = $grid->show();
         $this->pageNavigation = $grid->getPageNavigation();
@@ -125,9 +126,9 @@ class simplesForm extends TPage
         try{
             $this->form->validate();
             $this->form->setData($data);
-            $vo = new SimplesVO();
+            $vo = new EmpresaVO();
             $this->frm->setVo( $vo ,$data ,$param );
-            $controller = new SimplesController();
+            $controller = new EmpresaController();
             $resultado = $controller->save( $vo );
             if( is_int($resultado) && $resultado!=0 ) {
                 //$text = TFormDinMessage::messageTransform($text); //Tranform Array in Msg Adianti
