@@ -48,6 +48,8 @@ class Cargabanco
     }
     public function truncateDados(){
         $time_start = microtime(true);
+        $this->truncateTabela($this->SociosDAO);
+        $this->truncateTabela($this->SimplesDAO);
         $this->truncateTabela($this->estabelecimentoDAO);
         $this->truncateTabela($this->cnaeDAO);
         $this->truncateTabela($this->motiDAO);
@@ -83,6 +85,8 @@ class Cargabanco
         $this->carregaDadosTabela($this->paisDAO ,'F.K03200$Z.D11009.PAISCSV');
         $this->carregaDadosTabela($this->qualsDAO,'F.K03200$Z.D11009.QUALSCSV');
         $this->carregaDadosTabela($this->estabelecimentoDAO,'K3241.K03200Y0.D11009.ESTABELE');
+        $this->carregaDadosTabela($this->SociosDAO,'K3241.K03200Y0.D11009.SOCIOCSV');
+        //$this->carregaDadosTabela($this->SimplesDAO,'K3241.K03200Y0.D11009.ESTABELE');
         $time_end = microtime(true);
         $time = $time_end - $time_start; //calculate the difference between start and stop
         $time = number_format($time, 3, ',', '.');
