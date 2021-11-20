@@ -35,8 +35,8 @@ Abaixo um breve tutorial para quem deseja rodar dentro do VirtualBox.
     * colocar usuário no grupo virtual box `/sbin/usermod -aG vboxsf <NOME_USUARIO>`
     * reiniciar a VM
 1. Se for usar pasta compatilhada no VirtualBox faça o mapeamento
-    * copiar `www/cnpjrfb` para `/var/www/httpd/cnpjrfb/`
-    * copiar `www/cnpjrfb` para `/var/opt/dados_receita/`
+    * copiar `<projeto>/www/` para `/var/www/html/`
+    * copiar `<projeto>/dados_receita/` para `/var/opt/dados_receita/`
 1. Se for clonar ou baixar esse projeto
     *  copiar a pasta `dados_receita` para `/var/opt/dados_receita/`
     * copiar `www/cnpjrfb` para `/var/www/httpd/cnpjrfb/`
@@ -91,5 +91,3 @@ Existem alguns arquivos em Docker-compose para criar todo o ambiente necessário
 1. Verificando se a instalação está correta: Abra o sistema em um navegador e verifique se os 3 menus dentre home está funcionando: Empresa, Sócios e CNEA.
 1. Verificando se a instalação está correta: Abra o sistema em um navegador. Menu > Facilitadores >  Gera Grafo , sugestão é o CNPJ 00.000.000/0001-91
 1. Executar o procedimento da [Parte 3 - O banco completo](#parte-3---o-banco-completo-) por ser algo muito demorado deve ser feito manualmente.
-
-
