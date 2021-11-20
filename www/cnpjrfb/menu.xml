@@ -6,6 +6,10 @@
                 <icon>fa:book fa-fw</icon>
                 <action>cnaeForm</action>
             </menuitem>
+            <menuitem label='empresa'>
+                <icon>fa:table fa-fw</icon>
+                <action>empresaForm</action>
+            </menuitem>
             <menuitem label='estabelecimento'>
                 <icon>fa:table fa-fw</icon>
                 <action>estabelecimentoForm</action>
