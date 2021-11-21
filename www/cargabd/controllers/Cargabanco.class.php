@@ -37,7 +37,7 @@ class Cargabanco
             $this->quebraLinha();
             //$this->truncateDados();
             //$this->carregaDados();
-            $this->carregaDadosTabelaDoArquivo($this->sociosDAO,'SOCIOSCSV');
+            $this->carregaDadosTabelaDoArquivo($this->sociosDAO,'SOCIOCSV');
         }
         catch (Exception $e) {
             print($e->getMessage());
@@ -114,16 +114,24 @@ class Cargabanco
         $this->quebraLinha();           
     }
 
+    /**
+     * Carrega todos os arquivos que tenham parte do nome informado na classe DAO.
+     *
+     * @param Dao $classDao - 1: classe DAO para fazer o insert
+     * @param string $parteNomeArquivoCsv - 2: nome da parte do arquivo
+     * @return void
+     */
     public function carregaDadosTabelaDoArquivo(Dao $classDao, string $parteNomeArquivoCsv){
 
         $list = new RecursiveDirectoryIterator($this->pathExtractedFiles);
         $it   = new RecursiveIteratorIterator($list);
-        
         foreach ($it as $file) {
             if ($it->isFile()) {
-                echo ' SubPathName: ' . $it->getSubPathName();
-                echo ' SubPath:     ' . $it->getSubPath()."<br>";
+                $temParteArquivo = str_contains($it->getSubPathName(),$parteNomeArquivoCsv);
+                if($temParteArquivo){
+                    $this->carregaDadosTabela($classDao,$it->getSubPathName());
+                }
             }
-        }          
+        }//FIM foreach
     }
 }
