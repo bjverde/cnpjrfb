@@ -35,9 +35,8 @@ class Cargabanco
             echo 'Esse procedimento vai apagar todo o banco e carregar com os dados dos arquivos CSV';
             $this->quebraLinha();
             $this->quebraLinha();
-            //$this->truncateDados();
-            //$this->carregaDados();
-            $this->carregaDadosTabelaDoArquivo($this->sociosDAO,'SOCIOCSV');
+            $this->truncateDados();
+            $this->carregaDados();
         }
         catch (Exception $e) {
             print($e->getMessage());
@@ -50,6 +49,12 @@ class Cargabanco
         }
         echo $string;
     }
+    public function tempoFormatado($time_start){
+        $time_end = microtime(true);
+        $time = $time_end - $time_start; //calculate the difference between start and stop
+        $time = number_format($time, 3, ',', '.');
+        return $time;
+    }    
     public function truncateDados(){
         $time_start = microtime(true);
         $this->truncateTabela($this->empresaDAO);
@@ -83,22 +88,30 @@ class Cargabanco
         echo "---- Carga dos dados ----";
         $this->quebraLinha();
         $time_start = microtime(true);
-        $this->carregaDadosTabela($this->cnaeDAO ,'F.K03200$Z.D11009.CNAECSV');
-        $this->carregaDadosTabela($this->motiDAO ,'F.K03200$Z.D11009.MOTICSV');
-        $this->carregaDadosTabela($this->municDAO,'F.K03200$Z.D11009.MUNICCSV');
-        $this->carregaDadosTabela($this->natjuDAO,'F.K03200$Z.D11009.NATJUCSV');
-        $this->carregaDadosTabela($this->paisDAO ,'F.K03200$Z.D11009.PAISCSV');
-        $this->carregaDadosTabela($this->qualsDAO,'F.K03200$Z.D11009.QUALSCSV');
-        $this->carregaDadosTabela($this->estabelecimentoDAO,'K3241.K03200Y0.D11009.ESTABELE');
-        $this->carregaDadosTabela($this->sociosDAO,'K3241.K03200Y0.D11009.SOCIOCSV');
-        $this->carregaDadosTabela($this->empresaDAO,'K3241.K03200Y0.D11009.EMPRECSV');
-        $this->carregaDadosTabela($this->simplesDAO,'F.K03200$W.SIMPLES.CSV.D11009');
+        $this->carregaDadosTabelaDoArquivo($this->cnaeDAO,'CNAECSV');
+        $this->carregaDadosTabelaDoArquivo($this->motiDAO,'MOTICSV');
+        $this->carregaDadosTabelaDoArquivo($this->municDAO,'MUNICCSV');
+        $this->carregaDadosTabelaDoArquivo($this->natjuDAO,'NATJUCSV');
+        $this->carregaDadosTabelaDoArquivo($this->paisDAO,'PAISCSV');
+        $this->carregaDadosTabelaDoArquivo($this->qualsDAO,'QUALSCSV');
+        $this->carregaDadosTabelaDoArquivo($this->estabelecimentoDAO,'ESTABELE');
+        $this->carregaDadosTabelaDoArquivo($this->sociosDAO,'SOCIOCSV');
+        $this->carregaDadosTabelaDoArquivo($this->empresaDAO,'EMPRECSV');
+        $this->carregaDadosTabelaDoArquivo($this->simplesDAO,'SIMPLES');
         $time_end = microtime(true);
         $time = $time_end - $time_start; //calculate the difference between start and stop
         $time = number_format($time, 3, ',', '.');
         echo "Tempo total em segundos para toda as cargas: $time";
         $this->quebraLinha();
     }
+
+    /**
+     * Carrega dados de UM arquivos na classe DAO.
+     *
+     * @param Dao $classDao
+     * @param string $arquivoCsv
+     * @return void
+     */
     public function carregaDadosTabela(Dao $classDao, string $arquivoCsv){
         $time_start = microtime(true);
         $arquivoCsv = $this->pathExtractedFiles.DS.$arquivoCsv;
@@ -111,17 +124,22 @@ class Cargabanco
         $time = $time_end - $time_start; //calculate the difference between start and stop
         $time = number_format($time, 3, ',', '.');
         echo $time.' segundos para a carga na tabela: '.$classDao->getTabelaName().' quantidade de registros: '.$numRegistros;
-        $this->quebraLinha();           
+        $this->quebraLinha();
+        return $numRegistros;
     }
 
     /**
-     * Carrega todos os arquivos que tenham parte do nome informado na classe DAO.
+     * Carrega dados de todos os arquivos que tenham parte do nome informado na classe DAO.
      *
      * @param Dao $classDao - 1: classe DAO para fazer o insert
      * @param string $parteNomeArquivoCsv - 2: nome da parte do arquivo
      * @return void
      */
     public function carregaDadosTabelaDoArquivo(Dao $classDao, string $parteNomeArquivoCsv){
+        $time_start = microtime(true);
+        $qtdArquivos = 0;
+        $numRegistrosTotal = 0;
+        $numRegistros = 0;
 
         $list = new RecursiveDirectoryIterator($this->pathExtractedFiles);
         $it   = new RecursiveIteratorIterator($list);
@@ -129,9 +147,14 @@ class Cargabanco
             if ($it->isFile()) {
                 $temParteArquivo = str_contains($it->getSubPathName(),$parteNomeArquivoCsv);
                 if($temParteArquivo){
-                    $this->carregaDadosTabela($classDao,$it->getSubPathName());
+                    $qtdArquivos = $qtdArquivos + 1;
+                    $numRegistros = $this->carregaDadosTabela($classDao,$it->getSubPathName());
+                    $numRegistrosTotal = $numRegistrosTotal +  $numRegistros;
                 }
             }
         }//FIM foreach
+        $tempoFormatado = $this->tempoFormatado($time_start);
+        echo $tempoFormatado.' para a carregar '.$qtdArquivos.' arquivo(s) na tabela '.$parteNomeArquivoCsv.' quantidade de registros: '.$numRegistrosTotal;
+        $this->quebraLinha();
     }
 }
