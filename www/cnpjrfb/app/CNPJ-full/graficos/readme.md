@@ -1,1 +1,0 @@
-pasta com os grafos gerados pelo python
