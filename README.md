@@ -34,7 +34,7 @@ empresa | 45.811.638 |
 estabelecimento | 48.421.619 | 
 socios | 20.426.417 | 
 simples | 27.893.923 |
-
+**Total** | **142.553.597**|
 ## Intalação com VirtualBox
 Abaixo um breve tutorial para quem deseja rodar dentro do VirtualBox.
 
