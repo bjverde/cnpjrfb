@@ -24,6 +24,9 @@ class Cargabanco
         $this->paisDAO  = new PaisDAO($tpdo);
         $this->qualsDAO = new QualsDAO($tpdo);
         $this->estabelecimentoDAO = new EstabelecimentoDAO($tpdo);
+        $this->simplesDAO = new SimplesDAO($tpdo);
+        $this->sociosDAO = new SociosDAO($tpdo);
+        $this->empresaDAO = new EmpresaDAO($tpdo);
     }
     public function executar(){
         try{
@@ -48,8 +51,9 @@ class Cargabanco
     }
     public function truncateDados(){
         $time_start = microtime(true);
-        $this->truncateTabela($this->SociosDAO);
-        $this->truncateTabela($this->SimplesDAO);
+        $this->truncateTabela($this->empresaDAO);
+        $this->truncateTabela($this->sociosDAO);
+        $this->truncateTabela($this->simplesDAO);
         $this->truncateTabela($this->estabelecimentoDAO);
         $this->truncateTabela($this->cnaeDAO);
         $this->truncateTabela($this->motiDAO);
@@ -85,8 +89,9 @@ class Cargabanco
         $this->carregaDadosTabela($this->paisDAO ,'F.K03200$Z.D11009.PAISCSV');
         $this->carregaDadosTabela($this->qualsDAO,'F.K03200$Z.D11009.QUALSCSV');
         $this->carregaDadosTabela($this->estabelecimentoDAO,'K3241.K03200Y0.D11009.ESTABELE');
-        $this->carregaDadosTabela($this->SociosDAO,'K3241.K03200Y0.D11009.SOCIOCSV');
-        //$this->carregaDadosTabela($this->SimplesDAO,'K3241.K03200Y0.D11009.ESTABELE');
+        $this->carregaDadosTabela($this->sociosDAO,'K3241.K03200Y0.D11009.SOCIOCSV');
+        $this->carregaDadosTabela($this->empresaDAO,'K3241.K03200Y0.D11009.EMPRECSV');
+        $this->carregaDadosTabela($this->simplesDAO,'F.K03200$W.SIMPLES.CSV.D11009');
         $time_end = microtime(true);
         $time = $time_end - $time_start; //calculate the difference between start and stop
         $time = number_format($time, 3, ',', '.');
