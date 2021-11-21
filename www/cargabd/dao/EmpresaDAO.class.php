@@ -44,10 +44,6 @@ class EmpresaDAO  extends Dao
                         , $linhaArquivoCsv[4]
                         , $linhaArquivoCsv[5]
                         , $linhaArquivoCsv[6]
-                        , $linhaArquivoCsv[7]
-                        , $linhaArquivoCsv[8]
-                        , $linhaArquivoCsv[9]
-                        , $linhaArquivoCsv[10]
                         );
         $sql = 'INSERT INTO empresa
         (cnpj_basico        
