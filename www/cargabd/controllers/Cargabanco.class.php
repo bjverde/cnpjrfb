@@ -3,7 +3,7 @@
 class Cargabanco
 {    
     private $is_cli  = false;
-    private $path    = null;
+    private $pathExtractedFiles  = null;
     
     private $cnaeDAO  = null;
     private $qualsDAO = null;
@@ -13,7 +13,7 @@ class Cargabanco
         if (php_sapi_name() == "cli") {
             $this->is_cli = true;
         }
-        $this->path=ConfigHelper::getExtractedFilesPath();
+        $this->pathExtractedFiles=ConfigHelper::getExtractedFilesPath();
         $tpdo = New TPDOConnection();
         $tpdo::connect();
 
@@ -35,8 +35,9 @@ class Cargabanco
             echo 'Esse procedimento vai apagar todo o banco e carregar com os dados dos arquivos CSV';
             $this->quebraLinha();
             $this->quebraLinha();
-            $this->truncateDados();
-            $this->carregaDados();
+            //$this->truncateDados();
+            //$this->carregaDados();
+            $this->carregaDadosTabelaDoArquivo($this->sociosDAO,'SOCIOSCSV');
         }
         catch (Exception $e) {
             print($e->getMessage());
@@ -100,7 +101,7 @@ class Cargabanco
     }
     public function carregaDadosTabela(Dao $classDao, string $arquivoCsv){
         $time_start = microtime(true);
-        $arquivoCsv = $this->path.DS.$arquivoCsv;
+        $arquivoCsv = $this->pathExtractedFiles.DS.$arquivoCsv;
         if (!file_exists($arquivoCsv)){
             throw new InvalidArgumentException('ERRO: o arquivo '.$arquivoCsv.' não encontrado');
         }
@@ -111,5 +112,18 @@ class Cargabanco
         $time = number_format($time, 3, ',', '.');
         echo $time.' segundos para a carga na tabela: '.$classDao->getTabelaName().' quantidade de registros: '.$numRegistros;
         $this->quebraLinha();           
-    }    
+    }
+
+    public function carregaDadosTabelaDoArquivo(Dao $classDao, string $parteNomeArquivoCsv){
+
+        $list = new RecursiveDirectoryIterator($this->pathExtractedFiles);
+        $it   = new RecursiveIteratorIterator($list);
+        
+        foreach ($it as $file) {
+            if ($it->isFile()) {
+                echo ' SubPathName: ' . $it->getSubPathName();
+                echo ' SubPath:     ' . $it->getSubPath()."<br>";
+            }
+        }          
+    }
 }
