@@ -45,7 +45,7 @@ class SimplesDAO  extends Dao
                         , $linhaArquivoCsv[5]
                         , $linhaArquivoCsv[6]
                         );
-        $sql = 'INSERT INTO estabelecimento
+        $sql = 'INSERT INTO simples
         (cnpj_basico        
         ,opcao_pelo_simples
         ,data_opcao_simples

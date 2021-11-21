@@ -53,7 +53,7 @@ class SociosDAO  extends Dao
                         , $linhaArquivoCsv[9]
                         , $linhaArquivoCsv[10]
                         );
-        $sql = 'INSERT INTO estabelecimento
+        $sql = 'INSERT INTO socios
         (cnpj_basico        
         ,identificador_socio
         ,nome_socio_razao_social
