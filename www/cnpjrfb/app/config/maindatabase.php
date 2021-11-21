@@ -9,13 +9,17 @@
  * 
  * System cnpjrfb created in: 2021-11-19 22:41:06
  */
+
+
+//Veja como configurar conforme o Banco de Dados
+//https://www.adianti.com.br/framework-quickstart
 return [
-     "host" => "127.0.0.1"
-    ,"port" => "3306"
-    ,"name" => "dados_rfb"
-    ,"user" => "dados_rfb"
-    ,"pass" => "123456"
-    ,"type" => "mysql"
+     "host" => ""
+    ,"port" => ""
+    ,"name" => "app/database/cnpjrfb.db"
+    ,"user" => ""
+    ,"pass" => ""
+    ,"type" => "sqlite"
     ,"prep" => "1"
     ,"slog" => "SystemSqlLogService"
 ];
