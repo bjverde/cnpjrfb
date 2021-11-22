@@ -15,7 +15,7 @@ class CnaeDAO
     private static $sqlBasicSelect = 'select
                                       codigo
                                      ,descricao
-                                     from dados_rfb.cnae ';
+                                     from cnae ';
 
     private $tpdo = null;
     private $repositoryName = 'cnae'; //Nome da Classe do tipo Active Record no diretorio /app/model/maindatabase
