@@ -12,18 +12,18 @@
 class empresa extends TRecord
 {
     const TABLENAME = 'empresa';
-    const PRIMARYKEY= 'CNPJ_BASICO';
+    const PRIMARYKEY= 'cnpj_basico';
     const IDPOLICY  = 'serial'; //{max, serial}
 
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
-        parent::addAttribute('RAZAO_SOCIAL');
-        parent::addAttribute('NATUREZA_JURIDICA');
-        parent::addAttribute('QUALIFICACAO_RESPONSAVEL');
-        parent::addAttribute('CAPITAL_SOCIAL');
-        parent::addAttribute('PORTE_EMPRESA');
-        parent::addAttribute('ENTE_FEDERATIVO_RESPONSAVEL');
+        parent::addAttribute('razao_social');
+        parent::addAttribute('natureza_juridica');
+        parent::addAttribute('qualificacao_responsavel');
+        parent::addAttribute('capital_social');
+        parent::addAttribute('porte_empresa');
+        parent::addAttribute('ente_federativo_responsavel');
     }
 
 }
