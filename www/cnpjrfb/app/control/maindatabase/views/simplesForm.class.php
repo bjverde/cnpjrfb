@@ -40,19 +40,11 @@ class simplesForm extends TPage
         $frm->addTextField('CNPJ_BASICO', 'Cnpj Basico',8,true,8);
         //$frm->getLabel('CNPJ_BASICO')->setToolTip('NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).');
         $frm->addTextField('OPCAO_PELO_SIMPLES', 'Opção Pelo Simples',1,false,1);
-        //$frm->getLabel('OPCAO_PELO_SIMPLES')->setToolTip('INDICADOR DA EXISTÊNCIA DA OPÇÃO PELO SIMPLES.
- S - SIM
- N - NÃO
- EM BRANCO – OUTROS');
         $frm->addDateTimeField('DATA_OPCAO_SIMPLES', 'Data Opção Simples',false,null,null,null,null,'dd/mm/yyyy hh:ii',null,null,null,null,'yyyy-mm-dd hh:ii');
         //$frm->getLabel('DATA_OPCAO_SIMPLES')->setToolTip('DATA DE OPÇÃO PELO SIMPLES');
         $frm->addDateTimeField('DATA_EXCLUSAO_SIMPLES', 'Data Exclusão Simples',false,null,null,null,null,'dd/mm/yyyy hh:ii',null,null,null,null,'yyyy-mm-dd hh:ii');
         //$frm->getLabel('DATA_EXCLUSAO_SIMPLES')->setToolTip('DATA DE EXCLUSÃO DO SIMPLES');
         $frm->addTextField('OPCAO_MEI', 'Opção Mei',1,false,1);
-        //$frm->getLabel('OPCAO_MEI')->setToolTip('INDICADOR DA EXISTÊNCIA DA OPÇÃO PELO MEI
- S - SIM
- N - NÃO
- EM BRANCO - OUTROS');
         $frm->addDateTimeField('DATA_OPCAO_MEI', 'Data Opção Mei',false,null,null,null,null,'dd/mm/yyyy hh:ii',null,null,null,null,'yyyy-mm-dd hh:ii');
         //$frm->getLabel('DATA_OPCAO_MEI')->setToolTip('DATA DE OPÇÃO PELO MEI');
         $frm->addDateTimeField('DATA_EXCLUSAO_MEI', 'Data Exclusão Mei',false,null,null,null,null,'dd/mm/yyyy hh:ii',null,null,null,null,'yyyy-mm-dd hh:ii');

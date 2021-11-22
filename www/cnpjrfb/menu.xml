@@ -1,11 +1,7 @@
 <menu>
-    <menuitem label='Home'>
+    <menuitem label='Principal'>
         <icon>fa:home fa-fw #f0db4f</icon>
         <menu>
-            <menuitem label='cnae'>
-                <icon>fa:book fa-fw</icon>
-                <action>cnaeForm</action>
-            </menuitem>
             <menuitem label='empresa'>
                 <icon>fa:table fa-fw</icon>
                 <action>empresaForm</action>
@@ -13,6 +9,23 @@
             <menuitem label='estabelecimento'>
                 <icon>fa:table fa-fw</icon>
                 <action>estabelecimentoForm</action>
+            </menuitem>
+            <menuitem label='simples'>
+                <icon>fa:book fa-fw</icon>
+                <action>simplesForm</action>
+            </menuitem>
+            <menuitem label='socios'>
+                <icon>fa:book fa-fw</icon>
+                <action>sociosForm</action>
+            </menuitem>
+        </menu>
+    </menuitem>
+    <menuitem label='Tabelas Apoio'>
+        <icon>fa:home fa-fw #f0db4f</icon>
+        <menu>
+            <menuitem label='cnae'>
+                <icon>fa:book fa-fw</icon>
+                <action>cnaeForm</action>
             </menuitem>
             <menuitem label='moti'>
                 <icon>fa:book fa-fw</icon>
@@ -34,16 +47,8 @@
                 <icon>fa:book fa-fw</icon>
                 <action>qualsForm</action>
             </menuitem>
-            <menuitem label='simples'>
-                <icon>fa:book fa-fw</icon>
-                <action>simplesForm</action>
-            </menuitem>
-            <menuitem label='socios'>
-                <icon>fa:book fa-fw</icon>
-                <action>sociosForm</action>
-            </menuitem>
         </menu>
-    </menuitem>
+    </menuitem>    
     <menuitem label='Facilitadores'>
         <icon>fa:magic fa-fw fa-fw #ffff00</icon>
         <menu>

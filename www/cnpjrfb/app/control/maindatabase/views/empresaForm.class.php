@@ -51,11 +51,6 @@ class empresaForm extends TPage
         $frm->addTextField('CAPITAL_SOCIAL', 'Capital Social',45,false,45);
         //$frm->getLabel('CAPITAL_SOCIAL')->setToolTip('CAPITAL SOCIAL DA EMPRESA');
         $frm->addTextField('PORTE_EMPRESA', 'Porte Empresa',45,false,45);
-        //$frm->getLabel('PORTE_EMPRESA')->setToolTip('CÓDIGO DO PORTE DA EMPRESA:
-1 – NÃO INFORMADO
-2 - MICRO EMPRESA
-03 - EMPRESA DE PEQUENO PORTE
-05 - DEMAIS');
         $frm->addTextField('ENTE_FEDERATIVO_RESPONSAVEL', 'Ente Federativo Responsavel',45,false,45);
         //$frm->getLabel('ENTE_FEDERATIVO_RESPONSAVEL')->setToolTip('O ENTE FEDERATIVO RESPONSÁVEL É PREENCHIDO PARA OS CASOS DE ÓRGÃOS E ENTIDADES DO GRUPO DE NATUREZA JURÍDICA 1XXX. PARA AS DEMAIS NATUREZAS, ESTE ATRIBUTO FICA EM BRANCO');
 

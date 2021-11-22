@@ -42,18 +42,9 @@ class estabelecimentoForm extends TPage
         $frm->addTextField('CNPJ_DV', 'Cnpj Dv',2,true,2);
         //$frm->getLabel('CNPJ_DV')->setToolTip('DÍGITO VERIFICADOR DO NÚMERO DE INSCRIÇÃO NO CNPJ (DOIS ÚLTIMOS DÍGITOS DO CNPJ).');
         $frm->addTextField('IDENTIFICADOR_MATRIZ_FILIAL', 'Identificador Matriz Filial',1,true,1);
-        //$frm->getLabel('IDENTIFICADOR_MATRIZ_FILIAL')->setToolTip('CÓDIGO DO IDENTIFICADOR MATRIZ/FILIAL:
-1 – MATRIZ
-2 – FILIAL');
         $frm->addMemoField('NOME_FANTASIA', 'Nome Fantasia',1000,false,80,3);
         //$frm->getLabel('NOME_FANTASIA')->setToolTip('CORRESPONDE AO NOME FANTASIA');
         $frm->addTextField('SITUACAO_CADASTRAL', 'Situação Cadastral',1,true,1);
-        //$frm->getLabel('SITUACAO_CADASTRAL')->setToolTip('CÓDIGO DA SITUAÇÃO CADASTRAL:
-01 – NULA
-2 – ATIVA
-3 – SUSPENSA
-4 – INAPTA
-08 – BAIXADA');
         $frm->addDateTimeField('DATA_SITUACAO_CADASTRAL', 'Data Situação Cadastral',false,null,null,null,null,'dd/mm/yyyy hh:ii',null,null,null,null,'yyyy-mm-dd hh:ii');
         //$frm->getLabel('DATA_SITUACAO_CADASTRAL')->setToolTip('DATA DO EVENTO DA SITUAÇÃO CADASTRAL');
         $controllerMoti = new MotiController();

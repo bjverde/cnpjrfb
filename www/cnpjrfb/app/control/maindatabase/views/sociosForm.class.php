@@ -38,14 +38,7 @@ class sociosForm extends TPage
         $frm->enableCSRFProtection(); // Protection cross-site request forgery 
         $frm->addHiddenField( $primaryKey );   // coluna chave da tabela
         $frm->addNumberField('IDENTIFICADOR_SOCIO', 'Id Entificador Socio',10,true,0);
-        //$frm->getLabel('IDENTIFICADOR_SOCIO')->setToolTip('CÓDIGO DO IDENTIFICADOR DE SÓCIO
-1 – PESSOA JURÍDICA
-2 – PESSOA FÍSICA
-3 – ESTRANGEIRO');
         $frm->addMemoField('NOME_SOCIO_RAZAO_SOCIAL', 'Nome Socio Razao Social',1000,false,80,3);
-        //$frm->getLabel('NOME_SOCIO_RAZAO_SOCIAL')->setToolTip('NOME DO SÓCIO PESSOA FÍSICA OU A RAZÃO SOCIAL 
-E/OU NOME EMPRESARIAL DA PESSOA JURÍDICA 
-E/OU NOME DO SÓCIO/RAZÃO SOCIAL DO SÓCIO ESTRANGEIRO');
         $frm->addTextField('CPF_CNPJ_SOCIO', 'Cpf Cnpj Socio',45,false,45);
         //$frm->getLabel('CPF_CNPJ_SOCIO')->setToolTip('CPF OU CNPJ DO SÓCIO (SÓCIO ESTRANGEIRO NÃO TEM ESTA INFORMAÇÃO).');
         $controllerQuals = new QualsController();
@@ -65,18 +58,6 @@ E/OU NOME DO SÓCIO/RAZÃO SOCIAL DO SÓCIO ESTRANGEIRO');
         $frm->addSelectField('QUALIFICACAO_REPRESENTANTE_LEGAL', 'Qualificação Representante Legal',false,$listQuals,null,null,null,null,null,null,' ',null);
         //$frm->getLabel('QUALIFICACAO_REPRESENTANTE_LEGAL')->setToolTip('CÓDIGO DA QUALIFICAÇÃO DO REPRESENTANTE LEGAL');
         $frm->addNumberField('FAIXA_ETARIA', 'Faixa Etaria',10,false,0);
-        //$frm->getLabel('FAIXA_ETARIA')->setToolTip('CÓDIGO CORRESPONDENTE À FAIXA ETÁRIA DO SÓCIO.
-Baseada na data de nascimento do CPF de cada sócio, deverá ser criado o valor para o
-campo "Faixa Etária" conforme a regra abaixo:
-- 1 para os intervalos entre 0 a 12 anos;
-- 2 para os intervalos entre 13 a 20 anos;
-- 3 para os intervalos entre 21 a 30 anos;
-- 4 para os intervalos entre 31 a 40 anos;
-- 5 para os intervalos entre 41 a 50 anos;
-- 6 para os intervalos entre 51 a 60 anos;
-- 7 para os intervalos entre 61 a 70 anos;
-- 8 para os intervalos entre 71 a 80 anos; - 9 para maiores de 80 anos.
-- 0 para não se aplica');
 
         // O Adianti permite a Internacionalização - A função _t('string') serve
         //para traduzir termos no sistema. Veja ApplicationTranslator escrevendo
