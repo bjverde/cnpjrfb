@@ -15,7 +15,7 @@ class PaisDAO
     private static $sqlBasicSelect = 'select
                                       codigo
                                      ,descricao
-                                     from dados_rfb.pais ';
+                                     from pais ';
 
     private $tpdo = null;
     private $repositoryName = 'pais'; //Nome da Classe do tipo Active Record no diretorio /app/model/maindatabase
