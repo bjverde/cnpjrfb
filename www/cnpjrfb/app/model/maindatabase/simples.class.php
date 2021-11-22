@@ -12,18 +12,18 @@
 class simples extends TRecord
 {
     const TABLENAME = 'simples';
-    const PRIMARYKEY= 'CNPJ_BASICO';
+    const PRIMARYKEY= 'cnpj_basico';
     const IDPOLICY  = 'serial'; //{max, serial}
 
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
-        parent::addAttribute('OPCAO_PELO_SIMPLES');
-        parent::addAttribute('DATA_OPCAO_SIMPLES');
-        parent::addAttribute('DATA_EXCLUSAO_SIMPLES');
-        parent::addAttribute('OPCAO_MEI');
-        parent::addAttribute('DATA_OPCAO_MEI');
-        parent::addAttribute('DATA_EXCLUSAO_MEI');
+        parent::addAttribute('opcao_pelo_simples');
+        parent::addAttribute('data_opcao_simples');
+        parent::addAttribute('data_exclusao_simples');
+        parent::addAttribute('opcao_mei');
+        parent::addAttribute('data_opcao_mei');
+        parent::addAttribute('data_exclusao_mei');
     }
 
 }

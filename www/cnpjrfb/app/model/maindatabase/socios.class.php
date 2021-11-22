@@ -12,22 +12,22 @@
 class socios extends TRecord
 {
     const TABLENAME = 'socios';
-    const PRIMARYKEY= 'CNPJ_BASICO';
+    const PRIMARYKEY= 'cnpj_basico';
     const IDPOLICY  = 'serial'; //{max, serial}
 
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
-        parent::addAttribute('IDENTIFICADOR_SOCIO');
-        parent::addAttribute('NOME_SOCIO_RAZAO_SOCIAL');
-        parent::addAttribute('CPF_CNPJ_SOCIO');
-        parent::addAttribute('QUALIFICACAO_SOCIO');
-        parent::addAttribute('DATA_ENTRADA_SOCIEDADE');
-        parent::addAttribute('PAIS');
-        parent::addAttribute('REPRESENTANTE_LEGAL');
-        parent::addAttribute('NOME_DO_REPRESENTANTE');
-        parent::addAttribute('QUALIFICACAO_REPRESENTANTE_LEGAL');
-        parent::addAttribute('FAIXA_ETARIA');
+        parent::addAttribute('identificador_socio');
+        parent::addAttribute('nome_socio_razao_social');
+        parent::addAttribute('cpf_cnpj_socio');
+        parent::addAttribute('qualificacao_socio');
+        parent::addAttribute('data_entrada_sociedade');
+        parent::addAttribute('pais');
+        parent::addAttribute('representante_legal');
+        parent::addAttribute('nome_do_representante');
+        parent::addAttribute('qualificacao_representante_legal');
+        parent::addAttribute('faixa_etaria');
     }
 
 }
