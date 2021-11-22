@@ -20,7 +20,7 @@ class SimplesDAO
                                      ,opcao_mei
                                      ,data_opcao_mei
                                      ,data_exclusao_mei
-                                     from dados_rfb.simples ';
+                                     from simples ';
 
     private $tpdo = null;
     private $repositoryName = 'simples'; //Nome da Classe do tipo Active Record no diretorio /app/model/maindatabase

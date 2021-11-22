@@ -15,7 +15,7 @@ class MotiDAO
     private static $sqlBasicSelect = 'select
                                       codigo
                                      ,descricao
-                                     from dados_rfb.moti ';
+                                     from moti ';
 
     private $tpdo = null;
     private $repositoryName = 'moti'; //Nome da Classe do tipo Active Record no diretorio /app/model/maindatabase

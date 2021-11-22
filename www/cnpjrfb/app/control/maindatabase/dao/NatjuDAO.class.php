@@ -15,7 +15,7 @@ class NatjuDAO
     private static $sqlBasicSelect = 'select
                                       codigo
                                      ,descricao
-                                     from dados_rfb.natju ';
+                                     from natju ';
 
     private $tpdo = null;
     private $repositoryName = 'natju'; //Nome da Classe do tipo Active Record no diretorio /app/model/maindatabase
