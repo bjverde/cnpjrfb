@@ -36,7 +36,6 @@ class simplesForm extends TPage
         $this->frm = new TFormDin($this,'simples');
         $frm = $this->frm;
         $frm->enableCSRFProtection(); // Protection cross-site request forgery 
-        $frm->addHiddenField( $primaryKey );   // coluna chave da tabela
         $frm->addTextField('CNPJ_BASICO', 'Cnpj Basico',8,true,8);
         //$frm->getLabel('CNPJ_BASICO')->setToolTip('NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).');
         $frm->addTextField('OPCAO_PELO_SIMPLES', 'Opção Pelo Simples',1,false,1);

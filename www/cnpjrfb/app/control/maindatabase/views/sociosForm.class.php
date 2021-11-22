@@ -36,7 +36,7 @@ class sociosForm extends TPage
         $this->frm = new TFormDin($this,'socios');
         $frm = $this->frm;
         $frm->enableCSRFProtection(); // Protection cross-site request forgery 
-        $frm->addHiddenField( $primaryKey );   // coluna chave da tabela
+        $frm->addTextField('CNPJ_BASICO', 'Cnpj Basico',8,true,8);
         $frm->addNumberField('IDENTIFICADOR_SOCIO', 'Id Entificador Socio',10,true,0);
         $frm->addMemoField('NOME_SOCIO_RAZAO_SOCIAL', 'Nome Socio Razao Social',1000,false,80,3);
         $frm->addTextField('CPF_CNPJ_SOCIO', 'Cpf Cnpj Socio',45,false,45);

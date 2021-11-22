@@ -35,8 +35,8 @@ class estabelecimentoForm extends TPage
         $primaryKey = 'CNPJ_BASICO';
         $this->frm = new TFormDin($this,'estabelecimento');
         $frm = $this->frm;
-        $frm->enableCSRFProtection(); // Protection cross-site request forgery 
-        $frm->addHiddenField( $primaryKey );   // coluna chave da tabela
+        $frm->enableCSRFProtection(); // Protection cross-site request forgery         
+        $frm->addTextField('CNPJ_BASICO', 'Cnpj Basico',8,true,8);
         $frm->addTextField('CNPJ_ORDEM', 'Cnpj Ordem',4,true,4);
         //$frm->getLabel('CNPJ_ORDEM')->setToolTip('NÚMERO DO ESTABELECIMENTO DE INSCRIÇÃO NO CNPJ (DO NONO ATÉ O DÉCIMO SEGUNDO DÍGITO DO CNPJ).');
         $frm->addTextField('CNPJ_DV', 'Cnpj Dv',2,true,2);

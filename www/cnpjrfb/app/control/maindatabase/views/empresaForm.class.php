@@ -36,7 +36,6 @@ class empresaForm extends TPage
         $this->frm = new TFormDin($this,'empresa');
         $frm = $this->frm;
         $frm->enableCSRFProtection(); // Protection cross-site request forgery 
-        $frm->addHiddenField( $primaryKey );   // coluna chave da tabela
         $frm->addTextField('CNPJ_BASICO', 'Cnpj Basico',8,true,8);
         $frm->addMemoField('RAZAO_SOCIAL', 'Razao Social',1000,false,80,3);
         //$frm->getLabel('RAZAO_SOCIAL')->setToolTip('NOME EMPRESARIAL DA PESSOA JURÍDICA');
