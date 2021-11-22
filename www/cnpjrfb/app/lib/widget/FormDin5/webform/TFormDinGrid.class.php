@@ -239,11 +239,11 @@ class TFormDinGrid
      * @param string $align   - 5: 
      * @return void
      */
-    public function addElementColumnList($type = self::TYPE_SIMPLE
-                                        , string $idcolumn
-                                        , string $label
-                                        , string $width = NULL
-                                        , string $align = 'left'                                        
+    public function addElementColumnList(string $type = self::TYPE_SIMPLE
+                                        ,string $idcolumn
+                                        ,string $label
+                                        ,string $width = NULL
+                                        ,string $align = 'left'
                                         )
     {
         $element = array();
@@ -535,12 +535,12 @@ class TFormDinGrid
      * @param boolean $boolAllowCheckAll  - TRUE = pode selecionar todos , FALSE = não permite multiplas seleções
      * @return TGridCheckColumn
      */
-    public function addCheckColumn( $strName
-                                , $strTitle = null
-                                , $strKeyField
-                                , $strDescField = null
-                                , $boolReadOnly = null
-                                , $boolAllowCheckAll = null )
+    public function addCheckColumn( string $strName
+                                  , string $strTitle = null
+                                  , string $strKeyField
+                                  , string $strDescField = null
+                                  , mixed $boolReadOnly = null
+                                  , mixed $boolAllowCheckAll = null )
     {
         if ( !$strKeyField ){
             $strKeyField = strtoupper( $strName );
@@ -586,17 +586,17 @@ class TFormDinGrid
      * @param string $classDestiny      -11: FORMDIN5: nome da classe que vai tratar ação. o Valor Defualt é propria classe
      * @return object TFormDinGridAction
      */
-    public function addButton( $strRotulo
-                             , $strAction = null
-                             , $strName = null
-                             , $strOnClick = null
-                             , $strConfirmMessage = null
-                             , $strImage = null
-                             , $strImageDisabled = null
-                             , $strHint = null
-                             , $boolSubmitAction = null
-                             , $mixUpdateButton = null
-                             , $classDestiny    = null
+    public function addButton( string $strRotulo
+                             , string $strAction = null
+                             , string $strName = null
+                             , string $strOnClick = null
+                             , string $strConfirmMessage = null
+                             , string $strImage = null
+                             , string $strImageDisabled = null
+                             , string $strHint = null
+                             , mixed $boolSubmitAction = null
+                             , mixed $mixUpdateButton = null
+                             , $classDestiny   = null
                              ){
             $mixUpdateButton = $this->getMixUpdateButton($mixUpdateButton);
             if( empty($mixUpdateButton) ){

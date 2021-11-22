@@ -91,7 +91,7 @@ class TFormDinMemoField extends TFormDinGenericField
      * @return TFormDinMemoField
      */
     public function __construct($id
-                              , $label=null
+                              , $label
                               , $intMaxLength
                               , $boolRequired=null
                               , $intColumns='100%'
