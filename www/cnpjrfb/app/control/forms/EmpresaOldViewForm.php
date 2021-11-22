@@ -2,7 +2,7 @@
 
 use Adianti\Registry\TSession;
 
-class EmpresaViewForm extends TPage
+class EmpresaOldViewForm extends TPage
 {
     protected $form; // registration form
     protected $datagrid; // listing
