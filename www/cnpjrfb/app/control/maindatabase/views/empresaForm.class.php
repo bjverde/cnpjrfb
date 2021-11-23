@@ -30,57 +30,61 @@ class empresaForm extends TPage
 
         $this->setDatabase('maindatabase'); // define the database
         $this->setActiveRecord('empresa'); // define the Active Record
-        $this->setDefaultOrder('CNPJ_BASICO', 'asc'); // define the default order
+        $this->setDefaultOrder('cnpj_basico', 'asc'); // define the default order
 
-        $primaryKey = 'CNPJ_BASICO';
+        $primaryKey = 'cnpj_basico';
         $this->frm = new TFormDin($this,'empresa');
         $frm = $this->frm;
         $frm->enableCSRFProtection(); // Protection cross-site request forgery 
-        $frm->addTextField('CNPJ_BASICO', 'Cnpj Basico',8,true,8);
-        $frm->addMemoField('RAZAO_SOCIAL', 'Razao Social',1000,false,80,3);
+        $frm->addTextField('cnpj_basico', 'Cnpj Basico',8,true,8);
+        $frm->addMemoField('razao_social', 'Razao Social',1000,false,80,3);
         //$frm->getLabel('RAZAO_SOCIAL')->setToolTip('NOME EMPRESARIAL DA PESSOA JURÍDICA');
         $controllerNatju = new NatjuController();
         $listNatju = $controllerNatju->selectAll();
-        $frm->addSelectField('NATUREZA_JURIDICA', 'Natureza Juridica',false,$listNatju,null,null,null,null,null,null,' ',null);
+        $frm->addSelectField('natureza_juridica', 'Natureza Juridica',false,$listNatju,null,null,null,null,null,null,' ',null);
         //$frm->getLabel('NATUREZA_JURIDICA')->setToolTip('CÓDIGO DA NATUREZA JURÍDICA');
         $controllerQuals = new QualsController();
         $listQuals = $controllerQuals->selectAll();
-        $frm->addSelectField('QUALIFICACAO_RESPONSAVEL', 'Qualificação Responsavel',false,$listQuals,null,null,null,null,null,null,' ',null);
+        $frm->addSelectField('qualificacao_responsavel', 'Qualificação Responsavel',false,$listQuals,null,null,null,null,null,null,' ',null);
         //$frm->getLabel('QUALIFICACAO_RESPONSAVEL')->setToolTip('QUALIFICAÇÃO DA PESSOA FÍSICA RESPONSÁVEL PELA EMPRESA');
-        $frm->addTextField('CAPITAL_SOCIAL', 'Capital Social',45,false,45);
+        $frm->addTextField('capital_social', 'Capital Social',45,false,45);
         //$frm->getLabel('CAPITAL_SOCIAL')->setToolTip('CAPITAL SOCIAL DA EMPRESA');
-        $frm->addTextField('PORTE_EMPRESA', 'Porte Empresa',45,false,45);
-        $frm->addTextField('ENTE_FEDERATIVO_RESPONSAVEL', 'Ente Federativo Responsavel',45,false,45);
+        $frm->addSelectField('porte_empresa','Porte Empresa',false,TipoPorteEmpresa::getList());
+        $frm->addTextField('ente_federativo_responsavel', 'Ente Federativo Responsavel',45,false,45);
         //$frm->getLabel('ENTE_FEDERATIVO_RESPONSAVEL')->setToolTip('O ENTE FEDERATIVO RESPONSÁVEL É PREENCHIDO PARA OS CASOS DE ÓRGÃOS E ENTIDADES DO GRUPO DE NATUREZA JURÍDICA 1XXX. PARA AS DEMAIS NATUREZAS, ESTE ATRIBUTO FICA EM BRANCO');
 
         // O Adianti permite a Internacionalização - A função _t('string') serve
         //para traduzir termos no sistema. Veja ApplicationTranslator escrevendo
         //primeiro em ingles e depois traduzindo
-        $frm->setAction( _t('Save'), 'onSave', null, 'fa:save', 'green' );
+        //$frm->setAction( _t('Save'), 'onSave', null, 'fa:save', 'green' );
         $frm->setActionLink( _t('Clear'), 'onClear', null, 'fa:eraser', 'red');
 
         $this->form = $frm->show();
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data'));
 
         $mixUpdateFields = $primaryKey.'|'.$primaryKey
-                        .',CNPJ_BASICO|CNPJ_BASICO'
-                        .',RAZAO_SOCIAL|RAZAO_SOCIAL'
-                        .',NATUREZA_JURIDICA|NATUREZA_JURIDICA'
-                        .',QUALIFICACAO_RESPONSAVEL|QUALIFICACAO_RESPONSAVEL'
-                        .',CAPITAL_SOCIAL|CAPITAL_SOCIAL'
-                        .',PORTE_EMPRESA|PORTE_EMPRESA'
-                        .',ENTE_FEDERATIVO_RESPONSAVEL|ENTE_FEDERATIVO_RESPONSAVEL'
+                        .',cnpj_basico|cnpj_basico'
+                        .',razao_social|razao_social'
+                        .',natureza_juridica|natureza_juridica'
+                        .',qualificacao_responsavel|qualificacao_responsavel'
+                        .',capital_social|capital_social'
+                        .',porte_empresa|porte_empresa'
+                        .',ente_federativo_responsavel|ente_federativo_responsavel'
                         ;
         $grid = new TFormDinGrid($this,'gd','Data Grid');
         $grid->setUpdateFields($mixUpdateFields);
         $grid->addColumn($primaryKey,'id');
-        $grid->addColumn('CNPJ_BASICO','Cnpj Basico');
-        $grid->addColumn('RAZAO_SOCIAL','Razao Social');
-        $grid->addColumn('NATUREZA_JURIDICA','Natureza Juridica');
-        $grid->addColumn('QUALIFICACAO_RESPONSAVEL','Qualificação Responsavel');
-        $grid->addColumn('CAPITAL_SOCIAL','Capital Social');
-        $grid->addColumn('PORTE_EMPRESA','Porte Empresa');
-        $grid->addColumn('ENTE_FEDERATIVO_RESPONSAVEL','Ente Federativo Responsavel');
+        $grid->addColumn('cnpj_basico','Cnpj Basico');
+        $grid->addColumn('razao_social','Razao Social');
+        $grid->addColumn('natureza_juridica','Natureza Juridica');
+        $grid->addColumn('qualificacao_responsavel','Qualificação Responsavel');
+        $grid->addColumn('capital_social','Capital Social');
+        $col_porteEmpresa = $grid->addColumn('porte_empresa','Porte Empresa');
+        $col_porteEmpresa->setTransformer(function ($value) {
+            return TipoPorteEmpresa::getByid($value);
+        });
+        $grid->addColumn('ente_federativo_responsavel','Ente Federativo Responsavel');
+        $grid->enableDefaultButtons(false);
 
         $this->datagrid = $grid->show();
         $this->pageNavigation = $grid->getPageNavigation();
