@@ -98,7 +98,7 @@ class TFormDinButton {
     */
     public function __construct($objForm
                                 , $label
-                                , $strNameId=null
+                                , $strNameId
                                 , $strAction
                                 , $strOnClick=null
                                 , $strConfirmMessage=null

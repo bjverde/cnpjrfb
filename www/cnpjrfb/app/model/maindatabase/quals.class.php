@@ -12,13 +12,13 @@
 class quals extends TRecord
 {
     const TABLENAME = 'quals';
-    const PRIMARYKEY= 'CODIGO';
+    const PRIMARYKEY= 'codigo';
     const IDPOLICY  = 'serial'; //{max, serial}
 
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
-        parent::addAttribute('DESCRICAO');
+        parent::addAttribute('descricao');
     }
 
 }

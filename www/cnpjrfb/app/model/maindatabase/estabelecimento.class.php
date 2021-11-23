@@ -12,41 +12,41 @@
 class estabelecimento extends TRecord
 {
     const TABLENAME = 'estabelecimento';
-    const PRIMARYKEY= 'CNPJ_BASICO';
+    const PRIMARYKEY= 'cnpj_basico';
     const IDPOLICY  = 'serial'; //{max, serial}
 
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
-        parent::addAttribute('CNPJ_ORDEM');
-        parent::addAttribute('CNPJ_DV');
-        parent::addAttribute('IDENTIFICADOR_MATRIZ_FILIAL');
-        parent::addAttribute('NOME_FANTASIA');
-        parent::addAttribute('SITUACAO_CADASTRAL');
-        parent::addAttribute('DATA_SITUACAO_CADASTRAL');
-        parent::addAttribute('MOTIVO_SITUACAO_CADASTRAL');
-        parent::addAttribute('NOME_CIDADE_EXTERIOR');
-        parent::addAttribute('PAIS');
-        parent::addAttribute('DATA_INICIO_ATIVIDADE');
-        parent::addAttribute('CNAE_FISCAL_PRINCIPAL');
-        parent::addAttribute('CNAE_FISCAL_SECUNDARIA');
-        parent::addAttribute('TIPO_LOGRADOURO');
-        parent::addAttribute('LOGRADOURO');
-        parent::addAttribute('NUMERO');
-        parent::addAttribute('COMPLEMENTO');
-        parent::addAttribute('BAIRRO');
-        parent::addAttribute('CEP');
-        parent::addAttribute('UF');
-        parent::addAttribute('MUNICIPIO');
-        parent::addAttribute('DDD_1');
-        parent::addAttribute('TELEFONE_1');
-        parent::addAttribute('DDD_2');
-        parent::addAttribute('TELEFONE_2');
-        parent::addAttribute('DDD_FAX');
-        parent::addAttribute('FAX');
-        parent::addAttribute('CORREIO_ELETRONICO');
-        parent::addAttribute('SITUACAO_ESPECIAL');
-        parent::addAttribute('DATA_SITUACAO_ESPECIAL');
+        parent::addAttribute('cnpj_ordem');
+        parent::addAttribute('cnpj_dv');
+        parent::addAttribute('identificador_matriz_filial');
+        parent::addAttribute('nome_fantasia');
+        parent::addAttribute('situacao_cadastral');
+        parent::addAttribute('data_situacao_cadastral');
+        parent::addAttribute('motivo_situacao_cadastral');
+        parent::addAttribute('nome_cidade_exterior');
+        parent::addAttribute('pais');
+        parent::addAttribute('data_inicio_atividade');
+        parent::addAttribute('cnae_fiscal_principal');
+        parent::addAttribute('cnae_fiscal_secundaria');
+        parent::addAttribute('tipo_logradouro');
+        parent::addAttribute('logradouro');
+        parent::addAttribute('numero');
+        parent::addAttribute('complemento');
+        parent::addAttribute('bairro');
+        parent::addAttribute('cep');
+        parent::addAttribute('uf');
+        parent::addAttribute('municipio');
+        parent::addAttribute('ddd_1');
+        parent::addAttribute('telefone_1');
+        parent::addAttribute('ddd_2');
+        parent::addAttribute('telefone_2');
+        parent::addAttribute('ddd_fax');
+        parent::addAttribute('fax');
+        parent::addAttribute('correio_eletronico');
+        parent::addAttribute('situacao_especial');
+        parent::addAttribute('data_situacao_especial');
     }
 
 }

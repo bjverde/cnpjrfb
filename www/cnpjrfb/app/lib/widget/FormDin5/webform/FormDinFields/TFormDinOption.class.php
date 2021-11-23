@@ -110,7 +110,7 @@ class TFormDinOption  extends TFormDinGenericField
 	public function __construct( $adiantiObj
 							   , string $id
 							   , string $label
-	                           , $boolRequired=null
+	                           , $boolRequired
 							   , $mixOptions
 							   , $boolNewLine=null
 							   , $boolLabelAbove=null
@@ -126,6 +126,8 @@ class TFormDinOption  extends TFormDinGenericField
                         	   )
 	{
 		$value = is_null($mixValue)?$strFirstOptionValue:$mixValue;
+		$boolRequired   = empty($boolRequired)?false:$boolRequired;
+
 		$this->setFieldType( ($strInputType == null) ? self::SELECT : $strInputType );
 
 		parent::__construct($adiantiObj,$id,$label,$boolRequired,$value,null);

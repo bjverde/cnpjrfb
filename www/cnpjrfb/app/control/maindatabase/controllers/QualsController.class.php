@@ -34,6 +34,17 @@ class QualsController
         return $result;
     }
     //--------------------------------------------------------------------------------
+    public function getById( $id )
+    {
+        $result = $this->selectById( $id );
+        $obj = ArrayHelper::get($result,0);
+        $nome = null;
+        if( !empty($obj) ){
+            $nome = $obj->DESCRICAO;
+        }
+        return $nome;
+    }
+    //--------------------------------------------------------------------------------
     public function selectCount( $where=null )
     {
         $result = $this->dao->selectCount( $where );

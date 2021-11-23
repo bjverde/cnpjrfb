@@ -12,13 +12,13 @@
 class cnae extends TRecord
 {
     const TABLENAME = 'cnae';
-    const PRIMARYKEY= 'CODIGO';
+    const PRIMARYKEY= 'codigo';
     const IDPOLICY  = 'serial'; //{max, serial}
 
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
-        parent::addAttribute('DESCRICAO');
+        parent::addAttribute('descricao');
     }
 
 }

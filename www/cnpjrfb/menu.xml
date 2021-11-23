@@ -1,6 +1,6 @@
 <menu>
     <menuitem label='Principal'>
-        <icon>fa:home fa-fw #f0db4f</icon>
+        <icon>fa:table fa-fw #f0db4f</icon>
         <menu>
             <menuitem label='empresa'>
                 <icon>fa:table fa-fw</icon>
@@ -11,17 +11,17 @@
                 <action>estabelecimentoForm</action>
             </menuitem>
             <menuitem label='simples'>
-                <icon>fa:book fa-fw</icon>
+                <icon>fa:table fa-fw</icon>
                 <action>simplesForm</action>
             </menuitem>
             <menuitem label='socios'>
-                <icon>fa:book fa-fw</icon>
+                <icon>fa:table fa-fw</icon>
                 <action>sociosForm</action>
             </menuitem>
         </menu>
     </menuitem>
     <menuitem label='Tabelas Apoio'>
-        <icon>fa:home fa-fw #f0db4f</icon>
+        <icon>fa:book fa-fw #f0db4f</icon>
         <menu>
             <menuitem label='cnae'>
                 <icon>fa:book fa-fw</icon>

@@ -89,14 +89,15 @@ class TFormDinCheckList {
     * @param boolean $makeScrollable    - 7 : DEFAULT = false
     * @return TFormDinCheckList
     */
-    public function __construct($id
-                              , $label
-                              , $boolRequired=false
-                              , $listItems
-                              , $intHeight=null
+    public function __construct(string $id
+                               ,string $label
+                               ,$boolRequired
+                               ,$listItems
+                               ,int $intHeight=null
                               )
     {
 
+        $boolRequired = empty($boolRequired)?false:$boolRequired;
         $this->setId($id);
         $this->setObjCheck($id);
         $this->setLabel($label);

@@ -30,31 +30,32 @@ class motiForm extends TPage
 
         $this->setDatabase('maindatabase'); // define the database
         $this->setActiveRecord('moti'); // define the Active Record
-        $this->setDefaultOrder('CODIGO', 'asc'); // define the default order
+        $this->setDefaultOrder('codigo', 'asc'); // define the default order
 
-        $primaryKey = 'CODIGO';
+        $primaryKey = 'codigo';
         $this->frm = new TFormDin($this,'moti');
         $frm = $this->frm;
         $frm->enableCSRFProtection(); // Protection cross-site request forgery 
         $frm->addHiddenField( $primaryKey );   // coluna chave da tabela
-        $frm->addMemoField('DESCRICAO', 'Descrição',1000,true,80,3);
+        $frm->addMemoField('descricao', 'Descrição',1000,true,80,3);
 
         // O Adianti permite a Internacionalização - A função _t('string') serve
         //para traduzir termos no sistema. Veja ApplicationTranslator escrevendo
         //primeiro em ingles e depois traduzindo
-        $frm->setAction( _t('Save'), 'onSave', null, 'fa:save', 'green' );
+        //$frm->setAction( _t('Save'), 'onSave', null, 'fa:save', 'green' );
         $frm->setActionLink( _t('Clear'), 'onClear', null, 'fa:eraser', 'red');
 
         $this->form = $frm->show();
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data'));
 
         $mixUpdateFields = $primaryKey.'|'.$primaryKey
-                        .',DESCRICAO|DESCRICAO'
+                        .',descricao|descricao'
                         ;
         $grid = new TFormDinGrid($this,'gd','Data Grid');
         $grid->setUpdateFields($mixUpdateFields);
         $grid->addColumn($primaryKey,'id');
-        $grid->addColumn('DESCRICAO','Descrição');
+        $grid->addColumn('descricao','Descrição');
+        $grid->enableDefaultButtons(false);
 
         $this->datagrid = $grid->show();
         $this->pageNavigation = $grid->getPageNavigation();

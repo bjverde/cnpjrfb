@@ -2,7 +2,7 @@
 
 use Adianti\Registry\TSession;
 
-class EmpresaForm extends TPage
+class EmpresaOldForm extends TPage
 {
     protected $form; // registration form
     protected $frm;  //Registration component FormDin 5
