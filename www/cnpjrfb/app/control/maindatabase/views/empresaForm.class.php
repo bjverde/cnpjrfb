@@ -77,7 +77,11 @@ class empresaForm extends TPage
         $grid->addColumn('cnpj_basico','Cnpj Basico');
         $grid->addColumn('razao_social','Razao Social');
         $grid->addColumn('natureza_juridica','Natureza Juridica');
-        $grid->addColumn('qualificacao_responsavel','Qualificação Responsavel');
+        $col_qualificacao_responsavel = $grid->addColumn('qualificacao_responsavel','Qualificação Responsavel');
+        $col_qualificacao_responsavel->setTransformer(function ($value) {
+            $qualsController = new QualsController();
+            return $qualsController->getById($value);
+        });
         $grid->addColumn('capital_social','Capital Social');
         $col_porteEmpresa = $grid->addColumn('porte_empresa','Porte Empresa');
         $col_porteEmpresa->setTransformer(function ($value) {
