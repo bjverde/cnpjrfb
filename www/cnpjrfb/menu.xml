@@ -1,5 +1,18 @@
 <menu>
     <menuitem label='Principal'>
+        <icon>fa:home fa-fw #f0db4f</icon>
+        <menu>
+            <menuitem label='Dashboard'>
+                <icon>fas:tachometer-alt fa-fw</icon>
+                <action>empresaForm</action>
+            </menuitem>
+            <menuitem label='Consultado'>
+                <icon>fas:search fa-fw</icon>
+                <action>fichaCompletaForm</action>
+            </menuitem>
+        </menu>
+    </menuitem>
+    <menuitem label='Tabelas'>
         <icon>fa:table fa-fw #f0db4f</icon>
         <menu>
             <menuitem label='empresa'>
