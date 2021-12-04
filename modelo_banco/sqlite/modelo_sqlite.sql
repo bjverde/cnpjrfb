@@ -38,7 +38,7 @@ CREATE TABLE `estabelecimento` (
   `uf` varchar(45) NULL,
   `municipio` int NULL,
   `ddd_1` varchar(45) NULL,
-  `telefone_1` varchar(45)NULL,
+  `telefone_1` varchar(45) NULL,
   `ddd_2` varchar(45) NULL,
   `telefone_2` varchar(45) NULL,
   `ddd_fax` varchar(45) NULL,
