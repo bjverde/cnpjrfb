@@ -15,13 +15,13 @@
     <menuitem label='Tabelas'>
         <icon>fa:table fa-fw #f0db4f</icon>
         <menu>
-            <menuitem label='empresa'>
+            <menuitem label='Empresa'>
                 <icon>fa:table fa-fw</icon>
-                <action>empresaForm</action>
+                <action>EmpresaList</action>
             </menuitem>
-            <menuitem label='estabelecimento'>
+            <menuitem label='Estabelicimento'>
                 <icon>fa:table fa-fw</icon>
-                <action>estabelecimentoForm</action>
+                <action>EstabelecimentoList</action>
             </menuitem>
             <menuitem label='simples'>
                 <icon>fa:table fa-fw</icon>
