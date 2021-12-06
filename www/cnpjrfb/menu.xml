@@ -36,21 +36,21 @@
     <menuitem label='Tabelas Apoio'>
         <icon>fa:book fa-fw #f0db4f</icon>
         <menu>
-            <menuitem label='cnae'>
+            <menuitem label='Lista de CNAE'>
                 <icon>fa:book fa-fw</icon>
-                <action>cnaeForm</action>
+                <action>CnaeList</action>
             </menuitem>
-            <menuitem label='moti'>
+            <menuitem label='Motivo'>
                 <icon>fa:book fa-fw</icon>
-                <action>motiForm</action>
+                <action>MotiList</action>
             </menuitem>
-            <menuitem label='munic'>
+            <menuitem label='Município'>
                 <icon>fa:book fa-fw</icon>
-                <action>municForm</action>
+                <action>MunicHeaderList</action>
             </menuitem>
-            <menuitem label='natju'>
+            <menuitem label='Natureza jurídica'>
                 <icon>fa:book fa-fw</icon>
-                <action>natjuForm</action>
+                <action>NatjuList</action>
             </menuitem>
             <menuitem label='País'>
                 <icon>fa:book fa-fw</icon>

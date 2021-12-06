@@ -7,7 +7,7 @@ class NatjuList extends TPage
     private $pageNavigation;
     private $loaded;
     private $filter_criteria;
-    private static $database = 'cnpjrfb';
+    private static $database = 'maindatabase';
     private static $activeRecord = 'Natju';
     private static $primaryKey = 'codigo';
     private static $formName = 'form_NatjuList';

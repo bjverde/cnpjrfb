@@ -7,7 +7,7 @@ class CnaeList extends TPage
     private $pageNavigation;
     private $loaded;
     private $filter_criteria;
-    private static $database = 'cnpjrfb';
+    private static $database = 'maindatabase';
     private static $activeRecord = 'Cnae';
     private static $primaryKey = 'codigo';
     private static $formName = 'form_CnaeList';

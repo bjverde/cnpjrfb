@@ -7,7 +7,7 @@ class MunicHeaderList extends TPage
     private $pageNavigation;
     private $loaded;
     private $filter_criteria;
-    private static $database = 'cnpjrfb';
+    private static $database = 'maindatabase';
     private static $activeRecord = 'Munic';
     private static $primaryKey = 'codigo';
     private static $formName = 'formList_Munic';
