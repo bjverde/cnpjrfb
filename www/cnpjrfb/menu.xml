@@ -1,16 +1,7 @@
 <menu>
-    <menuitem label='Principal'>
-        <icon>fa:home fa-fw #f0db4f</icon>
-        <menu>
-            <menuitem label='Dashboard'>
-                <icon>fas:tachometer-alt fa-fw</icon>
-                <action>empresaForm</action>
-            </menuitem>
-            <menuitem label='Consultado'>
-                <icon>fas:search fa-fw</icon>
-                <action>fichaCompletaForm</action>
-            </menuitem>
-        </menu>
+    <menuitem label='Consultado'>
+        <icon>fas:search fa-fw</icon>
+        <action>fichaCompletaForm</action>
     </menuitem>
     <menuitem label='Tabelas'>
         <icon>fa:table fa-fw #f0db4f</icon>
@@ -23,13 +14,13 @@
                 <icon>fa:table fa-fw</icon>
                 <action>EstabelecimentoList</action>
             </menuitem>
-            <menuitem label='simples'>
+            <menuitem label='Simples'>
                 <icon>fa:table fa-fw</icon>
-                <action>simplesForm</action>
+                <action>SimplesList</action>
             </menuitem>
             <menuitem label='socios'>
                 <icon>fa:table fa-fw</icon>
-                <action>sociosForm</action>
+                <action>SociosList</action>
             </menuitem>
         </menu>
     </menuitem>
