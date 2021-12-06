@@ -50,6 +50,9 @@ class SociosList extends TPage
         $data_entrada_sociedade->setMask('dd/mm/yyyy');
         $data_entrada_sociedade->setDatabaseMask('yyyy-mm-dd');
 
+        $pais->enableSearch();
+        $qualificacao_socio->enableSearch();
+
         $cnpj_basico->setMaxLength(8);
         $cpf_cnpj_socio->setMaxLength(45);
         $representante_legal->setMaxLength(45);
@@ -70,9 +73,9 @@ class SociosList extends TPage
 
         $row1 = $this->form->addFields([new TLabel("Cnpj basico:", null, '14px', null)],[$cnpj_basico]);
         $row2 = $this->form->addFields([new TLabel("Identificador socio:", null, '14px', null)],[$identificador_socio]);
-        $row3 = $this->form->addFields([new TLabel("Nome socio razao social:", null, '14px', null)],[$nome_socio_razao_social]);
-        $row4 = $this->form->addFields([new TLabel("Cpf cnpj socio:", null, '14px', null)],[$cpf_cnpj_socio]);
-        $row5 = $this->form->addFields([new TLabel("Qualificacao socio:", null, '14px', null)],[$qualificacao_socio]);
+        $row3 = $this->form->addFields([new TLabel("Nome / Razão social:", null, '14px', null)],[$nome_socio_razao_social]);
+        $row4 = $this->form->addFields([new TLabel("CPF/CNPJ", null, '14px', null)],[$cpf_cnpj_socio]);
+        $row5 = $this->form->addFields([new TLabel("Qualificação:", null, '14px', null)],[$qualificacao_socio]);
         $row6 = $this->form->addFields([new TLabel("Data entrada sociedade:", null, '14px', null)],[$data_entrada_sociedade]);
         $row7 = $this->form->addFields([new TLabel("Pais:", null, '14px', null)],[$pais]);
         $row8 = $this->form->addFields([new TLabel("Representante legal:", null, '14px', null)],[$representante_legal]);
@@ -103,21 +106,37 @@ class SociosList extends TPage
         $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "Cnpj basico", 'left');
         $column_identificador_socio = new TDataGridColumn('identificador_socio', "Identificador socio", 'left');
         $column_nome_socio_razao_social = new TDataGridColumn('nome_socio_razao_social', "Nome socio razao social", 'left');
-        $column_cpf_cnpj_socio = new TDataGridColumn('cpf_cnpj_socio', "Cpf cnpj socio", 'left');
+        $column_cpf_cnpj_socio = new TDataGridColumn('cpf_cnpj_socio', "CPF/CNPJ", 'left');
         $column_qualificacao_socio = new TDataGridColumn('qualificacao_socio', "Qualificacao socio", 'left');
-        $column_data_entrada_sociedade = new TDataGridColumn('data_entrada_sociedade', "Data entrada sociedade", 'left');
+        $column_data_entrada_sociedade_transformed = new TDataGridColumn('data_entrada_sociedade', "Data entrada sociedade", 'left');
         $column_pais = new TDataGridColumn('pais', "Pais", 'left');
         $column_representante_legal = new TDataGridColumn('representante_legal', "Representante legal", 'left');
         $column_nome_do_representante = new TDataGridColumn('nome_do_representante', "Nome do representante", 'left');
         $column_qualificacao_representante_legal = new TDataGridColumn('qualificacao_representante_legal', "Qualificacao representante legal", 'left');
         $column_faixa_etaria = new TDataGridColumn('faixa_etaria', "Faixa etaria", 'left');
 
+        $column_data_entrada_sociedade_transformed->setTransformer(function($value, $object, $row) 
+        {
+            if(!empty(trim($value)))
+            {
+                try
+                {
+                    $date = new DateTime($value);
+                    return $date->format('d/m/Y');
+                }
+                catch (Exception $e)
+                {
+                    return $value;
+                }
+            }
+        });        
+
         $this->datagrid->addColumn($column_cnpj_basico);
         $this->datagrid->addColumn($column_identificador_socio);
         $this->datagrid->addColumn($column_nome_socio_razao_social);
         $this->datagrid->addColumn($column_cpf_cnpj_socio);
         $this->datagrid->addColumn($column_qualificacao_socio);
-        $this->datagrid->addColumn($column_data_entrada_sociedade);
+        $this->datagrid->addColumn($column_data_entrada_sociedade_transformed);
         $this->datagrid->addColumn($column_pais);
         $this->datagrid->addColumn($column_representante_legal);
         $this->datagrid->addColumn($column_nome_do_representante);
