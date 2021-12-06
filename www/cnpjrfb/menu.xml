@@ -52,13 +52,13 @@
                 <icon>fa:book fa-fw</icon>
                 <action>natjuForm</action>
             </menuitem>
-            <menuitem label='pais'>
+            <menuitem label='País'>
                 <icon>fa:book fa-fw</icon>
-                <action>paisForm</action>
+                <action>PaisList</action>
             </menuitem>
-            <menuitem label='quals'>
+            <menuitem label='Qualificação'>
                 <icon>fa:book fa-fw</icon>
-                <action>qualsForm</action>
+                <action>QualsList</action>
             </menuitem>
         </menu>
     </menuitem>    
