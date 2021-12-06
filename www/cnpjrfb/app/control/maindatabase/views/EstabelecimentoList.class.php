@@ -9,7 +9,7 @@ class EstabelecimentoList extends TPage
     private $filter_criteria;
     private static $database = 'maindatabase';
     private static $activeRecord = 'Estabelecimento';
-    private static $primaryKey = 'id';
+    private static $primaryKey = 'cnpj_basico';
     private static $formName = 'form_EstabelecimentoList';
     private $showMethods = ['onReload', 'onSearch', 'onRefresh', 'onClearFilters'];
     private $limit = 20;
@@ -35,7 +35,6 @@ class EstabelecimentoList extends TPage
         $this->limit = 20;
 
         $cnpj_basico = new TEntry('cnpj_basico');
-        $id = new TEntry('id');
         $cnpj_ordem = new TEntry('cnpj_ordem');
         $cnpj_dv = new TEntry('cnpj_dv');
         $identificador_matriz_filial = new TEntry('identificador_matriz_filial');
@@ -99,7 +98,6 @@ class EstabelecimentoList extends TPage
         $cnae_fiscal_secundaria->setMaxLength(1000);
         $identificador_matriz_filial->setMaxLength(1);
 
-        $id->setSize(100);
         $uf->setSize('100%');
         $fax->setSize('100%');
         $cep->setSize('100%');
@@ -111,10 +109,10 @@ class EstabelecimentoList extends TPage
         $cnpj_dv->setSize('100%');
         $ddd_fax->setSize('100%');
         $municipio->setSize('100%');
-        $logradouro->setSize('100%');
         $cnpj_ordem->setSize('100%');
         $telefone_2->setSize('100%');
         $telefone_1->setSize('100%');
+        $logradouro->setSize('100%');
         $cnpj_basico->setSize('100%');
         $complemento->setSize('100%');
         $nome_fantasia->setSize('100%');
@@ -131,7 +129,7 @@ class EstabelecimentoList extends TPage
         $motivo_situacao_cadastral->setSize('100%');
         $identificador_matriz_filial->setSize('100%');
 
-        $row1 = $this->form->addFields([new TLabel("Cnpj basico:", null, '14px', null)],[$cnpj_basico],[new TLabel("Id:", null, '14px', null)],[$id]);
+        $row1 = $this->form->addFields([new TLabel("Cnpj basico:", null, '14px', null)],[$cnpj_basico],[],[]);
         $row2 = $this->form->addFields([new TLabel("Cnpj ordem:", null, '14px', null)],[$cnpj_ordem],[new TLabel("Cnpj dv:", null, '14px', null)],[$cnpj_dv]);
         $row3 = $this->form->addFields([new TLabel("Identificador matriz filial:", null, '14px', null)],[$identificador_matriz_filial],[new TLabel("Nome fantasia:", null, '14px', null)],[$nome_fantasia]);
         $row4 = $this->form->addFields([new TLabel("Situacao cadastral:", null, '14px', null)],[$situacao_cadastral],[new TLabel("Data situacao cadastral:", null, '14px', null)],[$data_situacao_cadastral]);
@@ -169,7 +167,6 @@ class EstabelecimentoList extends TPage
         $this->datagrid->setHeight(320);
 
         $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "Cnpj basico", 'left');
-        $column_id = new TDataGridColumn('id', "Id", 'center' , '70px');
         $column_cnpj_ordem = new TDataGridColumn('cnpj_ordem', "Cnpj ordem", 'left');
         $column_cnpj_dv = new TDataGridColumn('cnpj_dv', "Cnpj dv", 'left');
         $column_identificador_matriz_filial = new TDataGridColumn('identificador_matriz_filial', "Identificador matriz filial", 'left');
@@ -200,12 +197,11 @@ class EstabelecimentoList extends TPage
         $column_situacao_especial = new TDataGridColumn('situacao_especial', "Situacao especial", 'left');
         $column_data_situacao_especial = new TDataGridColumn('data_situacao_especial', "Data situacao especial", 'left');
 
-        $order_id = new TAction(array($this, 'onReload'));
-        $order_id->setParameter('order', 'id');
-        $column_id->setAction($order_id);
+        $order_cnpj_basico = new TAction(array($this, 'onReload'));
+        $order_cnpj_basico->setParameter('order', 'cnpj_basico');
+        $column_cnpj_basico->setAction($order_cnpj_basico);
 
         $this->datagrid->addColumn($column_cnpj_basico);
-        $this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_cnpj_ordem);
         $this->datagrid->addColumn($column_cnpj_dv);
         $this->datagrid->addColumn($column_identificador_matriz_filial);
@@ -236,14 +232,6 @@ class EstabelecimentoList extends TPage
         $this->datagrid->addColumn($column_situacao_especial);
         $this->datagrid->addColumn($column_data_situacao_especial);
 
-        $action_onDelete = new TDataGridAction(array('EstabelecimentoList', 'onDelete'));
-        $action_onDelete->setUseButton(false);
-        $action_onDelete->setButtonClass('btn btn-default btn-sm');
-        $action_onDelete->setLabel("Excluir");
-        $action_onDelete->setImage('fas:trash-alt #dd5a43');
-        $action_onDelete->setField(self::$primaryKey);
-
-        $this->datagrid->addAction($action_onDelete);
 
         // create the datagrid model
         $this->datagrid->createModel();
@@ -300,50 +288,6 @@ class EstabelecimentoList extends TPage
 
         parent::add($container);
 
-    }
-
-    public function onDelete($param = null) 
-    { 
-        if(isset($param['delete']) && $param['delete'] == 1)
-        {
-            try
-            {
-                // get the paramseter $key
-                $key = $param['key'];
-                // open a transaction with database
-                TTransaction::open(self::$database);
-
-                // instantiates object
-                $object = new Estabelecimento($key, FALSE); 
-
-                // deletes the object from the database
-                $object->delete();
-
-                // close the transaction
-                TTransaction::close();
-
-                // reload the listing
-                $this->onReload( $param );
-                // shows the success message
-                new TMessage('info', AdiantiCoreTranslator::translate('Record deleted'));
-            }
-            catch (Exception $e) // in case of exception
-            {
-                // shows the exception error message
-                new TMessage('error', $e->getMessage());
-                // undo all pending operations
-                TTransaction::rollback();
-            }
-        }
-        else
-        {
-            // define the delete action
-            $action = new TAction(array($this, 'onDelete'));
-            $action->setParameters($param); // pass the key paramseter ahead
-            $action->setParameter('delete', 1);
-            // shows a dialog to the user
-            new TQuestion(AdiantiCoreTranslator::translate('Do you really want to delete ?'), $action);   
-        }
     }
 
     public function onExportCsv($param = null) 
@@ -526,12 +470,6 @@ class EstabelecimentoList extends TPage
         {
 
             $filters[] = new TFilter('cnpj_basico', '=', $data->cnpj_basico);// create the filter 
-        }
-
-        if (isset($data->id) AND ( (is_scalar($data->id) AND $data->id !== '') OR (is_array($data->id) AND (!empty($data->id)) )) )
-        {
-
-            $filters[] = new TFilter('id', '=', $data->id);// create the filter 
         }
 
         if (isset($data->cnpj_ordem) AND ( (is_scalar($data->cnpj_ordem) AND $data->cnpj_ordem !== '') OR (is_array($data->cnpj_ordem) AND (!empty($data->cnpj_ordem)) )) )
@@ -735,7 +673,7 @@ class EstabelecimentoList extends TPage
 
             if (empty($param['order']))
             {
-                $param['order'] = 'id';    
+                $param['order'] = 'cnpj_basico';    
             }
 
             if (empty($param['direction']))

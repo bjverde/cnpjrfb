@@ -89,10 +89,6 @@ class EmpresaList extends TPage
         $column_porte_empresa = new TDataGridColumn('porte_empresa', "Porte empresa", 'left');
         $column_ente_federativo_responsavel = new TDataGridColumn('ente_federativo_responsavel', "Ente federativo responsavel", 'left');
 
-        $order_cnpj_basico = new TAction(array($this, 'onReload'));
-        $order_cnpj_basico->setParameter('order', 'cnpj_basico');
-        $column_cnpj_basico->setAction($order_cnpj_basico);
-
         $this->datagrid->addColumn($column_cnpj_basico);
         $this->datagrid->addColumn($column_razao_social);
         $this->datagrid->addColumn($column_natureza_juridica);
@@ -339,12 +335,6 @@ class EmpresaList extends TPage
             $filters[] = new TFilter('cnpj_basico', '=', $data->cnpj_basico);// create the filter 
         }
 
-        if (isset($data->id) AND ( (is_scalar($data->id) AND $data->id !== '') OR (is_array($data->id) AND (!empty($data->id)) )) )
-        {
-
-            $filters[] = new TFilter('id', '=', $data->id);// create the filter 
-        }
-
         if (isset($data->razao_social) AND ( (is_scalar($data->razao_social) AND $data->razao_social !== '') OR (is_array($data->razao_social) AND (!empty($data->razao_social)) )) )
         {
 
@@ -408,7 +398,7 @@ class EmpresaList extends TPage
 
             if (empty($param['order']))
             {
-                $param['order'] = 'id';    
+                $param['order'] = 'cnpj_basico';    
             }
 
             if (empty($param['direction']))
@@ -438,7 +428,7 @@ class EmpresaList extends TPage
                 {
 
                     $row = $this->datagrid->addItem($object);
-                    $row->id = "row_{$object->id}";
+                    $row->id = "row_{$object->cnpj_basico}";
 
                 }
             }
