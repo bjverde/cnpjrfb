@@ -38,9 +38,9 @@ class SociosList extends TPage
         $identificador_socio = new TEntry('identificador_socio');
         $nome_socio_razao_social = new TEntry('nome_socio_razao_social');
         $cpf_cnpj_socio = new TEntry('cpf_cnpj_socio');
-        $qualificacao_socio = new TEntry('qualificacao_socio');
+        $qualificacao_socio = new TDBCombo('qualificacao_socio', 'maindatabase', 'Quals', 'codigo', '{descricao}','codigo asc'  );
         $data_entrada_sociedade = new TDate('data_entrada_sociedade');
-        $pais = new TEntry('pais');
+        $pais = new TDBCombo('pais', 'maindatabase', 'Pais', 'codigo', '{descricao}','codigo asc'  );
         $representante_legal = new TEntry('representante_legal');
         $nome_do_representante = new TEntry('nome_do_representante');
         $qualificacao_representante_legal = new TEntry('qualificacao_representante_legal');
@@ -451,7 +451,7 @@ class SociosList extends TPage
 
             if (empty($param['order']))
             {
-                $param['order'] = 'cnpj_basico';    
+                $param['order'] = 'cnpj_basico';
             }
 
             if (empty($param['direction']))
