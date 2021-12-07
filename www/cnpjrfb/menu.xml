@@ -18,7 +18,7 @@
                 <icon>fa:table fa-fw</icon>
                 <action>SimplesList</action>
             </menuitem>
-            <menuitem label='socios'>
+            <menuitem label='Sócio da Empresa'>
                 <icon>fa:table fa-fw</icon>
                 <action>SociosList</action>
             </menuitem>

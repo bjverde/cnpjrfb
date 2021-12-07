@@ -31,11 +31,11 @@ class SociosList extends TPage
         $this->form = new BootstrapFormBuilder(self::$formName);
 
         // define the form title
-        $this->form->setFormTitle("Socios Empresas");
+        $this->form->setFormTitle(" Sócio da Empresa");
         $this->limit = 20;
 
         $cnpj_basico = new TEntry('cnpj_basico');
-        $identificador_socio = new TEntry('identificador_socio');
+        $identificador_socio = new TCombo('identificador_socio');
         $nome_socio_razao_social = new TEntry('nome_socio_razao_social');
         $cpf_cnpj_socio = new TEntry('cpf_cnpj_socio');
         $qualificacao_socio = new TDBCombo('qualificacao_socio', 'maindatabase', 'Quals', 'codigo', '{descricao}','codigo asc'  );
@@ -47,6 +47,7 @@ class SociosList extends TPage
         $faixa_etaria = new TEntry('faixa_etaria');
 
 
+        $identificador_socio->addItems(TipoSocio::getList());
         $data_entrada_sociedade->setMask('dd/mm/yyyy');
         $data_entrada_sociedade->setDatabaseMask('yyyy-mm-dd');
 
@@ -72,7 +73,7 @@ class SociosList extends TPage
         $qualificacao_representante_legal->setSize('100%');
 
         $row1 = $this->form->addFields([new TLabel("Cnpj basico:", null, '14px', null)],[$cnpj_basico]);
-        $row2 = $this->form->addFields([new TLabel("Identificador socio:", null, '14px', null)],[$identificador_socio]);
+        $row2 = $this->form->addFields([new TLabel("Tipo sócio:", null, '14px', null)],[$identificador_socio]);
         $row3 = $this->form->addFields([new TLabel("Nome / Razão social:", null, '14px', null)],[$nome_socio_razao_social]);
         $row4 = $this->form->addFields([new TLabel("CPF/CNPJ", null, '14px', null)],[$cpf_cnpj_socio]);
         $row5 = $this->form->addFields([new TLabel("Qualificação:", null, '14px', null)],[$qualificacao_socio]);
@@ -104,7 +105,7 @@ class SociosList extends TPage
         $this->datagrid->setHeight(320);
 
         $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "Cnpj basico", 'left');
-        $column_identificador_socio = new TDataGridColumn('identificador_socio', "Identificador socio", 'left');
+        $column_identificador_socio_transformed = new TDataGridColumn('identificador_socio', "Tip Sócio", 'left');
         $column_nome_socio_razao_social = new TDataGridColumn('nome_socio_razao_social', "Nome socio razao social", 'left');
         $column_cpf_cnpj_socio = new TDataGridColumn('cpf_cnpj_socio', "CPF/CNPJ", 'left');
         $column_qualificacao_socio = new TDataGridColumn('qualificacao_socio', "Qualificacao socio", 'left');
@@ -114,6 +115,16 @@ class SociosList extends TPage
         $column_nome_do_representante = new TDataGridColumn('nome_do_representante', "Nome do representante", 'left');
         $column_qualificacao_representante_legal = new TDataGridColumn('qualificacao_representante_legal', "Qualificacao representante legal", 'left');
         $column_faixa_etaria = new TDataGridColumn('faixa_etaria', "Faixa etaria", 'left');
+
+        $column_identificador_socio_transformed->setTransformer(function($value, $object, $row)
+        {
+            try {
+                return TipoSocio::getByid($value);
+            }
+            catch (Exception $e) {
+                return $value;
+            }
+        });
 
         $column_data_entrada_sociedade_transformed->setTransformer(function($value, $object, $row) 
         {
@@ -132,7 +143,7 @@ class SociosList extends TPage
         });        
 
         $this->datagrid->addColumn($column_cnpj_basico);
-        $this->datagrid->addColumn($column_identificador_socio);
+        $this->datagrid->addColumn($column_identificador_socio_transformed);
         $this->datagrid->addColumn($column_nome_socio_razao_social);
         $this->datagrid->addColumn($column_cpf_cnpj_socio);
         $this->datagrid->addColumn($column_qualificacao_socio);
