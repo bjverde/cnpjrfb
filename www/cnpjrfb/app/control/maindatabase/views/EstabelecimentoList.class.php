@@ -68,6 +68,8 @@ class EstabelecimentoList extends TPage
 
         $municipio->enableSearch();
         $motivo_situacao_cadastral->enableSearch();
+        $identificador_matriz_filial->addItems(TipoMatrizFilial::getList());
+        $situacao_cadastral->addItems(TipoEmpresaSituacao::getList());
 
         $data_situacao_especial->setMask('dd/mm/yyyy');
         $data_situacao_cadastral->setMask('dd/mm/yyyy');
@@ -86,13 +88,16 @@ class EstabelecimentoList extends TPage
         $cep->setMaxLength(45);
         $ddd_2->setMaxLength(45);
         $ddd_1->setMaxLength(45);
-        $numero->setMaxLength(45);
         $bairro->setMaxLength(45);
+        $cnpj_dv->setMaxLength(2);
+        $numero->setMaxLength(45);
         $ddd_fax->setMaxLength(45);
+        $cnpj_ordem->setMaxLength(4);
         $telefone_2->setMaxLength(45);
         $telefone_1->setMaxLength(45);
-        $logradouro->setMaxLength(1000);
+        $cnpj_basico->setMaxLength(8);
         $complemento->setMaxLength(100);
+        $logradouro->setMaxLength(1000);
         $nome_fantasia->setMaxLength(1000);
         $tipo_logradouro->setMaxLength(500);
         $situacao_especial->setMaxLength(45);
@@ -134,7 +139,7 @@ class EstabelecimentoList extends TPage
         $row1 = $this->form->addFields([new TLabel("CNPJ Básico:", null, '14px', null),$cnpj_basico],[new TLabel("CNPJ ordem:", null, '14px', null),$cnpj_ordem],[new TLabel("CNPJ DV:", null, '14px', null),$cnpj_dv]);
         $row1->layout = [' col-md-4',' col-md-4',' col-md-4'];
 
-        $row2 = $this->form->addFields([new TLabel("Identificador matriz filial:", null, '14px', null)],[$identificador_matriz_filial],[new TLabel("Nome fantasia:", null, '14px', null)],[$nome_fantasia]);
+        $row2 = $this->form->addFields([new TLabel("Matriz/Filial:", null, '14px', null)],[$identificador_matriz_filial],[new TLabel("Nome fantasia:", null, '14px', null)],[$nome_fantasia]);
         $row3 = $this->form->addFields([new TLabel("Situacao cadastral:", null, '14px', null)],[$situacao_cadastral],[new TLabel("Data situacao cadastral:", null, '14px', null)],[$data_situacao_cadastral]);
         $row4 = $this->form->addFields([new TLabel("Motivo situacao cadastral:", null, '14px', null)],[$motivo_situacao_cadastral],[new TLabel("Nome cidade exterior:", null, '14px', null)],[$nome_cidade_exterior]);
         $row5 = $this->form->addFields([new TLabel("Pais:", null, '14px', null)],[$pais],[new TLabel("Data inicio atividade:", null, '14px', null)],[$data_inicio_atividade]);
@@ -182,7 +187,6 @@ class EstabelecimentoList extends TPage
         $column_pais = new TDataGridColumn('pais', "Pais", 'left');
         $column_data_inicio_atividade = new TDataGridColumn('data_inicio_atividade', "Data inicio atividade", 'left');
         $column_cnae_fiscal_principal = new TDataGridColumn('cnae_fiscal_principal', "Cnae fiscal principal", 'left');
-        $column_cnae_fiscal_secundaria = new TDataGridColumn('cnae_fiscal_secundaria', "Cnae fiscal secundaria", 'left');
         $column_tipo_logradouro = new TDataGridColumn('tipo_logradouro', "Tipo logradouro", 'left');
         $column_logradouro = new TDataGridColumn('logradouro', "Logradouro", 'left');
         $column_numero = new TDataGridColumn('numero', "Numero", 'left');
@@ -217,7 +221,6 @@ class EstabelecimentoList extends TPage
         $this->datagrid->addColumn($column_pais);
         $this->datagrid->addColumn($column_data_inicio_atividade);
         $this->datagrid->addColumn($column_cnae_fiscal_principal);
-        $this->datagrid->addColumn($column_cnae_fiscal_secundaria);
         $this->datagrid->addColumn($column_tipo_logradouro);
         $this->datagrid->addColumn($column_logradouro);
         $this->datagrid->addColumn($column_numero);
@@ -667,7 +670,7 @@ class EstabelecimentoList extends TPage
     {
         try
         {
-            // open a transaction with database 'cnpjrfb'
+            // open a transaction with database 'maindatabase'
             TTransaction::open(self::$database);
 
             // creates a repository for Estabelecimento
