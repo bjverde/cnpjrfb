@@ -1,5 +1,5 @@
 <menu>
-    <menuitem label='Consultado'>
+    <menuitem label='Consulta'>
         <icon>fas:search fa-fw</icon>
         <action>fichaCompletaForm</action>
     </menuitem>

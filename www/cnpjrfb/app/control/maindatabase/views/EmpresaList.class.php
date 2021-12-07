@@ -34,18 +34,22 @@ class EmpresaList extends TPage
         $this->form->setFormTitle("Empresa");
         $this->limit = 20;
 
-        $cnpj_basico = new TEntry('cnpj_basico');
+        $cnpj_basico = new TNumeric('cnpj_basico', '0', ',', '' );
         $razao_social = new TEntry('razao_social');
-        $natureza_juridica = new TEntry('natureza_juridica');
-        $qualificacao_responsavel = new TEntry('qualificacao_responsavel');
-        $capital_social = new TEntry('capital_social');
+        $natureza_juridica = new TDBCombo('natureza_juridica', 'maindatabase', 'Natju', 'codigo', '{descricao}','descricao asc'  );
+        $qualificacao_responsavel = new TDBCombo('qualificacao_responsavel', 'maindatabase', 'Quals', 'codigo', '{descricao}','descricao asc'  );
+        $capital_social = new TNumeric('capital_social', '2', ',', '.' );
         $porte_empresa = new TCombo('porte_empresa');
         $ente_federativo_responsavel = new TEntry('ente_federativo_responsavel');
 
 
+        $cnpj_basico->placeholder = "NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS  DO CNPJ).";
+
+        $natureza_juridica->enableSearch();
+        $qualificacao_responsavel->enableSearch();
+
         $cnpj_basico->setMaxLength(8);
         $razao_social->setMaxLength(1000);
-        $capital_social->setMaxLength(45);
         $ente_federativo_responsavel->setMaxLength(45);
 
         $cnpj_basico->setSize('100%');
@@ -56,7 +60,7 @@ class EmpresaList extends TPage
         $qualificacao_responsavel->setSize('100%');
         $ente_federativo_responsavel->setSize('100%');
 
-        $row1 = $this->form->addFields([new TLabel("Cnpj basico:", null, '14px', null)],[$cnpj_basico]);
+        $row1 = $this->form->addFields([new TLabel("CNPJ Básico:", null, '14px', null)],[$cnpj_basico]);
         $row2 = $this->form->addFields([new TLabel("Razao social:", null, '14px', null)],[$razao_social],[new TLabel("Natureza juridica:", null, '14px', null)],[$natureza_juridica]);
         $row3 = $this->form->addFields([new TLabel("Qualificacao responsavel:", null, '14px', null)],[$qualificacao_responsavel],[new TLabel("Capital social:", null, '14px', null)],[$capital_social]);
         $row4 = $this->form->addFields([new TLabel("Porte empresa:", null, '14px', null)],[$porte_empresa],[new TLabel("Ente federativo responsavel:", null, '14px', null)],[$ente_federativo_responsavel]);
@@ -81,19 +85,36 @@ class EmpresaList extends TPage
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
 
-        $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "Cnpj basico", 'left');
+        $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "CNPJ Básico:", 'left');
         $column_razao_social = new TDataGridColumn('razao_social', "Razao social", 'left');
         $column_natureza_juridica = new TDataGridColumn('natureza_juridica', "Natureza juridica", 'left');
         $column_qualificacao_responsavel = new TDataGridColumn('qualificacao_responsavel', "Qualificacao responsavel", 'left');
-        $column_capital_social = new TDataGridColumn('capital_social', "Capital social", 'left');
+        $column_capital_social_transformed = new TDataGridColumn('capital_social', "Capital social", 'left');
         $column_porte_empresa = new TDataGridColumn('porte_empresa', "Porte empresa", 'left');
         $column_ente_federativo_responsavel = new TDataGridColumn('ente_federativo_responsavel', "Ente federativo responsavel", 'left');
+
+        $column_capital_social_transformed->setTransformer(function($value, $object, $row) 
+        {
+            if(!$value)
+            {
+                $value = 0;
+            }
+
+            if(is_numeric($value))
+            {
+                return "R$ " . number_format($value, 2, ",", ".");
+            }
+            else
+            {
+                return $value;
+            }
+        });        
 
         $this->datagrid->addColumn($column_cnpj_basico);
         $this->datagrid->addColumn($column_razao_social);
         $this->datagrid->addColumn($column_natureza_juridica);
         $this->datagrid->addColumn($column_qualificacao_responsavel);
-        $this->datagrid->addColumn($column_capital_social);
+        $this->datagrid->addColumn($column_capital_social_transformed);
         $this->datagrid->addColumn($column_porte_empresa);
         $this->datagrid->addColumn($column_ente_federativo_responsavel);
 
@@ -398,7 +419,7 @@ class EmpresaList extends TPage
 
             if (empty($param['order']))
             {
-                $param['order'] = 'cnpj_basico';    
+                $param['order'] = 'cnpj_basico';
             }
 
             if (empty($param['direction']))
