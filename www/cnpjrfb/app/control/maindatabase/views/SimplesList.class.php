@@ -35,17 +35,26 @@ class SimplesList extends TPage
         $this->limit = 20;
 
         $cnpj_basico = new TEntry('cnpj_basico');
-        $opcao_pelo_simples = new TEntry('opcao_pelo_simples');
+        $opcao_pelo_simples = new TRadioGroup('opcao_pelo_simples');
         $data_opcao_simples = new TDate('data_opcao_simples');
         $data_exclusao_simples = new TDate('data_exclusao_simples');
-        $opcao_mei = new TEntry('opcao_mei');
+        $opcao_mei = new TRadioGroup('opcao_mei');
         $data_opcao_mei = new TDate('data_opcao_mei');
         $data_exclusao_mei = new TDate('data_exclusao_mei');
 
 
-        $opcao_mei->setMaxLength(1);
         $cnpj_basico->setMaxLength(8);
-        $opcao_pelo_simples->setMaxLength(1);
+        $opcao_mei->addItems(['S'=>'Sim','N'=>'Não']);
+        $opcao_pelo_simples->addItems(['S'=>'Sim','N'=>'Não']);
+
+        $opcao_mei->setLayout('horizontal');
+        $opcao_pelo_simples->setLayout('horizontal');
+
+        $opcao_mei->setBooleanMode();
+        $opcao_pelo_simples->setBooleanMode();
+
+        $opcao_mei->setUseButton();
+        $opcao_pelo_simples->setUseButton();
 
         $data_opcao_mei->setMask('dd/mm/yyyy');
         $data_exclusao_mei->setMask('dd/mm/yyyy');
@@ -67,11 +76,9 @@ class SimplesList extends TPage
 
         $row1 = $this->form->addFields([new TLabel("Cnpj basico:", null, '14px', null)],[$cnpj_basico]);
         $row2 = $this->form->addFields([new TLabel("Opcao pelo simples:", null, '14px', null)],[$opcao_pelo_simples]);
-        $row3 = $this->form->addFields([new TLabel("Data opcao simples:", null, '14px', null)],[$data_opcao_simples]);
-        $row4 = $this->form->addFields([new TLabel("Data exclusao simples:", null, '14px', null)],[$data_exclusao_simples]);
-        $row5 = $this->form->addFields([new TLabel("Opcao mei:", null, '14px', null)],[$opcao_mei]);
-        $row6 = $this->form->addFields([new TLabel("Data opcao mei:", null, '14px', null)],[$data_opcao_mei]);
-        $row7 = $this->form->addFields([new TLabel("Data exclusao mei:", null, '14px', null)],[$data_exclusao_mei]);
+        $row3 = $this->form->addFields([new TLabel("Data opcao simples:", null, '14px', null)],[$data_opcao_simples],[new TLabel("Data exclusao simples:", null, '14px', null)],[$data_exclusao_simples]);
+        $row4 = $this->form->addFields([new TLabel("Opcao mei:", null, '14px', null)],[$opcao_mei]);
+        $row5 = $this->form->addFields([new TLabel("Data opcao mei:", null, '14px', null)],[$data_opcao_mei],[new TLabel("Data exclusao mei:", null, '14px', null)],[$data_exclusao_mei]);
 
         // keep the form filled during navigation with session data
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data') );
@@ -94,21 +101,87 @@ class SimplesList extends TPage
         $this->datagrid->setHeight(320);
 
         $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "Cnpj basico", 'left');
-        $column_opcao_pelo_simples = new TDataGridColumn('opcao_pelo_simples', "Opcao pelo simples", 'left');
+        $column_opcao_pelo_simples_transformed = new TDataGridColumn('opcao_pelo_simples', "Simples", 'left');
         $column_data_opcao_simples_transformed = new TDataGridColumn('data_opcao_simples', "Data opcao simples", 'left');
-        $column_data_exclusao_simples = new TDataGridColumn('data_exclusao_simples', "Data exclusao simples", 'left');
-        $column_opcao_mei = new TDataGridColumn('opcao_mei', "Opcao mei", 'left');
-        $column_data_opcao_mei = new TDataGridColumn('data_opcao_mei', "Data opcao mei", 'left');
-        $column_data_exclusao_mei = new TDataGridColumn('data_exclusao_mei', "Data exclusao mei", 'left');
+        $column_data_exclusao_simples_transformed = new TDataGridColumn('data_exclusao_simples', "Data exclusao simples", 'left');
+        $column_opcao_mei_transformed = new TDataGridColumn('opcao_mei', "MEI", 'left');
+        $column_data_opcao_mei_transformed = new TDataGridColumn('data_opcao_mei', "Data MEI", 'left');
+        $column_data_exclusao_mei_transformed = new TDataGridColumn('data_exclusao_mei', "Data exclusao mei", 'left');
 
-        $column_data_opcao_simples_transformed->setTransformer(function($value, $object, $row)
+        $column_opcao_pelo_simples_transformed->setTransformer(function($value, $object, $row) 
+        {
+            if($value === true || $value == 't' || $value === 1 || $value == '1' || $value == 's' || $value == 'S' || $value == 'T')
+                return 'Sim';
+
+            return 'Não';
+
+        });
+
+        $column_data_opcao_simples_transformed->setTransformer(function($value, $object, $row) 
         {
             if(!empty(trim($value)))
             {
                 try
                 {
                     $date = new DateTime($value);
-                    return $date->format('d/m/Y H:i');
+                    return $date->format('d/m/Y');
+                }
+                catch (Exception $e)
+                {
+                    return $value;
+                }
+            }
+        });
+
+        $column_data_exclusao_simples_transformed->setTransformer(function($value, $object, $row) 
+        {
+            if(!empty(trim($value)))
+            {
+                try
+                {
+                    $date = new DateTime($value);
+                    return $date->format('d/m/Y');
+                }
+                catch (Exception $e)
+                {
+                    return $value;
+                }
+            }
+        });
+
+        $column_opcao_mei_transformed->setTransformer(function($value, $object, $row) 
+        {
+            if($value === true || $value == 't' || $value === 1 || $value == '1' || $value == 's' || $value == 'S' || $value == 'T')
+                return 'Sim';
+
+            return 'Não';
+
+        });
+
+        $column_data_opcao_mei_transformed->setTransformer(function($value, $object, $row) 
+        {
+            if(!empty(trim($value)))
+            {
+                try
+                {
+                    $date = new DateTime($value);
+                    return $date->format('d/m/Y');
+                }
+                catch (Exception $e)
+                {
+                    return $value;
+                }
+            }
+        });
+
+        $column_data_exclusao_mei_transformed->setTransformer(function($value, $object, $row) 
+        {
+            if(!empty(trim($value)))
+            {
+                try
+                {
+                    $date = new DateTime($value);
+                    return $date->format('d/m/Y');
                 }
                 catch (Exception $e)
                 {
@@ -118,12 +191,12 @@ class SimplesList extends TPage
         });        
 
         $this->datagrid->addColumn($column_cnpj_basico);
-        $this->datagrid->addColumn($column_opcao_pelo_simples);
+        $this->datagrid->addColumn($column_opcao_pelo_simples_transformed);
         $this->datagrid->addColumn($column_data_opcao_simples_transformed);
-        $this->datagrid->addColumn($column_data_exclusao_simples);
-        $this->datagrid->addColumn($column_opcao_mei);
-        $this->datagrid->addColumn($column_data_opcao_mei);
-        $this->datagrid->addColumn($column_data_exclusao_mei);
+        $this->datagrid->addColumn($column_data_exclusao_simples_transformed);
+        $this->datagrid->addColumn($column_opcao_mei_transformed);
+        $this->datagrid->addColumn($column_data_opcao_mei_transformed);
+        $this->datagrid->addColumn($column_data_exclusao_mei_transformed);
 
 
         // create the datagrid model
