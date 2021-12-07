@@ -114,11 +114,6 @@ class SociosList extends TPage
         $column_cpf_cnpj_socio = new TDataGridColumn('cpf_cnpj_socio', "CPF/CNPJ", 'left');
         $column_qualificacao_socio = new TDataGridColumn('qualificacao_socio', "Qualificacao socio", 'left');
         $column_data_entrada_sociedade_transformed = new TDataGridColumn('data_entrada_sociedade', "Data entrada sociedade", 'left');
-        $column_pais = new TDataGridColumn('pais', "Pais", 'left');
-        $column_representante_legal = new TDataGridColumn('representante_legal', "Representante legal", 'left');
-        $column_nome_do_representante = new TDataGridColumn('nome_do_representante', "Nome do representante", 'left');
-        $column_qualificacao_representante_legal = new TDataGridColumn('qualificacao_representante_legal', "Qualificacao representante legal", 'left');
-        $column_faixa_etaria = new TDataGridColumn('faixa_etaria', "Faixa etaria", 'left');
 
         $column_identificador_socio_transformed->setTransformer(function($value, $object, $row)
         {
@@ -152,11 +147,6 @@ class SociosList extends TPage
         $this->datagrid->addColumn($column_cpf_cnpj_socio);
         $this->datagrid->addColumn($column_qualificacao_socio);
         $this->datagrid->addColumn($column_data_entrada_sociedade_transformed);
-        $this->datagrid->addColumn($column_pais);
-        $this->datagrid->addColumn($column_representante_legal);
-        $this->datagrid->addColumn($column_nome_do_representante);
-        $this->datagrid->addColumn($column_qualificacao_representante_legal);
-        $this->datagrid->addColumn($column_faixa_etaria);
 
         $action_group = new TDataGridActionGroup("Ações", 'fas:cog');
         $action_group->addHeader('');
@@ -168,7 +158,6 @@ class SociosList extends TPage
         $action_onView->setImage('fas:building #7C93CF');
         $action_onView->setField(self::$primaryKey);
 
-        $action_onView->setParameter('cnpj', '{cnpj_basico}');
         $action_group->addAction($action_onView);
 
         $action_onFindSocios = new TDataGridAction(array('SociosList', 'onFindSocios'));
@@ -378,10 +367,19 @@ class SociosList extends TPage
         }
     }
 
+    public function onClear( $param )
+    {
+        $this->form->clear(true);
+    }
+
     public function onFindSocios($param = null)
     {
-
-    }    
+        //$this->clearFilters();
+        $data = new stdClass();
+        $data->cnpj_basico = $param['cnpj'];
+        $this->form->setData($data);
+        $this->onSearch($param);
+    }
 
     public function onShow($param = null)
     {

@@ -163,7 +163,13 @@ class cnpjFormView extends TPage
 
     public function onView($param = null)
     {     
-
+        try{
+            $cnpj_cpf_socio = $param['cnpj_cpf_socio'];
+        }
+        catch(Exception $e)
+        {
+            new TMessage('error', $e->getMessage());
+        }
     }
 
     public function onShow($param = null)
