@@ -34,7 +34,7 @@ class SociosList extends TPage
         $this->form->setFormTitle(" Sócio da Empresa");
         $this->limit = 20;
 
-        $cnpj_basico = new TEntry('cnpj_basico');
+        $cnpj_basico = new TNumeric('cnpj_basico', '0', ',', '' );
         $nome_socio_razao_social = new TEntry('nome_socio_razao_social');
         $cpf_cnpj_socio = new TEntry('cpf_cnpj_socio');
         $identificador_socio = new TCombo('identificador_socio');
@@ -44,7 +44,7 @@ class SociosList extends TPage
         $faixa_etaria = new TCombo('faixa_etaria');
         $representante_legal = new TEntry('representante_legal');
         $nome_do_representante = new TEntry('nome_do_representante');
-        $qualificacao_representante_legal = new TEntry('qualificacao_representante_legal');
+        $qualificacao_representante_legal = new TDBCombo('qualificacao_representante_legal', 'maindatabase', 'Quals', 'codigo', '{descricao}','descricao asc'  );
 
 
         $identificador_socio->addItems(TipoSocio::getList());
@@ -52,8 +52,11 @@ class SociosList extends TPage
         $data_entrada_sociedade->setMask('dd/mm/yyyy');
         $data_entrada_sociedade->setDatabaseMask('yyyy-mm-dd');
 
+        $cnpj_basico->placeholder = "NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS  DO CNPJ).";
+
         $pais->enableSearch();
         $qualificacao_socio->enableSearch();
+        $qualificacao_representante_legal->enableSearch();
 
         $cnpj_basico->setMaxLength(8);
         $cpf_cnpj_socio->setMaxLength(45);
@@ -73,7 +76,7 @@ class SociosList extends TPage
         $nome_socio_razao_social->setSize('100%');
         $qualificacao_representante_legal->setSize('100%');
 
-        $row1 = $this->form->addFields([new TLabel("Cnpj basico:", null, '14px', null)],[$cnpj_basico]);
+        $row1 = $this->form->addFields([new TLabel("CNPJ Básico:", null, '14px', null)],[$cnpj_basico]);
         $row2 = $this->form->addContent([new TFormSeparator("Sócio", '#333', '18', '#eee')]);
         $row3 = $this->form->addFields([new TLabel("Nome / Razão social:", null, '14px', null)],[$nome_socio_razao_social]);
         $row4 = $this->form->addFields([new TLabel("CPF/CNPJ", null, '14px', null)],[$cpf_cnpj_socio],[new TLabel("Tipo sócio:", null, '14px', null)],[$identificador_socio]);
@@ -105,7 +108,7 @@ class SociosList extends TPage
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
 
-        $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "Cnpj basico", 'left');
+        $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "CNPJ Básico", 'left');
         $column_identificador_socio_transformed = new TDataGridColumn('identificador_socio', "Tip Sócio", 'left');
         $column_nome_socio_razao_social = new TDataGridColumn('nome_socio_razao_social', "Nome socio razao social", 'left');
         $column_cpf_cnpj_socio = new TDataGridColumn('cpf_cnpj_socio', "CPF/CNPJ", 'left');
@@ -199,30 +202,6 @@ class SociosList extends TPage
 
         $panel->addFooter($this->pageNavigation);
 
-        $headerActions = new TElement('div');
-        $headerActions->class = ' datagrid-header-actions ';
-        $headerActions->style = 'background-color:#fff; justify-content: space-between;';
-
-        $head_left_actions = new TElement('div');
-        $head_left_actions->class = ' datagrid-header-actions-left-actions ';
-
-        $head_right_actions = new TElement('div');
-        $head_right_actions->class = ' datagrid-header-actions-left-actions ';
-
-        $headerActions->add($head_left_actions);
-        $headerActions->add($head_right_actions);
-
-        $panel->getBody()->insert(0, $headerActions);
-
-        $dropdown_button_exportar = new TDropDown("Exportar", 'fas:file-export #2d3436');
-        $dropdown_button_exportar->setPullSide('right');
-        $dropdown_button_exportar->setButtonClass('btn btn-default waves-effect dropdown-toggle');
-        $dropdown_button_exportar->addPostAction( "CSV", new TAction(['SociosList', 'onExportCsv'],['static' => 1]), 'datagrid_'.self::$formName, 'fas:table #00b894' );
-        $dropdown_button_exportar->addPostAction( "PDF", new TAction(['SociosList', 'onExportPdf'],['static' => 1]), 'datagrid_'.self::$formName, 'far:file-pdf #e74c3c' );
-        $dropdown_button_exportar->addPostAction( "XML", new TAction(['SociosList', 'onExportXml'],['static' => 1]), 'datagrid_'.self::$formName, 'far:file-code #95a5a6' );
-
-        $head_right_actions->add($dropdown_button_exportar);
-
         // vertical box container
         $container = new TVBox;
         $container->style = 'width: 100%';
@@ -235,169 +214,6 @@ class SociosList extends TPage
 
         parent::add($container);
 
-    }
-
-    public function onExportCsv($param = null) 
-    {
-        try
-        {
-            $output = 'app/output/'.uniqid().'.csv';
-
-            if ( (!file_exists($output) && is_writable(dirname($output))) OR is_writable($output))
-            {
-                $this->limit = 0;
-                $objects = $this->onReload();
-
-                if ($objects)
-                {
-                    $handler = fopen($output, 'w');
-                    TTransaction::open(self::$database);
-
-                    foreach ($objects as $object)
-                    {
-                        $row = [];
-                        foreach ($this->datagrid->getColumns() as $column)
-                        {
-                            $column_name = $column->getName();
-
-                            if (isset($object->$column_name))
-                            {
-                                $row[] = is_scalar($object->$column_name) ? $object->$column_name : '';
-                            }
-                            else if (method_exists($object, 'render'))
-                            {
-                                $column_name = (strpos($column_name, '{') === FALSE) ? ( '{' . $column_name . '}') : $column_name;
-                                $row[] = $object->render($column_name);
-                            }
-                        }
-
-                        fputcsv($handler, $row);
-                    }
-
-                    fclose($handler);
-                    TTransaction::close();
-                }
-                else
-                {
-                    throw new Exception(_t('No records found'));
-                }
-
-                TPage::openFile($output);
-            }
-            else
-            {
-                throw new Exception(_t('Permission denied') . ': ' . $output);
-            }
-        }
-        catch (Exception $e) // in case of exception
-        {
-            new TMessage('error', $e->getMessage()); // shows the exception error message
-        }
-    }
-    public function onExportPdf($param = null) 
-    {
-        try
-        {
-            $output = 'app/output/'.uniqid().'.pdf';
-
-            if ( (!file_exists($output) && is_writable(dirname($output))) OR is_writable($output))
-            {
-                $this->limit = 0;
-                $this->datagrid->prepareForPrinting();
-                $this->onReload();
-
-                $html = clone $this->datagrid;
-                $contents = file_get_contents('app/resources/styles-print.html') . $html->getContents();
-
-                $dompdf = new \Dompdf\Dompdf;
-                $dompdf->loadHtml($contents);
-                $dompdf->setPaper('A4', 'portrait');
-                $dompdf->render();
-
-                file_put_contents($output, $dompdf->output());
-
-                $window = TWindow::create('PDF', 0.8, 0.8);
-                $object = new TElement('object');
-                $object->data  = $output;
-                $object->type  = 'application/pdf';
-                $object->style = "width: 100%; height:calc(100% - 10px)";
-
-                $window->add($object);
-                $window->show();
-            }
-            else
-            {
-                throw new Exception(_t('Permission denied') . ': ' . $output);
-            }
-        }
-        catch (Exception $e) // in case of exception
-        {
-            new TMessage('error', $e->getMessage()); // shows the exception error message
-        }
-    }
-    public function onExportXml($param = null) 
-    {
-        try
-        {
-            $output = 'app/output/'.uniqid().'.xml';
-
-            if ( (!file_exists($output) && is_writable(dirname($output))) OR is_writable($output))
-            {
-                $this->limit = 0;
-                $objects = $this->onReload();
-
-                if ($objects)
-                {
-                    TTransaction::open(self::$database);
-
-                    $dom = new DOMDocument('1.0', 'UTF-8');
-                    $dom->{'formatOutput'} = true;
-                    $dataset = $dom->appendChild( $dom->createElement('dataset') );
-
-                    foreach ($objects as $object)
-                    {
-                        $row = $dataset->appendChild( $dom->createElement( self::$activeRecord ) );
-
-                        foreach ($this->datagrid->getColumns() as $column)
-                        {
-                            $column_name = $column->getName();
-                            $column_name_raw = str_replace(['(','{','->', '-','>','}',')', ' '], ['','','_','','','','','_'], $column_name);
-
-                            if (isset($object->$column_name))
-                            {
-                                $value = is_scalar($object->$column_name) ? $object->$column_name : '';
-                                $row->appendChild($dom->createElement($column_name_raw, $value)); 
-                            }
-                            else if (method_exists($object, 'render'))
-                            {
-                                $column_name = (strpos($column_name, '{') === FALSE) ? ( '{' . $column_name . '}') : $column_name;
-                                $value = $object->render($column_name);
-                                $row->appendChild($dom->createElement($column_name_raw, $value));
-                            }
-                        }
-                    }
-
-                    $dom->save($output);
-
-                    TTransaction::close();
-                }
-                else
-                {
-                    throw new Exception(_t('No records found'));
-                }
-
-                TPage::openFile($output);
-            }
-            else
-            {
-                throw new Exception(_t('Permission denied') . ': ' . $output);
-            }
-        }
-        catch (Exception $e) // in case of exception
-        {
-            new TMessage('error', $e->getMessage()); // shows the exception error message
-            TTransaction::rollback(); // undo all pending operations
-        }
     }
 
     /**
