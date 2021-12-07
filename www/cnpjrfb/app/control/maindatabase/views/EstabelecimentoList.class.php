@@ -34,14 +34,14 @@ class EstabelecimentoList extends TPage
         $this->form->setFormTitle("Estabelicimento");
         $this->limit = 20;
 
-        $cnpj_basico = new TEntry('cnpj_basico');
-        $cnpj_ordem = new TEntry('cnpj_ordem');
-        $cnpj_dv = new TEntry('cnpj_dv');
-        $identificador_matriz_filial = new TEntry('identificador_matriz_filial');
+        $cnpj_basico = new TNumeric('cnpj_basico', '0', ',', '' );
+        $cnpj_ordem = new TNumeric('cnpj_ordem', '0', ',', '' );
+        $cnpj_dv = new TNumeric('cnpj_dv', '0', ',', '' );
+        $identificador_matriz_filial = new TCombo('identificador_matriz_filial');
         $nome_fantasia = new TEntry('nome_fantasia');
-        $situacao_cadastral = new TEntry('situacao_cadastral');
+        $situacao_cadastral = new TCombo('situacao_cadastral');
         $data_situacao_cadastral = new TDate('data_situacao_cadastral');
-        $motivo_situacao_cadastral = new TEntry('motivo_situacao_cadastral');
+        $motivo_situacao_cadastral = new TDBCombo('motivo_situacao_cadastral', 'maindatabase', 'Moti', 'codigo', '{descricao}','descricao asc'  );
         $nome_cidade_exterior = new TEntry('nome_cidade_exterior');
         $pais = new TEntry('pais');
         $data_inicio_atividade = new TDateTime('data_inicio_atividade');
@@ -54,7 +54,7 @@ class EstabelecimentoList extends TPage
         $bairro = new TEntry('bairro');
         $cep = new TEntry('cep');
         $uf = new TEntry('uf');
-        $municipio = new TEntry('municipio');
+        $municipio = new TDBCombo('municipio', 'maindatabase', 'Munic', 'codigo', '{descricao}','descricao asc'  );
         $ddd_1 = new TEntry('ddd_1');
         $telefone_1 = new TEntry('telefone_1');
         $ddd_2 = new TEntry('ddd_2');
@@ -66,6 +66,9 @@ class EstabelecimentoList extends TPage
         $data_situacao_especial = new TDate('data_situacao_especial');
 
 
+        $municipio->enableSearch();
+        $motivo_situacao_cadastral->enableSearch();
+
         $data_situacao_especial->setMask('dd/mm/yyyy');
         $data_situacao_cadastral->setMask('dd/mm/yyyy');
         $data_inicio_atividade->setMask('dd/mm/yyyy hh:ii');
@@ -74,29 +77,28 @@ class EstabelecimentoList extends TPage
         $data_situacao_cadastral->setDatabaseMask('yyyy-mm-dd');
         $data_inicio_atividade->setDatabaseMask('yyyy-mm-dd hh:ii');
 
+        $cnpj_basico->placeholder = "NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).";
+        $cnpj_dv->placeholder = "DÍGITO VERIFICADOR DO NÚMERO DE INSCRIÇÃO NO CNPJ (DOIS  ÚLTIMOS DÍGITOS DO CNPJ).";
+        $cnpj_ordem->placeholder = "NÚMERO DO ESTABELECIMENTO DE INSCRIÇÃO NO CNPJ (DO  NONO ATÉ O DÉCIMO SEGUNDO DÍGITO DO CNPJ)";
+
         $uf->setMaxLength(45);
-        $cep->setMaxLength(45);
         $fax->setMaxLength(45);
+        $cep->setMaxLength(45);
         $ddd_2->setMaxLength(45);
         $ddd_1->setMaxLength(45);
-        $cnpj_dv->setMaxLength(2);
         $numero->setMaxLength(45);
         $bairro->setMaxLength(45);
         $ddd_fax->setMaxLength(45);
-        $cnpj_ordem->setMaxLength(4);
-        $cnpj_basico->setMaxLength(8);
         $telefone_2->setMaxLength(45);
         $telefone_1->setMaxLength(45);
-        $complemento->setMaxLength(100);
         $logradouro->setMaxLength(1000);
+        $complemento->setMaxLength(100);
         $nome_fantasia->setMaxLength(1000);
         $tipo_logradouro->setMaxLength(500);
-        $situacao_cadastral->setMaxLength(1);
         $situacao_especial->setMaxLength(45);
         $correio_eletronico->setMaxLength(45);
         $nome_cidade_exterior->setMaxLength(45);
         $cnae_fiscal_secundaria->setMaxLength(1000);
-        $identificador_matriz_filial->setMaxLength(1);
 
         $uf->setSize('100%');
         $fax->setSize('100%');
@@ -129,13 +131,15 @@ class EstabelecimentoList extends TPage
         $motivo_situacao_cadastral->setSize('100%');
         $identificador_matriz_filial->setSize('100%');
 
-        $row1 = $this->form->addFields([new TLabel("Cnpj basico:", null, '14px', null)],[$cnpj_basico],[],[]);
-        $row2 = $this->form->addFields([new TLabel("Cnpj ordem:", null, '14px', null)],[$cnpj_ordem],[new TLabel("Cnpj dv:", null, '14px', null)],[$cnpj_dv]);
-        $row3 = $this->form->addFields([new TLabel("Identificador matriz filial:", null, '14px', null)],[$identificador_matriz_filial],[new TLabel("Nome fantasia:", null, '14px', null)],[$nome_fantasia]);
-        $row4 = $this->form->addFields([new TLabel("Situacao cadastral:", null, '14px', null)],[$situacao_cadastral],[new TLabel("Data situacao cadastral:", null, '14px', null)],[$data_situacao_cadastral]);
-        $row5 = $this->form->addFields([new TLabel("Motivo situacao cadastral:", null, '14px', null)],[$motivo_situacao_cadastral],[new TLabel("Nome cidade exterior:", null, '14px', null)],[$nome_cidade_exterior]);
-        $row6 = $this->form->addFields([new TLabel("Pais:", null, '14px', null)],[$pais],[new TLabel("Data inicio atividade:", null, '14px', null)],[$data_inicio_atividade]);
-        $row7 = $this->form->addFields([new TLabel("Cnae fiscal principal:", null, '14px', null)],[$cnae_fiscal_principal],[new TLabel("Cnae fiscal secundaria:", null, '14px', null)],[$cnae_fiscal_secundaria]);
+        $row1 = $this->form->addFields([new TLabel("CNPJ Básico:", null, '14px', null),$cnpj_basico],[new TLabel("CNPJ ordem:", null, '14px', null),$cnpj_ordem],[new TLabel("CNPJ DV:", null, '14px', null),$cnpj_dv]);
+        $row1->layout = [' col-md-4',' col-md-4',' col-md-4'];
+
+        $row2 = $this->form->addFields([new TLabel("Identificador matriz filial:", null, '14px', null)],[$identificador_matriz_filial],[new TLabel("Nome fantasia:", null, '14px', null)],[$nome_fantasia]);
+        $row3 = $this->form->addFields([new TLabel("Situacao cadastral:", null, '14px', null)],[$situacao_cadastral],[new TLabel("Data situacao cadastral:", null, '14px', null)],[$data_situacao_cadastral]);
+        $row4 = $this->form->addFields([new TLabel("Motivo situacao cadastral:", null, '14px', null)],[$motivo_situacao_cadastral],[new TLabel("Nome cidade exterior:", null, '14px', null)],[$nome_cidade_exterior]);
+        $row5 = $this->form->addFields([new TLabel("Pais:", null, '14px', null)],[$pais],[new TLabel("Data inicio atividade:", null, '14px', null)],[$data_inicio_atividade]);
+        $row6 = $this->form->addFields([new TLabel("Cnae fiscal principal:", null, '14px', null)],[$cnae_fiscal_principal],[new TLabel("Cnae fiscal secundaria:", null, '14px', null)],[$cnae_fiscal_secundaria]);
+        $row7 = $this->form->addContent([new TFormSeparator("Endereço", '#333', '18', '#eee')]);
         $row8 = $this->form->addFields([new TLabel("Tipo logradouro:", null, '14px', null)],[$tipo_logradouro],[new TLabel("Logradouro:", null, '14px', null)],[$logradouro]);
         $row9 = $this->form->addFields([new TLabel("Numero:", null, '14px', null)],[$numero],[new TLabel("Complemento:", null, '14px', null)],[$complemento]);
         $row10 = $this->form->addFields([new TLabel("Bairro:", null, '14px', null)],[$bairro],[new TLabel("Cep:", null, '14px', null)],[$cep]);
@@ -166,9 +170,9 @@ class EstabelecimentoList extends TPage
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
 
-        $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "Cnpj basico", 'left');
-        $column_cnpj_ordem = new TDataGridColumn('cnpj_ordem', "Cnpj ordem", 'left');
-        $column_cnpj_dv = new TDataGridColumn('cnpj_dv', "Cnpj dv", 'left');
+        $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "CNPJ Básico", 'left');
+        $column_cnpj_ordem = new TDataGridColumn('cnpj_ordem', "CNPJ Ordem", 'left');
+        $column_cnpj_dv = new TDataGridColumn('cnpj_dv', "CNPJ Dv", 'left');
         $column_identificador_matriz_filial = new TDataGridColumn('identificador_matriz_filial', "Identificador matriz filial", 'left');
         $column_nome_fantasia = new TDataGridColumn('nome_fantasia', "Nome fantasia", 'left');
         $column_situacao_cadastral = new TDataGridColumn('situacao_cadastral', "Situacao cadastral", 'left');
@@ -673,7 +677,7 @@ class EstabelecimentoList extends TPage
 
             if (empty($param['order']))
             {
-                $param['order'] = 'cnpj_basico';    
+                $param['order'] = 'cnpj_basico';
             }
 
             if (empty($param['direction']))
