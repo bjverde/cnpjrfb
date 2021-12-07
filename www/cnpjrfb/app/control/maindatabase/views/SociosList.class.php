@@ -95,6 +95,9 @@ class SociosList extends TPage
         $this->btn_onsearch = $btn_onsearch;
         $btn_onsearch->addStyleClass('btn-primary'); 
 
+        $btn_onclear = $this->form->addAction("Limpar", new TAction([$this, 'onClear']), 'fas:eraser #F44336');
+        $this->btn_onclear = $btn_onclear;
+
         // creates a Datagrid
         $this->datagrid = new TDataGrid;
         $this->datagrid->disableHtmlConversion();
@@ -158,6 +161,7 @@ class SociosList extends TPage
         $action_onView->setImage('fas:building #7C93CF');
         $action_onView->setField(self::$primaryKey);
 
+        $action_onView->setParameter('cnpj', '{cnpj_basico}');
         $action_group->addAction($action_onView);
 
         $action_onFindSocios = new TDataGridAction(array('SociosList', 'onFindSocios'));
@@ -203,6 +207,19 @@ class SociosList extends TPage
 
         parent::add($container);
 
+    }
+
+    public function onClear($param = null) 
+    {
+        try 
+        {
+            $this->form->clear(true);
+
+        }
+        catch (Exception $e) 
+        {
+            new TMessage('error', $e->getMessage());    
+        }
     }
 
     /**
@@ -367,20 +384,6 @@ class SociosList extends TPage
         }
     }
 
-    public function onClear( $param )
-    {
-        $this->form->clear(true);
-    }
-
-    public function onFindSocios($param = null)
-    {
-        //$this->clearFilters();
-        $data = new stdClass();
-        $data->cnpj_basico = $param['cnpj'];
-        $this->form->setData($data);
-        $this->onSearch($param);
-    }
-
     public function onShow($param = null)
     {
 
@@ -405,5 +408,21 @@ class SociosList extends TPage
             }
         }
         parent::show();
+    }
+
+    public  function onFindSocios($param = null) 
+    {
+        try 
+        {
+            //$this->clearFilters();
+            $data = new stdClass();
+            $data->cnpj_basico = $param['cnpj'];
+            $this->form->setData($data);
+            $this->onSearch($param);
+        }
+        catch (Exception $e) 
+        {
+            new TMessage('error', $e->getMessage());    
+        }
     }
 }
