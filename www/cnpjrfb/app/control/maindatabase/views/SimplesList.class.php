@@ -44,17 +44,13 @@ class SimplesList extends TPage
 
 
         $cnpj_basico->setMaxLength(8);
+
         $opcao_mei->addItems(['S'=>'Sim','N'=>'Não']);
         $opcao_pelo_simples->addItems(['S'=>'Sim','N'=>'Não']);
 
         $opcao_mei->setLayout('horizontal');
         $opcao_pelo_simples->setLayout('horizontal');
 
-        $opcao_mei->setBooleanMode();
-        $opcao_pelo_simples->setBooleanMode();
-
-        $opcao_mei->setUseButton();
-        $opcao_pelo_simples->setUseButton();
 
         $data_opcao_mei->setMask('dd/mm/yyyy');
         $data_exclusao_mei->setMask('dd/mm/yyyy');
@@ -119,34 +115,12 @@ class SimplesList extends TPage
 
         $column_data_opcao_simples_transformed->setTransformer(function($value, $object, $row) 
         {
-            if(!empty(trim($value)))
-            {
-                try
-                {
-                    $date = new DateTime($value);
-                    return $date->format('d/m/Y');
-                }
-                catch (Exception $e)
-                {
-                    return $value;
-                }
-            }
+            return Transforme::date($value, $object, $row);
         });
 
         $column_data_exclusao_simples_transformed->setTransformer(function($value, $object, $row) 
         {
-            if(!empty(trim($value)))
-            {
-                try
-                {
-                    $date = new DateTime($value);
-                    return $date->format('d/m/Y');
-                }
-                catch (Exception $e)
-                {
-                    return $value;
-                }
-            }
+            return Transforme::date($value, $object, $row);
         });
 
         $column_opcao_mei_transformed->setTransformer(function($value, $object, $row) 
@@ -160,35 +134,13 @@ class SimplesList extends TPage
 
         $column_data_opcao_mei_transformed->setTransformer(function($value, $object, $row) 
         {
-            if(!empty(trim($value)))
-            {
-                try
-                {
-                    $date = new DateTime($value);
-                    return $date->format('d/m/Y');
-                }
-                catch (Exception $e)
-                {
-                    return $value;
-                }
-            }
+            return Transforme::date($value, $object, $row);
         });
 
         $column_data_exclusao_mei_transformed->setTransformer(function($value, $object, $row) 
         {
-            if(!empty(trim($value)))
-            {
-                try
-                {
-                    $date = new DateTime($value);
-                    return $date->format('d/m/Y');
-                }
-                catch (Exception $e)
-                {
-                    return $value;
-                }
-            }
-        });        
+            return Transforme::date($value, $object, $row);
+        });
 
         $this->datagrid->addColumn($column_cnpj_basico);
         $this->datagrid->addColumn($column_opcao_pelo_simples_transformed);
