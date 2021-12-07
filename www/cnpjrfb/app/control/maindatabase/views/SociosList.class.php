@@ -9,7 +9,7 @@ class SociosList extends TPage
     private $filter_criteria;
     private static $database = 'maindatabase';
     private static $activeRecord = 'Socios';
-    private static $primaryKey = 'id';
+    private static $primaryKey = 'cnpj_basico';
     private static $formName = 'form_SociosList';
     private $showMethods = ['onReload', 'onSearch', 'onRefresh', 'onClearFilters'];
     private $limit = 20;
@@ -155,6 +155,30 @@ class SociosList extends TPage
         $this->datagrid->addColumn($column_qualificacao_representante_legal);
         $this->datagrid->addColumn($column_faixa_etaria);
 
+        $action_group = new TDataGridActionGroup("Ações", 'fas:cog');
+        $action_group->addHeader('');
+
+        $action_onView = new TDataGridAction(array('cnpjFormView', 'onView'));
+        $action_onView->setUseButton(TRUE);
+        $action_onView->setButtonClass('btn btn-default');
+        $action_onView->setLabel("Detalhar Empresa");
+        $action_onView->setImage('fas:building #7C93CF');
+        $action_onView->setField(self::$primaryKey);
+
+        $action_onView->setParameter('cnpj', '{cnpj_basico}');
+        $action_group->addAction($action_onView);
+
+        $action_onFindSocios = new TDataGridAction(array('SociosList', 'onFindSocios'));
+        $action_onFindSocios->setUseButton(TRUE);
+        $action_onFindSocios->setButtonClass('btn btn-default');
+        $action_onFindSocios->setLabel("Buscar outros Socios");
+        $action_onFindSocios->setImage('fas:users #F44336');
+        $action_onFindSocios->setField(self::$primaryKey);
+
+        $action_onFindSocios->setParameter('cnpj', '{cnpj_basico}');
+        $action_group->addAction($action_onFindSocios);
+
+        $this->datagrid->addActionGroup($action_group);    
 
         // create the datagrid model
         $this->datagrid->createModel();
@@ -470,7 +494,7 @@ class SociosList extends TPage
     {
         try
         {
-            // open a transaction with database 'cnpjrfb'
+            // open a transaction with database 'maindatabase'
             TTransaction::open(self::$database);
 
             // creates a repository for Socios
@@ -537,6 +561,11 @@ class SociosList extends TPage
             TTransaction::rollback();
         }
     }
+
+    public function onFindSocios($param = null)
+    {
+
+    }    
 
     public function onShow($param = null)
     {
