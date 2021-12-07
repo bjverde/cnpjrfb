@@ -35,19 +35,20 @@ class SociosList extends TPage
         $this->limit = 20;
 
         $cnpj_basico = new TEntry('cnpj_basico');
-        $identificador_socio = new TCombo('identificador_socio');
         $nome_socio_razao_social = new TEntry('nome_socio_razao_social');
         $cpf_cnpj_socio = new TEntry('cpf_cnpj_socio');
+        $identificador_socio = new TCombo('identificador_socio');
         $qualificacao_socio = new TDBCombo('qualificacao_socio', 'maindatabase', 'Quals', 'codigo', '{descricao}','codigo asc'  );
         $data_entrada_sociedade = new TDate('data_entrada_sociedade');
         $pais = new TDBCombo('pais', 'maindatabase', 'Pais', 'codigo', '{descricao}','codigo asc'  );
+        $faixa_etaria = new TCombo('faixa_etaria');
         $representante_legal = new TEntry('representante_legal');
         $nome_do_representante = new TEntry('nome_do_representante');
         $qualificacao_representante_legal = new TEntry('qualificacao_representante_legal');
-        $faixa_etaria = new TEntry('faixa_etaria');
 
 
         $identificador_socio->addItems(TipoSocio::getList());
+        $faixa_etaria->addItems(TipoFaixaEtaria::getList());
         $data_entrada_sociedade->setMask('dd/mm/yyyy');
         $data_entrada_sociedade->setDatabaseMask('yyyy-mm-dd');
 
@@ -73,16 +74,16 @@ class SociosList extends TPage
         $qualificacao_representante_legal->setSize('100%');
 
         $row1 = $this->form->addFields([new TLabel("Cnpj basico:", null, '14px', null)],[$cnpj_basico]);
-        $row2 = $this->form->addFields([new TLabel("Tipo sócio:", null, '14px', null)],[$identificador_socio]);
+        $row2 = $this->form->addContent([new TFormSeparator("Sócio", '#333', '18', '#eee')]);
         $row3 = $this->form->addFields([new TLabel("Nome / Razão social:", null, '14px', null)],[$nome_socio_razao_social]);
-        $row4 = $this->form->addFields([new TLabel("CPF/CNPJ", null, '14px', null)],[$cpf_cnpj_socio]);
+        $row4 = $this->form->addFields([new TLabel("CPF/CNPJ", null, '14px', null)],[$cpf_cnpj_socio],[new TLabel("Tipo sócio:", null, '14px', null)],[$identificador_socio]);
         $row5 = $this->form->addFields([new TLabel("Qualificação:", null, '14px', null)],[$qualificacao_socio]);
-        $row6 = $this->form->addFields([new TLabel("Data entrada sociedade:", null, '14px', null)],[$data_entrada_sociedade]);
-        $row7 = $this->form->addFields([new TLabel("Pais:", null, '14px', null)],[$pais]);
-        $row8 = $this->form->addFields([new TLabel("Representante legal:", null, '14px', null)],[$representante_legal]);
-        $row9 = $this->form->addFields([new TLabel("Nome do representante:", null, '14px', null)],[$nome_do_representante]);
-        $row10 = $this->form->addFields([new TLabel("Qualificacao representante legal:", null, '14px', null)],[$qualificacao_representante_legal]);
-        $row11 = $this->form->addFields([new TLabel("Faixa etaria:", null, '14px', null)],[$faixa_etaria]);
+        $row6 = $this->form->addFields([new TLabel("Data entrada sociedade:", null, '14px', null)],[$data_entrada_sociedade],[new TLabel("Pais:", null, '14px', null)],[$pais]);
+        $row7 = $this->form->addFields([new TLabel("Faixa etaria:", null, '14px', null)],[$faixa_etaria]);
+        $row8 = $this->form->addContent([new TFormSeparator("Representante Legal", '#333', '18', '#eee')]);
+        $row9 = $this->form->addFields([new TLabel("CPF / CNPJ", null, '14px', null)],[$representante_legal]);
+        $row10 = $this->form->addFields([new TLabel("Nome", null, '14px', null)],[$nome_do_representante]);
+        $row11 = $this->form->addFields([new TLabel("Qualificacao", null, '14px', null)],[$qualificacao_representante_legal]);
 
         // keep the form filled during navigation with session data
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data') );
@@ -269,7 +270,6 @@ class SociosList extends TPage
             new TMessage('error', $e->getMessage()); // shows the exception error message
         }
     }
-
     public function onExportPdf($param = null) 
     {
         try
@@ -311,7 +311,6 @@ class SociosList extends TPage
             new TMessage('error', $e->getMessage()); // shows the exception error message
         }
     }
-
     public function onExportXml($param = null) 
     {
         try
@@ -394,12 +393,6 @@ class SociosList extends TPage
             $filters[] = new TFilter('cnpj_basico', '=', $data->cnpj_basico);// create the filter 
         }
 
-        if (isset($data->identificador_socio) AND ( (is_scalar($data->identificador_socio) AND $data->identificador_socio !== '') OR (is_array($data->identificador_socio) AND (!empty($data->identificador_socio)) )) )
-        {
-
-            $filters[] = new TFilter('identificador_socio', '=', $data->identificador_socio);// create the filter 
-        }
-
         if (isset($data->nome_socio_razao_social) AND ( (is_scalar($data->nome_socio_razao_social) AND $data->nome_socio_razao_social !== '') OR (is_array($data->nome_socio_razao_social) AND (!empty($data->nome_socio_razao_social)) )) )
         {
 
@@ -410,6 +403,12 @@ class SociosList extends TPage
         {
 
             $filters[] = new TFilter('cpf_cnpj_socio', 'like', "%{$data->cpf_cnpj_socio}%");// create the filter 
+        }
+
+        if (isset($data->identificador_socio) AND ( (is_scalar($data->identificador_socio) AND $data->identificador_socio !== '') OR (is_array($data->identificador_socio) AND (!empty($data->identificador_socio)) )) )
+        {
+
+            $filters[] = new TFilter('identificador_socio', '=', $data->identificador_socio);// create the filter 
         }
 
         if (isset($data->qualificacao_socio) AND ( (is_scalar($data->qualificacao_socio) AND $data->qualificacao_socio !== '') OR (is_array($data->qualificacao_socio) AND (!empty($data->qualificacao_socio)) )) )
@@ -430,6 +429,12 @@ class SociosList extends TPage
             $filters[] = new TFilter('pais', '=', $data->pais);// create the filter 
         }
 
+        if (isset($data->faixa_etaria) AND ( (is_scalar($data->faixa_etaria) AND $data->faixa_etaria !== '') OR (is_array($data->faixa_etaria) AND (!empty($data->faixa_etaria)) )) )
+        {
+
+            $filters[] = new TFilter('faixa_etaria', '=', $data->faixa_etaria);// create the filter 
+        }
+
         if (isset($data->representante_legal) AND ( (is_scalar($data->representante_legal) AND $data->representante_legal !== '') OR (is_array($data->representante_legal) AND (!empty($data->representante_legal)) )) )
         {
 
@@ -446,12 +451,6 @@ class SociosList extends TPage
         {
 
             $filters[] = new TFilter('qualificacao_representante_legal', '=', $data->qualificacao_representante_legal);// create the filter 
-        }
-
-        if (isset($data->faixa_etaria) AND ( (is_scalar($data->faixa_etaria) AND $data->faixa_etaria !== '') OR (is_array($data->faixa_etaria) AND (!empty($data->faixa_etaria)) )) )
-        {
-
-            $filters[] = new TFilter('faixa_etaria', '=', $data->faixa_etaria);// create the filter 
         }
 
         // fill the form with data again
