@@ -20,7 +20,7 @@ class EmpresaDAO
                                      ,capital_social
                                      ,porte_empresa
                                      ,ente_federativo_responsavel
-                                     from dados_rfb.empresa ';
+                                     from empresa ';
 
     private $tpdo = null;
     private $repositoryName = 'empresa'; //Nome da Classe do tipo Active Record no diretorio /app/model/maindatabase
