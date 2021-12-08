@@ -7,19 +7,19 @@
         <icon>fa:table fa-fw #f0db4f</icon>
         <menu>
             <menuitem label='Empresa'>
-                <icon>fa:table fa-fw</icon>
+                <icon>fas:building #7C93CF</icon>
                 <action>EmpresaList</action>
             </menuitem>
             <menuitem label='Estabelicimento'>
-                <icon>fa:table fa-fw</icon>
+                <icon>fas:building #7C93CF</icon>
                 <action>EstabelecimentoList</action>
             </menuitem>
             <menuitem label='Simples'>
-                <icon>fa:table fa-fw</icon>
+                <icon>fas:building #7C93CF</icon>
                 <action>SimplesList</action>
             </menuitem>
             <menuitem label='Sócio da Empresa'>
-                <icon>fa:table fa-fw</icon>
+                <icon>fa:user green</icon>
                 <action>SociosList</action>
             </menuitem>
         </menu>
