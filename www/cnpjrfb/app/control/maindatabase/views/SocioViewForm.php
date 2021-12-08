@@ -24,14 +24,12 @@ class SocioViewForm extends TPage
     {
         try{
             var_dump($param);
-            $cnpj_cpf_socio = ArrayHelper::getArray($param,'cnpj_basico');
+            $cnpj_basico = ArrayHelper::getArray($param,'cnpj_basico');
             $nome_socio_razao_social = ArrayHelper::getArray($param,'nome_socio_razao_social');
             $sociosController = new SociosController();
-            $listSocio = $sociosController->selectBySocio($cnpj_cpf_socio,$nome_socio_razao_social);
+            $listSocio = $sociosController->selectBySocio($cnpj_basico,$nome_socio_razao_social);
             $socio = ArrayHelper::getArray($listSocio,0);
-            var_dump($socio);
-            $cnpjEmpresa = StringHelper::formatCnpjCpf($socio->cnpj);
-
+            
 
             $this->form = new BootstrapFormBuilder(__CLASS__);            
             $this->form->generateAria(); // automatic aria-label
@@ -39,34 +37,38 @@ class SocioViewForm extends TPage
 
             if( empty($socio) ){
                 $this->form->setFormTitle('Dados do Sócio na empresa');
+                $this->form->addFields( [new TLabel('Nome')],[new TTextDisplay('ERRO ao carregar socio')]);
+                parent::add($this->form);
             }else{
+                $estabelecimentoController = new EstabelecimentoController();
+                $listEstabelecimento = $estabelecimentoController->selectById($cnpj_basico);
+                $estabelecimento = ArrayHelper::getArray($listEstabelecimento,0);
+                $cnpj =  $estabelecimento->CNPJ_BASICO.$estabelecimento->CNPJ_ORDEM.$estabelecimento->CNPJ_DV;
+                $cnpjEmpresa = StringHelper::formatCnpjCpf($cnpj);
 
+                var_dump($socio);
+
+                
+                $this->form->addFields( [new TLabel('Nome')],[new TTextDisplay($socio->NOME_SOCIO_RAZAO_SOCIAL)]
+                                    ,[new TLabel('CPF')],[new TTextDisplay($socio->CPF_CNPJ_SOCIO)]
+                                    );
+                $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($cnpjEmpresa)]);
+                $tipoSocio = new TTextDisplay(TipoSocio::getByid($socio->IDENTIFICADOR_SOCIO));
+                $tipoSocioQualificacao = new TTextDisplay(TipoSocioQualificacao::getByid($socio->QUALIFICACAO_SOCIO));            
+                $this->form->addFields( [new TLabel('Tipo Sócio')],[$tipoSocio]
+                                    ,[new TLabel('Qualificação')],[$tipoSocioQualificacao]
+                                    );
+                $this->form->addFields( [new TLabel('% Capital')],[new TTextDisplay($socio->perc_capital)]);
+                $this->form->addFields( [new TLabel('Data Entrada')],[new TTextDisplay($socio->data_entrada)]);
+                $this->form->addFields( [new TLabel('Cod Pais')],[new TTextDisplay($socio->cod_pais_ext)],[new TLabel('Nome País')],[new TTextDisplay($socio->nome_pais_ext)]);
+                $this->form->addFields( [new TLabel('CPF Representante')],[new TTextDisplay($socio->cpf_repres)],[new TLabel('Nome Representante')],[new TTextDisplay($socio->nome_repres)]);
+                $this->form->addFields( [new TLabel('Cod Representante')],[new TTextDisplay($socio->cod_qualif_repres)]);
+
+                // add the table inside the page
+                parent::add($this->form);
+
+                //$this->showGridEmpresa($listSocio);
             }
-
-
-            /*
-            $this->form->addFields( [new TLabel('Nome')],[new TTextDisplay($socio->nome_socio)]
-                                   ,[new TLabel('CPF')],[new TTextDisplay($socio->cnpj_cpf_socio)]
-                                  );
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($cnpjEmpresa)]);
-            
-            $tipoSocio = new TTextDisplay(TipoSocio::getByid($socio->tipo_socio));
-            $tipoSocioQualificacao = new TTextDisplay(TipoSocioQualificacao::getByid($socio->cod_qualificacao));            
-            $this->form->addFields( [new TLabel('Tipo Sócio')],[$tipoSocio]
-                                   ,[new TLabel('Qualificação')],[$tipoSocioQualificacao]
-                                  );
-            $this->form->addFields( [new TLabel('% Capital')],[new TTextDisplay($socio->perc_capital)]);
-            $this->form->addFields( [new TLabel('Data Entrada')],[new TTextDisplay($socio->data_entrada)]);
-            $this->form->addFields( [new TLabel('Cod Pais')],[new TTextDisplay($socio->cod_pais_ext)],[new TLabel('Nome País')],[new TTextDisplay($socio->nome_pais_ext)]);
-            $this->form->addFields( [new TLabel('CPF Representante')],[new TTextDisplay($socio->cpf_repres)],[new TLabel('Nome Representante')],[new TTextDisplay($socio->nome_repres)]);
-            $this->form->addFields( [new TLabel('Cod Representante')],[new TTextDisplay($socio->cod_qualif_repres)]);
-            
-            */
-
-            // add the table inside the page
-            parent::add($this->form);            
-
-            //$this->showGridEmpresa($listSocio);
         }
         catch(Exception $e)
         {
