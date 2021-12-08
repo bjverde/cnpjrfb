@@ -23,20 +23,32 @@ class SocioViewForm extends TPage
     public function onView($param)
     {
         try{
-            $cnpj_cpf_socio = $param['cnpj_cpf_socio'];
-            $nome_socio = $param['nome_socio'];
-            $socioController = new SocioController();
-            $listSocio = $socioController->selectBySocio($cnpj_cpf_socio,$nome_socio);
-            $socio = $listSocio[0];
+            var_dump($param);
+            $cnpj_cpf_socio = ArrayHelper::getArray($param,'cnpj_basico');
+            $nome_socio_razao_social = ArrayHelper::getArray($param,'nome_socio_razao_social');
+            $sociosController = new SociosController();
+            $listSocio = $sociosController->selectBySocio($cnpj_cpf_socio,$nome_socio_razao_social);
+            $socio = ArrayHelper::getArray($listSocio,0);
+            var_dump($socio);
+            $cnpjEmpresa = StringHelper::formatCnpjCpf($socio->cnpj);
 
-            $this->form = new BootstrapFormBuilder(__CLASS__);
-            $this->form->setFormTitle('Dados do Sócio na empresa '.StringHelper::formatCnpjCpf($socio->cnpj));
+
+            $this->form = new BootstrapFormBuilder(__CLASS__);            
             $this->form->generateAria(); // automatic aria-label
+            $this->form->addHeaderActionLink('Fechar',  new TAction([$this, 'onClose']), 'fa:times red');
 
+            if( empty($socio) ){
+                $this->form->setFormTitle('Dados do Sócio na empresa');
+            }else{
+
+            }
+
+
+            /*
             $this->form->addFields( [new TLabel('Nome')],[new TTextDisplay($socio->nome_socio)]
                                    ,[new TLabel('CPF')],[new TTextDisplay($socio->cnpj_cpf_socio)]
                                   );
-            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay(StringHelper::formatCnpjCpf($socio->cnpj))]);
+            $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($cnpjEmpresa)]);
             
             $tipoSocio = new TTextDisplay(TipoSocio::getByid($socio->tipo_socio));
             $tipoSocioQualificacao = new TTextDisplay(TipoSocioQualificacao::getByid($socio->cod_qualificacao));            
@@ -48,12 +60,13 @@ class SocioViewForm extends TPage
             $this->form->addFields( [new TLabel('Cod Pais')],[new TTextDisplay($socio->cod_pais_ext)],[new TLabel('Nome País')],[new TTextDisplay($socio->nome_pais_ext)]);
             $this->form->addFields( [new TLabel('CPF Representante')],[new TTextDisplay($socio->cpf_repres)],[new TLabel('Nome Representante')],[new TTextDisplay($socio->nome_repres)]);
             $this->form->addFields( [new TLabel('Cod Representante')],[new TTextDisplay($socio->cod_qualif_repres)]);
-            $this->form->addHeaderActionLink('Fechar',  new TAction([$this, 'onClose']), 'fa:times red');
+            
+            */
 
             // add the table inside the page
             parent::add($this->form);            
 
-            $this->showGridEmpresa($listSocio);
+            //$this->showGridEmpresa($listSocio);
         }
         catch(Exception $e)
         {

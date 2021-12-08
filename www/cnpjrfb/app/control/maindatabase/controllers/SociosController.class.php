@@ -52,6 +52,14 @@ class SociosController
         return $result;
     }
     //--------------------------------------------------------------------------------
+    public function selectBySocio( $cnpj_basico, $nome_socio_razao_social )
+    {
+        $where['CNPJ_BASICO']=$cnpj_basico;
+        $where['NOME_SOCIO_RAZAO_SOCIAL']=$nome_socio_razao_social;
+        $result = $this->dao->selectAll( 'NOME_SOCIO_RAZAO_SOCIAL', $where );
+        return $result;
+    }    
+    //--------------------------------------------------------------------------------
     /**
      * Faz um Select usando o TCriteria
      * @param TCriteria $criteria    - 01: Obj TCriteria

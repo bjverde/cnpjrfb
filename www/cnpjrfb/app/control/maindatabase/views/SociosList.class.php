@@ -164,9 +164,13 @@ class SociosList extends TPage
         $action_onView->setParameter('cnpj', '{cnpj_basico}');
         $action_group->addAction($action_onView);
 
-        $actionSocioView = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_basico' => '{cnpj_basico}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
+        //$actionSocioView = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_basico' => '{cnpj_basico}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
+        $actionSocioView = new TDataGridAction(array('SocioViewForm', 'onView'));
         $actionSocioView->setLabel('Detalhar essa sociedade');
         $actionSocioView->setImage('fa:user green');
+        $actionSocioView->setParameter('cnpj_basico', '{cnpj_basico}');
+        $actionSocioView->setParameter('nome_socio_razao_social', '{nome_socio_razao_social}');
+        $actionSocioView->setField(self::$primaryKey);
         $action_group->addAction($actionSocioView);
 
         $action_onFindSocios = new TDataGridAction(array('SociosList', 'onFindSocios'));
