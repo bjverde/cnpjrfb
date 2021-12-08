@@ -142,16 +142,6 @@ class SociosList extends TPage
         $action_group = new TDataGridActionGroup("Ações", 'fas:cog');
         $action_group->addHeader('');
 
-        $action_onView = new TDataGridAction(array('cnpjFormView', 'onView'));
-        $action_onView->setUseButton(TRUE);
-        $action_onView->setButtonClass('btn btn-default');
-        $action_onView->setLabel("Detalhar Empresa");
-        $action_onView->setImage('fas:building #7C93CF');
-        $action_onView->setField(self::$primaryKey);
-
-        $action_onView->setParameter('cnpj', '{cnpj_basico}');
-        $action_group->addAction($action_onView);
-
         $actionSocioView = new TDataGridAction(array('SocioViewForm', 'onView'));
         $actionSocioView->setLabel('Detalhar essa sociedade');
         $actionSocioView->setImage('fa:user green');
@@ -160,6 +150,15 @@ class SociosList extends TPage
         $actionSocioView->setParameter('cpf_cnpj_socio', '{cpf_cnpj_socio}');
         $actionSocioView->setField(self::$primaryKey);
         $action_group->addAction($actionSocioView);
+
+        $action_onView = new TDataGridAction(array('cnpjFormView', 'onView'));
+        $action_onView->setUseButton(TRUE);
+        $action_onView->setButtonClass('btn btn-default');
+        $action_onView->setLabel("Detalhar Empresa");
+        $action_onView->setImage('fas:building #7C93CF');
+        $action_onView->setParameter('cpf_cnpj_socio', '{cnpj_basico}');
+        $action_onView->setField(self::$primaryKey);
+        $action_group->addAction($action_onView);
 
         $action_onFindSocios = new TDataGridAction(array('SociosList', 'onFindSocios'));
         $action_onFindSocios->setUseButton(TRUE);
