@@ -1,8 +1,4 @@
 <menu>
-    <menuitem label='Consulta'>
-        <icon>fas:search fa-fw</icon>
-        <action>fichaCompletaForm</action>
-    </menuitem>
     <menuitem label='Tabelas'>
         <icon>fa:table fa-fw #f0db4f</icon>
         <menu>
@@ -55,11 +51,7 @@
     </menuitem>    
     <menuitem label='Facilitadores'>
         <icon>fa:magic fa-fw fa-fw #ffff00</icon>
-        <menu>
-            <menuitem label='Gera Grafo'>
-                <icon>fa:magic fa-fw fa-fw #ffff00</icon>
-                <action>GeraGrafoForm</action>
-            </menuitem>                       
+        <menu>                       
             <menuitem label='Painel SQL'>
                 <icon>fas:database fa-fw red</icon>
                 <action>SystemSQLPanel</action>
