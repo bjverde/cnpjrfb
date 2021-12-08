@@ -228,8 +228,6 @@ class SociosList extends TPage
         }
     }
 
-
-
     public  function onFindSocios($param = null) 
     {
         try 
