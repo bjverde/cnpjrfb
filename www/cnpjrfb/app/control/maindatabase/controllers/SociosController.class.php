@@ -57,7 +57,8 @@ class SociosController
         $where['CNPJ_BASICO']=$cnpj_basico;
         $where['NOME_SOCIO_RAZAO_SOCIAL']=$nome_socio_razao_social;
         $result = $this->dao->selectAll( 'NOME_SOCIO_RAZAO_SOCIAL', $where );
-        return $result;
+        $socio = ArrayHelper::getArray($result,0);
+        return $socio;
     }    
     //--------------------------------------------------------------------------------
     /**

@@ -23,13 +23,10 @@ class SocioViewForm extends TPage
     public function onView($param)
     {
         try{
-            var_dump($param);
             $cnpj_basico = ArrayHelper::getArray($param,'cnpj_basico');
             $nome_socio_razao_social = ArrayHelper::getArray($param,'nome_socio_razao_social');
             $sociosController = new SociosController();
-            $listSocio = $sociosController->selectBySocio($cnpj_basico,$nome_socio_razao_social);
-            $socio = ArrayHelper::getArray($listSocio,0);
-            
+            $socio = $sociosController->selectBySocio($cnpj_basico,$nome_socio_razao_social);            
 
             $this->form = new BootstrapFormBuilder(__CLASS__);            
             $this->form->generateAria(); // automatic aria-label
@@ -48,6 +45,7 @@ class SocioViewForm extends TPage
 
                 var_dump($socio);
 
+                $this->form->setFormTitle('Dados do Sócio na empresa: '.$cnpjEmpresa);
                 
                 $this->form->addFields( [new TLabel('Nome')],[new TTextDisplay($socio->NOME_SOCIO_RAZAO_SOCIAL)]
                                     ,[new TLabel('CPF')],[new TTextDisplay($socio->CPF_CNPJ_SOCIO)]
