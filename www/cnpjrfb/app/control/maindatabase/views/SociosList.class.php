@@ -80,18 +80,6 @@ class SociosList extends TPage
         $nome_do_representante->setMaxLength(500);
         $nome_socio_razao_social->setMaxLength(1000);
 
-        $pais->setSize('100%');
-        $cnpj_basico->setSize('100%');
-        $faixa_etaria->setSize('100%');
-        $cpf_cnpj_socio->setSize('100%');
-        $qualificacao_socio->setSize('100%');
-        $identificador_socio->setSize('100%');
-        $data_entrada_sociedade->setSize(110);
-        $representante_legal->setSize('100%');
-        $nome_do_representante->setSize('100%');
-        $nome_socio_razao_social->setSize('100%');
-        $qualificacao_representante_legal->setSize('100%');
-
         $row1 = $this->form->addFields([new TLabel("CNPJ Básico:", null, '14px', null)],[$cnpj_basico]);
         $row2 = $this->form->addContent([new TFormSeparator("Sócio", '#333', '18', '#eee')]);
         $row3 = $this->form->addFields([new TLabel("Nome / Razão social:", null, '14px', null)],[$nome_socio_razao_social]);
@@ -164,12 +152,12 @@ class SociosList extends TPage
         $action_onView->setParameter('cnpj', '{cnpj_basico}');
         $action_group->addAction($action_onView);
 
-        //$actionSocioView = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_basico' => '{cnpj_basico}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
         $actionSocioView = new TDataGridAction(array('SocioViewForm', 'onView'));
         $actionSocioView->setLabel('Detalhar essa sociedade');
         $actionSocioView->setImage('fa:user green');
         $actionSocioView->setParameter('cnpj_basico', '{cnpj_basico}');
         $actionSocioView->setParameter('nome_socio_razao_social', '{nome_socio_razao_social}');
+        $actionSocioView->setParameter('cpf_cnpj_socio', '{cpf_cnpj_socio}');
         $actionSocioView->setField(self::$primaryKey);
         $action_group->addAction($actionSocioView);
 
