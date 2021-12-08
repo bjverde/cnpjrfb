@@ -5,14 +5,12 @@ class SociosList extends TPage
     private $form; // form
     private $datagrid; // listing
     private $pageNavigation;
-    //private $loaded;
+
     private $filter_criteria;
-    //private static $database = 'maindatabase';
-    //private static $activeRecord = 'Socios';
+
     private static $primaryKey = 'cnpj_basico';
     private static $formName = 'form_SociosList';
     private $showMethods = ['onReload', 'onSearch', 'onRefresh', 'onClearFilters'];
-    //private $limit = 20;
 
     // trait com onReload, onSearch, onDelete...
     use Adianti\Base\AdiantiStandardListTrait;
@@ -49,7 +47,7 @@ class SociosList extends TPage
         $this->form = new BootstrapFormBuilder(self::$formName);
 
         // define the form title
-        $this->form->setFormTitle(" Sócio da Empresa");
+        $this->form->setFormTitle("Sócio da Empresa");
         $this->limit = 20;
 
         $cnpj_basico = new TNumeric('cnpj_basico', '0', ',', '' );
@@ -138,28 +136,12 @@ class SociosList extends TPage
 
         $column_identificador_socio_transformed->setTransformer(function($value, $object, $row)
         {
-            try {
-                return TipoSocio::getByid($value);
-            }
-            catch (Exception $e) {
-                return $value;
-            }
+            return TipoSocio::getByid($value);
         });
 
         $column_data_entrada_sociedade_transformed->setTransformer(function($value, $object, $row) 
         {
-            if(!empty(trim($value)))
-            {
-                try
-                {
-                    $date = new DateTime($value);
-                    return $date->format('d/m/Y');
-                }
-                catch (Exception $e)
-                {
-                    return $value;
-                }
-            }
+            return Transforme::date($value, $object, $row);
         });        
 
         $this->datagrid->addColumn($column_cnpj_basico);
@@ -181,6 +163,11 @@ class SociosList extends TPage
 
         $action_onView->setParameter('cnpj', '{cnpj_basico}');
         $action_group->addAction($action_onView);
+
+        $actionSocioView = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_basico' => '{cnpj_basico}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
+        $actionSocioView->setLabel('Detalhar essa sociedade');
+        $actionSocioView->setImage('fa:user green');
+        $action_group->addAction($actionSocioView);
 
         $action_onFindSocios = new TDataGridAction(array('SociosList', 'onFindSocios'));
         $action_onFindSocios->setUseButton(TRUE);
@@ -241,180 +228,6 @@ class SociosList extends TPage
         }
     }
 
-    /**
-     * Register the filter in the session
-     */
-    /*
-    public function onSearch($param = null)
-    {
-        $data = $this->form->getData();
-        $filters = [];
-
-        TSession::setValue(__CLASS__.'_filter_data', NULL);
-        TSession::setValue(__CLASS__.'_filters', NULL);
-
-        if (isset($data->cnpj_basico) AND ( (is_scalar($data->cnpj_basico) AND $data->cnpj_basico !== '') OR (is_array($data->cnpj_basico) AND (!empty($data->cnpj_basico)) )) )
-        {
-
-            $filters[] = new TFilter('cnpj_basico', '=', $data->cnpj_basico);// create the filter 
-        }
-
-        if (isset($data->nome_socio_razao_social) AND ( (is_scalar($data->nome_socio_razao_social) AND $data->nome_socio_razao_social !== '') OR (is_array($data->nome_socio_razao_social) AND (!empty($data->nome_socio_razao_social)) )) )
-        {
-
-            $filters[] = new TFilter('nome_socio_razao_social', 'like', "%{$data->nome_socio_razao_social}%");// create the filter 
-        }
-
-        if (isset($data->cpf_cnpj_socio) AND ( (is_scalar($data->cpf_cnpj_socio) AND $data->cpf_cnpj_socio !== '') OR (is_array($data->cpf_cnpj_socio) AND (!empty($data->cpf_cnpj_socio)) )) )
-        {
-
-            $filters[] = new TFilter('cpf_cnpj_socio', 'like', "%{$data->cpf_cnpj_socio}%");// create the filter 
-        }
-
-        if (isset($data->identificador_socio) AND ( (is_scalar($data->identificador_socio) AND $data->identificador_socio !== '') OR (is_array($data->identificador_socio) AND (!empty($data->identificador_socio)) )) )
-        {
-
-            $filters[] = new TFilter('identificador_socio', '=', $data->identificador_socio);// create the filter 
-        }
-
-        if (isset($data->qualificacao_socio) AND ( (is_scalar($data->qualificacao_socio) AND $data->qualificacao_socio !== '') OR (is_array($data->qualificacao_socio) AND (!empty($data->qualificacao_socio)) )) )
-        {
-
-            $filters[] = new TFilter('qualificacao_socio', '=', $data->qualificacao_socio);// create the filter 
-        }
-
-        if (isset($data->data_entrada_sociedade) AND ( (is_scalar($data->data_entrada_sociedade) AND $data->data_entrada_sociedade !== '') OR (is_array($data->data_entrada_sociedade) AND (!empty($data->data_entrada_sociedade)) )) )
-        {
-
-            $filters[] = new TFilter('data_entrada_sociedade', '=', $data->data_entrada_sociedade);// create the filter 
-        }
-
-        if (isset($data->pais) AND ( (is_scalar($data->pais) AND $data->pais !== '') OR (is_array($data->pais) AND (!empty($data->pais)) )) )
-        {
-
-            $filters[] = new TFilter('pais', '=', $data->pais);// create the filter 
-        }
-
-        if (isset($data->faixa_etaria) AND ( (is_scalar($data->faixa_etaria) AND $data->faixa_etaria !== '') OR (is_array($data->faixa_etaria) AND (!empty($data->faixa_etaria)) )) )
-        {
-
-            $filters[] = new TFilter('faixa_etaria', '=', $data->faixa_etaria);// create the filter 
-        }
-
-        if (isset($data->representante_legal) AND ( (is_scalar($data->representante_legal) AND $data->representante_legal !== '') OR (is_array($data->representante_legal) AND (!empty($data->representante_legal)) )) )
-        {
-
-            $filters[] = new TFilter('representante_legal', 'like', "%{$data->representante_legal}%");// create the filter 
-        }
-
-
-
-        if (isset($data->nome_do_representante) AND ( (is_scalar($data->nome_do_representante) AND $data->nome_do_representante !== '') OR (is_array($data->nome_do_representante) AND (!empty($data->nome_do_representante)) )) )
-        {
-
-            $filters[] = new TFilter('nome_do_representante', 'like', "%{$data->nome_do_representante}%");// create the filter 
-        }
-
-        if (isset($data->qualificacao_representante_legal) AND ( (is_scalar($data->qualificacao_representante_legal) AND $data->qualificacao_representante_legal !== '') OR (is_array($data->qualificacao_representante_legal) AND (!empty($data->qualificacao_representante_legal)) )) )
-        {
-
-            $filters[] = new TFilter('qualificacao_representante_legal', '=', $data->qualificacao_representante_legal);// create the filter 
-        }
-
-        // fill the form with data again
-        $this->form->setData($data);
-
-        // keep the search data in the session
-        TSession::setValue(__CLASS__.'_filter_data', $data);
-        TSession::setValue(__CLASS__.'_filters', $filters);
-
-        $this->onReload(['offset' => 0, 'first_page' => 1]);
-    }
-    */
-
-    /**
-     * Load the datagrid with data
-     */
-    /*
-    public function onReload($param = NULL)
-    {
-        try
-        {
-            // open a transaction with database 'maindatabase'
-            TTransaction::open(self::$database);
-
-            // creates a repository for Socios
-            $repository = new TRepository(self::$activeRecord);
-
-            $criteria = clone $this->filter_criteria;
-
-            if (empty($param['order']))
-            {
-                $param['order'] = 'cnpj_basico';
-            }
-
-            if (empty($param['direction']))
-            {
-                $param['direction'] = 'desc';
-            }
-
-            $criteria->setProperties($param); // order, offset
-            $criteria->setProperty('limit', $this->limit);
-
-            if($filters = TSession::getValue(__CLASS__.'_filters'))
-            {
-                foreach ($filters as $filter) 
-                {
-                    $criteria->add($filter);       
-                }
-            }
-
-            // load the objects according to criteria
-            $objects = $repository->load($criteria, FALSE);
-
-            $this->datagrid->clear();
-            if ($objects)
-            {
-                // iterate the collection of active records
-                foreach ($objects as $object)
-                {
-
-                    $row = $this->datagrid->addItem($object);
-                    $row->id = "row_{$object->cnpj_basico}";
-
-                }
-            }
-
-            // reset the criteria for record count
-            $criteria->resetProperties();
-            $count= $repository->count($criteria);
-
-            $this->pageNavigation->setCount($count); // count of records
-            $this->pageNavigation->setProperties($param); // order, page
-            $this->pageNavigation->setLimit($this->limit); // limit
-
-            // close the transaction
-            TTransaction::close();
-            $this->loaded = true;
-
-            return $objects;
-        }
-        catch (Exception $e) // in case of exception
-        {
-            // shows the exception error message
-            new TMessage('error', $e->getMessage());
-            // undo all pending operations
-            TTransaction::rollback();
-        }
-    }
-    */
-
-    /*
-    public function onShow($param = null)
-    {
-
-    }
-    */
 
 
     public  function onFindSocios($param = null) 
