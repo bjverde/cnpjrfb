@@ -5,14 +5,17 @@ class SociosList extends TPage
     private $form; // form
     private $datagrid; // listing
     private $pageNavigation;
-    private $loaded;
+    //private $loaded;
     private $filter_criteria;
-    private static $database = 'maindatabase';
-    private static $activeRecord = 'Socios';
+    //private static $database = 'maindatabase';
+    //private static $activeRecord = 'Socios';
     private static $primaryKey = 'cnpj_basico';
     private static $formName = 'form_SociosList';
     private $showMethods = ['onReload', 'onSearch', 'onRefresh', 'onClearFilters'];
-    private $limit = 20;
+    //private $limit = 20;
+
+    // trait com onReload, onSearch, onDelete...
+    use Adianti\Base\AdiantiStandardListTrait;
 
     /**
      * Class constructor
@@ -21,6 +24,21 @@ class SociosList extends TPage
     public function __construct($param = null)
     {
         parent::__construct();
+        $this->setLimit(20);
+        $this->setDatabase('maindatabase'); // define the database
+        $this->setActiveRecord('Socios'); // define the Active Record
+        $this->addFilterField('cnpj_basico', '=', 'cnpj_basico'); //campo, operador, campo do form
+        $this->addFilterField('nome_socio_razao_social', 'like', 'nome_socio_razao_social'); //campo, operador, campo do form
+        $this->addFilterField('cpf_cnpj_socio', 'like', 'cpf_cnpj_socio'); //campo, operador, campo do form
+        $this->addFilterField('identificador_socio', '=', 'identificador_socio'); //campo, operador, campo do form
+        $this->addFilterField('qualificacao_socio', '=', 'qualificacao_socio'); //campo, operador, campo do form
+        $this->addFilterField('data_entrada_sociedade', '=', 'data_entrada_sociedade'); //campo, operador, campo do form
+        $this->addFilterField('pais', '=', 'pais'); //campo, operador, campo do form
+        $this->addFilterField('faixa_etaria', '=', 'faixa_etaria'); //campo, operador, campo do form
+        $this->addFilterField('representante_legal', '=', 'representante_legal'); //campo, operador, campo do form
+        $this->addFilterField('nome_do_representante', 'like', 'nome_do_representante'); //campo, operador, campo do form
+        $this->addFilterField('qualificacao_representante_legal', '=', 'qualificacao_representante_legal'); //campo, operador, campo do form
+        //$this->setDefaultOrder('cnpj_basico', 'asc'); // define the default order        
 
         if(!empty($param['target_container']))
         {
@@ -95,7 +113,7 @@ class SociosList extends TPage
         $this->btn_onsearch = $btn_onsearch;
         $btn_onsearch->addStyleClass('btn-primary'); 
 
-        $btn_onclear = $this->form->addAction("Limpar", new TAction([$this, 'onClear']), 'fas:eraser #F44336');
+        $btn_onclear = $this->form->addAction("Limpar", new TAction([$this, 'clear']), 'fas:eraser #F44336');
         $this->btn_onclear = $btn_onclear;
 
         // creates a Datagrid
@@ -213,8 +231,9 @@ class SociosList extends TPage
     {
         try 
         {
+            TSession::setValue(__CLASS__.'_filter_data', NULL);
+            TSession::setValue(__CLASS__.'_filters', NULL);
             $this->form->clear(true);
-
         }
         catch (Exception $e) 
         {
@@ -225,6 +244,7 @@ class SociosList extends TPage
     /**
      * Register the filter in the session
      */
+    /*
     public function onSearch($param = null)
     {
         $data = $this->form->getData();
@@ -287,6 +307,8 @@ class SociosList extends TPage
             $filters[] = new TFilter('representante_legal', 'like', "%{$data->representante_legal}%");// create the filter 
         }
 
+
+
         if (isset($data->nome_do_representante) AND ( (is_scalar($data->nome_do_representante) AND $data->nome_do_representante !== '') OR (is_array($data->nome_do_representante) AND (!empty($data->nome_do_representante)) )) )
         {
 
@@ -308,10 +330,12 @@ class SociosList extends TPage
 
         $this->onReload(['offset' => 0, 'first_page' => 1]);
     }
+    */
 
     /**
      * Load the datagrid with data
      */
+    /*
     public function onReload($param = NULL)
     {
         try
@@ -383,32 +407,15 @@ class SociosList extends TPage
             TTransaction::rollback();
         }
     }
+    */
 
+    /*
     public function onShow($param = null)
     {
 
     }
+    */
 
-    /**
-     * method show()
-     * Shows the page
-     */
-    public function show()
-    {
-        // check if the datagrid is already loaded
-        if (!$this->loaded AND (!isset($_GET['method']) OR !(in_array($_GET['method'],  $this->showMethods))) )
-        {
-            if (func_num_args() > 0)
-            {
-                $this->onReload( func_get_arg(0) );
-            }
-            else
-            {
-                $this->onReload();
-            }
-        }
-        parent::show();
-    }
 
     public  function onFindSocios($param = null) 
     {
@@ -424,5 +431,14 @@ class SociosList extends TPage
         {
             new TMessage('error', $e->getMessage());    
         }
+    }
+
+    /**
+     * Clear filters
+     */
+    function clear()
+    {
+        $this->clearFilters();
+        $this->onReload();
     }
 }
