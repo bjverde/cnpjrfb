@@ -5,14 +5,16 @@ class EstabelecimentoList extends TPage
     private $form; // form
     private $datagrid; // listing
     private $pageNavigation;
-    private $loaded;
+    
     private $filter_criteria;
-    private static $database = 'maindatabase';
-    private static $activeRecord = 'Estabelecimento';
+    
+    
     private static $primaryKey = 'cnpj_basico';
     private static $formName = 'form_EstabelecimentoList';
     private $showMethods = ['onReload', 'onSearch', 'onRefresh', 'onClearFilters'];
-    private $limit = 20;
+
+    // trait com onReload, onSearch, onDelete...
+    use Adianti\Base\AdiantiStandardListTrait;
 
     /**
      * Class constructor
@@ -21,6 +23,41 @@ class EstabelecimentoList extends TPage
     public function __construct($param = null)
     {
         parent::__construct();
+        $this->setLimit(20);
+        $this->setDatabase('maindatabase'); // define the database
+        $this->setActiveRecord('Estabelecimento'); // define the Active Record
+        $this->addFilterField('cnpj_basico', '=', 'cnpj_basico'); //campo, operador, campo do form
+        $this->addFilterField('cnpj_ordem', '=', 'cnpj_ordem'); //campo, operador, campo do form
+        $this->addFilterField('cnpj_dv', '=', 'cnpj_dv'); //campo, operador, campo do form
+        $this->addFilterField('identificador_matriz_filial', '=', 'identificador_matriz_filial'); //campo, operador, campo do form
+        $this->addFilterField('nome_fantasia', 'like', 'nome_fantasia'); //campo, operador, campo do form
+        $this->addFilterField('situacao_cadastral', '=', 'situacao_cadastral'); //campo, operador, campo do form
+        $this->addFilterField('data_situacao_cadastral', '=', 'data_situacao_cadastral'); //campo, operador, campo do form
+        $this->addFilterField('motivo_situacao_cadastral', '=', 'motivo_situacao_cadastral'); //campo, operador, campo do form
+        $this->addFilterField('nome_cidade_exterior', '=', 'nome_cidade_exterior'); //campo, operador, campo do form
+        $this->addFilterField('pais', '=', 'pais'); //campo, operador, campo do form
+        $this->addFilterField('data_inicio_atividade', '=', 'data_inicio_atividade'); //campo, operador, campo do form
+        $this->addFilterField('cnae_fiscal_principal', 'like', 'cnae_fiscal_principal'); //campo, operador, campo do form
+        $this->addFilterField('cnae_fiscal_secundaria', 'like', 'cnae_fiscal_secundaria'); //campo, operador, campo do form
+        $this->addFilterField('tipo_logradouro', 'like', 'tipo_logradouro'); //campo, operador, campo do form
+        $this->addFilterField('logradouro', 'like', 'logradouro'); //campo, operador, campo do form
+        $this->addFilterField('numero', 'like', 'numero'); //campo, operador, campo do form
+        $this->addFilterField('complemento', 'like', 'complemento'); //campo, operador, campo do form
+        $this->addFilterField('bairro', 'like', 'bairro'); //campo, operador, campo do form
+        $this->addFilterField('cep', 'like', 'cep'); //campo, operador, campo do form
+        $this->addFilterField('uf', '=', 'uf'); //campo, operador, campo do form
+        $this->addFilterField('bairro', 'like', 'bairro'); //campo, operador, campo do form
+        $this->addFilterField('municipio', '=', 'municipio'); //campo, operador, campo do form
+        $this->addFilterField('bairro', 'like', 'bairro'); //campo, operador, campo do form
+        $this->addFilterField('ddd_1', 'like', 'ddd_1'); //campo, operador, campo do form
+        $this->addFilterField('telefone_1', 'like', 'telefone_1'); //campo, operador, campo do form
+        $this->addFilterField('ddd_2', 'like', 'ddd_2'); //campo, operador, campo do form
+        $this->addFilterField('telefone_2', 'like', 'telefone_2'); //campo, operador, campo do form
+        $this->addFilterField('ddd_fax', 'like', 'ddd_fax'); //campo, operador, campo do form
+        $this->addFilterField('fax', 'like', 'fax'); //campo, operador, campo do form
+        $this->addFilterField('correio_eletronico', 'like', 'correio_eletronico'); //campo, operador, campo do form
+        $this->addFilterField('situacao_especial', 'like', 'situacao_especial'); //campo, operador, campo do form
+        $this->addFilterField('data_situacao_especial', 'like', 'data_situacao_especial'); //campo, operador, campo do form        
 
         if(!empty($param['target_container']))
         {
@@ -189,50 +226,17 @@ class EstabelecimentoList extends TPage
 
         $column_data_situacao_cadastral_transformed->setTransformer(function($value, $object, $row) 
         {
-            if(!empty(trim($value)))
-            {
-                try
-                {
-                    $date = new DateTime($value);
-                    return $date->format('d/m/Y');
-                }
-                catch (Exception $e)
-                {
-                    return $value;
-                }
-            }
+            return Transforme::date($value, $object, $row);
         });
 
         $column_data_inicio_atividade_transformed->setTransformer(function($value, $object, $row) 
         {
-            if(!empty(trim($value)))
-            {
-                try
-                {
-                    $date = new DateTime($value);
-                    return $date->format('d/m/Y');
-                }
-                catch (Exception $e)
-                {
-                    return $value;
-                }
-            }
+            return Transforme::date($value, $object, $row);
         });
 
         $column_data_situacao_especial_transformed->setTransformer(function($value, $object, $row) 
         {
-            if(!empty(trim($value)))
-            {
-                try
-                {
-                    $date = new DateTime($value);
-                    return $date->format('d/m/Y');
-                }
-                catch (Exception $e)
-                {
-                    return $value;
-                }
-            }
+            return Transforme::date($value, $object, $row);
         });        
 
         $order_cnpj_basico = new TAction(array($this, 'onReload'));
@@ -287,306 +291,8 @@ class EstabelecimentoList extends TPage
 
     }
 
-    /**
-     * Register the filter in the session
-     */
-    public function onSearch($param = null)
-    {
-        $data = $this->form->getData();
-        $filters = [];
-
-        TSession::setValue(__CLASS__.'_filter_data', NULL);
-        TSession::setValue(__CLASS__.'_filters', NULL);
-
-        if (isset($data->cnpj_basico) AND ( (is_scalar($data->cnpj_basico) AND $data->cnpj_basico !== '') OR (is_array($data->cnpj_basico) AND (!empty($data->cnpj_basico)) )) )
-        {
-
-            $filters[] = new TFilter('cnpj_basico', '=', $data->cnpj_basico);// create the filter 
-        }
-
-        if (isset($data->cnpj_ordem) AND ( (is_scalar($data->cnpj_ordem) AND $data->cnpj_ordem !== '') OR (is_array($data->cnpj_ordem) AND (!empty($data->cnpj_ordem)) )) )
-        {
-
-            $filters[] = new TFilter('cnpj_ordem', '=', $data->cnpj_ordem);// create the filter 
-        }
-
-        if (isset($data->cnpj_dv) AND ( (is_scalar($data->cnpj_dv) AND $data->cnpj_dv !== '') OR (is_array($data->cnpj_dv) AND (!empty($data->cnpj_dv)) )) )
-        {
-
-            $filters[] = new TFilter('cnpj_dv', '=', $data->cnpj_dv);// create the filter 
-        }
-
-        if (isset($data->identificador_matriz_filial) AND ( (is_scalar($data->identificador_matriz_filial) AND $data->identificador_matriz_filial !== '') OR (is_array($data->identificador_matriz_filial) AND (!empty($data->identificador_matriz_filial)) )) )
-        {
-
-            $filters[] = new TFilter('identificador_matriz_filial', '=', $data->identificador_matriz_filial);// create the filter 
-        }
-
-        if (isset($data->nome_fantasia) AND ( (is_scalar($data->nome_fantasia) AND $data->nome_fantasia !== '') OR (is_array($data->nome_fantasia) AND (!empty($data->nome_fantasia)) )) )
-        {
-
-            $filters[] = new TFilter('nome_fantasia', 'like', "%{$data->nome_fantasia}%");// create the filter 
-        }
-
-        if (isset($data->situacao_cadastral) AND ( (is_scalar($data->situacao_cadastral) AND $data->situacao_cadastral !== '') OR (is_array($data->situacao_cadastral) AND (!empty($data->situacao_cadastral)) )) )
-        {
-
-            $filters[] = new TFilter('situacao_cadastral', '=', $data->situacao_cadastral);// create the filter 
-        }
-
-        if (isset($data->data_situacao_cadastral) AND ( (is_scalar($data->data_situacao_cadastral) AND $data->data_situacao_cadastral !== '') OR (is_array($data->data_situacao_cadastral) AND (!empty($data->data_situacao_cadastral)) )) )
-        {
-
-            $filters[] = new TFilter('data_situacao_cadastral', '=', $data->data_situacao_cadastral);// create the filter 
-        }
-
-        if (isset($data->motivo_situacao_cadastral) AND ( (is_scalar($data->motivo_situacao_cadastral) AND $data->motivo_situacao_cadastral !== '') OR (is_array($data->motivo_situacao_cadastral) AND (!empty($data->motivo_situacao_cadastral)) )) )
-        {
-
-            $filters[] = new TFilter('motivo_situacao_cadastral', '=', $data->motivo_situacao_cadastral);// create the filter 
-        }
-
-        if (isset($data->nome_cidade_exterior) AND ( (is_scalar($data->nome_cidade_exterior) AND $data->nome_cidade_exterior !== '') OR (is_array($data->nome_cidade_exterior) AND (!empty($data->nome_cidade_exterior)) )) )
-        {
-
-            $filters[] = new TFilter('nome_cidade_exterior', 'like', "%{$data->nome_cidade_exterior}%");// create the filter 
-        }
-
-        if (isset($data->pais) AND ( (is_scalar($data->pais) AND $data->pais !== '') OR (is_array($data->pais) AND (!empty($data->pais)) )) )
-        {
-
-            $filters[] = new TFilter('pais', '=', $data->pais);// create the filter 
-        }
-
-        if (isset($data->data_inicio_atividade) AND ( (is_scalar($data->data_inicio_atividade) AND $data->data_inicio_atividade !== '') OR (is_array($data->data_inicio_atividade) AND (!empty($data->data_inicio_atividade)) )) )
-        {
-
-            $filters[] = new TFilter('data_inicio_atividade', '=', $data->data_inicio_atividade);// create the filter 
-        }
-
-        if (isset($data->cnae_fiscal_principal) AND ( (is_scalar($data->cnae_fiscal_principal) AND $data->cnae_fiscal_principal !== '') OR (is_array($data->cnae_fiscal_principal) AND (!empty($data->cnae_fiscal_principal)) )) )
-        {
-
-            $filters[] = new TFilter('cnae_fiscal_principal', '=', $data->cnae_fiscal_principal);// create the filter 
-        }
-
-        if (isset($data->cnae_fiscal_secundaria) AND ( (is_scalar($data->cnae_fiscal_secundaria) AND $data->cnae_fiscal_secundaria !== '') OR (is_array($data->cnae_fiscal_secundaria) AND (!empty($data->cnae_fiscal_secundaria)) )) )
-        {
-
-            $filters[] = new TFilter('cnae_fiscal_secundaria', 'like', "%{$data->cnae_fiscal_secundaria}%");// create the filter 
-        }
-
-        if (isset($data->tipo_logradouro) AND ( (is_scalar($data->tipo_logradouro) AND $data->tipo_logradouro !== '') OR (is_array($data->tipo_logradouro) AND (!empty($data->tipo_logradouro)) )) )
-        {
-
-            $filters[] = new TFilter('tipo_logradouro', 'like', "%{$data->tipo_logradouro}%");// create the filter 
-        }
-
-        if (isset($data->logradouro) AND ( (is_scalar($data->logradouro) AND $data->logradouro !== '') OR (is_array($data->logradouro) AND (!empty($data->logradouro)) )) )
-        {
-
-            $filters[] = new TFilter('logradouro', 'like', "%{$data->logradouro}%");// create the filter 
-        }
-
-        if (isset($data->numero) AND ( (is_scalar($data->numero) AND $data->numero !== '') OR (is_array($data->numero) AND (!empty($data->numero)) )) )
-        {
-
-            $filters[] = new TFilter('numero', 'like', "%{$data->numero}%");// create the filter 
-        }
-
-        if (isset($data->complemento) AND ( (is_scalar($data->complemento) AND $data->complemento !== '') OR (is_array($data->complemento) AND (!empty($data->complemento)) )) )
-        {
-
-            $filters[] = new TFilter('complemento', 'like', "%{$data->complemento}%");// create the filter 
-        }
-
-        if (isset($data->bairro) AND ( (is_scalar($data->bairro) AND $data->bairro !== '') OR (is_array($data->bairro) AND (!empty($data->bairro)) )) )
-        {
-
-            $filters[] = new TFilter('bairro', 'like', "%{$data->bairro}%");// create the filter 
-        }
-
-        if (isset($data->cep) AND ( (is_scalar($data->cep) AND $data->cep !== '') OR (is_array($data->cep) AND (!empty($data->cep)) )) )
-        {
-
-            $filters[] = new TFilter('cep', 'like', "%{$data->cep}%");// create the filter 
-        }
-
-        if (isset($data->uf) AND ( (is_scalar($data->uf) AND $data->uf !== '') OR (is_array($data->uf) AND (!empty($data->uf)) )) )
-        {
-
-            $filters[] = new TFilter('uf', 'like', "%{$data->uf}%");// create the filter 
-        }
-
-        if (isset($data->municipio) AND ( (is_scalar($data->municipio) AND $data->municipio !== '') OR (is_array($data->municipio) AND (!empty($data->municipio)) )) )
-        {
-
-            $filters[] = new TFilter('municipio', '=', $data->municipio);// create the filter 
-        }
-
-        if (isset($data->ddd_1) AND ( (is_scalar($data->ddd_1) AND $data->ddd_1 !== '') OR (is_array($data->ddd_1) AND (!empty($data->ddd_1)) )) )
-        {
-
-            $filters[] = new TFilter('ddd_1', 'like', "%{$data->ddd_1}%");// create the filter 
-        }
-
-        if (isset($data->telefone_1) AND ( (is_scalar($data->telefone_1) AND $data->telefone_1 !== '') OR (is_array($data->telefone_1) AND (!empty($data->telefone_1)) )) )
-        {
-
-            $filters[] = new TFilter('telefone_1', 'like', "%{$data->telefone_1}%");// create the filter 
-        }
-
-        if (isset($data->ddd_2) AND ( (is_scalar($data->ddd_2) AND $data->ddd_2 !== '') OR (is_array($data->ddd_2) AND (!empty($data->ddd_2)) )) )
-        {
-
-            $filters[] = new TFilter('ddd_2', 'like', "%{$data->ddd_2}%");// create the filter 
-        }
-
-        if (isset($data->telefone_2) AND ( (is_scalar($data->telefone_2) AND $data->telefone_2 !== '') OR (is_array($data->telefone_2) AND (!empty($data->telefone_2)) )) )
-        {
-
-            $filters[] = new TFilter('telefone_2', 'like', "%{$data->telefone_2}%");// create the filter 
-        }
-
-        if (isset($data->ddd_fax) AND ( (is_scalar($data->ddd_fax) AND $data->ddd_fax !== '') OR (is_array($data->ddd_fax) AND (!empty($data->ddd_fax)) )) )
-        {
-
-            $filters[] = new TFilter('ddd_fax', 'like', "%{$data->ddd_fax}%");// create the filter 
-        }
-
-        if (isset($data->fax) AND ( (is_scalar($data->fax) AND $data->fax !== '') OR (is_array($data->fax) AND (!empty($data->fax)) )) )
-        {
-
-            $filters[] = new TFilter('fax', 'like', "%{$data->fax}%");// create the filter 
-        }
-
-        if (isset($data->correio_eletronico) AND ( (is_scalar($data->correio_eletronico) AND $data->correio_eletronico !== '') OR (is_array($data->correio_eletronico) AND (!empty($data->correio_eletronico)) )) )
-        {
-
-            $filters[] = new TFilter('correio_eletronico', 'like', "%{$data->correio_eletronico}%");// create the filter 
-        }
-
-        if (isset($data->situacao_especial) AND ( (is_scalar($data->situacao_especial) AND $data->situacao_especial !== '') OR (is_array($data->situacao_especial) AND (!empty($data->situacao_especial)) )) )
-        {
-
-            $filters[] = new TFilter('situacao_especial', 'like', "%{$data->situacao_especial}%");// create the filter 
-        }
-
-        if (isset($data->data_situacao_especial) AND ( (is_scalar($data->data_situacao_especial) AND $data->data_situacao_especial !== '') OR (is_array($data->data_situacao_especial) AND (!empty($data->data_situacao_especial)) )) )
-        {
-
-            $filters[] = new TFilter('data_situacao_especial', '=', $data->data_situacao_especial);// create the filter 
-        }
-
-        // fill the form with data again
-        $this->form->setData($data);
-
-        // keep the search data in the session
-        TSession::setValue(__CLASS__.'_filter_data', $data);
-        TSession::setValue(__CLASS__.'_filters', $filters);
-
-        $this->onReload(['offset' => 0, 'first_page' => 1]);
-    }
-
-    /**
-     * Load the datagrid with data
-     */
-    public function onReload($param = NULL)
-    {
-        try
-        {
-            // open a transaction with database 'maindatabase'
-            TTransaction::open(self::$database);
-
-            // creates a repository for Estabelecimento
-            $repository = new TRepository(self::$activeRecord);
-
-            $criteria = clone $this->filter_criteria;
-
-            if (empty($param['order']))
-            {
-                $param['order'] = 'cnpj_basico';
-            }
-
-            if (empty($param['direction']))
-            {
-                $param['direction'] = 'desc';
-            }
-
-            $criteria->setProperties($param); // order, offset
-            $criteria->setProperty('limit', $this->limit);
-
-            if($filters = TSession::getValue(__CLASS__.'_filters'))
-            {
-                foreach ($filters as $filter) 
-                {
-                    $criteria->add($filter);       
-                }
-            }
-
-            // load the objects according to criteria
-            $objects = $repository->load($criteria, FALSE);
-
-            $this->datagrid->clear();
-            if ($objects)
-            {
-                // iterate the collection of active records
-                foreach ($objects as $object)
-                {
-
-                    $row = $this->datagrid->addItem($object);
-                    $row->id = "row_{$object->cnpj_basico}";
-
-                }
-            }
-
-            // reset the criteria for record count
-            $criteria->resetProperties();
-            $count= $repository->count($criteria);
-
-            $this->pageNavigation->setCount($count); // count of records
-            $this->pageNavigation->setProperties($param); // order, page
-            $this->pageNavigation->setLimit($this->limit); // limit
-
-            // close the transaction
-            TTransaction::close();
-            $this->loaded = true;
-
-            return $objects;
-        }
-        catch (Exception $e) // in case of exception
-        {
-            // shows the exception error message
-            new TMessage('error', $e->getMessage());
-            // undo all pending operations
-            TTransaction::rollback();
-        }
-    }
-
     public function onShow($param = null)
     {
 
     }
-
-    /**
-     * method show()
-     * Shows the page
-     */
-    public function show()
-    {
-        // check if the datagrid is already loaded
-        if (!$this->loaded AND (!isset($_GET['method']) OR !(in_array($_GET['method'],  $this->showMethods))) )
-        {
-            if (func_num_args() > 0)
-            {
-                $this->onReload( func_get_arg(0) );
-            }
-            else
-            {
-                $this->onReload();
-            }
-        }
-        parent::show();
-    }
-
 }
