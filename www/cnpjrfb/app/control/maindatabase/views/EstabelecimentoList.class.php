@@ -68,8 +68,6 @@ class EstabelecimentoList extends TPage
 
         $municipio->enableSearch();
         $motivo_situacao_cadastral->enableSearch();
-        $identificador_matriz_filial->addItems(TipoMatrizFilial::getList());
-        $situacao_cadastral->addItems(TipoEmpresaSituacao::getList());
 
         $data_situacao_especial->setMask('dd/mm/yyyy');
         $data_situacao_cadastral->setMask('dd/mm/yyyy');
@@ -178,32 +176,64 @@ class EstabelecimentoList extends TPage
         $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "CNPJ Básico", 'left');
         $column_cnpj_ordem = new TDataGridColumn('cnpj_ordem', "CNPJ Ordem", 'left');
         $column_cnpj_dv = new TDataGridColumn('cnpj_dv', "CNPJ Dv", 'left');
-        $column_identificador_matriz_filial = new TDataGridColumn('identificador_matriz_filial', "Identificador matriz filial", 'left');
+        $column_identificador_matriz_filial = new TDataGridColumn('identificador_matriz_filial', "Matriz / Filial", 'left');
         $column_nome_fantasia = new TDataGridColumn('nome_fantasia', "Nome fantasia", 'left');
         $column_situacao_cadastral = new TDataGridColumn('situacao_cadastral', "Situacao cadastral", 'left');
-        $column_data_situacao_cadastral = new TDataGridColumn('data_situacao_cadastral', "Data situacao cadastral", 'left');
-        $column_motivo_situacao_cadastral = new TDataGridColumn('motivo_situacao_cadastral', "Motivo situacao cadastral", 'left');
-        $column_nome_cidade_exterior = new TDataGridColumn('nome_cidade_exterior', "Nome cidade exterior", 'left');
-        $column_pais = new TDataGridColumn('pais', "Pais", 'left');
-        $column_data_inicio_atividade = new TDataGridColumn('data_inicio_atividade', "Data inicio atividade", 'left');
+        $column_data_situacao_cadastral_transformed = new TDataGridColumn('data_situacao_cadastral', "Data situacao cadastral", 'left');
+        $column_data_inicio_atividade_transformed = new TDataGridColumn('data_inicio_atividade', "Data inicio atividade", 'left');
         $column_cnae_fiscal_principal = new TDataGridColumn('cnae_fiscal_principal', "Cnae fiscal principal", 'left');
-        $column_tipo_logradouro = new TDataGridColumn('tipo_logradouro', "Tipo logradouro", 'left');
-        $column_logradouro = new TDataGridColumn('logradouro', "Logradouro", 'left');
-        $column_numero = new TDataGridColumn('numero', "Numero", 'left');
-        $column_complemento = new TDataGridColumn('complemento', "Complemento", 'left');
-        $column_bairro = new TDataGridColumn('bairro', "Bairro", 'left');
-        $column_cep = new TDataGridColumn('cep', "Cep", 'left');
         $column_uf = new TDataGridColumn('uf', "Uf", 'left');
         $column_municipio = new TDataGridColumn('municipio', "Municipio", 'left');
-        $column_ddd_1 = new TDataGridColumn('ddd_1', "Ddd 1", 'left');
-        $column_telefone_1 = new TDataGridColumn('telefone_1', "Telefone 1", 'left');
-        $column_ddd_2 = new TDataGridColumn('ddd_2', "Ddd 2", 'left');
-        $column_telefone_2 = new TDataGridColumn('telefone_2', "Telefone 2", 'left');
-        $column_ddd_fax = new TDataGridColumn('ddd_fax', "Ddd fax", 'left');
-        $column_fax = new TDataGridColumn('fax', "Fax", 'left');
-        $column_correio_eletronico = new TDataGridColumn('correio_eletronico', "Correio eletronico", 'left');
         $column_situacao_especial = new TDataGridColumn('situacao_especial', "Situacao especial", 'left');
-        $column_data_situacao_especial = new TDataGridColumn('data_situacao_especial', "Data situacao especial", 'left');
+        $column_data_situacao_especial_transformed = new TDataGridColumn('data_situacao_especial', "Data situacao especial", 'left');
+
+        $column_data_situacao_cadastral_transformed->setTransformer(function($value, $object, $row) 
+        {
+            if(!empty(trim($value)))
+            {
+                try
+                {
+                    $date = new DateTime($value);
+                    return $date->format('d/m/Y');
+                }
+                catch (Exception $e)
+                {
+                    return $value;
+                }
+            }
+        });
+
+        $column_data_inicio_atividade_transformed->setTransformer(function($value, $object, $row) 
+        {
+            if(!empty(trim($value)))
+            {
+                try
+                {
+                    $date = new DateTime($value);
+                    return $date->format('d/m/Y');
+                }
+                catch (Exception $e)
+                {
+                    return $value;
+                }
+            }
+        });
+
+        $column_data_situacao_especial_transformed->setTransformer(function($value, $object, $row) 
+        {
+            if(!empty(trim($value)))
+            {
+                try
+                {
+                    $date = new DateTime($value);
+                    return $date->format('d/m/Y');
+                }
+                catch (Exception $e)
+                {
+                    return $value;
+                }
+            }
+        });        
 
         $order_cnpj_basico = new TAction(array($this, 'onReload'));
         $order_cnpj_basico->setParameter('order', 'cnpj_basico');
@@ -215,29 +245,13 @@ class EstabelecimentoList extends TPage
         $this->datagrid->addColumn($column_identificador_matriz_filial);
         $this->datagrid->addColumn($column_nome_fantasia);
         $this->datagrid->addColumn($column_situacao_cadastral);
-        $this->datagrid->addColumn($column_data_situacao_cadastral);
-        $this->datagrid->addColumn($column_motivo_situacao_cadastral);
-        $this->datagrid->addColumn($column_nome_cidade_exterior);
-        $this->datagrid->addColumn($column_pais);
-        $this->datagrid->addColumn($column_data_inicio_atividade);
+        $this->datagrid->addColumn($column_data_situacao_cadastral_transformed);
+        $this->datagrid->addColumn($column_data_inicio_atividade_transformed);
         $this->datagrid->addColumn($column_cnae_fiscal_principal);
-        $this->datagrid->addColumn($column_tipo_logradouro);
-        $this->datagrid->addColumn($column_logradouro);
-        $this->datagrid->addColumn($column_numero);
-        $this->datagrid->addColumn($column_complemento);
-        $this->datagrid->addColumn($column_bairro);
-        $this->datagrid->addColumn($column_cep);
         $this->datagrid->addColumn($column_uf);
         $this->datagrid->addColumn($column_municipio);
-        $this->datagrid->addColumn($column_ddd_1);
-        $this->datagrid->addColumn($column_telefone_1);
-        $this->datagrid->addColumn($column_ddd_2);
-        $this->datagrid->addColumn($column_telefone_2);
-        $this->datagrid->addColumn($column_ddd_fax);
-        $this->datagrid->addColumn($column_fax);
-        $this->datagrid->addColumn($column_correio_eletronico);
         $this->datagrid->addColumn($column_situacao_especial);
-        $this->datagrid->addColumn($column_data_situacao_especial);
+        $this->datagrid->addColumn($column_data_situacao_especial_transformed);
 
 
         // create the datagrid model
@@ -259,30 +273,6 @@ class EstabelecimentoList extends TPage
 
         $panel->addFooter($this->pageNavigation);
 
-        $headerActions = new TElement('div');
-        $headerActions->class = ' datagrid-header-actions ';
-        $headerActions->style = 'background-color:#fff; justify-content: space-between;';
-
-        $head_left_actions = new TElement('div');
-        $head_left_actions->class = ' datagrid-header-actions-left-actions ';
-
-        $head_right_actions = new TElement('div');
-        $head_right_actions->class = ' datagrid-header-actions-left-actions ';
-
-        $headerActions->add($head_left_actions);
-        $headerActions->add($head_right_actions);
-
-        $panel->getBody()->insert(0, $headerActions);
-
-        $dropdown_button_exportar = new TDropDown("Exportar", 'fas:file-export #2d3436');
-        $dropdown_button_exportar->setPullSide('right');
-        $dropdown_button_exportar->setButtonClass('btn btn-default waves-effect dropdown-toggle');
-        $dropdown_button_exportar->addPostAction( "CSV", new TAction(['EstabelecimentoList', 'onExportCsv'],['static' => 1]), 'datagrid_'.self::$formName, 'fas:table #00b894' );
-        $dropdown_button_exportar->addPostAction( "PDF", new TAction(['EstabelecimentoList', 'onExportPdf'],['static' => 1]), 'datagrid_'.self::$formName, 'far:file-pdf #e74c3c' );
-        $dropdown_button_exportar->addPostAction( "XML", new TAction(['EstabelecimentoList', 'onExportXml'],['static' => 1]), 'datagrid_'.self::$formName, 'far:file-code #95a5a6' );
-
-        $head_right_actions->add($dropdown_button_exportar);
-
         // vertical box container
         $container = new TVBox;
         $container->style = 'width: 100%';
@@ -295,171 +285,6 @@ class EstabelecimentoList extends TPage
 
         parent::add($container);
 
-    }
-
-    public function onExportCsv($param = null) 
-    {
-        try
-        {
-            $output = 'app/output/'.uniqid().'.csv';
-
-            if ( (!file_exists($output) && is_writable(dirname($output))) OR is_writable($output))
-            {
-                $this->limit = 0;
-                $objects = $this->onReload();
-
-                if ($objects)
-                {
-                    $handler = fopen($output, 'w');
-                    TTransaction::open(self::$database);
-
-                    foreach ($objects as $object)
-                    {
-                        $row = [];
-                        foreach ($this->datagrid->getColumns() as $column)
-                        {
-                            $column_name = $column->getName();
-
-                            if (isset($object->$column_name))
-                            {
-                                $row[] = is_scalar($object->$column_name) ? $object->$column_name : '';
-                            }
-                            else if (method_exists($object, 'render'))
-                            {
-                                $column_name = (strpos($column_name, '{') === FALSE) ? ( '{' . $column_name . '}') : $column_name;
-                                $row[] = $object->render($column_name);
-                            }
-                        }
-
-                        fputcsv($handler, $row);
-                    }
-
-                    fclose($handler);
-                    TTransaction::close();
-                }
-                else
-                {
-                    throw new Exception(_t('No records found'));
-                }
-
-                TPage::openFile($output);
-            }
-            else
-            {
-                throw new Exception(_t('Permission denied') . ': ' . $output);
-            }
-        }
-        catch (Exception $e) // in case of exception
-        {
-            new TMessage('error', $e->getMessage()); // shows the exception error message
-        }
-    }
-
-    public function onExportPdf($param = null) 
-    {
-        try
-        {
-            $output = 'app/output/'.uniqid().'.pdf';
-
-            if ( (!file_exists($output) && is_writable(dirname($output))) OR is_writable($output))
-            {
-                $this->limit = 0;
-                $this->datagrid->prepareForPrinting();
-                $this->onReload();
-
-                $html = clone $this->datagrid;
-                $contents = file_get_contents('app/resources/styles-print.html') . $html->getContents();
-
-                $dompdf = new \Dompdf\Dompdf;
-                $dompdf->loadHtml($contents);
-                $dompdf->setPaper('A4', 'portrait');
-                $dompdf->render();
-
-                file_put_contents($output, $dompdf->output());
-
-                $window = TWindow::create('PDF', 0.8, 0.8);
-                $object = new TElement('object');
-                $object->data  = $output;
-                $object->type  = 'application/pdf';
-                $object->style = "width: 100%; height:calc(100% - 10px)";
-
-                $window->add($object);
-                $window->show();
-            }
-            else
-            {
-                throw new Exception(_t('Permission denied') . ': ' . $output);
-            }
-        }
-        catch (Exception $e) // in case of exception
-        {
-            new TMessage('error', $e->getMessage()); // shows the exception error message
-        }
-    }
-
-    public function onExportXml($param = null) 
-    {
-        try
-        {
-            $output = 'app/output/'.uniqid().'.xml';
-
-            if ( (!file_exists($output) && is_writable(dirname($output))) OR is_writable($output))
-            {
-                $this->limit = 0;
-                $objects = $this->onReload();
-
-                if ($objects)
-                {
-                    TTransaction::open(self::$database);
-
-                    $dom = new DOMDocument('1.0', 'UTF-8');
-                    $dom->{'formatOutput'} = true;
-                    $dataset = $dom->appendChild( $dom->createElement('dataset') );
-
-                    foreach ($objects as $object)
-                    {
-                        $row = $dataset->appendChild( $dom->createElement( self::$activeRecord ) );
-
-                        foreach ($this->datagrid->getColumns() as $column)
-                        {
-                            $column_name = $column->getName();
-                            $column_name_raw = str_replace(['(','{','->', '-','>','}',')', ' '], ['','','_','','','','','_'], $column_name);
-
-                            if (isset($object->$column_name))
-                            {
-                                $value = is_scalar($object->$column_name) ? $object->$column_name : '';
-                                $row->appendChild($dom->createElement($column_name_raw, $value)); 
-                            }
-                            else if (method_exists($object, 'render'))
-                            {
-                                $column_name = (strpos($column_name, '{') === FALSE) ? ( '{' . $column_name . '}') : $column_name;
-                                $value = $object->render($column_name);
-                                $row->appendChild($dom->createElement($column_name_raw, $value));
-                            }
-                        }
-                    }
-
-                    $dom->save($output);
-
-                    TTransaction::close();
-                }
-                else
-                {
-                    throw new Exception(_t('No records found'));
-                }
-
-                TPage::openFile($output);
-            }
-            else
-            {
-                throw new Exception(_t('Permission denied') . ': ' . $output);
-            }
-        }
-        catch (Exception $e) // in case of exception
-        {
-            new TMessage('error', $e->getMessage()); // shows the exception error message
-            TTransaction::rollback(); // undo all pending operations
-        }
     }
 
     /**
@@ -710,7 +535,7 @@ class EstabelecimentoList extends TPage
                 {
 
                     $row = $this->datagrid->addItem($object);
-                    $row->id = "row_{$object->id}";
+                    $row->id = "row_{$object->cnpj_basico}";
 
                 }
             }
