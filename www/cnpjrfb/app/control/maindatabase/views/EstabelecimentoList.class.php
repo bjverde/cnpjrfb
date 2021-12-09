@@ -105,6 +105,8 @@ class EstabelecimentoList extends TPage
 
         $municipio->enableSearch();
         $motivo_situacao_cadastral->enableSearch();
+        $identificador_matriz_filial->addItems(TipoMatrizFilial::getList());
+        $situacao_cadastral->addItems(TipoEmpresaSituacao::getList());
 
         $data_situacao_especial->setMask('dd/mm/yyyy');
         $data_situacao_cadastral->setMask('dd/mm/yyyy');
