@@ -140,38 +140,10 @@ class EstabelecimentoList extends TPage
         $nome_cidade_exterior->setMaxLength(45);
         $cnae_fiscal_secundaria->setMaxLength(1000);
 
-        $uf->setSize('100%');
-        $fax->setSize('100%');
-        $cep->setSize('100%');
-        $pais->setSize('100%');
-        $ddd_2->setSize('100%');
-        $ddd_1->setSize('100%');
-        $numero->setSize('100%');
-        $bairro->setSize('100%');
-        $cnpj_dv->setSize('100%');
-        $ddd_fax->setSize('100%');
-        $municipio->setSize('100%');
-        $cnpj_ordem->setSize('100%');
-        $telefone_2->setSize('100%');
-        $telefone_1->setSize('100%');
-        $logradouro->setSize('100%');
-        $cnpj_basico->setSize('100%');
-        $complemento->setSize('100%');
-        $nome_fantasia->setSize('100%');
-        $tipo_logradouro->setSize('100%');
-        $situacao_especial->setSize('100%');
-        $data_inicio_atividade->setSize(150);
-        $situacao_cadastral->setSize('100%');
-        $correio_eletronico->setSize('100%');
-        $data_situacao_especial->setSize(110);
-        $nome_cidade_exterior->setSize('100%');
-        $data_situacao_cadastral->setSize(110);
-        $cnae_fiscal_principal->setSize('100%');
-        $cnae_fiscal_secundaria->setSize('100%');
-        $motivo_situacao_cadastral->setSize('100%');
-        $identificador_matriz_filial->setSize('100%');
-
-        $row1 = $this->form->addFields([new TLabel("CNPJ Básico:", null, '14px', null),$cnpj_basico],[new TLabel("CNPJ ordem:", null, '14px', null),$cnpj_ordem],[new TLabel("CNPJ DV:", null, '14px', null),$cnpj_dv]);
+        $row1 = $this->form->addFields([new TLabel("CNPJ Básico:", null, '14px', null),$cnpj_basico]
+                                      ,[new TLabel("CNPJ ordem:", null, '14px', null),$cnpj_ordem]
+                                      ,[new TLabel("CNPJ DV:", null, '14px', null),$cnpj_dv]
+                                      );
         $row1->layout = [' col-md-4',' col-md-4',' col-md-4'];
 
         $row2 = $this->form->addFields([new TLabel("Matriz/Filial:", null, '14px', null)],[$identificador_matriz_filial],[new TLabel("Nome fantasia:", null, '14px', null)],[$nome_fantasia]);
@@ -196,6 +168,9 @@ class EstabelecimentoList extends TPage
         $btn_onsearch = $this->form->addAction("Buscar", new TAction([$this, 'onSearch']), 'fas:search #ffffff');
         $this->btn_onsearch = $btn_onsearch;
         $btn_onsearch->addStyleClass('btn-primary'); 
+
+        $btn_onclear = $this->form->addAction("Limpar", new TAction([$this, 'clear']), 'fas:eraser #F44336');
+        $this->btn_onclear = $btn_onclear;
 
         // creates a Datagrid
         $this->datagrid = new TDataGrid;
@@ -258,6 +233,30 @@ class EstabelecimentoList extends TPage
         $this->datagrid->addColumn($column_data_situacao_especial_transformed);
 
 
+        $action_group = new TDataGridActionGroup("Ações", 'fas:cog');
+        $action_group->addHeader('');
+
+        $action_onView = new TDataGridAction(array('cnpjFormView', 'onView'));
+        $action_onView->setUseButton(TRUE);
+        $action_onView->setButtonClass('btn btn-default');
+        $action_onView->setLabel("Detalhar Empresa");
+        $action_onView->setImage('fas:building #7C93CF');
+        $action_onView->setParameter('cpf_cnpj_socio', '{cnpj_basico}');
+        $action_onView->setField(self::$primaryKey);
+        $action_group->addAction($action_onView);
+
+        $actionSocioView = new TDataGridAction(array('SocioViewForm', 'onView'));
+        $actionSocioView->setLabel('Detalhar essa sociedade');
+        $actionSocioView->setImage('fa:user green');
+        $actionSocioView->setParameter('cnpj_basico', '{cnpj_basico}');
+        $actionSocioView->setParameter('nome_socio_razao_social', '{nome_socio_razao_social}');
+        $actionSocioView->setParameter('cpf_cnpj_socio', '{cpf_cnpj_socio}');
+        $actionSocioView->setField(self::$primaryKey);
+        $action_group->addAction($actionSocioView);        
+
+        $this->datagrid->addActionGroup($action_group);
+
+
         // create the datagrid model
         $this->datagrid->createModel();
 
@@ -291,8 +290,12 @@ class EstabelecimentoList extends TPage
 
     }
 
-    public function onShow($param = null)
+    /**
+     * Clear filters
+     */
+    function clear()
     {
-
+        $this->clearFilters();
+        $this->onReload();
     }
 }
