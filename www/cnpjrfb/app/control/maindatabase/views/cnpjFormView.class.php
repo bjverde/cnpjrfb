@@ -4,8 +4,6 @@ class cnpjFormView extends TPage
 {
     protected $form; // form
     private static $database = 'maindatabase';
-    private static $activeRecord = 'Estabelecimento';
-    private static $primaryKey = 'id';
     private static $formName = 'formView_Estabelecimento';
 
     /**
@@ -15,6 +13,7 @@ class cnpjFormView extends TPage
     public function __construct( $param )
     {
         parent::__construct();
+        parent::setTargetContainer('adianti_right_panel');
 
         if(!empty($param['target_container']))
         {
@@ -133,7 +132,7 @@ class cnpjFormView extends TPage
 
         $btn_onclose = $this->form->addHeaderAction($btn_oncloseLabel, $btn_oncloseAction, 'fas:window-close #F44336'); 
 
-        parent::setTargetContainer('adianti_right_panel');
+        
 
         $btnClose = new TButton('closeCurtain');
         $btnClose->class = 'btn btn-sm btn-default';
@@ -150,21 +149,23 @@ class cnpjFormView extends TPage
 
     public static function onClose($param = null) 
     {
-        try 
-        {
-            TScript::create("Template.closeRightPanel()");
-
-        }
-        catch (Exception $e) 
-        {
-            new TMessage('error', $e->getMessage());    
-        }
+        TScript::create("Template.closeRightPanel()");
     }
 
     public function onView($param = null)
     {     
         try{
-            $cnpj_cpf_socio = $param['cnpj_cpf_socio'];
+            $cnpj_basico = ArrayHelper::getArray($param,'cnpj_basico');
+
+            TTransaction::open(self::$database);
+                $estabelecimento = new Estabelecimento($cnpj_basico);
+            TTransaction::close(); // fecha a transação.
+
+            // creates the form
+            $this->form = new BootstrapFormBuilder(self::$formName);
+            $this->form->setTagName('div');
+    
+            
         }
         catch(Exception $e)
         {
