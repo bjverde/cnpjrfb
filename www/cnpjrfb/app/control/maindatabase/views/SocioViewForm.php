@@ -101,8 +101,8 @@ class SocioViewForm extends TPage
         //$grid->addColumn( new TDataGridColumn('razao_social','Razão Social','left') );
         //$grid->addColumn( new TDataGridColumn('nome_fantasia','Nome Fantasia','left') );
 
-        $action1 = new TDataGridAction(['cnpjFormView', 'onView'],  ['key' => '{CNPJ_BASICO}'], ['register_state' => 'false']  );
-        $grid->addAction($action1, 'Detalhar Empresa', 'fa:building #7C93CF');
+        $actionSocioView = Transforme::getDataGridActionDetalharSocio();
+        $grid->addAction($actionSocioView);
 
         $grid->createModel();
         $grid->addItems($listEmpresa);

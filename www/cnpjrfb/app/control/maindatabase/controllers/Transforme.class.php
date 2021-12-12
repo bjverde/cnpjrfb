@@ -2,6 +2,30 @@
 class Transforme
 {
 
+    public static function getDataGridActionDetalharSocio()
+    {
+        $actionSocioView = new TDataGridAction(array('SocioViewForm', 'onView'));
+        $actionSocioView->setLabel('Detalhar Sócio');
+        $actionSocioView->setImage('fa:user green');
+        $actionSocioView->setParameter('cnpj_basico', '{cnpj_basico}');
+        $actionSocioView->setParameter('nome_socio_razao_social', '{nome_socio_razao_social}');
+        $actionSocioView->setParameter('cpf_cnpj_socio', '{cpf_cnpj_socio}');
+        $actionSocioView->setField('cnpj_basico');
+        return $actionSocioView;
+    }
+
+    public static function getDataGridActionDetalharEmpresa()
+    {
+        $action = new TDataGridAction(array('cnpjFormView', 'onView'));
+        $action->setUseButton(TRUE);
+        $action->setButtonClass('btn btn-default');
+        $action->setLabel("Detalhar Empresa");
+        $action->setImage('fas:building #7C93CF');
+        $action->setParameter('cpf_cnpj_socio', '{cnpj_basico}');
+        $action->setField('cnpj_basico');
+        return $action;
+    }
+
     public static function simNao($value)
     {
         if($value === true || $value == 't' || $value === 1 || $value == '1' || $value == 's' || $value == 'S' || $value == 'T'){

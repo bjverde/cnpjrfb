@@ -125,9 +125,9 @@ class cnpjFormView extends TPage
         $gridSocios->addColumn(new TDataGridColumn('nome_socio_razao_social', "Nome socio razao social", 'left'));
         $gridSocios->addColumn(new TDataGridColumn('identificador_socio', "Tip Sócio", 'left'));
 
-        //$action1 = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
-        //$gridSocios->addAction($action1, 'Detalhar Sócio', 'fa:user green');
-
+        $actionSocioView = Transforme::getDataGridActionDetalharSocio();
+        $gridSocios->addAction($actionSocioView);
+        
         $gridSocios->createModel();
         $gridSocios->addItems($listSocios);
         $panel = TPanelGroup::pack('Lista de Socios', $gridSocios);
@@ -151,6 +151,10 @@ class cnpjFormView extends TPage
         $list->addColumn(new TDataGridColumn('cnae_ordem', 'CNAE Ordem', 'left'));
         $list->addColumn($col_cnae_ibge);
         $list->addColumn($col_cnae_coube);
+
+
+
+
         $list->createModel();        
         $list->addItems($cnae);
         $panel = TPanelGroup::pack('Lista de CNAE', $list);
