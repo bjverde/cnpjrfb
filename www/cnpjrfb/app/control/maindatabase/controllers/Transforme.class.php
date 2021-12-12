@@ -17,11 +17,10 @@ class Transforme
     public static function getDataGridActionDetalharEmpresa()
     {
         $action = new TDataGridAction(array('cnpjFormView', 'onView'));
-        $action->setUseButton(TRUE);
-        $action->setButtonClass('btn btn-default');
         $action->setLabel("Detalhar Empresa");
+        $action->setButtonClass('btn btn-default');
         $action->setImage('fas:building #7C93CF');
-        $action->setParameter('cpf_cnpj_socio', '{cnpj_basico}');
+        $action->setParameter('cnpj_basico', '{cnpj_basico}');
         $action->setField('cnpj_basico');
         return $action;
     }

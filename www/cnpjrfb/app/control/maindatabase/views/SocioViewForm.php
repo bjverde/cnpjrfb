@@ -91,7 +91,7 @@ class SocioViewForm extends TPage
         // create the datagrid
         $grid = new BootstrapDatagridWrapper(new TDataGrid);
         $grid->width = '100%';
-        $cnpj = new TDataGridColumn('CNPJ_BASICO','CNPJ Básico','left');
+        $cnpj = new TDataGridColumn('cnpj_basico','CNPJ Básico','left');
         /*
         $cnpj->setTransformer(function ($value) {
             return StringHelper::formatCnpjCpf($value);
