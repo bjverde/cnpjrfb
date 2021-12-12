@@ -118,6 +118,28 @@ class EmpresaList extends TPage
         $this->datagrid->addColumn($column_porte_empresa);
         $this->datagrid->addColumn($column_ente_federativo_responsavel);
 
+        $action_group = new TDataGridActionGroup("Ações", 'fas:cog');
+        $action_group->addHeader('');
+
+        $action_onView = new TDataGridAction(array('cnpjFormView', 'onView'));
+        $action_onView->setUseButton(TRUE);
+        $action_onView->setButtonClass('btn btn-default');
+        $action_onView->setLabel("Detalhar Empresa");
+        $action_onView->setImage('fas:building #7C93CF');
+        $action_onView->setParameter('cpf_cnpj_socio', '{cnpj_basico}');
+        $action_onView->setField(self::$primaryKey);
+        $action_group->addAction($action_onView);
+
+        $actionSocioView = new TDataGridAction(array('SocioViewForm', 'onView'));
+        $actionSocioView->setLabel('Detalhar essa sociedade');
+        $actionSocioView->setImage('fa:user green');
+        $actionSocioView->setParameter('cnpj_basico', '{cnpj_basico}');
+        $actionSocioView->setParameter('nome_socio_razao_social', '{nome_socio_razao_social}');
+        $actionSocioView->setParameter('cpf_cnpj_socio', '{cpf_cnpj_socio}');
+        $actionSocioView->setField(self::$primaryKey);
+        $action_group->addAction($actionSocioView); 
+
+        $this->datagrid->addActionGroup($action_group);    
 
         // create the datagrid model
         $this->datagrid->createModel();
