@@ -187,9 +187,10 @@ class EstabelecimentoList extends TPage
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
 
-        $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "CNPJ Básico", 'left');
-        $column_cnpj_ordem = new TDataGridColumn('cnpj_ordem', "CNPJ Ordem", 'left');
-        $column_cnpj_dv = new TDataGridColumn('cnpj_dv', "CNPJ Dv", 'left');
+        $column_cnpj_basico = new TDataGridColumn('{cnpj_basico}/{cnpj_ordem}-{cnpj_dv}', "CNPJ", 'left');
+        //$column_cnpj_basico = new TDataGridColumn('cnpj_basico', "CNPJ Básico", 'left');
+        //$column_cnpj_ordem = new TDataGridColumn('cnpj_ordem', "CNPJ Ordem", 'left');
+        //$column_cnpj_dv = new TDataGridColumn('cnpj_dv', "CNPJ Dv", 'left');
         $column_identificador_matriz_filial = new TDataGridColumn('identificador_matriz_filial', "Matriz / Filial", 'left');
         $column_nome_fantasia = new TDataGridColumn('nome_fantasia', "Nome fantasia", 'left');
         $column_situacao_cadastral = new TDataGridColumn('situacao_cadastral', "Situacao cadastral", 'left');
@@ -197,23 +198,23 @@ class EstabelecimentoList extends TPage
         $column_data_inicio_atividade_transformed = new TDataGridColumn('data_inicio_atividade', "Data inicio atividade", 'left');
         $column_cnae_fiscal_principal = new TDataGridColumn('cnae_fiscal_principal', "Cnae fiscal principal", 'left');
         $column_uf = new TDataGridColumn('uf', "Uf", 'left');
-        $column_municipio = new TDataGridColumn('municipio', "Municipio", 'left');
+        $column_municipio = new TDataGridColumn('fk_municipio->descricao', "Municipio", 'left');
         $column_situacao_especial = new TDataGridColumn('situacao_especial', "Situacao especial", 'left');
         $column_data_situacao_especial_transformed = new TDataGridColumn('data_situacao_especial', "Data situacao especial", 'left');
 
         $column_data_situacao_cadastral_transformed->setTransformer(function($value, $object, $row) 
         {
-            return Transforme::date($value, $object, $row);
+            return Transforme::gridDate($value, $object, $row);
         });
 
         $column_data_inicio_atividade_transformed->setTransformer(function($value, $object, $row) 
         {
-            return Transforme::date($value, $object, $row);
+            return Transforme::gridDate($value, $object, $row);
         });
 
         $column_data_situacao_especial_transformed->setTransformer(function($value, $object, $row) 
         {
-            return Transforme::date($value, $object, $row);
+            return Transforme::gridDate($value, $object, $row);
         });        
 
         $order_cnpj_basico = new TAction(array($this, 'onReload'));
@@ -221,8 +222,8 @@ class EstabelecimentoList extends TPage
         $column_cnpj_basico->setAction($order_cnpj_basico);
 
         $this->datagrid->addColumn($column_cnpj_basico);
-        $this->datagrid->addColumn($column_cnpj_ordem);
-        $this->datagrid->addColumn($column_cnpj_dv);
+        //$this->datagrid->addColumn($column_cnpj_ordem);
+        //$this->datagrid->addColumn($column_cnpj_dv);
         $this->datagrid->addColumn($column_identificador_matriz_filial);
         $this->datagrid->addColumn($column_nome_fantasia);
         $this->datagrid->addColumn($column_situacao_cadastral);

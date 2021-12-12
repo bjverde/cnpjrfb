@@ -2,7 +2,7 @@
 class Transforme
 {
 
-    public static function date($value, $object, $row)
+    public static function date($value)
     {
         if( !empty(trim($value)) && $value!='0000-00-00')
         {
@@ -16,5 +16,10 @@ class Transforme
                 return $value;
             }
         }
+    }
+
+    public static function gridDate($value, $object, $row)
+    {
+        return  self::date($value);
     }
 }

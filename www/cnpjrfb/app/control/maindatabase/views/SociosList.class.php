@@ -129,7 +129,7 @@ class SociosList extends TPage
 
         $column_data_entrada_sociedade_transformed->setTransformer(function($value, $object, $row) 
         {
-            return Transforme::date($value, $object, $row);
+            return Transforme::gridDate($value, $object, $row);
         });        
 
         $this->datagrid->addColumn($column_cnpj_basico);

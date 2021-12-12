@@ -117,12 +117,12 @@ class SimplesList extends TPage
 
         $column_data_opcao_simples_transformed->setTransformer(function($value, $object, $row) 
         {
-            return Transforme::date($value, $object, $row);
+            return Transforme::gridDate($value, $object, $row);
         });
 
         $column_data_exclusao_simples_transformed->setTransformer(function($value, $object, $row) 
         {
-            return Transforme::date($value, $object, $row);
+            return Transforme::gridDate($value, $object, $row);
         });
 
         $column_opcao_mei_transformed->setTransformer(function($value, $object, $row) 
@@ -136,12 +136,12 @@ class SimplesList extends TPage
 
         $column_data_opcao_mei_transformed->setTransformer(function($value, $object, $row) 
         {
-            return Transforme::date($value, $object, $row);
+            return Transforme::gridDate($value, $object, $row);
         });
 
         $column_data_exclusao_mei_transformed->setTransformer(function($value, $object, $row) 
         {
-            return Transforme::date($value, $object, $row);
+            return Transforme::gridDate($value, $object, $row);
         });
 
         $this->datagrid->addColumn($column_cnpj_basico);
