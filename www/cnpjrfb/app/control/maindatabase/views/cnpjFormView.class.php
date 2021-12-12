@@ -104,13 +104,14 @@ class cnpjFormView extends TPage
             $this->form->addFields( [new TLabel('Mensagem')],[new TTextDisplay('ERRO ao carregar informações sobre o simples')]);
         }else{
             $this->form->addFields([new TLabel("Opção pelo simples:", null, '14px', null)],[ new TTextDisplay( Transforme::simNao($simples->opcao_pelo_simples) ) ]);
-            $this->form->addFields([new TLabel("Data opção simples:", null, '14px', null)],[$data_opcao_simples]
-                                  ,[new TLabel("Data exclusão simples:", null, '14px', null)],[$data_exclusao_simples]);
+            $this->form->addFields([new TLabel("Data opção simples:", null, '14px', null)],[ new TTextDisplay( Transforme::date($simples->data_opcao_simples) ) ]
+                                  ,[new TLabel("Data exclusão simples:", null, '14px', null)],[ new TTextDisplay( Transforme::date($simples->data_exclusao_simples) ) ]
+                                  );
             $this->form->addFields([new TLabel("Opção MEI:", null, '14px', null)],[ new TTextDisplay( Transforme::simNao($simples->opcao_mei) ) ]);
-            $this->form->addFields([new TLabel("Data opção MEI:", null, '14px', null)],[$data_opcao_mei]
-                                  ,[new TLabel("Data exclusão MEI:", null, '14px', null)],[$data_exclusao_mei]);
+            $this->form->addFields([new TLabel("Data opção MEI:", null, '14px', null)],[ new TTextDisplay( Transforme::date($simples->data_opcao_mei) ) ]
+                                  ,[new TLabel("Data exclusão MEI:", null, '14px', null)],[ new TTextDisplay( Transforme::date($simples->data_exclusao_mei) ) ]);
         }
-    }    
+    }
 
     public function showGridSocios($socios){
         // create the datagrid
