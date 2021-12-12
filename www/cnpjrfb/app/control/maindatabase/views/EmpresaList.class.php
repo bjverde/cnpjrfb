@@ -5,14 +5,16 @@ class EmpresaList extends TPage
     private $form; // form
     private $datagrid; // listing
     private $pageNavigation;
-    private $loaded;
+
     private $filter_criteria;
-    private static $database = 'maindatabase';
-    private static $activeRecord = 'Empresa';
+
+
     private static $primaryKey = 'cnpj_basico';
     private static $formName = 'form_EmpresaList';
     private $showMethods = ['onReload', 'onSearch', 'onRefresh', 'onClearFilters'];
-    private $limit = 20;
+
+    // trait com onReload, onSearch, onDelete...
+    use Adianti\Base\AdiantiStandardListTrait;    
 
     /**
      * Class constructor
@@ -21,6 +23,16 @@ class EmpresaList extends TPage
     public function __construct($param = null)
     {
         parent::__construct();
+        $this->setLimit(20);
+        $this->setDatabase('maindatabase'); // define the database
+        $this->setActiveRecord('Empresa'); // define the Active Record
+        $this->addFilterField('cnpj_basico', '=', 'cnpj_basico'); //campo, operador, campo do form
+        $this->addFilterField('razao_social', 'like', 'razao_social'); //campo, operador, campo do form
+        $this->addFilterField('natureza_juridica', '=', 'natureza_juridica'); //campo, operador, campo do form
+        $this->addFilterField('qualificacao_responsavel', '=', 'qualificacao_responsavel'); //campo, operador, campo do form
+        $this->addFilterField('capital_social', 'like', 'capital_social'); //campo, operador, campo do form
+        $this->addFilterField('porte_empresa', '=', 'porte_empresa'); //campo, operador, campo do form
+        $this->addFilterField('ente_federativo_responsavel', 'like', 'ente_federativo_responsavel'); //campo, operador, campo do form
 
         if(!empty($param['target_container']))
         {
@@ -71,6 +83,9 @@ class EmpresaList extends TPage
         $btn_onsearch = $this->form->addAction("Buscar", new TAction([$this, 'onSearch']), 'fas:search #ffffff');
         $this->btn_onsearch = $btn_onsearch;
         $btn_onsearch->addStyleClass('btn-primary'); 
+
+        $btn_onclear = $this->form->addAction("Limpar", new TAction([$this, 'clear']), 'fas:eraser #F44336');
+        $this->btn_onclear = $btn_onclear;
 
         // creates a Datagrid
         $this->datagrid = new TDataGrid;
@@ -171,171 +186,14 @@ class EmpresaList extends TPage
         $container->add($panel);
 
         parent::add($container);
-
     }
 
     /**
-     * Register the filter in the session
+     * Clear filters
      */
-    public function onSearch($param = null)
+    function clear()
     {
-        $data = $this->form->getData();
-        $filters = [];
-
-        TSession::setValue(__CLASS__.'_filter_data', NULL);
-        TSession::setValue(__CLASS__.'_filters', NULL);
-
-        if (isset($data->cnpj_basico) AND ( (is_scalar($data->cnpj_basico) AND $data->cnpj_basico !== '') OR (is_array($data->cnpj_basico) AND (!empty($data->cnpj_basico)) )) )
-        {
-
-            $filters[] = new TFilter('cnpj_basico', '=', $data->cnpj_basico);// create the filter 
-        }
-
-        if (isset($data->razao_social) AND ( (is_scalar($data->razao_social) AND $data->razao_social !== '') OR (is_array($data->razao_social) AND (!empty($data->razao_social)) )) )
-        {
-
-            $filters[] = new TFilter('razao_social', 'like', "%{$data->razao_social}%");// create the filter 
-        }
-
-        if (isset($data->natureza_juridica) AND ( (is_scalar($data->natureza_juridica) AND $data->natureza_juridica !== '') OR (is_array($data->natureza_juridica) AND (!empty($data->natureza_juridica)) )) )
-        {
-
-            $filters[] = new TFilter('natureza_juridica', '=', $data->natureza_juridica);// create the filter 
-        }
-
-        if (isset($data->qualificacao_responsavel) AND ( (is_scalar($data->qualificacao_responsavel) AND $data->qualificacao_responsavel !== '') OR (is_array($data->qualificacao_responsavel) AND (!empty($data->qualificacao_responsavel)) )) )
-        {
-
-            $filters[] = new TFilter('qualificacao_responsavel', '=', $data->qualificacao_responsavel);// create the filter 
-        }
-
-        if (isset($data->capital_social) AND ( (is_scalar($data->capital_social) AND $data->capital_social !== '') OR (is_array($data->capital_social) AND (!empty($data->capital_social)) )) )
-        {
-
-            $filters[] = new TFilter('capital_social', 'like', "%{$data->capital_social}%");// create the filter 
-        }
-
-        if (isset($data->porte_empresa) AND ( (is_scalar($data->porte_empresa) AND $data->porte_empresa !== '') OR (is_array($data->porte_empresa) AND (!empty($data->porte_empresa)) )) )
-        {
-
-            $filters[] = new TFilter('porte_empresa', 'like', "%{$data->porte_empresa}%");// create the filter 
-        }
-
-        if (isset($data->ente_federativo_responsavel) AND ( (is_scalar($data->ente_federativo_responsavel) AND $data->ente_federativo_responsavel !== '') OR (is_array($data->ente_federativo_responsavel) AND (!empty($data->ente_federativo_responsavel)) )) )
-        {
-
-            $filters[] = new TFilter('ente_federativo_responsavel', 'like', "%{$data->ente_federativo_responsavel}%");// create the filter 
-        }
-
-        // fill the form with data again
-        $this->form->setData($data);
-
-        // keep the search data in the session
-        TSession::setValue(__CLASS__.'_filter_data', $data);
-        TSession::setValue(__CLASS__.'_filters', $filters);
-
-        $this->onReload(['offset' => 0, 'first_page' => 1]);
+        $this->clearFilters();
+        $this->onReload();
     }
-
-    /**
-     * Load the datagrid with data
-     */
-    public function onReload($param = NULL)
-    {
-        try
-        {
-            // open a transaction with database 'maindatabase'
-            TTransaction::open(self::$database);
-
-            // creates a repository for Empresa
-            $repository = new TRepository(self::$activeRecord);
-
-            $criteria = clone $this->filter_criteria;
-
-            if (empty($param['order']))
-            {
-                $param['order'] = 'cnpj_basico';
-            }
-
-            if (empty($param['direction']))
-            {
-                $param['direction'] = 'desc';
-            }
-
-            $criteria->setProperties($param); // order, offset
-            $criteria->setProperty('limit', $this->limit);
-
-            if($filters = TSession::getValue(__CLASS__.'_filters'))
-            {
-                foreach ($filters as $filter) 
-                {
-                    $criteria->add($filter);       
-                }
-            }
-
-            // load the objects according to criteria
-            $objects = $repository->load($criteria, FALSE);
-
-            $this->datagrid->clear();
-            if ($objects)
-            {
-                // iterate the collection of active records
-                foreach ($objects as $object)
-                {
-
-                    $row = $this->datagrid->addItem($object);
-                    $row->id = "row_{$object->cnpj_basico}";
-
-                }
-            }
-
-            // reset the criteria for record count
-            $criteria->resetProperties();
-            $count= $repository->count($criteria);
-
-            $this->pageNavigation->setCount($count); // count of records
-            $this->pageNavigation->setProperties($param); // order, page
-            $this->pageNavigation->setLimit($this->limit); // limit
-
-            // close the transaction
-            TTransaction::close();
-            $this->loaded = true;
-
-            return $objects;
-        }
-        catch (Exception $e) // in case of exception
-        {
-            // shows the exception error message
-            new TMessage('error', $e->getMessage());
-            // undo all pending operations
-            TTransaction::rollback();
-        }
-    }
-
-    public function onShow($param = null)
-    {
-
-    }
-
-    /**
-     * method show()
-     * Shows the page
-     */
-    public function show()
-    {
-        // check if the datagrid is already loaded
-        if (!$this->loaded AND (!isset($_GET['method']) OR !(in_array($_GET['method'],  $this->showMethods))) )
-        {
-            if (func_num_args() > 0)
-            {
-                $this->onReload( func_get_arg(0) );
-            }
-            else
-            {
-                $this->onReload();
-            }
-        }
-        parent::show();
-    }
-
 }
