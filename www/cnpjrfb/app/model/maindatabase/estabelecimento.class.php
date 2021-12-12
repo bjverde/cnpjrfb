@@ -15,6 +15,11 @@ class estabelecimento extends TRecord
     const PRIMARYKEY= 'cnpj_basico';
     const IDPOLICY  = 'serial'; //{max, serial}
 
+    private $fk_pais;
+    private $fk_municipio;
+    private $fk_cnae_fiscal_principal;
+    private $fk_motivo_situacao_cadastral;
+
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
@@ -47,6 +52,111 @@ class estabelecimento extends TRecord
         parent::addAttribute('correio_eletronico');
         parent::addAttribute('situacao_especial');
         parent::addAttribute('data_situacao_especial');
+    }
+
+    /**
+     * Method set_pais
+     * Sample of usage: $var->pais = $object;
+     * @param $object Instance of Pais
+     */
+    public function set_fk_pais(Pais $object)
+    {
+        $this->fk_pais = $object;
+        $this->pais = $object->codigo;
+    }
+    
+    /**
+     * Method get_fk_pais
+     * Sample of usage: $var->fk_pais->attribute;
+     * @returns Pais instance
+     */
+    public function get_fk_pais()
+    {
+        
+        // loads the associated object
+        if (empty($this->fk_pais))
+            $this->fk_pais = new Pais($this->pais);
+        
+        // returns the associated object
+        return $this->fk_pais;
+    }
+    /**
+     * Method set_munic
+     * Sample of usage: $var->munic = $object;
+     * @param $object Instance of Munic
+     */
+    public function set_fk_municipio(Munic $object)
+    {
+        $this->fk_municipio = $object;
+        $this->municipio = $object->codigo;
+    }
+    
+    /**
+     * Method get_fk_municipio
+     * Sample of usage: $var->fk_municipio->attribute;
+     * @returns Munic instance
+     */
+    public function get_fk_municipio()
+    {
+        
+        // loads the associated object
+        if (empty($this->fk_municipio))
+            $this->fk_municipio = new Munic($this->municipio);
+        
+        // returns the associated object
+        return $this->fk_municipio;
+    }
+    /**
+     * Method set_cnae
+     * Sample of usage: $var->cnae = $object;
+     * @param $object Instance of Cnae
+     */
+    public function set_fk_cnae_fiscal_principal(Cnae $object)
+    {
+        $this->fk_cnae_fiscal_principal = $object;
+        $this->cnae_fiscal_principal = $object->codigo;
+    }
+    
+    /**
+     * Method get_fk_cnae_fiscal_principal
+     * Sample of usage: $var->fk_cnae_fiscal_principal->attribute;
+     * @returns Cnae instance
+     */
+    public function get_fk_cnae_fiscal_principal()
+    {
+        
+        // loads the associated object
+        if (empty($this->fk_cnae_fiscal_principal))
+            $this->fk_cnae_fiscal_principal = new Cnae($this->cnae_fiscal_principal);
+        
+        // returns the associated object
+        return $this->fk_cnae_fiscal_principal;
+    }
+    /**
+     * Method set_moti
+     * Sample of usage: $var->moti = $object;
+     * @param $object Instance of Moti
+     */
+    public function set_fk_motivo_situacao_cadastral(Moti $object)
+    {
+        $this->fk_motivo_situacao_cadastral = $object;
+        $this->motivo_situacao_cadastral = $object->codigo;
+    }
+    
+    /**
+     * Method get_fk_motivo_situacao_cadastral
+     * Sample of usage: $var->fk_motivo_situacao_cadastral->attribute;
+     * @returns Moti instance
+     */
+    public function get_fk_motivo_situacao_cadastral()
+    {
+        
+        // loads the associated object
+        if (empty($this->fk_motivo_situacao_cadastral))
+            $this->fk_motivo_situacao_cadastral = new Moti($this->motivo_situacao_cadastral);
+        
+        // returns the associated object
+        return $this->fk_motivo_situacao_cadastral;
     }
 
 }
