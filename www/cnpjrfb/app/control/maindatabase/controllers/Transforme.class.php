@@ -2,10 +2,18 @@
 class Transforme
 {
 
+    public static function simNao($value)
+    {
+        if($value === true || $value == 't' || $value === 1 || $value == '1' || $value == 's' || $value == 'S' || $value == 'T'){
+            return 'Sim';
+        }
+        return 'Não';
+    }
+
     public static function numeroBrasil($value)
     {
         if(!$value){
-            return 0;
+            $value = 0;
         }        
         if (is_string($value)) {
             $value = str_replace(',', '.', $value);

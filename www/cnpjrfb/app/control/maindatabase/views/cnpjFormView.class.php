@@ -64,7 +64,7 @@ class cnpjFormView extends TPage
                 $this->form->addFields([new TLabel("Data situação cadastral:")],[new TTextDisplay( Transforme::date($estabelecimento->data_situacao_cadastral) )]
                                       ,[new TLabel("Situação cadastral:")],[new TTextDisplay( $estabelecimento->situacao_cadastral )]
                                       );
-    
+                $this->showEmpresaSimples($cnpj_basico);                
                 $this->form->addContent([new TFormSeparator("Endereço", '#333', '18', '#eee')]);
     
                 $this->form->addFields([new TLabel("Tipo logradouro:", null, '14px', null)],[$estabelecimento->tipo_logradouro]
@@ -73,8 +73,10 @@ class cnpjFormView extends TPage
                                       ,[new TLabel("Complemento:", null, '14px', null)],[$estabelecimento->complemento]);
                 $this->form->addFields([new TLabel("Bairro:", null, '14px', null)],[$estabelecimento->bairro]
                                       ,[new TLabel("Cep:", null, '14px', null)],[$estabelecimento->cep]);
+                $municipio = munic::find($estabelecimento->municipio);
+                $municipioNome = empty($municipio)?' Municipio código: '.$estabelecimento->municipio.' não encontrado':$municipio->descricao;
                 $this->form->addFields([new TLabel("Uf:", null, '14px', null)],[$estabelecimento->uf]
-                                      ,[new TLabel("Municipio:", null, '14px', null)],[$estabelecimento->municipio]);
+                                      ,[new TLabel("Municipio:", null, '14px', null)],[$municipioNome]);
                 $this->form->addFields([new TLabel("Ddd 1:", null, '14px', null)],[$estabelecimento->ddd_1]
                                       ,[new TLabel("Telefone 1:", null, '14px', null)],[$estabelecimento->telefone_1]);
                 $this->form->addFields([new TLabel("Ddd 2:", null, '14px', null)],[$estabelecimento->ddd_2]
@@ -84,6 +86,8 @@ class cnpjFormView extends TPage
                 $this->form->addFields([new TLabel("Correio eletronico:", null, '14px', null)],[$estabelecimento->correio_eletronico]
                                       ,[new TLabel("Situação especial:", null, '14px', null)],[$estabelecimento->situacao_especial]);
             }
+            //$this->showGridSocios($empresa->getSocios());
+            //$this->showGridCnae($empresa->getCnaesSecundarios());
             TTransaction::close(); // fecha a transação.
             parent::add($this->form);            
         }
@@ -92,9 +96,58 @@ class cnpjFormView extends TPage
             new TMessage('error', $e->getMessage());
         }
     }
+    public function showEmpresaSimples($cnpj_basico){
+        $simples = simples::find($cnpj_basico);
+        
+        $this->form->addContent([new TFormSeparator("Simples", '#333', '18', '#eee')]);
+        if( empty($simples) ){
+            $this->form->addFields( [new TLabel('Mensagem')],[new TTextDisplay('ERRO ao carregar informações sobre o simples')]);
+        }else{
+            $this->form->addFields([new TLabel("Opção pelo simples:", null, '14px', null)],[ new TTextDisplay( Transforme::simNao($simples->opcao_pelo_simples) ) ]);
+            $this->form->addFields([new TLabel("Data opção simples:", null, '14px', null)],[$data_opcao_simples]
+                                  ,[new TLabel("Data exclusão simples:", null, '14px', null)],[$data_exclusao_simples]);
+            $this->form->addFields([new TLabel("Opção MEI:", null, '14px', null)],[ new TTextDisplay( Transforme::simNao($simples->opcao_mei) ) ]);
+            $this->form->addFields([new TLabel("Data opção MEI:", null, '14px', null)],[$data_opcao_mei]
+                                  ,[new TLabel("Data exclusão MEI:", null, '14px', null)],[$data_exclusao_mei]);
+        }
+    }    
 
-    public function onShow($param = null)
-    {     
+    public function showGridSocios($socios){
+        // create the datagrid
+        $listSocios = new BootstrapDatagridWrapper(new TDataGrid);
+        $listSocios->width = '100%';    
+        $listSocios->addColumn(new TDataGridColumn('nome_socio', 'Nome', 'left'));
+        $listSocios->addColumn(new TDataGridColumn('cnpj_cpf_socio', 'CPF', 'left'));
 
+        $action1 = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
+        $listSocios->addAction($action1, 'Detalhar Sócio', 'fa:user green');
+
+        $listSocios->createModel();
+        $listSocios->addItems($socios);
+        $panel = TPanelGroup::pack('Lista de Socios', $listSocios);
+        parent::add($panel);
+    }
+
+    public function showGridCnae($cnae){
+        // create the datagrid
+        $list = new BootstrapDatagridWrapper(new TDataGrid);
+        $list->width = '100%';
+
+        $col_cnae_ibge   = new TDataGridColumn('cnae', 'CNAE (link IBGE)', 'left');
+        $col_cnae_ibge->setTransformer( function ($value) {
+            return EmpresaController::getLink($value);
+        });
+        $col_cnae_coube  = new TDataGridColumn('cnae', 'CNAE (link Conube)', 'left');
+        $col_cnae_coube->setTransformer( function ($value) {
+            return EmpresaController::getLink($value,false);
+        });
+
+        $list->addColumn(new TDataGridColumn('cnae_ordem', 'CNAE Ordem', 'left'));
+        $list->addColumn($col_cnae_ibge);
+        $list->addColumn($col_cnae_coube);
+        $list->createModel();        
+        $list->addItems($cnae);
+        $panel = TPanelGroup::pack('Lista de CNAE', $list);
+        parent::add($panel);
     }
 }

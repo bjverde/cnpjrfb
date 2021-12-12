@@ -108,11 +108,7 @@ class SimplesList extends TPage
 
         $column_opcao_pelo_simples_transformed->setTransformer(function($value, $object, $row) 
         {
-            if($value === true || $value == 't' || $value === 1 || $value == '1' || $value == 's' || $value == 'S' || $value == 'T')
-                return 'Sim';
-
-            return 'Não';
-
+            return Transforme::simNao($value);
         });
 
         $column_data_opcao_simples_transformed->setTransformer(function($value, $object, $row) 
@@ -127,11 +123,7 @@ class SimplesList extends TPage
 
         $column_opcao_mei_transformed->setTransformer(function($value, $object, $row) 
         {
-            if($value === true || $value == 't' || $value === 1 || $value == '1' || $value == 's' || $value == 'S' || $value == 'T')
-                return 'Sim';
-
-            return 'Não';
-
+            return Transforme::simNao($value);
         });
 
         $column_data_opcao_mei_transformed->setTransformer(function($value, $object, $row) 
