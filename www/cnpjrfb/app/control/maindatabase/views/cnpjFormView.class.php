@@ -86,10 +86,10 @@ class cnpjFormView extends TPage
                 $this->form->addFields([new TLabel("Correio eletronico:", null, '14px', null)],[$estabelecimento->correio_eletronico]
                                       ,[new TLabel("Situação especial:", null, '14px', null)],[$estabelecimento->situacao_especial]);
             }
-            $this->showGridSocios($cnpj_basico);
-            //$this->showGridCnae($empresa->getCnaesSecundarios());
             TTransaction::close(); // fecha a transação.
             parent::add($this->form);            
+            $this->showGridSocios($cnpj_basico);
+            //$this->showGridCnae($empresa->getCnaesSecundarios());
         }
         catch(Exception $e)
         {
@@ -131,7 +131,7 @@ class cnpjFormView extends TPage
         $gridSocios->createModel();
         $gridSocios->addItems($listSocios);
         $panel = TPanelGroup::pack('Lista de Socios', $gridSocios);
-        parent::add($panel);
+        parent::add($panel); 
     }
 
     public function showGridCnae($cnae){
