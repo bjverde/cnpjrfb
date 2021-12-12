@@ -74,9 +74,12 @@ class EmpresaList extends TPage
         $ente_federativo_responsavel->setSize('100%');
 
         $row1 = $this->form->addFields([new TLabel("CNPJ Básico:", null, '14px', null)],[$cnpj_basico]);
-        $row2 = $this->form->addFields([new TLabel("Razao social:", null, '14px', null)],[$razao_social],[new TLabel("Natureza juridica:", null, '14px', null)],[$natureza_juridica]);
-        $row3 = $this->form->addFields([new TLabel("Qualificacao responsavel:", null, '14px', null)],[$qualificacao_responsavel],[new TLabel("Capital social:", null, '14px', null)],[$capital_social]);
-        $row4 = $this->form->addFields([new TLabel("Porte empresa:", null, '14px', null)],[$porte_empresa],[new TLabel("Ente federativo responsavel:", null, '14px', null)],[$ente_federativo_responsavel]);
+        $row2 = $this->form->addFields([new TLabel("Razao social:", null, '14px', null)],[$razao_social]
+                                      ,[new TLabel("Natureza juridica:", null, '14px', null)],[$natureza_juridica]);
+        $row3 = $this->form->addFields([new TLabel("Qualificacao responsavel:", null, '14px', null)],[$qualificacao_responsavel]
+                                      ,[new TLabel("Capital social:", null, '14px', null)],[$capital_social]);
+        $row4 = $this->form->addFields([new TLabel("Porte empresa:", null, '14px', null)],[$porte_empresa]
+                                      ,[new TLabel("Ente federativo responsavel:", null, '14px', null)],[$ente_federativo_responsavel]);
 
         // keep the form filled during navigation with session data
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data') );
