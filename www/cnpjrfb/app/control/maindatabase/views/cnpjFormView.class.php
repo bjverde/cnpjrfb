@@ -86,7 +86,7 @@ class cnpjFormView extends TPage
                 $this->form->addFields([new TLabel("Correio eletronico:", null, '14px', null)],[$estabelecimento->correio_eletronico]
                                       ,[new TLabel("Situação especial:", null, '14px', null)],[$estabelecimento->situacao_especial]);
             }
-            //$this->showGridSocios($empresa->getSocios());
+            $this->showGridSocios($cnpj_basico);
             //$this->showGridCnae($empresa->getCnaesSecundarios());
             TTransaction::close(); // fecha a transação.
             parent::add($this->form);            
@@ -113,7 +113,7 @@ class cnpjFormView extends TPage
         }
     }
 
-    public function showGridSocios($socios){
+    public function showGridSocios($cnpj_basico){
         $sociosController = new SociosController();
         $listSocios = $sociosController->selectBySocioAdianti($cnpj_basico, null);
         var_dump($listSocios);
@@ -121,14 +121,15 @@ class cnpjFormView extends TPage
         // create the datagrid
         $gridSocios = new BootstrapDatagridWrapper(new TDataGrid);
         $gridSocios->width = '100%';    
-        $gridSocios->addColumn(new TDataGridColumn('nome_socio', 'Nome', 'left'));
-        $gridSocios->addColumn(new TDataGridColumn('cnpj_cpf_socio', 'CPF', 'left'));
+        $gridSocios->addColumn(new TDataGridColumn('cpf_cnpj_socio', "CPF/CNPJ", 'left'));
+        $gridSocios->addColumn(new TDataGridColumn('nome_socio_razao_social', "Nome socio razao social", 'left'));
+        $gridSocios->addColumn(new TDataGridColumn('identificador_socio', "Tip Sócio", 'left'));
 
-        $action1 = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
-        $gridSocios->addAction($action1, 'Detalhar Sócio', 'fa:user green');
+        //$action1 = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
+        //$gridSocios->addAction($action1, 'Detalhar Sócio', 'fa:user green');
 
         $gridSocios->createModel();
-        $gridSocios->addItems($socios);
+        $gridSocios->addItems($listSocios);
         $panel = TPanelGroup::pack('Lista de Socios', $gridSocios);
         parent::add($panel);
     }

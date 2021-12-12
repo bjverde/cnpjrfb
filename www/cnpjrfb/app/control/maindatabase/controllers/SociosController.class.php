@@ -72,7 +72,7 @@ class SociosController
                 $criteria->add(new TFilter('nome_socio_razao_social', '=', $nome_socio_razao_social));
             }
 
-            $repository = new TRepository('Socio');
+            $repository = new TRepository('socios');
             $socio = $repository->load($criteria);
 
             TTransaction::close(); // fecha a transação.
