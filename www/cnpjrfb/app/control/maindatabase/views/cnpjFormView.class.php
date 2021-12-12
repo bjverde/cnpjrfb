@@ -114,18 +114,22 @@ class cnpjFormView extends TPage
     }
 
     public function showGridSocios($socios){
+        $sociosController = new SociosController();
+        $listSocios = $sociosController->selectBySocioAdianti($cnpj_basico, null);
+        var_dump($listSocios);
+
         // create the datagrid
-        $listSocios = new BootstrapDatagridWrapper(new TDataGrid);
-        $listSocios->width = '100%';    
-        $listSocios->addColumn(new TDataGridColumn('nome_socio', 'Nome', 'left'));
-        $listSocios->addColumn(new TDataGridColumn('cnpj_cpf_socio', 'CPF', 'left'));
+        $gridSocios = new BootstrapDatagridWrapper(new TDataGrid);
+        $gridSocios->width = '100%';    
+        $gridSocios->addColumn(new TDataGridColumn('nome_socio', 'Nome', 'left'));
+        $gridSocios->addColumn(new TDataGridColumn('cnpj_cpf_socio', 'CPF', 'left'));
 
         $action1 = new TDataGridAction(['SocioViewForm', 'onView'],  ['cnpj_cpf_socio' => '{cnpj_cpf_socio}','nome_socio' => '{nome_socio}'], ['register_state' => 'false']  );
-        $listSocios->addAction($action1, 'Detalhar Sócio', 'fa:user green');
+        $gridSocios->addAction($action1, 'Detalhar Sócio', 'fa:user green');
 
-        $listSocios->createModel();
-        $listSocios->addItems($socios);
-        $panel = TPanelGroup::pack('Lista de Socios', $listSocios);
+        $gridSocios->createModel();
+        $gridSocios->addItems($socios);
+        $panel = TPanelGroup::pack('Lista de Socios', $gridSocios);
         parent::add($panel);
     }
 

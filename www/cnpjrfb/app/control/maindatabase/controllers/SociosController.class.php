@@ -63,10 +63,14 @@ class SociosController
     public function selectBySocioAdianti($cnpj_basico, $nome_socio_razao_social)
     {
         try {
-            TTransaction::open('cnpj_full'); // abre uma transação
+            TTransaction::open('maindatabase'); // abre uma transação
             $criteria = new TCriteria;
-            $criteria->add(new TFilter('cnpj_cpf_socio', '=', $cnpj_cpf_socio));
-            $criteria->add(new TFilter('nome_socio', '=', $nome_socio));
+            if( !empty($cnpj_basico) ){
+                $criteria->add(new TFilter('cnpj_basico', '=', $cnpj_basico));
+            }
+            if( !empty($nome_socio_razao_social) ){
+                $criteria->add(new TFilter('nome_socio_razao_social', '=', $nome_socio_razao_social));
+            }
 
             $repository = new TRepository('Socio');
             $socio = $repository->load($criteria);
