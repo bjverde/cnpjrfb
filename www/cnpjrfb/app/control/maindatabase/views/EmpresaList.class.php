@@ -74,12 +74,12 @@ class EmpresaList extends TPage
         $ente_federativo_responsavel->setSize('100%');
 
         $row1 = $this->form->addFields([new TLabel("CNPJ Básico:", null, '14px', null)],[$cnpj_basico]);
-        $row2 = $this->form->addFields([new TLabel("Razao social:", null, '14px', null)],[$razao_social]
-                                      ,[new TLabel("Natureza juridica:", null, '14px', null)],[$natureza_juridica]);
-        $row3 = $this->form->addFields([new TLabel("Qualificacao responsavel:", null, '14px', null)],[$qualificacao_responsavel]
+        $row2 = $this->form->addFields([new TLabel("Razão social:", null, '14px', null)],[$razao_social]
+                                      ,[new TLabel("Natureza jurídica:", null, '14px', null)],[$natureza_juridica]);
+        $row3 = $this->form->addFields([new TLabel("Qualificação responsável:", null, '14px', null)],[$qualificacao_responsavel]
                                       ,[new TLabel("Capital social:", null, '14px', null)],[$capital_social]);
         $row4 = $this->form->addFields([new TLabel("Porte empresa:", null, '14px', null)],[$porte_empresa]
-                                      ,[new TLabel("Ente federativo responsavel:", null, '14px', null)],[$ente_federativo_responsavel]);
+                                      ,[new TLabel("Ente federativo responsável:", null, '14px', null)],[$ente_federativo_responsavel]);
 
         // keep the form filled during navigation with session data
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data') );
@@ -105,16 +105,16 @@ class EmpresaList extends TPage
         $this->datagrid->setHeight(320);
 
         $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "CNPJ Básico:", 'left');
-        $column_razao_social = new TDataGridColumn('razao_social', "Razao social", 'left');
-        $column_natureza_juridica = new TDataGridColumn('fk_natureza_juridica->descricao', "Natureza juridica", 'left');
-        $column_qualificacao_responsavel = new TDataGridColumn('fk_qualificacao_responsavel->descricao', "Qualificacao responsavel", 'left');
+        $column_razao_social = new TDataGridColumn('razao_social', "Razão social", 'left');
+        $column_natureza_juridica = new TDataGridColumn('fk_natureza_juridica->descricao', "Natureza jurídica", 'left');
+        $column_qualificacao_responsavel = new TDataGridColumn('fk_qualificacao_responsavel->descricao', "Qualificação responsável", 'left');
         $column_capital_social_transformed = new TDataGridColumn('capital_social', "Capital social", 'left');
         $column_porte_empresa = new TDataGridColumn('porte_empresa', "Porte empresa", 'left');
         $column_porte_empresa->setTransformer(function($value, $object, $row) 
         {
             return TipoPorteEmpresa::getByid($value);
         });
-        $column_ente_federativo_responsavel = new TDataGridColumn('ente_federativo_responsavel', "Ente federativo responsavel", 'left');
+        $column_ente_federativo_responsavel = new TDataGridColumn('ente_federativo_responsavel', "Ente federativo responsável", 'left');
 
         $column_capital_social_transformed->setTransformer(function($value, $object, $row) 
         {

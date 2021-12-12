@@ -49,18 +49,18 @@ class cnpjFormView extends TPage
             $this->form->addFields([new TLabel("CNPJ:")],[new TTextDisplay($cnpj)]
                                   ,[new TLabel("Matriz/Filial:")],[new TTextDisplay( TipoMatrizFilial::getByid($estabelecimento->identificador_matriz_filial) )]
                                   );
-            $this->form->addFields([new TLabel("Razao social:")],[new TTextDisplay($empresa->razao_social)]                                  
+            $this->form->addFields([new TLabel("Razão social:")],[new TTextDisplay($empresa->razao_social)]                                  
                                 );                                  
             $this->form->addFields([new TLabel("Nome fantasia:")],[new TTextDisplay($estabelecimento->nome_fantasia)]                                  
                                   );
-            $this->form->addFields([new TLabel("Porte empresa:")],[new TTextDisplay($empresa->porte_empresa)]
-                                  ,[new TLabel("Natureza juridica:")],[new TTextDisplay($empresa->fk_natureza_juridica->descricao)]
+            $this->form->addFields([new TLabel("Porte empresa:")],[new TTextDisplay( TipoPorteEmpresa::getByid($empresa->porte_empresa) )]
+                                  ,[new TLabel("Natureza jurídica:")],[new TTextDisplay($empresa->fk_natureza_juridica->descricao)]
                                   );
             $this->form->addFields([new TLabel("Capital social:")],[new TTextDisplay($empresa->capital_social)]
-                                  ,[new TLabel("Qualificacao responsavel:")],[new TTextDisplay($empresa->fk_qualificacao_responsavel->descricao)]
+                                  ,[new TLabel("Qualificação responsável:")],[new TTextDisplay($empresa->fk_qualificacao_responsavel->descricao)]
                                   );                                  
-            $this->form->addFields([new TLabel("Data situacao cadastral:")],[new TTextDisplay(TDate::convertToMask($estabelecimento->data_situacao_cadastral, 'yyyy-mm-dd', 'dd/mm/yyyy'))]
-                                  ,[new TLabel("Situacao cadastral:")],[new TTextDisplay( $estabelecimento->situacao_cadastral )]
+            $this->form->addFields([new TLabel("Data situação cadastral:")],[new TTextDisplay( Transforme::date($estabelecimento->data_situacao_cadastral) )]
+                                  ,[new TLabel("Situação cadastral:")],[new TTextDisplay( $estabelecimento->situacao_cadastral )]
                                   );
 
             $this->form->addContent([new TFormSeparator("Endereço", '#333', '18', '#eee')]);
@@ -80,7 +80,7 @@ class cnpjFormView extends TPage
             $this->form->addFields([new TLabel("Ddd fax:", null, '14px', null)],[$estabelecimento->ddd_fax]
                                   ,[new TLabel("Fax:", null, '14px', null)],[$estabelecimento->fax]);
             $this->form->addFields([new TLabel("Correio eletronico:", null, '14px', null)],[$estabelecimento->correio_eletronico]
-                                  ,[new TLabel("Situacao especial:", null, '14px', null)],[$estabelecimento->situacao_especial]);
+                                  ,[new TLabel("Situação especial:", null, '14px', null)],[$estabelecimento->situacao_especial]);
 
             TTransaction::close(); // fecha a transação.
             parent::add($this->form);            
