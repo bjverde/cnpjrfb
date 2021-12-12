@@ -187,7 +187,11 @@ class EstabelecimentoList extends TPage
         $this->datagrid->style = 'width: 100%';
         $this->datagrid->setHeight(320);
 
-        $column_cnpj_basico = new TDataGridColumn('{cnpj_basico}/{cnpj_ordem}-{cnpj_dv}', "CNPJ", 'left');
+        $column_cnpj_basico = new TDataGridColumn('{cnpj_basico}{cnpj_ordem}{cnpj_dv}', "CNPJ", 'left');
+        $column_cnpj_basico->setTransformer(function($value, $object, $row) 
+        {
+            return StringHelper::formatCnpjCpf($value);
+        });        
         //$column_cnpj_basico = new TDataGridColumn('cnpj_basico', "CNPJ Básico", 'left');
         //$column_cnpj_ordem = new TDataGridColumn('cnpj_ordem', "CNPJ Ordem", 'left');
         //$column_cnpj_dv = new TDataGridColumn('cnpj_dv', "CNPJ Dv", 'left');
