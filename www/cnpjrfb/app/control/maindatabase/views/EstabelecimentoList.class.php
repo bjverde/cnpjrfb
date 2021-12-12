@@ -202,6 +202,11 @@ class EstabelecimentoList extends TPage
         $column_situacao_especial = new TDataGridColumn('situacao_especial', "Situacao especial", 'left');
         $column_data_situacao_especial_transformed = new TDataGridColumn('data_situacao_especial', "Data situacao especial", 'left');
 
+        $column_identificador_matriz_filial->setTransformer(function($value, $object, $row) 
+        {
+            return TipoMatrizFilial::getByid($value);
+        });
+
         $column_data_situacao_cadastral_transformed->setTransformer(function($value, $object, $row) 
         {
             return Transforme::gridDate($value, $object, $row);
