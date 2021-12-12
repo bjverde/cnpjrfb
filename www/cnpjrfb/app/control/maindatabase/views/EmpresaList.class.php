@@ -118,19 +118,7 @@ class EmpresaList extends TPage
 
         $column_capital_social_transformed->setTransformer(function($value, $object, $row) 
         {
-            if(!$value)
-            {
-                $value = 0;
-            }
-
-            if(is_numeric($value))
-            {
-                return "R$ " . number_format($value, 2, ",", ".");
-            }
-            else
-            {
-                return $value;
-            }
+            return Transforme::numeroBrasil($value);
         });        
 
         $this->datagrid->addColumn($column_cnpj_basico);

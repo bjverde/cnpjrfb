@@ -4,11 +4,14 @@ class Transforme
 
     public static function numeroBrasil($value)
     {
-        var_dump($value);
         if(!$value){
-            $value = 0;
-        }else if(is_numeric($value)){
-            return "R$ " . number_format($value, 2, ",", ".");
+            return 0;
+        }        
+        if (is_string($value)) {
+            $value = str_replace(',', '.', $value);
+        }
+        if(is_numeric($value)){
+            return number_format($value, 2, ",", ".");
         }else{
             return $value;
         }
