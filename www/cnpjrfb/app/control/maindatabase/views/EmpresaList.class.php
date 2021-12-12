@@ -63,6 +63,7 @@ class EmpresaList extends TPage
         $cnpj_basico->setMaxLength(8);
         $razao_social->setMaxLength(1000);
         $ente_federativo_responsavel->setMaxLength(45);
+        $porte_empresa->addItems(TipoPorteEmpresa::getList());
 
         $cnpj_basico->setSize('100%');
         $razao_social->setSize('100%');
@@ -106,6 +107,10 @@ class EmpresaList extends TPage
         $column_qualificacao_responsavel = new TDataGridColumn('fk_qualificacao_responsavel->descricao', "Qualificacao responsavel", 'left');
         $column_capital_social_transformed = new TDataGridColumn('capital_social', "Capital social", 'left');
         $column_porte_empresa = new TDataGridColumn('porte_empresa', "Porte empresa", 'left');
+        $column_porte_empresa->setTransformer(function($value, $object, $row) 
+        {
+            return TipoPorteEmpresa::getByid($value);
+        });
         $column_ente_federativo_responsavel = new TDataGridColumn('ente_federativo_responsavel', "Ente federativo responsavel", 'left');
 
         $column_capital_social_transformed->setTransformer(function($value, $object, $row) 
