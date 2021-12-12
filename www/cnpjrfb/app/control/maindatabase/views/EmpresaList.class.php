@@ -87,8 +87,8 @@ class EmpresaList extends TPage
 
         $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "CNPJ Básico:", 'left');
         $column_razao_social = new TDataGridColumn('razao_social', "Razao social", 'left');
-        $column_natureza_juridica = new TDataGridColumn('natureza_juridica', "Natureza juridica", 'left');
-        $column_qualificacao_responsavel = new TDataGridColumn('qualificacao_responsavel', "Qualificacao responsavel", 'left');
+        $column_natureza_juridica = new TDataGridColumn('fk_natureza_juridica->descricao', "Natureza juridica", 'left');
+        $column_qualificacao_responsavel = new TDataGridColumn('fk_qualificacao_responsavel->descricao', "Qualificacao responsavel", 'left');
         $column_capital_social_transformed = new TDataGridColumn('capital_social', "Capital social", 'left');
         $column_porte_empresa = new TDataGridColumn('porte_empresa', "Porte empresa", 'left');
         $column_ente_federativo_responsavel = new TDataGridColumn('ente_federativo_responsavel', "Ente federativo responsavel", 'left');

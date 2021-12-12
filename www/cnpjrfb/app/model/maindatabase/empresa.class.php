@@ -15,6 +15,9 @@ class empresa extends TRecord
     const PRIMARYKEY= 'cnpj_basico';
     const IDPOLICY  = 'serial'; //{max, serial}
 
+    private $fk_natureza_juridica;
+    private $fk_qualificacao_responsavel;    
+
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
@@ -25,6 +28,61 @@ class empresa extends TRecord
         parent::addAttribute('porte_empresa');
         parent::addAttribute('ente_federativo_responsavel');
     }
+
+    /**
+     * Method set_natju
+     * Sample of usage: $var->natju = $object;
+     * @param $object Instance of Natju
+     */
+    public function set_fk_natureza_juridica(Natju $object)
+    {
+        $this->fk_natureza_juridica = $object;
+        $this->natureza_juridica = $object->codigo;
+    }
+    
+    /**
+     * Method get_fk_natureza_juridica
+     * Sample of usage: $var->fk_natureza_juridica->attribute;
+     * @returns Natju instance
+     */
+    public function get_fk_natureza_juridica()
+    {
+        
+        // loads the associated object
+        if (empty($this->fk_natureza_juridica))
+            $this->fk_natureza_juridica = new Natju($this->natureza_juridica);
+        
+        // returns the associated object
+        return $this->fk_natureza_juridica;
+    }
+    /**
+     * Method set_quals
+     * Sample of usage: $var->quals = $object;
+     * @param $object Instance of Quals
+     */
+    public function set_fk_qualificacao_responsavel(Quals $object)
+    {
+        $this->fk_qualificacao_responsavel = $object;
+        $this->qualificacao_responsavel = $object->codigo;
+    }
+    
+    /**
+     * Method get_fk_qualificacao_responsavel
+     * Sample of usage: $var->fk_qualificacao_responsavel->attribute;
+     * @returns Quals instance
+     */
+    public function get_fk_qualificacao_responsavel()
+    {
+        
+        // loads the associated object
+        if (empty($this->fk_qualificacao_responsavel))
+            $this->fk_qualificacao_responsavel = new Quals($this->qualificacao_responsavel);
+        
+        // returns the associated object
+        return $this->fk_qualificacao_responsavel;
+    }
+
+
 
 }
 ?>
