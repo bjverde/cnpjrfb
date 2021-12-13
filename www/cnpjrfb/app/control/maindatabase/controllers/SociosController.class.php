@@ -60,7 +60,7 @@ class SociosController
         $socio = ArrayHelper::getArray($result,0);
         return $socio;
     }
-    public function selectBySocioAdianti($cnpj_basico, $nome_socio_razao_social)
+    public function selectBySocioAdianti($cnpj_basico, $nome_socio_razao_social,$cpf_cnpj_socio)
     {
         try {
             TTransaction::open('maindatabase'); // abre uma transação
@@ -71,7 +71,9 @@ class SociosController
             if( !empty($nome_socio_razao_social) ){
                 $criteria->add(new TFilter('nome_socio_razao_social', '=', $nome_socio_razao_social));
             }
-
+            if( !empty($cpf_cnpj_socio) ){
+                $criteria->add(new TFilter('cpf_cnpj_socio', '=', $cpf_cnpj_socio));
+            }
             $repository = new TRepository('socios');
             $socio = $repository->load($criteria);
 

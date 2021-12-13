@@ -74,10 +74,8 @@ class SocioViewForm extends TPage
                 parent::add($this->form);
 
 
-                $where['CPF_CNPJ_SOCIO']=$cpf_cnpj_socio;
-                $where['NOME_SOCIO_RAZAO_SOCIAL']=$nome_socio_razao_social;
-                $listSocio = $sociosController->selectAll( 'NOME_SOCIO_RAZAO_SOCIAL', $where );                 
-                $panel = $this->getGridEmpresa($listSocio);
+                $listEmpresasSocio = $sociosController->selectBySocioAdianti(null, $nome_socio_razao_social,$cpf_cnpj_socio);
+                $panel = $this->getGridEmpresa($listEmpresasSocio);
                 parent::add($panel);
             }
         }
@@ -101,8 +99,8 @@ class SocioViewForm extends TPage
         //$grid->addColumn( new TDataGridColumn('razao_social','Razão Social','left') );
         //$grid->addColumn( new TDataGridColumn('nome_fantasia','Nome Fantasia','left') );
 
-        $actionSocioView = Transforme::getDataGridActionDetalharSocio();
-        $grid->addAction($actionSocioView);
+        $action = Transforme::getDataGridActionDetalharEmpresa();
+        $grid->addAction($action);
 
         $grid->createModel();
         $grid->addItems($listEmpresa);
