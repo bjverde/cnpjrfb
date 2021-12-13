@@ -1,1 +1,0 @@
-Banco de dados do PostGreSql
