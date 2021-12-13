@@ -68,50 +68,60 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Descrição do
 
 
 -- -----------------------------------------------------
--- Table 'natju'
+-- Table natju
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS 'natju' (
-  'codigo' INT NOT NULL,
-  'descricao' VARCHAR(1000) NOT NULL,
-  PRIMARY KEY ('codigo'))
+CREATE TABLE natju (
+			  codigo INT NOT NULL,
+			  descricao VARCHAR(1000) NOT NULL,
+  			  CONSTRAINT [PK_NATJU] PRIMARY KEY CLUSTERED 
+			  (
+				codigo ASC
+			  )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+  
+			  )ON [PRIMARY]
 
--- -----------------------------------------------------
--- Table 'quals'
--- -----------------------------------------------------
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK_NATJU' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'NATJU', @level2type=N'COLUMN',@level2name=N'codigo'
 
-CREATE TABLE IF NOT EXISTS 'quals' (
-  'codigo' INT NOT NULL,
-  'descricao' VARCHAR(1000) NOT NULL,
-  PRIMARY KEY ('codigo'))
-
--- -----------------------------------------------------
--- Table 'pais'
--- -----------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS 'pais' (
-  'codigo' INT NOT NULL,
-  'descricao' VARCHAR(500) NOT NULL,
-  PRIMARY KEY ('codigo'))
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Descrição do NATJU' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'NATJU', @level2type=N'COLUMN',@level2name=N'descricao'
 
 
 -- -----------------------------------------------------
--- Table 'moti'
+-- Table quals
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS 'moti' (
-  'codigo' INT NOT NULL,
-  'descricao' VARCHAR(1000) NOT NULL,
-  PRIMARY KEY ('codigo'))
+CREATE TABLE IF NOT EXISTS quals (
+  codigo INT NOT NULL,
+  descricao VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (codigo))
 
 -- -----------------------------------------------------
--- Table 'munic'
+-- Table pais
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS 'munic' (
-  'codigo' INT NOT NULL,
-  'descricao' VARCHAR(1000) NOT NULL,
-  PRIMARY KEY ('codigo'))
+CREATE TABLE IF NOT EXISTS pais (
+  codigo INT NOT NULL,
+  descricao VARCHAR(500) NOT NULL,
+  PRIMARY KEY (codigo))
+
+
+-- -----------------------------------------------------
+-- Table moti
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS moti (
+  codigo INT NOT NULL,
+  descricao VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (codigo))
+
+-- -----------------------------------------------------
+-- Table munic
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS munic (
+  codigo INT NOT NULL,
+  descricao VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (codigo))
 
 -- -----------------------------------------------------
 -- Table 'estabelecimento'
