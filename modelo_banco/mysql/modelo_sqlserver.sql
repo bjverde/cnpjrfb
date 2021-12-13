@@ -2,30 +2,20 @@
 use receita ;
 
 -- declaração de variáveis 
-declare @schema_name NVARCHAR(30);
-declare @schema_default_name NVARCHAR(30) = 'dados_rfb';
-declare @sql NVARCHAR(max);
+declare @SCHEMA_NAME NVARCHAR(30);
+declare @SQL NVARCHAR(max);
+declare @CURRENT_USER NVARCHAR(100);
 
+-- declaração das constantes 
+declare @SCHEMA_DEFAULT_NAME NVARCHAR(30) = 'dados_rfb';
+declare @COMENTARIO_LEVEL0NAME NVARCHAR(50) = N'''' + @SCHEMA_DEFAULT_NAME + ''''
 
 -- seleciona o banco default informado no schema do banco
-select @schema_name =  s.name  from sys.schemas s where s.name = @schema_default_name;
+SELECT @SCHEMA_NAME =  s.name  
+	FROM sys.schemas s 
+WHERE s.name = @SCHEMA_DEFAULT_NAME;
 
--- Se o banco existir, será excluído e depois recriado
-IF  @schema_name is not null 
-	begin
-		set @sql = ' Drop schema ' +  @schema_default_name + '; '; 
-		exec sp_executesql @sql;	
-		select * from sys.schemas s;
-	end;
-
-set @sql = 'Create schema ' + @schema_default_name + '; '; 
-
--- Cria a base de dados e dados para gravar os dados públicos de CNPJ da Receita Federal do Brasil
-exec sp_executesql @sql;	
-
--- -----------------------------------------------------
--- Schema @schema_default_name (dados_rfb)
--- -----------------------------------------------------
+--  select * from sys.schemas s;
 
 -- Apaga todas as tabelas 
 DROP TABLE IF EXISTS cnae ;
@@ -39,13 +29,42 @@ DROP TABLE IF EXISTS simples ;
 DROP TABLE IF EXISTS empresa ;
 
 
+-- -----------------------------------------------------
+-- Schema @schema_default_name (dados_rfb)
+-- -----------------------------------------------------
+IF  @schema_name is not null 
+	begin
+		set @sql = ' Drop schema ' +  @schema_default_name + '; '; 
+		exec sp_executesql @sql;	
+	end;
+
+set @sql = 'Create schema ' + @schema_default_name + '; '; 
+
+exec sp_executesql @sql;	
+
+select @current_user = CURRENT_USER;
+
+set @sql = 'ALTER USER "'+ @CURRENT_USER+'" WITH DEFAULT_SCHEMA = "' + @SCHEMA_DEFAULT_NAME +'";';
+exec sp_executesql @sql;	
+
+-- SELECT SCHEMA_NAME()
+
+-- -----------------------------------------------------
 -- Table 'cnae'
 -- -----------------------------------------------------
+CREATE TABLE cnae (
+			  codigo INT NOT NULL,
+			  descricao VARCHAR(1000) NOT NULL,
+			  CONSTRAINT [PK_CNAE] PRIMARY KEY CLUSTERED 
+			  (
+				codigo ASC
+			  )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+  
+			  )ON [PRIMARY]
 
-CREATE TABLE IF NOT EXISTS 'cnae' (
-  'codigo' INT NOT NULL,
-  'descricao' VARCHAR(1000) NOT NULL,
-  PRIMARY KEY ('codigo'))
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK_CNAE' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'CNAE', @level2type=N'COLUMN',@level2name=N'codigo'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Descrição do CNAE' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'CNAE', @level2type=N'COLUMN',@level2name=N'descricao'
 
 
 -- -----------------------------------------------------
