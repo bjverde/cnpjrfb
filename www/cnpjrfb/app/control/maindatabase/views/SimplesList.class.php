@@ -5,14 +5,16 @@ class SimplesList extends TPage
     private $form; // form
     private $datagrid; // listing
     private $pageNavigation;
-    private $loaded;
+
     private $filter_criteria;
-    private static $database = 'maindatabase';
-    private static $activeRecord = 'Simples';
+
+
     private static $primaryKey = 'cnpj_basico';
     private static $formName = 'form_SimplesList';
     private $showMethods = ['onReload', 'onSearch', 'onRefresh', 'onClearFilters'];
-    private $limit = 20;
+
+    // trait com onReload, onSearch, onDelete...
+    use Adianti\Base\AdiantiStandardListTrait;
 
     /**
      * Class constructor
@@ -21,6 +23,17 @@ class SimplesList extends TPage
     public function __construct($param = null)
     {
         parent::__construct();
+        $this->setLimit(20);
+        $this->setDatabase('maindatabase'); // define the database
+        $this->setActiveRecord('simples'); // define the Active Record
+        $this->addFilterField('cnpj_basico', '=', 'cnpj_basico'); //campo, operador, campo do form
+        $this->addFilterField('opcao_pelo_simples', '=', 'opcao_pelo_simples'); //campo, operador, campo do form
+        $this->addFilterField('data_opcao_simples', '=', 'data_opcao_simples'); //campo, operador, campo do form
+        $this->addFilterField('data_opcao_simples', '=', 'data_opcao_simples'); //campo, operador, campo do form
+        $this->addFilterField('data_exclusao_simples', '=', 'data_exclusao_simples'); //campo, operador, campo do form
+        $this->addFilterField('opcao_mei', '=', 'opcao_mei'); //campo, operador, campo do form
+        $this->addFilterField('data_opcao_mei', '=', 'data_opcao_mei'); //campo, operador, campo do form
+        $this->addFilterField('data_exclusao_mei', '=', 'data_exclusao_mei'); //campo, operador, campo do form        
 
         if(!empty($param['target_container']))
         {
@@ -32,7 +45,7 @@ class SimplesList extends TPage
 
         // define the form title
         $this->form->setFormTitle("Empresa com simples");
-        $this->limit = 20;
+
 
         $cnpj_basico = new TEntry('cnpj_basico');
         $opcao_pelo_simples = new TRadioGroup('opcao_pelo_simples');
@@ -73,17 +86,20 @@ class SimplesList extends TPage
         $data_exclusao_simples->setSize(110);
 
         $row1 = $this->form->addFields([new TLabel("CNPJ Básico:", null, '14px', null)],[$cnpj_basico]);
-        $row2 = $this->form->addFields([new TLabel("Opcao pelo simples:", null, '14px', null)],[$opcao_pelo_simples]);
-        $row3 = $this->form->addFields([new TLabel("Data opcao simples:", null, '14px', null)],[$data_opcao_simples],[new TLabel("Data exclusao simples:", null, '14px', null)],[$data_exclusao_simples]);
+        $row2 = $this->form->addFields([new TLabel("Opção pelo Simples:", null, '14px', null)],[$opcao_pelo_simples]);
+        $row3 = $this->form->addFields([new TLabel("Data opção Simples:", null, '14px', null)],[$data_opcao_simples],[new TLabel("Data exclusão simples:", null, '14px', null)],[$data_exclusao_simples]);
         $row4 = $this->form->addFields([new TLabel("Opção MEI:", null, '14px', null)],[$opcao_mei]);
-        $row5 = $this->form->addFields([new TLabel("Data opcao mei:", null, '14px', null)],[$data_opcao_mei],[new TLabel("Data exclusao mei:", null, '14px', null)],[$data_exclusao_mei]);
+        $row5 = $this->form->addFields([new TLabel("Data opção MEI:", null, '14px', null)],[$data_opcao_mei],[new TLabel("Data exclusão MEI:", null, '14px', null)],[$data_exclusao_mei]);
 
         // keep the form filled during navigation with session data
         $this->form->setData( TSession::getValue(__CLASS__.'_filter_data') );
 
         $btn_onsearch = $this->form->addAction("Buscar", new TAction([$this, 'onSearch']), 'fas:search #ffffff');
         $this->btn_onsearch = $btn_onsearch;
-        $btn_onsearch->addStyleClass('btn-primary'); 
+        $btn_onsearch->addStyleClass('btn-primary');
+
+        $btn_onclear = $this->form->addAction("Limpar", new TAction([$this, 'clear']), 'fas:eraser #F44336');
+        $this->btn_onclear = $btn_onclear;
 
         // creates a Datagrid
         $this->datagrid = new TDataGrid;
@@ -100,11 +116,11 @@ class SimplesList extends TPage
 
         $column_cnpj_basico = new TDataGridColumn('cnpj_basico', "CNPJ Básico", 'left');
         $column_opcao_pelo_simples_transformed = new TDataGridColumn('opcao_pelo_simples', "Simples", 'left');
-        $column_data_opcao_simples_transformed = new TDataGridColumn('data_opcao_simples', "Data opcao simples", 'left');
-        $column_data_exclusao_simples_transformed = new TDataGridColumn('data_exclusao_simples', "Data exclusao simples", 'left');
+        $column_data_opcao_simples_transformed = new TDataGridColumn('data_opcao_simples', "Data opção simples", 'left');
+        $column_data_exclusao_simples_transformed = new TDataGridColumn('data_exclusao_simples', "Data exclusão simples", 'left');
         $column_opcao_mei_transformed = new TDataGridColumn('opcao_mei', "MEI", 'left');
         $column_data_opcao_mei_transformed = new TDataGridColumn('data_opcao_mei', "Data MEI", 'left');
-        $column_data_exclusao_mei_transformed = new TDataGridColumn('data_exclusao_mei', "Data exclusao mei", 'left');
+        $column_data_exclusao_mei_transformed = new TDataGridColumn('data_exclusao_mei', "Data exclusão MEI", 'left');
 
         $column_opcao_pelo_simples_transformed->setTransformer(function($value, $object, $row) 
         {
@@ -145,6 +161,14 @@ class SimplesList extends TPage
         $this->datagrid->addColumn($column_data_exclusao_mei_transformed);
 
 
+        $action_group = new TDataGridActionGroup("Ações", 'fas:cog');
+        $action_group->addHeader('');
+
+        $actionEmpresa = Transforme::getDataGridActionDetalharEmpresa();
+        $action_group->addAction($actionEmpresa);
+
+        $this->datagrid->addActionGroup($action_group); 
+
         // create the datagrid model
         $this->datagrid->createModel();
 
@@ -179,166 +203,11 @@ class SimplesList extends TPage
     }
 
     /**
-     * Register the filter in the session
+     * Clear filters
      */
-    public function onSearch($param = null)
+    function clear()
     {
-        $data = $this->form->getData();
-        $filters = [];
-
-        TSession::setValue(__CLASS__.'_filter_data', NULL);
-        TSession::setValue(__CLASS__.'_filters', NULL);
-
-        if (isset($data->cnpj_basico) AND ( (is_scalar($data->cnpj_basico) AND $data->cnpj_basico !== '') OR (is_array($data->cnpj_basico) AND (!empty($data->cnpj_basico)) )) )
-        {
-
-            $filters[] = new TFilter('cnpj_basico', '=', $data->cnpj_basico);// create the filter 
-        }
-
-        if (isset($data->opcao_pelo_simples) AND ( (is_scalar($data->opcao_pelo_simples) AND $data->opcao_pelo_simples !== '') OR (is_array($data->opcao_pelo_simples) AND (!empty($data->opcao_pelo_simples)) )) )
-        {
-
-            $filters[] = new TFilter('opcao_pelo_simples', '=', $data->opcao_pelo_simples);// create the filter 
-        }
-
-        if (isset($data->data_opcao_simples) AND ( (is_scalar($data->data_opcao_simples) AND $data->data_opcao_simples !== '') OR (is_array($data->data_opcao_simples) AND (!empty($data->data_opcao_simples)) )) )
-        {
-
-            $filters[] = new TFilter('data_opcao_simples', '=', $data->data_opcao_simples);// create the filter 
-        }
-
-        if (isset($data->data_exclusao_simples) AND ( (is_scalar($data->data_exclusao_simples) AND $data->data_exclusao_simples !== '') OR (is_array($data->data_exclusao_simples) AND (!empty($data->data_exclusao_simples)) )) )
-        {
-
-            $filters[] = new TFilter('data_exclusao_simples', '=', $data->data_exclusao_simples);// create the filter 
-        }
-
-        if (isset($data->opcao_mei) AND ( (is_scalar($data->opcao_mei) AND $data->opcao_mei !== '') OR (is_array($data->opcao_mei) AND (!empty($data->opcao_mei)) )) )
-        {
-
-            $filters[] = new TFilter('opcao_mei', '=', $data->opcao_mei);// create the filter 
-        }
-
-        if (isset($data->data_opcao_mei) AND ( (is_scalar($data->data_opcao_mei) AND $data->data_opcao_mei !== '') OR (is_array($data->data_opcao_mei) AND (!empty($data->data_opcao_mei)) )) )
-        {
-
-            $filters[] = new TFilter('data_opcao_mei', '=', $data->data_opcao_mei);// create the filter 
-        }
-
-        if (isset($data->data_exclusao_mei) AND ( (is_scalar($data->data_exclusao_mei) AND $data->data_exclusao_mei !== '') OR (is_array($data->data_exclusao_mei) AND (!empty($data->data_exclusao_mei)) )) )
-        {
-
-            $filters[] = new TFilter('data_exclusao_mei', '=', $data->data_exclusao_mei);// create the filter 
-        }
-
-        // fill the form with data again
-        $this->form->setData($data);
-
-        // keep the search data in the session
-        TSession::setValue(__CLASS__.'_filter_data', $data);
-        TSession::setValue(__CLASS__.'_filters', $filters);
-
-        $this->onReload(['offset' => 0, 'first_page' => 1]);
-    }
-
-    /**
-     * Load the datagrid with data
-     */
-    public function onReload($param = NULL)
-    {
-        try
-        {
-            // open a transaction with database 'maindatabase'
-            TTransaction::open(self::$database);
-
-            // creates a repository for Simples
-            $repository = new TRepository(self::$activeRecord);
-
-            $criteria = clone $this->filter_criteria;
-
-            if (empty($param['order']))
-            {
-                $param['order'] = 'cnpj_basico';    
-            }
-
-            if (empty($param['direction']))
-            {
-                $param['direction'] = 'desc';
-            }
-
-            $criteria->setProperties($param); // order, offset
-            $criteria->setProperty('limit', $this->limit);
-
-            if($filters = TSession::getValue(__CLASS__.'_filters'))
-            {
-                foreach ($filters as $filter) 
-                {
-                    $criteria->add($filter);       
-                }
-            }
-
-            // load the objects according to criteria
-            $objects = $repository->load($criteria, FALSE);
-
-            $this->datagrid->clear();
-            if ($objects)
-            {
-                // iterate the collection of active records
-                foreach ($objects as $object)
-                {
-
-                    $row = $this->datagrid->addItem($object);
-                    $row->id = "row_{$object->cnpj_basico}";
-
-                }
-            }
-
-            // reset the criteria for record count
-            $criteria->resetProperties();
-            $count= $repository->count($criteria);
-
-            $this->pageNavigation->setCount($count); // count of records
-            $this->pageNavigation->setProperties($param); // order, page
-            $this->pageNavigation->setLimit($this->limit); // limit
-
-            // close the transaction
-            TTransaction::close();
-            $this->loaded = true;
-
-            return $objects;
-        }
-        catch (Exception $e) // in case of exception
-        {
-            // shows the exception error message
-            new TMessage('error', $e->getMessage());
-            // undo all pending operations
-            TTransaction::rollback();
-        }
-    }
-
-    public function onShow($param = null)
-    {
-
-    }
-
-    /**
-     * method show()
-     * Shows the page
-     */
-    public function show()
-    {
-        // check if the datagrid is already loaded
-        if (!$this->loaded AND (!isset($_GET['method']) OR !(in_array($_GET['method'],  $this->showMethods))) )
-        {
-            if (func_num_args() > 0)
-            {
-                $this->onReload( func_get_arg(0) );
-            }
-            else
-            {
-                $this->onReload();
-            }
-        }
-        parent::show();
+        $this->clearFilters();
+        $this->onReload();
     }
 }
