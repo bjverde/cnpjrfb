@@ -90,10 +90,20 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Descrição do
 -- Table quals
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS quals (
-  codigo INT NOT NULL,
-  descricao VARCHAR(1000) NOT NULL,
-  PRIMARY KEY (codigo))
+CREATE TABLE quals (
+				  codigo INT NOT NULL,
+				  descricao VARCHAR(1000) NOT NULL,
+    			  CONSTRAINT [PK_QUALS] PRIMARY KEY CLUSTERED 
+			  (
+				codigo ASC
+			  )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+  
+			  )ON [PRIMARY]
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK_QUALS' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'QUALS', @level2type=N'COLUMN',@level2name=N'codigo'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Descrição do QUALS' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'QUALS', @level2type=N'COLUMN',@level2name=N'descricao'
+
 
 -- -----------------------------------------------------
 -- Table pais
