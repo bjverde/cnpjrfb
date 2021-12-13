@@ -52,6 +52,7 @@ Agora vem parte demorada !
 * Baixe todos os arquivos do [site de receita federal](https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros/consultas/dados-publicos-cnpj). Para quem está usando Linux tem um script para essa parta `projeto/dados_receita/output_files/download_files.sh`
 * Se conhece python e deseja usar o PostGres faça os procedimentos https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ 
 * Se não conhece python pode usar o script PHP para carga no banco 
+    * na pasta `projeto/modelo_banco/` vai encontrar os scripts criação do banco de dados, para os SGBD's: SqLite, MySql, MariaDB e PostGres. Se precisar de um MER tem na pasta `projeto/modelo_banco/mysql`
     * Altere o arquivo de configuração `projeto/www/cargabd/config.php`
     * rode o script em modo terminal `projeto/www/cargabd/index.php`
     * vá descençar !! o processo todo em desktop no win10, i5, 16 ram, PHP 7.4 no wamp com config padrão levaria mais de 30 horas.
