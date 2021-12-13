@@ -116,7 +116,6 @@ class cnpjFormView extends TPage
     public function showGridSocios($cnpj_basico){
         $sociosController = new SociosController();
         $listSocios = $sociosController->selectBySocioAdianti($cnpj_basico, null,null);
-        var_dump($listSocios);
 
         // create the datagrid
         $gridSocios = new BootstrapDatagridWrapper(new TDataGrid);

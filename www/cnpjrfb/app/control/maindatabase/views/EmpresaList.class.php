@@ -135,9 +135,6 @@ class EmpresaList extends TPage
         $actionEmpresa = Transforme::getDataGridActionDetalharEmpresa();
         $action_group->addAction($actionEmpresa);
 
-        $actionSocioView = Transforme::getDataGridActionDetalharSocio();
-        $action_group->addAction($actionSocioView); 
-
         $this->datagrid->addActionGroup($action_group);    
 
         // create the datagrid model
