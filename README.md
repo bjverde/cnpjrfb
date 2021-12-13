@@ -1,32 +1,26 @@
 # cnpjrfb
-Sistema web em PHP para consultar os [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) fornecidos pela Receita Federal do Brasil.
+Sistema web em PHP usando o usando o [Adianti FrameWork](https://www.adianti.com.br/framework) para consultar os [Dados públicos CNPJ](https://receita.economia.gov.br/orientacao/tributaria/cadastros/cadastro-nacional-de-pessoas-juridicas-cnpj/dados-publicos-cnpj) fornecidos pela Receita Federal do Brasil.
 
-Versão 2.0.0 - depois das alterações de 21/03/2021
+A Versão 2.0.0 contem as alterações do modelo de dados de 21/03/2021 feito pela RFB. 
 
-Agradecimento especial para todas as pessoas que contribuíram com os projetos abaixo, sem essas pessoas o trabalho seria bem mais difícil : 
-* Aphonso Henrique do Amaral Rafael - https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
-* Fabio Serpa - https://github.com/fabioserpa/CNPJ-full
-
+Agradecimento para todas as pessoas que contribuíram de forma direta ou indireta para o projeto. Abaixo alguns nomes de destaque, pois o sistema de consulta foi baseado nos scripts de carga de dados das pessoas abaixo. Sem essas pessoas o trabalho seria bem mais difícil: 
+* Versão 2.0.0 ou superior, Aphonso Henrique do Amaral Rafael - https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
+* Até a versão 1.2.0, Fabio Serpa - https://github.com/fabioserpa/CNPJ-full
 
 # Instalando e rodando
-
-Você pode fazer a [instalação manual](#intalação-separada) etapa por etapa ou usar a [Intalação via Docker-compose](#intalação-via-docker-compose) que um pouco mais automatizada
+O processo de instalação é simples para a parte PHP. Porém a carga do banco de dados pode ser complicada e muito demorada, levando algumas horas até dias dependendo do seu hardware.
 
 ## Requisitos
 
-
 * PHP 7.4 ou superior
-* [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
-* [FormDin 5](https://github.com/bjverde/formDin5)
-* Python 3.8, para fazer ETL para PostgreSQL
-* Banco de Dados Relacional escolha um deles PostgreSQL, MySQL, MariaDB, SQLite !
+* Banco de Dados Relacional, com a carga dos dados conforme modelo. Funciona nos bancos PostgreSQL, MySQL, MariaDB, SQLite !
 * Linux (Debian 10), pode funcionar no Windows porém não foi testado
 * Aproximadamente 50 GB de espaço livre em disco para a instalação:
-    * 5 GB arquivos zip da Receita Federal. Pode ser liberado depois
-    * 18 GB para arquivos texto descompactados. Pode ser liberado depois.
-    * 18 GB para banco de dados PostgreSQL.
+    * 5 GB arquivos zip da Receita Federal, que pode ser liberado depois da instalação.
+    * 18 GB para arquivos texto descompactados, que pode ser liberado depois da instalação
+    * 18 GB para banco de dados. Considerando o PostgreSQL.
 
-## Banco de dados e carga ETL
+## Informação sobre o Banco de dados e carga ETL
 
 Tabela | Quantidade de linhas | Tamanho em MB
 ------ | ------------------ | --------------------
@@ -35,7 +29,7 @@ estabelecimento | 48.421.619 |
 socios | 20.426.417 | 
 simples | 27.893.923 |
 **Total** | **142.553.597**|
-## Intalação com VirtualBox
+## Intalação com VirtualBox - NÃO ESTÁ COMPLETO
 Abaixo um breve tutorial para quem deseja rodar dentro do VirtualBox.
 
 1. Instalar o VirtualBox
@@ -96,7 +90,7 @@ Os scripts deste repositório no entanto ainda assim serão atualizados para man
 1. Alterar o arquivo `<caminho servidor>/cnjrfb/app/config/cnpj_full.ini`. Altere o parâmetro de `name= "app/database/CNPJ_full.db"` para `name = "app/CNPJ-full/data/CNPJ_full.db"`
 
 
-## Intalação via Docker-compose
+## Intalação via Docker-compose - NÃO ESTÁ COMPLETO
 Existem alguns arquivos em Docker-compose para criar todo o ambiente necessários para rodar tudo que é necessário. A ideia é com um comando o usuário consiga ter tudo funcionando sem muito esforço.
 
 1. Instale o Docker e Docker-compose 
