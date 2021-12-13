@@ -109,10 +109,21 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Descrição do
 -- Table pais
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS pais (
-  codigo INT NOT NULL,
-  descricao VARCHAR(500) NOT NULL,
-  PRIMARY KEY (codigo))
+CREATE TABLE pais (
+				codigo INT NOT NULL,
+				descricao VARCHAR(500) NOT NULL,
+      			  CONSTRAINT [PK_PAIS] PRIMARY KEY CLUSTERED 
+			  (
+				codigo ASC
+			  )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+  
+			  )ON [PRIMARY]
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK_PAIS' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'PAIS', @level2type=N'COLUMN',@level2name=N'codigo'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Descrição do PAIS' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'PAIS', @level2type=N'COLUMN',@level2name=N'descricao'
+
+
 
 
 -- -----------------------------------------------------
