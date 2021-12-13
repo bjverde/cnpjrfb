@@ -124,16 +124,24 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK_PAIS' , @le
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Descrição do PAIS' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'PAIS', @level2type=N'COLUMN',@level2name=N'descricao'
 
 
-
-
 -- -----------------------------------------------------
 -- Table moti
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS moti (
-  codigo INT NOT NULL,
-  descricao VARCHAR(1000) NOT NULL,
-  PRIMARY KEY (codigo))
+CREATE TABLE moti (
+				  codigo INT NOT NULL,
+				  descricao VARCHAR(1000) NOT NULL,
+         			  CONSTRAINT [PK_MOTI] PRIMARY KEY CLUSTERED 
+			  (
+				codigo ASC
+			  )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+  
+			  )ON [PRIMARY]
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'PK_MOTI' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'MOTI', @level2type=N'COLUMN',@level2name=N'codigo'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Descrição do MOTI' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'MOTI', @level2type=N'COLUMN',@level2name=N'descricao'
+
 
 -- -----------------------------------------------------
 -- Table munic
