@@ -7,6 +7,11 @@ Agradecimento para todas as pessoas que contribuíram de forma direta ou indiret
 * Versão 2.0.0 ou superior, Aphonso Henrique do Amaral Rafael - https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
 * Até a versão 1.2.0, Fabio Serpa - https://github.com/fabioserpa/CNPJ-full
 
+![Visão no Celular](www/cnpjrfb/app/images/celular_empresa_visao.png?raw=true "Visão no Celular")
+
+![Visão no Tablet](www/cnpjrfb/app/images/tablet.png?raw=true "Visão no Tablet")
+
+
 # Instalando e rodando
 O processo de instalação é simples para a parte PHP. Porém a carga do banco de dados pode ser complicada e muito demorada, levando algumas horas até dias dependendo do seu hardware.
 
