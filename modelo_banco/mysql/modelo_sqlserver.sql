@@ -391,38 +391,56 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CÓDIGO CORRES
 
 
 -- -----------------------------------------------------
--- Table 'empresa'
+-- Table empresa
 -- -----------------------------------------------------
 
+CREATE TABLE empresa (
+  cnpj_basico CHAR(8) NOT NULL,
+  razao_social VARCHAR(1000) NULL,
+  natureza_juridica INT NULL,
+  qualificacao_responsavel INT NULL,
+  capital_social VARCHAR(45) NULL,
+  porte_empresa VARCHAR(45) NULL,
+  ente_federativo_responsavel VARCHAR(45) NULL,
+CONSTRAINT [PK_EMPRESA_CNPJ_BASICO] PRIMARY KEY CLUSTERED 
+		  (
+			cnpj_basico ASC
+		  )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+   )ON [PRIMARY]
 
-CREATE TABLE IF NOT EXISTS 'empresa' (
-  'cnpj_basico' CHAR(8) NOT NULL,
-  'razao_social' VARCHAR(1000) NULL COMMENT 'NOME EMPRESARIAL DA PESSOA JURÍDICA',
-  'natureza_juridica' INT NULL COMMENT 'CÓDIGO DA NATUREZA JURÍDICA',
-  'qualificacao_responsavel' INT NULL COMMENT 'QUALIFICAÇÃO DA PESSOA FÍSICA RESPONSÁVEL PELA EMPRESA',
-  'capital_social' VARCHAR(45) NULL COMMENT 'CAPITAL SOCIAL DA EMPRESA',
-  'porte_empresa' VARCHAR(45) NULL COMMENT 'CÓDIGO DO PORTE DA EMPRESA:\n1 – NÃO INFORMADO\n2 - MICRO EMPRESA\n03 - EMPRESA DE PEQUENO PORTE\n05 - DEMAIS',
-  'ente_federativo_responsavel' VARCHAR(45) NULL COMMENT 'O ENTE FEDERATIVO RESPONSÁVEL É PREENCHIDO PARA OS CASOS DE ÓRGÃOS E ENTIDADES DO GRUPO DE NATUREZA JURÍDICA 1XXX. PARA AS DEMAIS NATUREZAS, ESTE ATRIBUTO FICA EM BRANCO',
-  INDEX 'fk_empresa_estabelecimento1_idx' ('cnpj_basico' ASC) VISIBLE,
-  PRIMARY KEY ('cnpj_basico'),
-  INDEX 'fk_empresa_natju1_idx' ('natureza_juridica' ASC) VISIBLE,
-  INDEX 'fk_empresa_quals1_idx' ('qualificacao_responsavel' ASC) VISIBLE,
-  CONSTRAINT 'fk_empresa_estabelecimento1'
-    FOREIGN KEY ('cnpj_basico')
-    REFERENCES 'dados_rfb'.'estabelecimento' ('cnpj_basico')
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT 'fk_empresa_natju1'
-    FOREIGN KEY ('natureza_juridica')
-    REFERENCES 'dados_rfb'.'natju' ('codigo')
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT 'fk_empresa_quals1'
-    FOREIGN KEY ('qualificacao_responsavel')
-    REFERENCES 'dados_rfb'.'quals' ('codigo')
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE INDEX fk_empresa_estabelecimento1_idx ON empresa (cnpj_basico ASC);
+CREATE INDEX fk_empresa_natju1_idx ON empresa (natureza_juridica ASC);
+CREATE INDEX fk_empresa_quals1_idx ON empresa (qualificacao_responsavel ASC);
+
+
+
+ALTER TABLE empresa  WITH CHECK ADD  CONSTRAINT [fk_empresa_estabelecimento1] FOREIGN KEY([cnpj_basico])
+REFERENCES estabelecimento ([cnpj_basico])
+ALTER TABLE empresa CHECK CONSTRAINT [fk_empresa_estabelecimento1]
+
+ALTER TABLE empresa  WITH CHECK ADD  CONSTRAINT [fk_empresa_natju1] FOREIGN KEY([natureza_juridica])
+REFERENCES natju ([codigo])
+ALTER TABLE empresa CHECK CONSTRAINT [fk_empresa_natju1]
+
+ALTER TABLE empresa  WITH CHECK ADD  CONSTRAINT [fk_empresa_quals1] FOREIGN KEY([qualificacao_responsavel])
+REFERENCES quals ([codigo])
+ALTER TABLE empresa CHECK CONSTRAINT [fk_empresa_quals1]
+
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'cnpj_basico' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'EMPRESA', @level2type=N'COLUMN',@level2name=N'cnpj_basico'
+  
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'NOME EMPRESARIAL DA PESSOA JURÍDICA' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'EMPRESA', @level2type=N'COLUMN',@level2name=N'razao_social'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CÓDIGO DA NATUREZA JURÍDICA' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'EMPRESA', @level2type=N'COLUMN',@level2name=N'natureza_juridica'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'QUALIFICAÇÃO DA PESSOA FÍSICA RESPONSÁVEL PELA EMPRESA' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'EMPRESA', @level2type=N'COLUMN',@level2name=N'qualificacao_responsavel'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CAPITAL SOCIAL DA EMPRESA' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'EMPRESA', @level2type=N'COLUMN',@level2name=N'capital_social'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CÓDIGO DO PORTE DA EMPRESA:\n1 – NÃO INFORMADO\n2 - MICRO EMPRESA\n03 - EMPRESA DE PEQUENO PORTE\n05 - DEMAIS' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'EMPRESA', @level2type=N'COLUMN',@level2name=N'porte_empresa'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'O ENTE FEDERATIVO RESPONSÁVEL É PREENCHIDO PARA OS CASOS DE ÓRGÃOS E ENTIDADES DO GRUPO DE NATUREZA JURÍDICA 1XXX. PARA AS DEMAIS NATUREZAS, ESTE ATRIBUTO FICA EM BRANCO' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'EMPRESA', @level2type=N'COLUMN',@level2name=N'ente_federativo_responsavel'
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -431,6 +449,6 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 
-DROP USER IF EXISTS 'dados_rfb'@'%';
-CREATE USER 'dados_rfb'@'%' IDENTIFIED BY '123456';
-GRANT ALL PRIVILEGES ON dados_rfb.* TO 'dados_rfb'@'%';
+DROP USER IF EXISTS dados_rfb@%;
+CREATE USER dados_rfb@% IDENTIFIED BY 123456;
+GRANT ALL PRIVILEGES ON dados_rfb.* TO dados_rfb@%;
