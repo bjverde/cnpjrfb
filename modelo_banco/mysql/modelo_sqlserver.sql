@@ -203,13 +203,10 @@ CREATE TABLE estabelecimento (
 		  )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
    )ON [PRIMARY]
 
-
-
 CREATE INDEX fk_estabelecimento_pais_idx ON estabelecimento (pais ASC);
 CREATE INDEX fk_estabelecimento_munic1_idx ON estabelecimento (municipio ASC);
 CREATE INDEX fk_estabelecimento_cnae1_idx ON estabelecimento (cnae_fiscal_principal ASC);
 CREATE INDEX fk_estabelecimento_moti1_idx ON estabelecimento (motivo_situacao_cadastral ASC);
-
 
 ALTER TABLE estabelecimento  WITH CHECK ADD  CONSTRAINT [fk_estabelecimento_pais] FOREIGN KEY([pais])
 REFERENCES pais ([codigo])
@@ -219,17 +216,13 @@ ALTER TABLE estabelecimento  WITH CHECK ADD  CONSTRAINT fk_estabelecimento_munic
 REFERENCES munic ([codigo])
 ALTER TABLE estabelecimento CHECK CONSTRAINT fk_estabelecimento_munic1
 
-
 ALTER TABLE estabelecimento  WITH CHECK ADD  CONSTRAINT [fk_estabelecimento_cnae1] FOREIGN KEY([cnae_fiscal_principal])
 REFERENCES cnae ([codigo])
 ALTER TABLE estabelecimento CHECK CONSTRAINT [fk_estabelecimento_cnae1]
  
-
 ALTER TABLE estabelecimento  WITH CHECK ADD  CONSTRAINT [fk_estabelecimento_moti1] FOREIGN KEY([motivo_situacao_cadastral])
 REFERENCES moti ([codigo])
 ALTER TABLE estabelecimento CHECK CONSTRAINT [fk_estabelecimento_moti1]
-
-
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'COMMENT NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'ESTABELECIMENTO', @level2type=N'COLUMN',@level2name=N'cnpj_basico'
 
@@ -296,22 +289,44 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'data_situacao_
 -- -----------------------------------------------------
 
 
-CREATE TABLE IF NOT EXISTS 'simples' (
-  'cnpj_basico' CHAR(8) NOT NULL COMMENT 'NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).',
-  'opcao_pelo_simples' CHAR(1) NULL COMMENT 'INDICADOR DA EXISTÊNCIA DA OPÇÃO PELO SIMPLES.\n S - SIM\n N - NÃO\n EM BRANCO – OUTROS',
-  'data_opcao_simples' DATE NULL COMMENT 'DATA DE OPÇÃO PELO SIMPLES',
-  'data_exclusao_simples' DATE NULL COMMENT 'DATA DE EXCLUSÃO DO SIMPLES',
-  'opcao_mei' CHAR(1) NULL COMMENT 'INDICADOR DA EXISTÊNCIA DA OPÇÃO PELO MEI\n S - SIM\n N - NÃO\n EM BRANCO - OUTROS',
-  'data_opcao_mei' DATE NULL COMMENT 'DATA DE OPÇÃO PELO MEI',
-  'data_exclusao_mei' DATE NULL COMMENT 'DATA DE EXCLUSÃO DO MEI',
-  INDEX 'fk_simples_estabelecimento1_idx' ('cnpj_basico' ASC) VISIBLE,
-  PRIMARY KEY ('cnpj_basico'),
-  CONSTRAINT 'fk_simples_estabelecimento1'
-    FOREIGN KEY ('cnpj_basico')
-    REFERENCES 'dados_rfb'.'estabelecimento' ('cnpj_basico')
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE TABLE simples (
+  cnpj_basico CHAR(8) NOT NULL,
+  opcao_pelo_simples CHAR(1) NULL,
+  data_opcao_simples DATE NULL,
+  data_exclusao_simples DATE NULL,
+  opcao_mei CHAR(1) NULL,
+  data_opcao_mei DATE NULL,
+  data_exclusao_mei DATE NULL,
+CONSTRAINT [PK_SIMPLES_CNPJ_BASICO] PRIMARY KEY CLUSTERED 
+		  (
+			cnpj_basico ASC
+		  )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+   )ON [PRIMARY]
+
+
+CREATE INDEX fk_simples_estabelecimento1_idx ON simples (cnpj_basico ASC);
+
+
+ALTER TABLE simples  WITH CHECK ADD  CONSTRAINT [fk_simples_estabelecimento1] FOREIGN KEY([cnpj_basico])
+REFERENCES estabelecimento ([cnpj_basico])
+ALTER TABLE simples CHECK CONSTRAINT [fk_simples_estabelecimento1]
+
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SIMPLES', @level2type=N'COLUMN',@level2name=N'cnpj_basico'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'INDICADOR DA EXISTÊNCIA DA OPÇÃO PELO SIMPLES.\n S - SIM\n N - NÃO\n EM BRANCO – OUTROS' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SIMPLES', @level2type=N'COLUMN',@level2name=N'opcao_pelo_simples'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'DATA DE OPÇÃO PELO SIMPLES' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SIMPLES', @level2type=N'COLUMN',@level2name=N'data_opcao_simples'  
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'DATA DE EXCLUSÃO DO SIMPLES' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SIMPLES', @level2type=N'COLUMN',@level2name=N'data_exclusao_simples'  
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'INDICADOR DA EXISTÊNCIA DA OPÇÃO PELO MEI\n S - SIM\n N - NÃO\n EM BRANCO - OUTROS' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SIMPLES', @level2type=N'COLUMN',@level2name=N'opcao_mei'  
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'DATA DE OPÇÃO PELO MEI' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SIMPLES', @level2type=N'COLUMN',@level2name=N'data_opcao_mei'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'DATA DE EXCLUSÃO DO MEI' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SIMPLES', @level2type=N'COLUMN',@level2name=N'data_exclusao_mei'
+   
+   
 -- -----------------------------------------------------
 -- Table 'socios'
 -- -----------------------------------------------------
