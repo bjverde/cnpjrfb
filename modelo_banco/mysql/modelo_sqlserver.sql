@@ -328,42 +328,66 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'DATA DE EXCLUS
    
    
 -- -----------------------------------------------------
--- Table 'socios'
+-- Table socios
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS 'socios' ;
 
-CREATE TABLE IF NOT EXISTS 'socios' (
-  'cnpj_basico' CHAR(8) NOT NULL COMMENT 'NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).',
-  'identificador_socio' INT NOT NULL COMMENT 'CÓDIGO DO IDENTIFICADOR DE SÓCIO\n1 – PESSOA JURÍDICA\n2 – PESSOA FÍSICA\n3 – ESTRANGEIRO',
-  'nome_socio_razao_social' VARCHAR(1000) NULL COMMENT 'NOME DO SÓCIO PESSOA FÍSICA OU A RAZÃO SOCIAL \nE/OU NOME EMPRESARIAL DA PESSOA JURÍDICA \nE/OU NOME DO SÓCIO/RAZÃO SOCIAL DO SÓCIO ESTRANGEIRO',
-  'cpf_cnpj_socio' VARCHAR(45) NULL COMMENT 'CPF OU CNPJ DO SÓCIO (SÓCIO ESTRANGEIRO NÃO TEM ESTA INFORMAÇÃO).',
-  'qualificacao_socio' INT NULL COMMENT 'CÓDIGO DA QUALIFICAÇÃO DO SÓCIO',
-  'data_entrada_sociedade' DATE NULL,
-  'pais' INT NULL COMMENT 'CÓDIGO PAÍS DO SÓCIO ESTRANGEIRO',
-  'representante_legal' VARCHAR(45) NULL COMMENT 'NÚMERO DO CPF DO REPRESENTANTE LEGAL',
-  'nome_do_representante' VARCHAR(500) NULL,
-  'qualificacao_representante_legal' INT NULL COMMENT 'CÓDIGO DA QUALIFICAÇÃO DO REPRESENTANTE LEGAL',
-  'faixa_etaria' INT NULL COMMENT 'CÓDIGO CORRESPONDENTE À FAIXA ETÁRIA DO SÓCIO.\nBaseada na data de nascimento do CPF de cada sócio, deverá ser criado o valor para o\ncampo \"Faixa Etária\" conforme a regra abaixo:\n- 1 para os intervalos entre 0 a 12 anos;\n- 2 para os intervalos entre 13 a 20 anos;\n- 3 para os intervalos entre 21 a 30 anos;\n- 4 para os intervalos entre 31 a 40 anos;\n- 5 para os intervalos entre 41 a 50 anos;\n- 6 para os intervalos entre 51 a 60 anos;\n- 7 para os intervalos entre 61 a 70 anos;\n- 8 para os intervalos entre 71 a 80 anos; - 9 para maiores de 80 anos.\n- 0 para não se aplica',
-  INDEX 'fk_socios_quals1_idx' ('qualificacao_socio' ASC) VISIBLE,
-  INDEX 'fk_socios_pais1_idx' ('pais' ASC) VISIBLE,
-  INDEX 'fk_socios_quals2_idx' ('qualificacao_representante_legal' ASC) VISIBLE,
-  PRIMARY KEY ('cnpj_basico'),
-  CONSTRAINT 'fk_socios_quals1'
-    FOREIGN KEY ('qualificacao_socio')
-    REFERENCES 'dados_rfb'.'quals' ('codigo')
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT 'fk_socios_pais1'
-    FOREIGN KEY ('pais')
-    REFERENCES 'dados_rfb'.'pais' ('codigo')
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT 'fk_socios_quals2'
-    FOREIGN KEY ('qualificacao_representante_legal')
-    REFERENCES 'dados_rfb'.'quals' ('codigo')
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE TABLE socios (
+  cnpj_basico CHAR(8) NOT NULL,
+  identificador_socio INT NOT NULL,
+  nome_socio_razao_social VARCHAR(1000) NULL,
+  cpf_cnpj_socio VARCHAR(45) NULL,
+  qualificacao_socio INT NULL,
+  data_entrada_sociedade DATE NULL,
+  pais INT NULL,
+  representante_legal VARCHAR(45) NULL,
+  nome_do_representante VARCHAR(500) NULL,
+  qualificacao_representante_legal INT NULL,
+  faixa_etaria INT NULL,
+CONSTRAINT [PK_SOCIOS_CNPJ_BASICO] PRIMARY KEY CLUSTERED 
+		  (
+			cnpj_basico ASC
+		  )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+   )ON [PRIMARY]
+
+
+CREATE INDEX fk_socios_quals1_idx ON socios (qualificacao_socio ASC);
+CREATE INDEX fk_socios_pais1_idx ON socios (pais ASC);
+CREATE INDEX fk_socios_quals2_idx ON socios (qualificacao_representante_legal ASC);
+
+ALTER TABLE socios  WITH CHECK ADD  CONSTRAINT [fk_socios_quals1] FOREIGN KEY([qualificacao_socio])
+REFERENCES quals ([codigo])
+ALTER TABLE socios CHECK CONSTRAINT [fk_socios_quals1]
+
+ALTER TABLE socios  WITH CHECK ADD  CONSTRAINT [fk_socios_pais1] FOREIGN KEY([pais])
+REFERENCES pais ([codigo])
+ALTER TABLE socios CHECK CONSTRAINT [fk_socios_pais1]
+
+ALTER TABLE socios  WITH CHECK ADD  CONSTRAINT [fk_socios_quals2] FOREIGN KEY([qualificacao_representante_legal])
+REFERENCES quals ([codigo])
+ALTER TABLE socios CHECK CONSTRAINT [fk_socios_quals2]
+
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'NÚMERO BASE DE INSCRIÇÃO NO CNPJ (OITO PRIMEIROS DÍGITOS DO CNPJ).' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SOCIOS', @level2type=N'COLUMN',@level2name=N'cnpj_basico'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CÓDIGO DO IDENTIFICADOR DE SÓCIO\n1 – PESSOA JURÍDICA\n2 – PESSOA FÍSICA\n3 – ESTRANGEIRO' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SOCIOS', @level2type=N'COLUMN',@level2name=N'identificador_socio'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'NOME DO SÓCIO PESSOA FÍSICA OU A RAZÃO SOCIAL \nE/OU NOME EMPRESARIAL DA PESSOA JURÍDICA \nE/OU NOME DO SÓCIO/RAZÃO SOCIAL DO SÓCIO ESTRANGEIRO' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SOCIOS', @level2type=N'COLUMN',@level2name=N'nome_socio_razao_social'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CPF OU CNPJ DO SÓCIO (SÓCIO ESTRANGEIRO NÃO TEM ESTA INFORMAÇÃO).' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SOCIOS', @level2type=N'COLUMN',@level2name=N'cpf_cnpj_socio'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CÓDIGO DA QUALIFICAÇÃO DO SÓCIO' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SOCIOS', @level2type=N'COLUMN',@level2name=N'qualificacao_socio'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'data_entrada_sociedade' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SOCIOS', @level2type=N'COLUMN',@level2name=N'data_entrada_sociedade'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CÓDIGO PAÍS DO SÓCIO ESTRANGEIRO' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SOCIOS', @level2type=N'COLUMN',@level2name=N'pais'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'NÚMERO DO CPF DO REPRESENTANTE LEGAL' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SOCIOS', @level2type=N'COLUMN',@level2name=N'representante_legal'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'nome_do_representante' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SOCIOS', @level2type=N'COLUMN',@level2name=N'nome_do_representante'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CÓDIGO DA QUALIFICAÇÃO DO REPRESENTANTE LEGAL' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SOCIOS', @level2type=N'COLUMN',@level2name=N'qualificacao_representante_legal'
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CÓDIGO CORRESPONDENTE À FAIXA ETÁRIA DO SÓCIO.\nBaseada na data de nascimento do CPF de cada sócio, deverá ser criado o valor para o\ncampo \"Faixa Etária\" conforme a regra abaixo:\n- 1 para os intervalos entre 0 a 12 anos;\n- 2 para os intervalos entre 13 a 20 anos;\n- 3 para os intervalos entre 21 a 30 anos;\n- 4 para os intervalos entre 31 a 40 anos;\n- 5 para os intervalos entre 41 a 50 anos;\n- 6 para os intervalos entre 51 a 60 anos;\n- 7 para os intervalos entre 61 a 70 anos;\n- 8 para os intervalos entre 71 a 80 anos; - 9 para maiores de 80 anos.\n- 0 para não se aplica' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'SOCIOS', @level2type=N'COLUMN',@level2name=N'faixa_etaria'
 
 
 -- -----------------------------------------------------
