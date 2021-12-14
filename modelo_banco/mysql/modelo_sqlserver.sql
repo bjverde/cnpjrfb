@@ -441,14 +441,25 @@ EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'CÓDIGO DO POR
 
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'O ENTE FEDERATIVO RESPONSÁVEL É PREENCHIDO PARA OS CASOS DE ÓRGÃOS E ENTIDADES DO GRUPO DE NATUREZA JURÍDICA 1XXX. PARA AS DEMAIS NATUREZAS, ESTE ATRIBUTO FICA EM BRANCO' , @level0type=N'SCHEMA',@level0name= @schema_default_name, @level1type=N'TABLE',@level1name=N'EMPRESA', @level2type=N'COLUMN',@level2name=N'ente_federativo_responsavel'
 
+/* 
+-- TODO:Trecho pra criação do usuário 
 
+-- original
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-
-
 DROP USER IF EXISTS dados_rfb@%;
 CREATE USER dados_rfb@% IDENTIFIED BY 123456;
 GRANT ALL PRIVILEGES ON dados_rfb.* TO dados_rfb@%;
+
+-- SQLSERVER
+IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = N'dados_rfb')
+BEGIN
+    CREATE USER [dados_rfb]
+    EXEC sp_addrolemember @SCHEMA_DEFAULT_NAME, N'NewAdminName'
+END;
+GO
+
+*/
