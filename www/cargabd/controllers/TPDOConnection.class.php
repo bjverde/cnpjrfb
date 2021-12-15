@@ -165,7 +165,9 @@ class TPDOConnection {
         return self::$instance[ self::getDatabaseName()];
     }    
     //------------------------------------------------------------------------------------------
-    public static function executeSql( $sql, $arrParams = null, $fetchMode = PDO::FETCH_ASSOC, $boolUtfDecode = null ) {               
+    public static function executeSql( $sql, $arrParams = null, $fetchMode = PDO::FETCH_ASSOC, $boolUtfDecode = null ) {
+
+        try {
         // converter o parametro passado para array
         if ( is_string( $arrParams ) || is_numeric( $arrParams ) ) {
             $arrParams = array( $arrParams );
@@ -206,6 +208,15 @@ class TPDOConnection {
             }
         }
         return $result;
+        }
+        catch (Exception $e) {
+            $msg = '-----------------'
+                   .PHP_EOL.' mensagem: '.$e->getMessage()
+                   .PHP_EOL.' SQL: '.$sql
+                   .PHP_EOL.' valores: '.print_r($arrParams, TRUE)
+                   ;
+            error_log($msg);
+        }        
     }
 }
 ?>
