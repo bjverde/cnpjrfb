@@ -19,7 +19,7 @@ class CnaeDAO  extends Dao
     public function __construct($tpdo=null)
     {
         parent::__construct($tpdo);
-        $this->setTabelaName('cnae');
+        $this->setTabelaName('dados_rfb.cnae');
     }
     //--------------------------------------------------------------------------------
     public function insert( array $linhaArquivoCsv )
@@ -27,7 +27,7 @@ class CnaeDAO  extends Dao
         $values = array(  $linhaArquivoCsv[0]
                         , $linhaArquivoCsv[1]
                         );
-        $sql = 'insert into cnae(
+        $sql = 'insert into '.$this->getTabelaName().'(
                                  codigo
                                 ,descricao
                                 ) values (?,?)';

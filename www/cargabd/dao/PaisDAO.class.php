@@ -19,7 +19,7 @@ class PaisDAO  extends Dao
     public function __construct($tpdo=null)
     {
         parent::__construct($tpdo);
-        $this->setTabelaName('pais');
+        $this->setTabelaName('dados_rfb.pais');
     }
     //--------------------------------------------------------------------------------
     public function insert( array $linhaArquivoCsv )
@@ -27,7 +27,7 @@ class PaisDAO  extends Dao
         $values = array(  $linhaArquivoCsv[0]
                         , $linhaArquivoCsv[1]
                         );
-        $sql = 'insert into pais(
+        $sql = 'insert into '.$this->getTabelaName().'(
                                  codigo
                                 ,descricao
                                 ) values (?,?)';

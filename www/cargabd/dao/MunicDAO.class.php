@@ -19,7 +19,7 @@ class MunicDAO  extends Dao
     public function __construct($tpdo=null)
     {
         parent::__construct($tpdo);
-        $this->setTabelaName('munic');
+        $this->setTabelaName('dados_rfb.munic');
     }
     //--------------------------------------------------------------------------------
     public function insert( array $linhaArquivoCsv )
@@ -27,7 +27,7 @@ class MunicDAO  extends Dao
         $values = array(  $linhaArquivoCsv[0]
                         , $linhaArquivoCsv[1]
                         );
-        $sql = 'insert into munic(
+        $sql = 'insert into '.$this->getTabelaName().'(
                                  codigo
                                 ,descricao
                                 ) values (?,?)';

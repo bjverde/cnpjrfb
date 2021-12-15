@@ -23,7 +23,7 @@ class EmpresaDAO  extends Dao
     public function __construct($tpdo=null)
     {
         parent::__construct($tpdo);
-        $this->setTabelaName('empresa');
+        $this->setTabelaName('dados_rfb.empresa');
     }
     //--------------------------------------------------------------------------------
     public function selectCount()
@@ -45,7 +45,7 @@ class EmpresaDAO  extends Dao
                         , $linhaArquivoCsv[5]
                         , $linhaArquivoCsv[6]
                         );
-        $sql = 'INSERT INTO empresa
+        $sql = 'INSERT INTO '.$this->getTabelaName().'
         (cnpj_basico        
         ,razao_social
         ,natureza_juridica

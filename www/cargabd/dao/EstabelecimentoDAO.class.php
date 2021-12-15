@@ -46,7 +46,7 @@ class EstabelecimentoDAO  extends Dao
     public function __construct($tpdo=null)
     {
         parent::__construct($tpdo);
-        $this->setTabelaName('estabelecimento');
+        $this->setTabelaName('dados_rfb.estabelecimento');
     }
     //--------------------------------------------------------------------------------
     public function selectCount()
@@ -91,7 +91,7 @@ class EstabelecimentoDAO  extends Dao
                         , $linhaArquivoCsv[28]
                         , $linhaArquivoCsv[29]
                         );
-        $sql = 'INSERT INTO estabelecimento
+        $sql = 'INSERT INTO '.$this->getTabelaName().'
         (cnpj_basico
         ,cnpj_ordem
         ,cnpj_dv

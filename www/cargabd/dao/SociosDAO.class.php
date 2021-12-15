@@ -27,7 +27,7 @@ class SociosDAO  extends Dao
     public function __construct($tpdo=null)
     {
         parent::__construct($tpdo);
-        $this->setTabelaName('socios');
+        $this->setTabelaName('dados_rfb.socios');
     }
     //--------------------------------------------------------------------------------
     public function selectCount()
@@ -53,7 +53,7 @@ class SociosDAO  extends Dao
                         , $linhaArquivoCsv[9]
                         , $linhaArquivoCsv[10]
                         );
-        $sql = 'INSERT INTO socios
+        $sql = 'INSERT INTO '.$this->getTabelaName().'
         (cnpj_basico        
         ,identificador_socio
         ,nome_socio_razao_social

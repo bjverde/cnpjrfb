@@ -19,7 +19,7 @@ class NatjuDAO  extends Dao
     public function __construct($tpdo=null)
     {
         parent::__construct($tpdo);
-        $this->setTabelaName('natju');
+        $this->setTabelaName('dados_rfb.natju');
     }
     //--------------------------------------------------------------------------------
     public function insert( array $linhaArquivoCsv )
@@ -27,7 +27,7 @@ class NatjuDAO  extends Dao
         $values = array(  $linhaArquivoCsv[0]
                         , $linhaArquivoCsv[1]
                         );
-        $sql = 'insert into natju(
+        $sql = 'insert into '.$this->getTabelaName().'(
                                  codigo
                                 ,descricao
                                 ) values (?,?)';

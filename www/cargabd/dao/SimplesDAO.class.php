@@ -23,7 +23,7 @@ class SimplesDAO  extends Dao
     public function __construct($tpdo=null)
     {
         parent::__construct($tpdo);
-        $this->setTabelaName('simples');
+        $this->setTabelaName('dados_rfb.simples');
     }
     //--------------------------------------------------------------------------------
     public function selectCount()
@@ -45,7 +45,7 @@ class SimplesDAO  extends Dao
                         , $linhaArquivoCsv[5]
                         , $linhaArquivoCsv[6]
                         );
-        $sql = 'INSERT INTO simples
+        $sql = 'INSERT INTO '.$this->getTabelaName().'
         (cnpj_basico        
         ,opcao_pelo_simples
         ,data_opcao_simples
