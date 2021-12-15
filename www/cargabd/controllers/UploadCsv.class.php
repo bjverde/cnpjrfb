@@ -22,9 +22,9 @@ class UploadCsv {
             $line = StringHelper::str2utf8($line);
             $line = substr($line,1);
             //$line = preg_replace('/["]/', '', $line);
-            $line = strtr($line, chr(13), chr(0));// For CR
-            $line = strtr($line, chr(10), chr(0));// For LF
-            $line = substr($line,0,-1);
+            //$line = strtr($line, chr(13), chr(0));// For CR
+            //$line = strtr($line, chr(10), chr(0));// For LF
+            $line = substr($line,0,strrpos($line, '"'));
             if( !empty($line) ){
                 $line = explode($separador, $line);
                 $this->dao->insert( $line );
