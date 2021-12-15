@@ -66,11 +66,11 @@ class EstabelecimentoDAO  extends Dao
                         , $linhaArquivoCsv[3]
                         , $linhaArquivoCsv[4]
                         , $linhaArquivoCsv[5]
-                        , $linhaArquivoCsv[6]
+                        , ValidarHelper::validarData($linhaArquivoCsv[6])
                         , $linhaArquivoCsv[7]
                         , $linhaArquivoCsv[8]
                         , $linhaArquivoCsv[9]
-                        , $linhaArquivoCsv[10]
+                        , ValidarHelper::validarData($linhaArquivoCsv[10])
                         , $linhaArquivoCsv[11]
                         , $linhaArquivoCsv[12]
                         , $linhaArquivoCsv[13]

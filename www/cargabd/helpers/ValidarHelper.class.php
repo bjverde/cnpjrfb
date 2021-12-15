@@ -21,4 +21,13 @@ class ValidarHelper
             print($e->getMessage());
         }
     }
+    public static function validarData($data)
+    {
+        if (strlen($data)!=8) {
+            $data ='';
+        }else if( $data=='00000000' ){
+            $data ='';
+        }
+        return $data;
+    }
 }

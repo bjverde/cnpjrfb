@@ -39,11 +39,11 @@ class SimplesDAO  extends Dao
     {
         $values = array(  $linhaArquivoCsv[0]
                         , $linhaArquivoCsv[1]
-                        , $linhaArquivoCsv[2]
-                        , $linhaArquivoCsv[3]
+                        , ValidarHelper::validarData($linhaArquivoCsv[2])
+                        , ValidarHelper::validarData($linhaArquivoCsv[3])
                         , $linhaArquivoCsv[4]
-                        , $linhaArquivoCsv[5]
-                        , $linhaArquivoCsv[6]
+                        , ValidarHelper::validarData($linhaArquivoCsv[5])
+                        , ValidarHelper::validarData($linhaArquivoCsv[6])
                         );
         $sql = 'INSERT INTO '.$this->getTabelaName().'
         (cnpj_basico        
