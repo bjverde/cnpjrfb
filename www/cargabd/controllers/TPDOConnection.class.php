@@ -166,48 +166,47 @@ class TPDOConnection {
     }    
     //------------------------------------------------------------------------------------------
     public static function executeSql( $sql, $arrParams = null, $fetchMode = PDO::FETCH_ASSOC, $boolUtfDecode = null ) {
-
         try {
-        // converter o parametro passado para array
-        if ( is_string( $arrParams ) || is_numeric( $arrParams ) ) {
-            $arrParams = array( $arrParams );
-        }
-        $result = null;        
-        
-        // verificar se a quantidade de parametros é igual a quantidade de variaveis
-        if ( strpos( $sql, '?' ) > 0 && is_array( $arrParams ) && count( $arrParams ) > 0 ) {
-            $qtd1 = substr_count( $sql, '?' );
-            $qtd2 = count( $arrParams );
-            
-            if ( $qtd1 != $qtd2 ) {
-                throw new InvalidArgumentException ('Quantidade de parametros diferente da quantidade utilizada na instrução sql.');
+            // converter o parametro passado para array
+            if ( is_string( $arrParams ) || is_numeric( $arrParams ) ) {
+                $arrParams = array( $arrParams );
             }
-        } else {
-            $arrParams = array();
-        }
-        
-        $stmt = self::getInstance()->prepare( $sql );            
-        if ( !$stmt ) {
-            throw new InvalidArgumentException ('Erro no comando sql');
-        }
-        
-        $result = $stmt->execute( $arrParams );            
-        if ( $result ) {
-            if( !is_int($fetchMode) ){
-                $fetchMode = PDO::FETCH_ASSOC;
+            $result = null;        
+            
+            // verificar se a quantidade de parametros é igual a quantidade de variaveis
+            if ( strpos( $sql, '?' ) > 0 && is_array( $arrParams ) && count( $arrParams ) > 0 ) {
+                $qtd1 = substr_count( $sql, '?' );
+                $qtd2 = count( $arrParams );
+                
+                if ( $qtd1 != $qtd2 ) {
+                    throw new InvalidArgumentException ('Quantidade de parametros diferente da quantidade utilizada na instrução sql.');
+                }
+            } else {
+                $arrParams = array();
             }
             
-            // em caso select ou insert com returning, processa o resultado
-            if ( preg_match( '/^select/i', $sql ) > 0 || preg_match( '/returning/i', $sql ) > 0 || preg_match( '/^with/i', $sql ) > 0 ) {
-                $res = $stmt->fetchAll( $fetchMode );                
-                if ( is_array( $res ) || is_object( $res ) ){
-                    return $res;
-                }else {
-                    return null;
-                }                            
+            $stmt = self::getInstance()->prepare( $sql );            
+            if ( !$stmt ) {
+                throw new InvalidArgumentException ('Erro no comando sql');
             }
-        }
-        return $result;
+            
+            $result = $stmt->execute( $arrParams );            
+            if ( $result ) {
+                if( !is_int($fetchMode) ){
+                    $fetchMode = PDO::FETCH_ASSOC;
+                }
+                
+                // em caso select ou insert com returning, processa o resultado
+                if ( preg_match( '/^select/i', $sql ) > 0 || preg_match( '/returning/i', $sql ) > 0 || preg_match( '/^with/i', $sql ) > 0 ) {
+                    $res = $stmt->fetchAll( $fetchMode );                
+                    if ( is_array( $res ) || is_object( $res ) ){
+                        return $res;
+                    }else {
+                        return null;
+                    }                            
+                }
+            }
+            return $result;
         }
         catch (Exception $e) {
             $msg = '-----------------'
