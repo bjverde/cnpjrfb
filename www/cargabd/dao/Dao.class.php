@@ -54,6 +54,8 @@ class Dao
         }elseif($tpdo->getDBMS()==TPDOConnection::DBMS_POSTGRES){
             //https://stackoverflow.com/questions/38112379/disable-postgresql-foreign-key-checks-for-migrations
             $sql = "SET session_replication_role = 'replica';".$sql.";SET session_replication_role = 'origin';";
+        }elseif($tpdo->getDBMS()==TPDOConnection::DBMS_SQLSERVER){
+            $sql = 'DELETE FROM '.$this->getTabelaName().';';
         }
         $result = $this->tpdo->executeSql($sql);
         return $result;
