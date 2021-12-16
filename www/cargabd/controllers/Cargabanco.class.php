@@ -145,7 +145,8 @@ class Cargabanco
         $it   = new RecursiveIteratorIterator($list);
         foreach ($it as $file) {
             if ($it->isFile()) {
-                $temParteArquivo = str_contains($it->getSubPathName(),$parteNomeArquivoCsv);
+                //$temParteArquivo = str_contains($it->getSubPathName(),$parteNomeArquivoCsv); //PHP 8.0.9
+                $temParteArquivo = strpos($it->getSubPathName(),$parteNomeArquivoCsv)===false ? false: true;
                 if($temParteArquivo){
                     $qtdArquivos = $qtdArquivos + 1;
                     $numRegistros = $this->carregaDadosTabela($classDao,$it->getSubPathName());
