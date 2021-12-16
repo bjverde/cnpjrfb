@@ -2,8 +2,8 @@
 error_reporting(E_ALL);
 ini_set('error_log', __DIR__.'/error_log.txt');
 
-if (version_compare(PHP_VERSION, '8.0.0') == -1) {
-    die ('ERRO: The minimum version required for PHP is 7.4.0');
+if (version_compare(PHP_VERSION, '7.3.0') == -1) {
+    die ('ERRO: The minimum version required for PHP is 7.3.0');
 }
 
 define( 'DS', DIRECTORY_SEPARATOR );
