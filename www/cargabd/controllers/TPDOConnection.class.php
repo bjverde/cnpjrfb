@@ -72,12 +72,7 @@ class TPDOConnection {
             $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
             self::setInstance($pdo);
         } catch( PDOException $e ){
-            $msg = 'Erro de conexão.<br><b>DNS:</b><br>'
-                  .$dsn
-                  .'<br><BR><b>Erro retornado:</b><br>'
-                  .$e->getMessage();
-            self::$error = utf8_encode( $msg );
-            return false;
+            error_log($e->getMessage());
         }        
         return true;
     }
