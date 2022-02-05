@@ -24,7 +24,7 @@ class SociosList extends TPage
         parent::__construct();
         $this->setLimit(20);
         $this->setDatabase('maindatabase'); // define the database
-        $this->setActiveRecord('Socios'); // define the Active Record
+        $this->setActiveRecord('socios'); // define the Active Record
         $this->addFilterField('cnpj_basico', '=', 'cnpj_basico'); //campo, operador, campo do form
         $this->addFilterField('nome_socio_razao_social', 'like', 'nome_socio_razao_social'); //campo, operador, campo do form
         $this->addFilterField('cpf_cnpj_socio', 'like', 'cpf_cnpj_socio'); //campo, operador, campo do form
@@ -54,13 +54,13 @@ class SociosList extends TPage
         $nome_socio_razao_social = new TEntry('nome_socio_razao_social');
         $cpf_cnpj_socio = new TEntry('cpf_cnpj_socio');
         $identificador_socio = new TCombo('identificador_socio');
-        $qualificacao_socio = new TDBCombo('qualificacao_socio', 'maindatabase', 'Quals', 'codigo', '{descricao}','codigo asc'  );
+        $qualificacao_socio = new TDBCombo('qualificacao_socio', 'maindatabase', 'quals', 'codigo', '{descricao}','codigo asc'  );
         $data_entrada_sociedade = new TDate('data_entrada_sociedade');
-        $pais = new TDBCombo('pais', 'maindatabase', 'Pais', 'codigo', '{descricao}','codigo asc'  );
+        $pais = new TDBCombo('pais', 'maindatabase', 'pais', 'codigo', '{descricao}','codigo asc'  );
         $faixa_etaria = new TCombo('faixa_etaria');
         $representante_legal = new TEntry('representante_legal');
         $nome_do_representante = new TEntry('nome_do_representante');
-        $qualificacao_representante_legal = new TDBCombo('qualificacao_representante_legal', 'maindatabase', 'Quals', 'codigo', '{descricao}','descricao asc'  );
+        $qualificacao_representante_legal = new TDBCombo('qualificacao_representante_legal', 'maindatabase', 'quals', 'codigo', '{descricao}','descricao asc'  );
 
 
         $identificador_socio->addItems(TipoSocio::getList());
