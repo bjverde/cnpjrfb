@@ -25,7 +25,7 @@ class EmpresaList extends TPage
         parent::__construct();
         $this->setLimit(20);
         $this->setDatabase('maindatabase'); // define the database
-        $this->setActiveRecord('Empresa'); // define the Active Record
+        $this->setActiveRecord('empresa'); // define the Active Record
         $this->addFilterField('cnpj_basico', '=', 'cnpj_basico'); //campo, operador, campo do form
         $this->addFilterField('razao_social', 'like', 'razao_social'); //campo, operador, campo do form
         $this->addFilterField('natureza_juridica', '=', 'natureza_juridica'); //campo, operador, campo do form
@@ -48,8 +48,8 @@ class EmpresaList extends TPage
 
         $cnpj_basico = new TNumeric('cnpj_basico', '0', ',', '' );
         $razao_social = new TEntry('razao_social');
-        $natureza_juridica = new TDBCombo('natureza_juridica', 'maindatabase', 'Natju', 'codigo', '{descricao}','descricao asc'  );
-        $qualificacao_responsavel = new TDBCombo('qualificacao_responsavel', 'maindatabase', 'Quals', 'codigo', '{descricao}','descricao asc'  );
+        $natureza_juridica = new TDBCombo('natureza_juridica', 'maindatabase', 'natju', 'codigo', '{descricao}','descricao asc'  );
+        $qualificacao_responsavel = new TDBCombo('qualificacao_responsavel', 'maindatabase', 'quals', 'codigo', '{descricao}','descricao asc'  );
         $capital_social = new TNumeric('capital_social', '2', ',', '.' );
         $porte_empresa = new TCombo('porte_empresa');
         $ente_federativo_responsavel = new TEntry('ente_federativo_responsavel');

@@ -17,7 +17,7 @@ class fichaCompletaForm extends TPage
         parent::__construct();
 
         $this->setDatabase('cnpj_full'); // define the database
-        $this->setActiveRecord('Empresa'); // define the Active Record
+        $this->setActiveRecord('empresa'); // define the Active Record
         $this->addFilterField('cnpj', '=', 'cnpj'); //campo, operador, campo do form
         $this->addFilterField('razao_social', '=', 'razao_social'); //campo, operador, campo do form
         $this->addFilterField('nome_fantasia', '=', 'nome_fantasia'); //campo, operador, campo do form

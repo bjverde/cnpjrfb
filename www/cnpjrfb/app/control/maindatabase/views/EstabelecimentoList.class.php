@@ -25,7 +25,7 @@ class EstabelecimentoList extends TPage
         parent::__construct();
         $this->setLimit(20);
         $this->setDatabase('maindatabase'); // define the database
-        $this->setActiveRecord('Estabelecimento'); // define the Active Record
+        $this->setActiveRecord('estabelecimento'); // define the Active Record
         $this->addFilterField('cnpj_basico', '=', 'cnpj_basico'); //campo, operador, campo do form
         $this->addFilterField('cnpj_ordem', '=', 'cnpj_ordem'); //campo, operador, campo do form
         $this->addFilterField('cnpj_dv', '=', 'cnpj_dv'); //campo, operador, campo do form
@@ -78,7 +78,7 @@ class EstabelecimentoList extends TPage
         $nome_fantasia = new TEntry('nome_fantasia');
         $situacao_cadastral = new TCombo('situacao_cadastral');
         $data_situacao_cadastral = new TDate('data_situacao_cadastral');
-        $motivo_situacao_cadastral = new TDBCombo('motivo_situacao_cadastral', 'maindatabase', 'Moti', 'codigo', '{descricao}','descricao asc'  );
+        $motivo_situacao_cadastral = new TDBCombo('motivo_situacao_cadastral', 'maindatabase', 'moti', 'codigo', '{descricao}','descricao asc'  );
         $nome_cidade_exterior = new TEntry('nome_cidade_exterior');
         $pais = new TEntry('pais');
         $data_inicio_atividade = new TDateTime('data_inicio_atividade');
@@ -91,7 +91,7 @@ class EstabelecimentoList extends TPage
         $bairro = new TEntry('bairro');
         $cep = new TEntry('cep');
         $uf = new TEntry('uf');
-        $municipio = new TDBCombo('municipio', 'maindatabase', 'Munic', 'codigo', '{descricao}','descricao asc'  );
+        $municipio = new TDBCombo('municipio', 'maindatabase', 'munic', 'codigo', '{descricao}','descricao asc'  );
         $ddd_1 = new TEntry('ddd_1');
         $telefone_1 = new TEntry('telefone_1');
         $ddd_2 = new TEntry('ddd_2');
