@@ -8,7 +8,7 @@ class MunicHeaderList extends TPage
     private $loaded;
     private $filter_criteria;
     private static $database = 'maindatabase';
-    private static $activeRecord = 'Munic';
+    private static $activeRecord = 'munic';
     private static $primaryKey = 'codigo';
     private static $formName = 'formList_Munic';
     private $showMethods = ['onReload', 'onSearch'];
