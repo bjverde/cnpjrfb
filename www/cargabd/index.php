@@ -14,7 +14,14 @@ require_once 'helpers/autoload_formdin_helper.php';
 require_once 'controllers/autoload_cargabd_cnpjrfb.php';
 require_once 'dao/autoload_cargabd_cnpjrfb_dao.php';
 
-ValidarHelper::InformacoesIniciais();
 
-$carga = new Cargabanco();
-$carga->executar();
+if (php_sapi_name() == "cli") {
+    ValidarHelper::InformacoesIniciais();
+
+    $carga = new Cargabanco();
+    $carga->executar();
+} else {
+    echo '<h2>Esse script funciona apenas em modo CLI</h2>';
+    echo 'O comando abaixo irá rodar o script de carga em background gerando dois arquivos de log';
+    echo '<br><pre>php <DIR>/cargabd/index.php > <DIR_LOG>/carga_result.txt 2> <DIR_LOG>/carga_error.txt &<pre>';
+}
