@@ -34,7 +34,7 @@ class empresa extends TRecord
      * Sample of usage: $var->natju = $object;
      * @param $object Instance of Natju
      */
-    public function set_fk_natureza_juridica(Natju $object)
+    public function set_fk_natureza_juridica(natju $object)
     {
         $this->fk_natureza_juridica = $object;
         $this->natureza_juridica = $object->codigo;
@@ -50,7 +50,7 @@ class empresa extends TRecord
         
         // loads the associated object
         if (empty($this->fk_natureza_juridica))
-            $this->fk_natureza_juridica = new Natju($this->natureza_juridica);
+            $this->fk_natureza_juridica = new natju($this->natureza_juridica);
         
         // returns the associated object
         return $this->fk_natureza_juridica;
@@ -60,7 +60,7 @@ class empresa extends TRecord
      * Sample of usage: $var->quals = $object;
      * @param $object Instance of Quals
      */
-    public function set_fk_qualificacao_responsavel(Quals $object)
+    public function set_fk_qualificacao_responsavel(quals $object)
     {
         $this->fk_qualificacao_responsavel = $object;
         $this->qualificacao_responsavel = $object->codigo;
@@ -76,7 +76,7 @@ class empresa extends TRecord
         
         // loads the associated object
         if (empty($this->fk_qualificacao_responsavel))
-            $this->fk_qualificacao_responsavel = new Quals($this->qualificacao_responsavel);
+            $this->fk_qualificacao_responsavel = new quals($this->qualificacao_responsavel);
         
         // returns the associated object
         return $this->fk_qualificacao_responsavel;
