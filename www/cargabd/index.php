@@ -23,5 +23,5 @@ if (php_sapi_name() == "cli") {
 } else {
     echo '<h2>Esse script funciona apenas em modo CLI</h2>';
     echo 'O comando abaixo irá rodar o script de carga em background gerando dois arquivos de log';
-    echo '<br><pre>php <DIR>/cargabd/index.php > <DIR_LOG>/carga_result.txt 2> <DIR_LOG>/carga_error.txt &<pre>';
+    echo '<br><pre>php [DIR]/cargabd/index.php > [DIR_LOG]/carga_result.txt 2> [DIR_LOG]/carga_error.txt &<pre>';
 }
