@@ -59,7 +59,7 @@ class estabelecimento extends TRecord
      * Sample of usage: $var->pais = $object;
      * @param $object Instance of Pais
      */
-    public function set_fk_pais(Pais $object)
+    public function set_fk_pais(pais $object)
     {
         $this->fk_pais = $object;
         $this->pais = $object->codigo;
@@ -75,7 +75,7 @@ class estabelecimento extends TRecord
         
         // loads the associated object
         if (empty($this->fk_pais))
-            $this->fk_pais = new Pais($this->pais);
+            $this->fk_pais = new pais($this->pais);
         
         // returns the associated object
         return $this->fk_pais;
@@ -85,7 +85,7 @@ class estabelecimento extends TRecord
      * Sample of usage: $var->munic = $object;
      * @param $object Instance of Munic
      */
-    public function set_fk_municipio(Munic $object)
+    public function set_fk_municipio(munic $object)
     {
         $this->fk_municipio = $object;
         $this->municipio = $object->codigo;
@@ -101,7 +101,7 @@ class estabelecimento extends TRecord
         
         // loads the associated object
         if (empty($this->fk_municipio))
-            $this->fk_municipio = new Munic($this->municipio);
+            $this->fk_municipio = new munic($this->municipio);
         
         // returns the associated object
         return $this->fk_municipio;
@@ -111,7 +111,7 @@ class estabelecimento extends TRecord
      * Sample of usage: $var->cnae = $object;
      * @param $object Instance of Cnae
      */
-    public function set_fk_cnae_fiscal_principal(Cnae $object)
+    public function set_fk_cnae_fiscal_principal(cnae $object)
     {
         $this->fk_cnae_fiscal_principal = $object;
         $this->cnae_fiscal_principal = $object->codigo;
@@ -127,7 +127,7 @@ class estabelecimento extends TRecord
         
         // loads the associated object
         if (empty($this->fk_cnae_fiscal_principal))
-            $this->fk_cnae_fiscal_principal = new Cnae($this->cnae_fiscal_principal);
+            $this->fk_cnae_fiscal_principal = new cnae($this->cnae_fiscal_principal);
         
         // returns the associated object
         return $this->fk_cnae_fiscal_principal;
@@ -137,7 +137,7 @@ class estabelecimento extends TRecord
      * Sample of usage: $var->moti = $object;
      * @param $object Instance of Moti
      */
-    public function set_fk_motivo_situacao_cadastral(Moti $object)
+    public function set_fk_motivo_situacao_cadastral(moti $object)
     {
         $this->fk_motivo_situacao_cadastral = $object;
         $this->motivo_situacao_cadastral = $object->codigo;
@@ -153,7 +153,7 @@ class estabelecimento extends TRecord
         
         // loads the associated object
         if (empty($this->fk_motivo_situacao_cadastral))
-            $this->fk_motivo_situacao_cadastral = new Moti($this->motivo_situacao_cadastral);
+            $this->fk_motivo_situacao_cadastral = new moti($this->motivo_situacao_cadastral);
         
         // returns the associated object
         return $this->fk_motivo_situacao_cadastral;
