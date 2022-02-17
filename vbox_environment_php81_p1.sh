@@ -65,6 +65,10 @@ apt-get -y install php8.1-pdo php8.1-pdo-mysql php8.1-mysql
 apt-get -y install php8.1-pdo php8.1-pgsql
 
 
+#PHP Install MondoDB Drive
+pecl install mongodb
+
+
 echo -e "${LGREEN} Etapa 4/${ETAPAS} - Config Apache ${NC}"
 a2dismod mpm_event
 a2dismod mpm_worker
@@ -89,10 +93,13 @@ apt-get -y install php8.1-dev php8.1-xml php8.1-intl
 
 ENV ACCEPT_EULA=Y
 
-curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-sudo apt-add-repository https://packages.microsoft.com/debian/10/prod
-sudo apt-get update
+curl -sSL https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+apt-add-repository https://packages.microsoft.com/debian/10/prod
 
+curl -s https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+curl -s https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+sudo apt-get update
 apt-get install -y --no-install-recommends locales apt-transport-https
 echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
@@ -126,3 +133,6 @@ a2enmod php8.1
 
 apt-get clean
 updatedb
+
+#Apache restar
+service apache2 restart
