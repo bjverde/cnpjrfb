@@ -16,7 +16,7 @@ echo ''
 echo -e "${YBLUE} Script Debian 10.11 remover Apache e PHP 8.1${NC}"
 echo ''
 
-apt-get -y remove --purge apache2* libapache2* php* msodbcsql17* mssql*
+apt-get -y remove --purge apache2* libapache2* php* msodbcsql17* mssql* mongo*
 
 apt-get autoremove
 apt-get autoclean
