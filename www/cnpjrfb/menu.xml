@@ -6,7 +6,7 @@
                 <icon>fas:building #7C93CF</icon>
                 <action>EmpresaList</action>
             </menuitem>
-            <menuitem label='Estabelicimento'>
+            <menuitem label='Estabelecimento'>
                 <icon>fas:building #7C93CF</icon>
                 <action>EstabelecimentoList</action>
             </menuitem>
