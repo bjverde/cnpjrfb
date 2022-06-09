@@ -61,6 +61,7 @@ Agora vem parte demorada !
 
 ### Parte 3 - Configurando o PHP para o banco completo !
 * altera o arquivo `<caminho servidor>/cnjrfb/app/config/maindatabase.php` para apontar para o novo banco de dados. Veja como em [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
+* PARA quem criu o banco o DATABASE_SCHEMA altere o arquivo `<caminho servidor>/cnjrfb/init.php` na linha 33 alterando o valor da constante `define('DATABASE_SCHEMA','');` para o valor desjado usando o PONTO para separar SCHEMA.TABELA
 
 ## Intalação com VirtualBox - NÃO ESTÁ COMPLETO
 Abaixo um breve tutorial para quem deseja rodar dentro do VirtualBox.
