@@ -9,7 +9,7 @@ use Adianti\Widget\Form\TField;
 /**
  * Label Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -149,7 +149,7 @@ class TLabel extends TField implements AdiantiWidgetInterface
     {
         if ($this->size)
         {
-            if (strstr($this->size, '%') !== FALSE)
+            if (strstr((string) $this->size, '%') !== FALSE)
             {
                 $this->embedStyle->{'width'} = $this->size;
             }

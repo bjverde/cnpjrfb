@@ -7,11 +7,12 @@ use Adianti\Widget\Dialog\TMessage;
 use Adianti\Core\AdiantiCoreTranslator;
 
 use Exception;
+use Throwable;
 
 /**
  * Exception visualizer
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -23,12 +24,12 @@ class TExceptionView
     /**
      * Constructor method
      */
-    function __construct(Exception $e)
+    function __construct(Throwable $e)
     {
         $error_array = $e->getTrace();
         $table = new TTable;
         $row=$table->addRow();
-        $row->addCell('<b>' . $e->getMessage(). '</b><br>');
+        $row->addCell('<b>' . $e->getMessage() . '</b><br>' . $e->getFile() . ':' . $e->getLine() . '<br>');
         $row=$table->addRow();
         $row->addCell('&nbsp;');
         
@@ -39,10 +40,10 @@ class TExceptionView
             $file = str_replace(PATH, '', $file);
             
             $row=$table->addRow();
-            $row->addCell('File: '.$file. ' : '. $line);
+            $row->addCell('File: '.$file. ':'. $line);
             $row=$table->addRow();
             $args = array();
-            if ($error['args'])
+            if (!empty($error['args']))
             {
                 foreach ($error['args'] as $arg)
                 {

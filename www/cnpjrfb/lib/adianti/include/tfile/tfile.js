@@ -24,7 +24,7 @@ function FileUploader(input_id, parent_container, service_action, complete_actio
         var file_link_wrapper = $('<div />',  {'class': 'tfile_link_wrapper', 'style': 'width: calc('+ input_size +' - 25px)'});
         var file_del_icon     = $('<span />', {'class': 'tfile_del_icon fa fa-minus-circle gray', 'title': 'Remover'});
         var file_progress_bar = $('<div />',  {'class': 'progress-bar progress-bar-success', 'style': 'width: 0%; height: 2px;'});
-        var file_input_hidden = $('<input />',{type: 'hidden', name: that.field_name});
+        var file_input_hidden = $('<input />',{type: 'hidden', name: that.field_name, widget: 'tfile'});
         
         if (that.image_gallery.enabled == '1')
         {
@@ -69,6 +69,15 @@ function FileUploader(input_id, parent_container, service_action, complete_actio
         return file_row_wrapper;
     }
     
+    this.clear = function()
+    {
+        that.file_row_wrapper.hide();
+        that.parent_container.children('i').attr({'class' : '', 'title' : ''});
+        that.parent_container.find('[widget=tfile]').css('padding-left', '5px');
+        $(that.file_input_hidden).val('');
+        $('#'+this.input_id).val('');
+    }
+    
     // Show file
     this.showFile = function(file_data)
     {
@@ -83,7 +92,7 @@ function FileUploader(input_id, parent_container, service_action, complete_actio
             var file_link_wrapper = file_row_wrapper.find('.tfile_link_wrapper');
             file_row_wrapper.find('.progress-bar').css('width', '100%');
             
-            if ($.inArray( file_name.split('.').pop(), [ "png", "jpg", "jpeg", "gif" ] ) > -1) {
+            if ($.inArray( file_name.split('.').pop().toLowerCase(), [ "png", "jpg", "jpeg", "gif", "svg", "webp", "ico", "fav" ] ) > -1) {
                 var pop_template = '<div class="popover" role="tooltip" style="z-index:100000;max-width:800px"><div class="arrow"></div><h3 class="popover-title popover-header"></h3><div class="popover-content popover-body"><div class="data-content"></div></div></div>';
                 var pop_content  = '<img style="max-width:460px" src="download.php?file={file_name}">';
                 
@@ -155,11 +164,10 @@ function FileUploader(input_id, parent_container, service_action, complete_actio
     // Set file data
     this.setData = function(data)
     {
+        that.clear();
+        
         if (data) {
             $(that.file_input_hidden).val(encodeURIComponent(JSON.stringify(data)));
-        }
-        else {
-            $(that.file_input_hidden).val('');
         }
     };
     
@@ -329,6 +337,24 @@ function FileUploader(input_id, parent_container, service_action, complete_actio
             __adianti_error('Error', message);
         }
     };
+    
+    this.setValue = function(value)
+    {
+        this.clear();
+        if(value)
+        {
+            var data = {"fileName": value};
+        
+            if(value.indexOf('%7B%') >= 0 )
+            {
+                data = JSON.parse(decodeURIComponent(value));
+            }
+            
+            this.setData(data);    
+        }
+        
+        this.showFile();
+    }
 }
 
 function tfile_start( input_id, parent_container, service_action, complete_action, error_action, file_handling, image_gallery, popover)
@@ -350,7 +376,26 @@ function tfile_start( input_id, parent_container, service_action, complete_actio
             file.showFile();
             $(input_hidden).remove();
         }
+        
+        $('[name="' + file.field_name+'"]')[0].tfile = file;
     });
+}
+
+function tfile_send_data(id, value) {
+    
+    if(value)
+    {
+        var data = {"fileName": value};
+
+        var instance = $('#'+id).data('instance')
+    
+        if(typeof instance != 'undefined')
+        {
+            instance.setData(data);
+            instance.showFile();
+        } 
+    }
+    
 }
 
 function tfile_enable_field(form_name, field) {

@@ -1,13 +1,14 @@
 <?php
 namespace Adianti\Widget\Datagrid;
 
+use Adianti\Core\AdiantiCoreTranslator;
 use Adianti\Control\TAction;
 use Adianti\Widget\Form\TEntry;
 
 /**
  * Representes a DataGrid column
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage datagrid
  * @author     Pablo Dall'Oglio
@@ -83,8 +84,11 @@ class TDataGridColumn
     {
         $this->searchable = true;
         
-        $this->inputSearch = new TEntry('search_'.$this->name);
-        $this->inputSearch->{'placeholder'} = _t('Search');
+        $name = 'search_' . str_replace(['-', '>'],['_', ''],$this->name);
+        
+        $this->inputSearch = new TEntry($name);
+        $this->inputSearch->setId($name);
+        $this->inputSearch->{'placeholder'} = AdiantiCoreTranslator::translate('Search');
         $this->inputSearch->setSize('50%');
     }
     

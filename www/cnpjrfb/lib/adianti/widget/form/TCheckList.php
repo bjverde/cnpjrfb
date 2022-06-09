@@ -13,7 +13,7 @@ use Adianti\Validator\TFieldValidator;
 /**
  * Checklist
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -68,6 +68,14 @@ class TCheckList implements AdiantiWidgetInterface
         $this->width = '100%';
     }
     
+    /**
+     * Disable htmlspecialchars on output
+     */
+    public function disableHtmlConversion()
+    {
+        $this->datagrid->disableHtmlConversion();
+    }
+
     /**
      * Set checklist size
      */

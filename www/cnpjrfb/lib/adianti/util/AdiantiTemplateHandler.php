@@ -8,7 +8,7 @@ use Adianti\Core\AdiantiCoreTranslator;
 /**
  * Template manipulation
  *
- * @version    7.3
+ * @version    7.4
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -73,7 +73,7 @@ class AdiantiTemplateHandler
                     settype($value, $cast);
                 }
                 
-                $content  = str_replace($match, $value, $content);
+                $content  = str_replace($match, (string) $value, $content);
             }
         }
         

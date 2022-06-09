@@ -13,25 +13,45 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
         {
             var single_field = $(field);
             var array_field  = [];
+            var multifile_field  = [];
         }
         else
         {
-            var single_field = $("form[name="+form_name+"] [name='"+field+"']");
-            var array_field  = $("form[name="+form_name+"] [name='"+field+"[]']");
+            var single_field    = $("form[name="+form_name+"] [name='"+field+"']");
+            var array_field     = $("form[name="+form_name+"] [name='"+field+"[]']");
+            var multifile_field = $("form[name="+form_name+"] [widget='tmultifile'][name='file_"+field+"[]']");
         }
         
-        if (single_field.length || array_field.length) {
+        if (single_field.length || array_field.length || multifile_field) {
             if (typeof Adianti.formEventsCounter == 'undefined' || Number.isNaN(Adianti.formEventsCounter)) {
                 Adianti.formEventsCounter = 0;
             }
             
             if (Adianti.formEventsCounter == 0 ) {
-                if (single_field.length) {
+                if(multifile_field.length) {
+                    try {
+                        multifile_field[0].tmultifile.send_data(JSON.parse(value));
+                    } 
+                    catch (e) {
+                        multifile_field[0].tmultifile.setValue(value);
+                    }
+                }
+                else if (single_field.length) {
+                    
                     if (single_field.attr('widget') == 'thtmleditor') {
                         single_field.summernote( "code", value );
                     }
-                    if (single_field.attr('widget') == 'tcolor') {
+                    else if (single_field.attr('widget') == 'tcolor') {
                         single_field.colorpicker('setValue', value);
+                    }
+                    else if (single_field.attr('widget') == 'tdate') {
+                        tdate_set_value('#'+single_field.attr('id'), value);
+                    }
+                    else if (single_field.attr('widget') == 'timagecropper') {
+                        single_field[0].timagecropper.setValue(value);
+                    }
+                    else if (single_field.attr('widget') == 'tfile') {
+                        single_field[0].tfile.setValue(value);
                     }
                     else if (single_field.attr('role') == 'tcombosearch') {
                         // only when is different to avoid extra asynchronous event calls on hierarchical combos
@@ -82,7 +102,7 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                     // checkbox is tested here when used alone inside a form (no checkgroup)
                     else if (single_field.attr('type') == 'radio' || single_field.attr('type') == 'checkbox') {
                         if (value) {
-                            var radio_input = single_field.filter('[value='+value+']').prop('checked', true);
+                            var radio_input = single_field.filter('[value="'+value+'"]').prop('checked', true);
                             if (radio_input.parent().prop('tagName') == 'LABEL') {
                                 radio_input.parent().parent().find('label').removeClass('active');
                                 radio_input.parent().toggleClass('active');
@@ -109,9 +129,9 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                         
                         if (value) {
                             array_field.parent().parent().find('label').removeClass('active');
-                            var checkeds = value.split('|');
+                            var checkeds = JSON.parse(value);
                             $.each(checkeds, function(key, checkvalue) {
-                                var check_input = array_field.filter('[value='+checkvalue+']').prop('checked', true);
+                                var check_input = array_field.filter('[value="'+checkvalue+'"]').prop('checked', true);
                                 if (check_input.parent().prop('tagName') == 'LABEL') {
                                     check_input.parent().toggleClass('active');
                                 }
@@ -121,7 +141,7 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                     else if (array_field.attr('component') == 'multientry') {
                         if (value) {
                             array_field.empty();
-                            var values = value.split('|');
+                            var values = JSON.parse(value);
                             $.each(values, function(key, value) {
                                 array_field.append($("<option/>").val(value).text(value));
                             });
@@ -130,7 +150,7 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                     }
                     else if (array_field.attr('component') == 'multisearch' && array_field.attr('widget') !== 'tuniquesearch') {
                         if (value) {
-                            var values = value.split('|');
+                            var values = JSON.parse(value);
                             
                             var select2_template = function (d) {
                                 if (/<[a-z][\s\S]*>/i.test(d.text)) {
@@ -160,7 +180,7 @@ function tform_send_data(form_name, field, value, fire_events, timeout)
                     }
                     else if (array_field.length) {
                         if (value) {
-                            var values = value.split('|');
+                            var values = JSON.parse(value);
                             $(array_field).find("option").prop('selected', false);
                             if (array_field.attr('widget') == 'tselect' && array_field.length == 1) // single select[]
                             {

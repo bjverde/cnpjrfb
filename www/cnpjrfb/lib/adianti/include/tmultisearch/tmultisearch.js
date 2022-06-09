@@ -1,7 +1,8 @@
-function tmultisearch_start( id, minlen, maxsize, placeholder, multiple, width, height, allowclear, allowsearch, callback ) {
+function tmultisearch_start( id, minlen, maxsize, placeholder, multiple, width, height, allowclear, allowsearch, callback, with_titles ) {
     var options = {
         minimumInputLength: minlen,
         maximumSelectionLength: maxsize,
+        selectionTitleAttribute: with_titles,
         allowClear: allowclear,
         placeholder: placeholder,
         multiple: multiple,
@@ -80,13 +81,20 @@ function tmultisearch_enable_field(form_name, field) {
     }
 }
 
-function tmultisearch_disable_field(form_name, field) {
+function tmultisearch_disable_field(form_name, field, title) {
+    if (!title) {
+        title = '';
+    }
+
     try {
         if($('form[name='+form_name+'] [name="'+field+'"]').length > 0) {
-            $('form[name='+form_name+'] [name="'+field+'"]').next('.select2').prepend('<div class="select2-disable"></div>');
+            $('form[name='+form_name+'] [name="'+field+'"]').next('.select2').prepend('<div title="'+title+'" class="select2-disable"></div>');
+        }
+        else if($('[form='+form_name+'] [name="'+field+'"]').length > 0) {
+            $('[form='+form_name+'] [name="'+field+'"]').next('.select2').prepend('<div title="'+title+'" class="select2-disable"></div>');
         }
         else {
-            $('form[name='+form_name+'] [name="'+field+'[]"]').next('.select2').prepend('<div class="select2-disable"></div>');
+            $('form[name='+form_name+'] [name="'+field+'[]"]').next('.select2').prepend('<div title="'+title+'" class="select2-disable"></div>');
         }
     }
     catch (e) {

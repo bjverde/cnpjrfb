@@ -4,7 +4,7 @@ namespace Adianti\Widget\Base;
 /**
  * Base class for all HTML Elements
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage base
  * @author     Pablo Dall'Oglio

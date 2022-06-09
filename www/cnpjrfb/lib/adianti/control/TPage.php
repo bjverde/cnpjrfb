@@ -6,11 +6,12 @@ use Adianti\Widget\Base\TElement;
 use Adianti\Widget\Base\TScript;
 
 use Exception;
+use ReflectionClass;
 
 /**
  * Page Controller Pattern: used as container for all elements inside a page and also as a page controller
  *
- * @version    7.3
+ * @version    7.4
  * @package    control
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -34,6 +35,23 @@ class TPage extends TElement
     }
     
     /**
+     * Return the Page name
+     */
+    public function getClassName()
+    {
+        $rc = new ReflectionClass( $this );
+        return $rc->getShortName();
+    }
+    
+    /**
+     * Change page title
+     */
+	public static function setPageTitle($title)
+    {
+    	TScript::create("document.title='{$title}';");
+    }
+    
+    /**
      * Set target container for page content
      */
     public function setTargetContainer($container)
@@ -41,10 +59,14 @@ class TPage extends TElement
         if ($container)
         {
             $this->setProperty('adianti_target_container', $container);
+            $this->{'class'} = 'container-part';
+            $this->{'page_name'} = $this->getClassName();
         }
         else
         {
             unset($this->{'adianti_target_container'});
+            unset($this->{'class'});
+            unset($this->{'page_name'});
         }
     }
     
@@ -116,6 +138,14 @@ class TPage extends TElement
     public static function openFile($file, $basename = null)
     {
         TScript::create("__adianti_download_file('{$file}', '{$basename}')");
+    }
+    
+    /**
+     * Open a page in new tab
+     */
+    public static function openPage($page)
+    {
+        TScript::create("__adianti_open_page('{$page}');");
     }
     
     /**

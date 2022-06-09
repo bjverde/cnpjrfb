@@ -12,7 +12,7 @@ use stdClass;
 /**
  * FullCalendar Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -37,6 +37,7 @@ class TFullCalendar extends TElement
     protected $resizable;
     protected $movable;
     protected $options;
+    protected $full_height;
 
 
     /**
@@ -57,17 +58,36 @@ class TFullCalendar extends TElement
         $this->popover = FALSE;
         $this->resizable = TRUE;
         $this->movable = TRUE;
+        $this->full_height = FALSE;
         $this->options = [];
     }
     
     /**
      * Set extra datepicker options (ex: autoclose, startDate, daysOfWeekDisabled, datesDisabled)
+     * @link https://fullcalendar.io/docs/view-specific-options
      */
     public function setOption($option, $value)
     {
         $this->options[$option] = $value;
     }
     
+    /**
+     * Define use full height
+     */
+    public function enableFullHeight($full_height = TRUE)
+    {
+        $this->full_height = $full_height;
+    }
+
+    /**
+     * Define height
+     */
+    public function setHeight($height)
+    {
+        $this->options['expandRows'] = true;
+        $this->options['height'] = $height;
+    }
+
     /**
      * Define the time range
      */
@@ -96,7 +116,7 @@ class TFullCalendar extends TElement
     
     /**
      * Set the current view of calendar
-     * @param $view Current view of calendar (month, agendaWeek, agendaDay)
+     * @param $view Current view of calendar (month, agendaWeek, agendaDay, listWeek)
      */
     public function setCurrentView($view)
     {
@@ -193,7 +213,7 @@ class TFullCalendar extends TElement
         }
         $event->{'start'} = $start;
         $event->{'end'} = $end;
-        $event->{'url'} = $url;
+        $event->{'url'} = $url ? $url : '';
         $event->{'color'} = $color;
         
         $this->events[] = $event;
@@ -256,9 +276,19 @@ class TFullCalendar extends TElement
         $editable = ($this->update_action) ? 'true' : 'false';
         $movable = ($this->movable) ? 'true' : 'false';
         $resizable = ($this->resizable) ? 'true' : 'false';
+        $full_height = ($this->full_height) ? 'true' : 'false';
         $hidden_days = json_encode(array_values(array_diff([0,1,2,3,4,5,6], $this->enabled_days)));
         
-        TScript::create("tfullcalendar_start( '{$id}', {$editable}, '{$this->default_view}', '{$this->current_date}', '$language', $events, '{$day_action_string}', '{$event_action_string}', '{$update_action_string}', '{$this->min_time}', '{$this->max_time}', $hidden_days, {$movable}, {$resizable}, '{$options}');");
+        $default_views = [
+            'month' => 'dayGridMonth',
+            'agendaWeek' => 'timeGridWeek',
+            'agendaDay' => 'timeGridDay',
+            'listWeeky' => 'listWeek',
+        ];
+
+        $default_view = empty($default_views[$this->default_view])? $this->default_view: $default_views[$this->default_view];
+
+        TScript::create("tfullcalendar_start( '{$id}', {$editable}, '{$default_view}', '{$this->current_date}', '$language', $events, '{$day_action_string}', '{$event_action_string}', '{$update_action_string}', '{$this->min_time}', '{$this->max_time}', $hidden_days, {$movable}, {$resizable}, '{$options}', {$full_height});");
         parent::show();
     }
 }

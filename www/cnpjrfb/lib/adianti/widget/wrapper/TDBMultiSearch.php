@@ -16,7 +16,7 @@ use Exception;
 /**
  * Database Multisearch Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage wrapper
  * @author     Pablo Dall'Oglio
@@ -112,6 +112,11 @@ class TDBMultiSearch extends TMultiSearch
         $this->tag->{'widget'} = 'tdbmultisearch';
         $this->idSearch = true;
         $this->idTextSearch = false;
+        
+        if ((defined("{$model}::IDPOLICY")) AND (constant("{$model}::IDPOLICY") == 'uuid'))
+        {
+            $this->idTextSearch = true;
+        }
     }
     
     /**
@@ -184,7 +189,7 @@ class TDBMultiSearch extends TMultiSearch
                     $values = explode($this->separator, $values);
                 }
                 
-                TTransaction::open($this->database);
+                TTransaction::openFake($this->database);
                 foreach ($values as $value)
                 {
                     if ($value)
@@ -234,7 +239,7 @@ class TDBMultiSearch extends TMultiSearch
                 $return = [];
                 if (is_array($values))
                 {
-                    TTransaction::open($this->database);
+                    TTransaction::openFake($this->database);
                     foreach ($values as $value)
                     {
                         if ($value)
@@ -259,6 +264,7 @@ class TDBMultiSearch extends TMultiSearch
                             }
                         }
                     }
+                    TTransaction::close();
                 }
                 return $return;
             }
@@ -293,7 +299,7 @@ class TDBMultiSearch extends TMultiSearch
             $this->tag->{'name'}  = $this->name.'[]';  // tag name
         }
         
-        if (strstr($this->size, '%') !== FALSE)
+        if (strstr( (string) $this->size, '%') !== FALSE)
         {
             $this->setProperty('style', "width:{$this->size};", false); //aggregate style info
             $size  = "{$this->size}";
@@ -320,6 +326,8 @@ class TDBMultiSearch extends TMultiSearch
         $method = $callback[1];
         $id_search_string = $this->idSearch ? '1' : '0';
         $id_text_search = $this->idTextSearch ? '1' : '0';
+        $with_titles = $this->withTitles ? 'true' : 'false';
+
         $search_word = !empty($this->getProperty('placeholder'))? $this->getProperty('placeholder') : AdiantiCoreTranslator::translate('Search');
         $url = "engine.php?class={$class}&method={$method}&static=1&database={$this->database}&key={$this->key}&column={$this->column}&model={$this->model}&orderColumn={$orderColumn}&criteria={$criteria}&operator={$this->operator}&mask={$this->mask}&idsearch={$id_search_string}&idtextsearch={$id_text_search}&minlength={$length}";
         
@@ -350,12 +358,12 @@ class TDBMultiSearch extends TMultiSearch
         // shows the component
         parent::renderItems( false );
         $this->tag->show();
-        
-        TScript::create(" tdbmultisearch_start( '{$this->id}', '{$length}', '{$this->maxSize}', '{$search_word}', $multiple, '{$url}', '{$size}', '{$this->height}px', '{$hash}', {$change_action} ); ");
+
+        TScript::create(" tdbmultisearch_start( '{$this->id}', '{$length}', '{$this->maxSize}', '{$search_word}', $multiple, '{$url}', '{$size}', '{$this->height}px', '{$hash}', {$change_action}, {$with_titles} ); ");
         
         if (!$this->editable)
         {
-            TScript::create(" tmultisearch_disable_field( '{$this->formName}', '{$this->name}'); ");
+            TScript::create(" tmultisearch_disable_field( '{$this->formName}', '{$this->name}', '{$this->tag->{'title'}}'); ");
         }
     }
 }

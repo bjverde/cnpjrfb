@@ -6,7 +6,7 @@ use Adianti\Database\TExpression;
 /**
  * Provides an interface for filtering criteria definition
  *
- * @version    7.3
+ * @version    7.4
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -17,7 +17,8 @@ class TCriteria extends TExpression
     private $expressions;  // store the list of expressions
     private $operators;    // store the list of operators
     private $properties;   // criteria properties
-    
+    private $caseInsensitive;
+
     /**
      * Constructor Method
      * @author Pablo Dall'Oglio
@@ -31,6 +32,8 @@ class TCriteria extends TExpression
         $this->properties['offset']    = 0;
         $this->properties['direction'] = '';
         $this->properties['group']     = '';
+
+        $this->caseInsensitive = FALSE;
     }
 
     /**
@@ -63,7 +66,7 @@ class TCriteria extends TExpression
     
     /**
      * When clonning criteria
-     */    
+     */
     function __clone()
     {
         $newExpressions = array();
@@ -76,7 +79,7 @@ class TCriteria extends TExpression
     
     /**
      * Adds a new Expression to the Criteria
-     * 
+     *
      * @param   $expression  TExpression object
      * @param   $operator    Logic Operator Constant
      * @author               Pablo Dall'Oglio
@@ -139,6 +142,8 @@ class TCriteria extends TExpression
                 foreach ($this->expressions as $i=> $expression)
                 {
                     $operator = $this->operators[$i];
+                    $expression->setCaseInsensitive($this->caseInsensitive);
+
                     // concatenates the operator with its respective expression
                     $result .=  $operator. $expression->dump( $prepared ) . ' ';
                 }
@@ -217,5 +222,21 @@ class TCriteria extends TExpression
         {
             return $this->properties[$property];
         }
+    }
+
+    /**
+     * Force case insensitive searches
+     */
+    public function setCaseInsensitive(bool $value) : void
+    {
+        $this->caseInsensitive = $value;
+    }
+
+    /**
+     * Return if case insensitive is turned on
+     */
+    public function getCaseInsensitive() : bool
+    {
+        return $this->caseInsensitive;
     }
 }

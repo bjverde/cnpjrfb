@@ -1,18 +1,21 @@
 <?php
 namespace Adianti\Database;
 
+use Adianti\Core\AdiantiCoreTranslator;
 use Adianti\Database\TConnection;
 use Adianti\Log\TLogger;
 use Adianti\Log\TLoggerSTD;
 use Adianti\Log\TLoggerTXT;
 use Adianti\Log\AdiantiLoggerInterface;
+
 use PDO;
 use Closure;
+use Exception;
 
 /**
  * Manage Database transactions
  *
- * @version    7.3
+ * @version    7.4
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -56,8 +59,9 @@ class TTransaction
         }
         else
         {
+            $dbinfo = TConnection::getDatabaseInfo($database);
             self::$conn[self::$counter]   = TConnection::open($database);
-            self::$dbinfo[self::$counter] = TConnection::getDatabaseInfo($database);
+            self::$dbinfo[self::$counter] = $dbinfo;
         }
         
         self::$database[self::$counter] = $database;
@@ -65,8 +69,13 @@ class TTransaction
         
         $driver = self::$conn[self::$counter]->getAttribute(PDO::ATTR_DRIVER_NAME);
         
-        // begins transaction
-        self::$conn[self::$counter]->beginTransaction();
+        $fake = isset($dbinfo['fake']) ? $dbinfo['fake'] : FALSE;
+        
+        if (!$fake)
+        {
+            // begins transaction
+            self::$conn[self::$counter]->beginTransaction();
+        }
         
         if (!empty(self::$dbinfo[self::$counter]['slog']))
         {
@@ -83,6 +92,18 @@ class TTransaction
         }
         
         return self::$conn[self::$counter];
+    }
+    
+    /**
+     * Open fake transaction
+     * @param $database Name of the database (an INI file).
+     */
+    public static function openFake($database)
+    {
+        $info = TConnection::getDatabaseInfo($database);
+        $info['fake'] = 1;
+        
+        TTransaction::open(null, $info);
     }
     
     /**

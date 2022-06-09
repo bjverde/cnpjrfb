@@ -19,8 +19,25 @@
     display: flex;
     border: 1px solid #e9e9e9;
     border-radius: .25rem;
-    background-image: repeating-radial-gradient(circle at center center, transparent 0px, transparent 13px,rgba(0,0,0,0.03) 13px, rgba(0,0,0,0.03) 24px,transparent 24px, transparent 62px,rgba(0,0,0,0.03) 62px, rgba(0,0,0,0.03) 96px),repeating-radial-gradient(circle at center center, rgb(255,255,255) 0px, rgb(255,255,255) 14px,rgb(255,255,255) 14px, rgb(255,255,255) 18px,rgb(255,255,255) 18px, rgb(255,255,255) 28px,rgb(255,255,255) 28px, rgb(255,255,255) 32px);
+    background-color: #e9e9e959;
     background-size: 21px 21px;
+    cursor: pointer;
+}
+
+.label_timagecropper img.placeholder {
+    object-fit: contain;
+    margin: auto;
+    width: 100%;
+    opacity: 0.3;
+    max-height: 100%;
+}
+
+.label_timagecropper i.placeholder {
+    font-size: 75px;
+    margin: auto;
+    width: 100%;
+    opacity: 0.3;
+    text-align: center;
 }
 
 .label_timagecropper.highlight {

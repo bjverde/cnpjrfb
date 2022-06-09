@@ -14,7 +14,7 @@ use ApplicationTranslator;
 /**
  * Timeline
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage util
  * @author     Artur Comunello
@@ -183,7 +183,7 @@ class TTimeline extends TElement
                 if (empty($condition) OR call_user_func($condition, $object))
                 {
                     $button = new TElement('button');
-                    $button->{'onclick'} = "__adianti_load_page('{$action->serialize()}');";
+                    $button->{'onclick'} = "__adianti_load_page('{$action->serialize()}');return false;";
                     
                     $span = new TElement('span');
                     $span->add( new TImage($icon) );
@@ -206,8 +206,12 @@ class TTimeline extends TElement
     {
         $span = new TElement( 'span' );
         $span->{'class'} = 'time';
-        $span->add( new TImage( 'far:clock' ) );
-        $span->add( TDateTime::convertToMask( $item->{'date'}, 'yyyy-mm-dd hh:ii:ss', 'hh:ii' ) );
+        
+        if (strlen($item->{'date'}) > 10)
+        {
+            $span->add( new TImage( 'far:clock' ) );
+            $span->add( TDateTime::convertToMask( $item->{'date'}, 'yyyy-mm-dd hh:ii:ss', 'hh:ii' ) );
+        }
         
         $title = new TElement( 'a' );
         $title->add( AdiantiTemplateHandler::replace( $item->{'title'}, $item->{'object'} ) );
@@ -310,12 +314,12 @@ class TTimeline extends TElement
             }
             
             $first = reset( $this->items );
-            $label = TDateTime::convertToMask( $first->{'date'}, 'yyyy-mm-dd hh:ii:ss', $this->timeDisplayMask );
+            $label = TDateTime::convertToMask( $first->{'date'}, strlen($first->{'date'}) > 10 ? 'yyyy-mm-dd hh:ii:ss' : 'yyyy-mm-dd', $this->timeDisplayMask );
             parent::add( $this->renderLabel( $label ) );
             
             foreach ($this->items as $item)
             {
-                $newLabel = TDateTime::convertToMask( $item->{'date'}, 'yyyy-mm-dd hh:ii:ss', $this->timeDisplayMask );
+                $newLabel = TDateTime::convertToMask( $item->{'date'}, strlen($item->{'date'}) > 10 ? 'yyyy-mm-dd hh:ii:ss' : 'yyyy-mm-dd', $this->timeDisplayMask );
                 
                 if( $newLabel != $label)
                 {

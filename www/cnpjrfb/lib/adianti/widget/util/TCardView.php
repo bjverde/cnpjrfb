@@ -16,7 +16,7 @@ use ApplicationTranslator;
 /**
  * Card
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -168,13 +168,14 @@ class TCardView extends TElement
      * @param  $icon              Action icon
      * @param  $display_condition Display condition
      */
-    public function addAction(TAction $action, $label, $icon = NULL, $display_condition = NULL)
+    public function addAction(TAction $action, $label, $icon = NULL, $display_condition = NULL, $title = NULL)
     {
         $itemAction            = new stdClass;
         $itemAction->label     = $label;
         $itemAction->action    = $action;
         $itemAction->icon      = $icon;
         $itemAction->condition = $display_condition;
+        $itemAction->title     = $title;
         
         $this->itemActions[]   = $itemAction;
     }
@@ -251,7 +252,7 @@ class TCardView extends TElement
             {
                 $item_content->{'style'}   = 'min-height:'.$this->contentHeight;
                 
-                if (strstr($this->size, '%') !== FALSE)
+                if (strstr((string) $this->size, '%') !== FALSE)
                 {
                     $item_content->{'style'}   = 'min-height:'.$this->contentHeight;
                 }
@@ -266,7 +267,7 @@ class TCardView extends TElement
         {
             $item_wrapper->{'style'}   = 'min-height:'.$this->itemHeight;
             
-            if (strstr($this->size, '%') !== FALSE)
+            if (strstr((string) $this->size, '%') !== FALSE)
             {
                 $item_wrapper->{'style'}   = 'min-height:'.$this->itemHeight;
             }
@@ -340,6 +341,13 @@ class TCardView extends TElement
                     $button->{'generator'} = 'adianti';
                     $button->add(new TImage($action->icon));
                     $button->add($action->label); 
+                    
+                    if (!empty($action->title))
+                    {
+                        $button->{'title'} = $action->title;
+                        $button->{'titside'} = 'bottom';
+                    }
+                    
                     $div->add($button);
                 }
                 else

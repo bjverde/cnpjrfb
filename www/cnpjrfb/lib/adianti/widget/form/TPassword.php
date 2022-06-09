@@ -3,8 +3,11 @@ namespace Adianti\Widget\Form;
 
 use Adianti\Widget\Form\AdiantiWidgetInterface;
 use Adianti\Core\AdiantiCoreTranslator;
+use Adianti\Widget\Base\TElement;
+use Adianti\Widget\Base\TScript;
 use Adianti\Widget\Form\TField;
 use Adianti\Widget\Form\TForm;
+use Adianti\Widget\Util\TImage;
 use Adianti\Control\TAction;
 
 use Exception;
@@ -12,7 +15,7 @@ use Exception;
 /**
  * Password Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -24,7 +27,26 @@ class TPassword extends TField implements AdiantiWidgetInterface
     private $exitAction;
     private $exitFunction;
     protected $formName;
+    protected $innerIcon;
+    protected $id;
+    private $toggleVisibility;
+
+    /**
+     * Class Constructor
+     * @param $name Name of the widget
+     */
+    public function __construct($name)
+    {
+        parent::__construct($name);
+        $this->id = 'tpassword_'.mt_rand(1000000000, 1999999999);
+        $this->toggleVisibility = TRUE;
+    }
     
+    public function enableToggleVisibility($toggleVisibility = TRUE)
+    {
+        $this->toggleVisibility = $toggleVisibility;
+    }
+
     /**
      * Define the action to be executed when the user leaves the form field
      * @param $action TAction object
@@ -55,6 +77,20 @@ class TPassword extends TField implements AdiantiWidgetInterface
     }
     
     /**
+     * Define the Inner icon
+     */
+    public function setInnerIcon(TImage $image, $side = 'right')
+    {
+        $this->innerIcon = $image;
+        $this->innerIcon->{'class'} .= ' input-inner-icon ' . $side;
+        
+        if ($side == 'left')
+        {
+            $this->setProperty('style', "padding-left:23px", false); //aggregate style info
+        }
+    }
+    
+    /**
      * Define the javascript function to be executed when the user leaves the form field
      * @param $function Javascript function
      */
@@ -75,7 +111,7 @@ class TPassword extends TField implements AdiantiWidgetInterface
         
         if (!empty($this->size))
         {
-            if (strstr($this->size, '%') !== FALSE)
+            if (strstr((string) $this->size, '%') !== FALSE)
             {
                 $this->setProperty('style', "width:{$this->size};", FALSE); //aggregate style info
             }
@@ -112,7 +148,42 @@ class TPassword extends TField implements AdiantiWidgetInterface
             $this->tag->{'tabindex'} = '-1';
         }
         
-        // show the tag
-        $this->tag->show();
+        if (!empty($this->innerIcon))
+        {
+            $icon_wrapper = new TElement('div');
+            $icon_wrapper->add($this->tag);
+            $icon_wrapper->add($this->innerIcon);
+            $icon_wrapper->show();
+        }
+        else
+        {
+            if ($this->toggleVisibility)
+            {
+                $div    = new TElement('div');
+                $button = new TElement('button');
+                $icon   = new TElement('i');
+    
+                $div->{'id'} = $this->id;
+                $div->{'style'} = $this->getProperty('style');
+    
+                $icon->{'class'} = 'fa fa-eye-slash';
+                $div->{'class'} = 'tpassword';
+    
+                $button->{'type'} = 'button';
+    
+                $button->add($icon);
+                $div->add($this->tag);
+                $div->add($button);
+    
+                $div->show();
+    
+                TScript::create("tpassword_start('{$this->id}');");
+            }
+            else
+            {
+                // shows the tag
+                $this->tag->show();
+            }
+        }
     }
 }

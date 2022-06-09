@@ -16,7 +16,7 @@ use Exception;
 /**
  * FileChooser widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Nataniel Rabaioli
@@ -58,6 +58,7 @@ class TFile extends TField implements AdiantiWidgetInterface
         $this->seed = APPLICATION_NAME . ( !empty($ini['general']['seed']) ? $ini['general']['seed'] : 's8dkld83kf73kf094' );
         $this->imageGallery = false;
         $this->popover = false;
+        $this->popcontent = '';
         $this->tag->{'widget'} = 'tfile';
     }
     
@@ -166,6 +167,10 @@ class TFile extends TField implements AdiantiWidgetInterface
                 {
                     $this->value = urlencode(json_encode(['fileName'=>$value]));
                 }
+                else
+                {
+                    $this->value = $value;
+                }
             }
             else
             {
@@ -199,7 +204,7 @@ class TFile extends TField implements AdiantiWidgetInterface
         
         if (!empty($this->size))
         {
-            if (strstr($this->size, '%') !== FALSE)
+            if (strstr((string) $this->size, '%') !== FALSE)
             {
                 $this->setProperty('style', "width:{$this->size};", false); //aggregate style info
             }
@@ -295,7 +300,7 @@ class TFile extends TField implements AdiantiWidgetInterface
         
         if ($router = AdiantiCoreApplication::getRouter())
         {
-	        $action = $router($action);
+	        $action = $router($action, false);
         }
 
         $fileHandling = $this->fileHandling ? '1' : '0';

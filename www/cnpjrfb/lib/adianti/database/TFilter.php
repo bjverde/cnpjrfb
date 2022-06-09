@@ -7,7 +7,7 @@ use Adianti\Database\TSqlStatement;
 /**
  * Provides an interface to define filters to be used inside a criteria
  *
- * @version    7.3
+ * @version    7.4
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -20,10 +20,10 @@ class TFilter extends TExpression
     private $value;
     private $value2;
     private $preparedVars;
-    
+    private $caseInsensitive;
+
     /**
      * Class Constructor
-     * 
      * @param  $variable = variable
      * @param  $operator = operator (>, <, =, BETWEEN)
      * @param  $value    = value to be compared
@@ -43,6 +43,7 @@ class TFilter extends TExpression
         {
             $this->value2 = $value2;
         }
+        $this->caseInsensitive = FALSE;
     }
     
     /**
@@ -98,13 +99,13 @@ class TFilter extends TExpression
             $result = '(' . implode(',', $foo) . ')';
         }
         // if the value is a subselect (must not be escaped as string)
-        else if (substr(strtoupper($value),0,7) == '(SELECT')
+        else if (substr(strtoupper( (string) $value),0,7) == '(SELECT')
         {
             $value  = str_replace(['#', '--', '/*'], ['', '', ''], $value);
             $result = $value;
         }
         // if the value must not be escaped (NOESC in front)
-        else if (substr($value,0,6) == 'NOESC:')
+        else if (substr( (string) $value,0,6) == 'NOESC:')
         {
             $value  = str_replace(['#', '--', '/*'], ['', '', ''], $value);
             $result = substr($value,6);
@@ -184,8 +185,18 @@ class TFilter extends TExpression
         }
         else
         {
+            $variable = $this->variable;
+            $operator = $this->operator;
+
+            if ($this->caseInsensitive && stristr(strtolower($operator),'like') !== FALSE)
+            {
+                $variable = "UPPER({$variable})";
+                $value = "UPPER({$value})";
+                $operator = 'like';
+            }
+
             // concatenated the expression
-            return "{$this->variable} {$this->operator} {$value}";
+            return "{$variable} {$operator} {$value}";
         }
     }
     
@@ -195,5 +206,21 @@ class TFilter extends TExpression
     private function getRandomParameter()
     {
         return mt_rand(1000000000, 1999999999);
+    }
+
+    /**
+     * Force case insensitive searches
+     */
+    public function setCaseInsensitive(bool $value) : void
+    {
+        $this->caseInsensitive = $value;
+    }
+
+    /**
+     * Return if case insensitive is turned ON
+     */
+    public function getCaseInsensitive() : bool
+    {
+        return $this->caseInsensitive;
     }
 }

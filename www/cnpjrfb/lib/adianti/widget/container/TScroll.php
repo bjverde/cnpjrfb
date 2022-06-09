@@ -8,7 +8,7 @@ use Adianti\Widget\Util\TSourceCode;
 /**
  * Scrolled Window: Allows to add another containers inside, creating scrollbars when its content is bigger than its visual area
  * 
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage container
  * @author     Pablo Dall'Oglio

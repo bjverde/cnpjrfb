@@ -14,7 +14,7 @@ use Exception;
 /**
  * Spinner Widget (also known as spin button)
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -131,7 +131,7 @@ class TSpinner extends TField implements AdiantiWidgetInterface
         
         $this->setProperty('style', "text-align:right", false); //aggregate style info
         
-        if (strstr($this->size, '%') !== FALSE)
+        if (strstr((string) $this->size, '%') !== FALSE)
         {
             $this->setProperty('style', "width:{$this->size};", false); //aggregate style info
             $this->setProperty('relwidth', "{$this->size}", false); //aggregate style info

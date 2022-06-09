@@ -9,7 +9,7 @@ use Adianti\Database\TFilter;
 /**
  * Record rest service
  *
- * @version    7.3
+ * @version    7.4
  * @package    service
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -153,6 +153,50 @@ class AdiantiRecordService
         $return = $repository->delete($criteria);
         TTransaction::close();
         return $return;
+    }
+
+    /**
+     * Find the count Records by the filter
+     * @return The Active Record list as array
+     * @param $param HTTP parameter
+     */
+    public function countAll($param)
+    {
+        $database     = static::DATABASE;
+        $activeRecord = static::ACTIVE_RECORD;
+
+        TTransaction::open($database);
+
+        $criteria = new TCriteria;
+        if (isset($param['offset']))
+        {
+            $criteria->setProperty('offset', $param['offset']);
+        }
+        if (isset($param['limit']))
+        {
+            $criteria->setProperty('limit', $param['limit']);
+        }
+        if (isset($param['order']))
+        {
+            $criteria->setProperty('order', $param['order']);
+        }
+        if (isset($param['direction']))
+        {
+            $criteria->setProperty('direction', $param['direction']);
+        }
+        if (isset($param['filters']))
+        {
+            foreach ($param['filters'] as $filter)
+            {
+                $criteria->add(new TFilter($filter[0], $filter[1], $filter[2]));
+            }
+        }
+
+        $repository = new TRepository($activeRecord);
+        $count = $repository->count($criteria, FALSE);
+
+        TTransaction::close();
+        return $count;
     }
     
     /**

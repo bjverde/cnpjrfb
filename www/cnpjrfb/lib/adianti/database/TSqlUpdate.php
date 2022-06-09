@@ -7,7 +7,7 @@ use Adianti\Database\TTransaction;
 /**
  * Provides an Interface to create UPDATE statements
  *
- * @version    7.3
+ * @version    7.4
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -84,7 +84,16 @@ class TSqlUpdate extends TSqlStatement
             }
             else if (is_bool($value)) // if is a boolean
             {
-                $result = $value ? 'TRUE': 'FALSE';
+                $info = TTransaction::getDatabaseInfo();
+                
+                if (in_array($info['type'], ['sqlsrv', 'dblib', 'mssql']))
+                {
+                    $result = $value ? '1': '0';
+                }
+                else
+                {
+                    $result = $value ? 'TRUE': 'FALSE';
+                }
             }
             else if ($value !== '') // if its another data type
             {
@@ -152,6 +161,12 @@ class TSqlUpdate extends TSqlStatement
         // concatenates the criteria (WHERE)
         if ($this->criteria)
         {
+            $dbInfo = TTransaction::getDatabaseInfo();
+            if (isset($dbInfo['case']) AND $dbInfo['case'] == 'insensitive')
+            {
+                $this->criteria->setCaseInsensitive(TRUE);
+            }
+
             $this->sql .= ' WHERE ' . $this->criteria->dump( $prepared );
         }
         

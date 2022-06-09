@@ -7,8 +7,9 @@ function tdbuniquesearch_set_value( form_name, field, value, callback )
         }
         else
         {
-            var select = $("[name="+field+"]");
+            var select = $('form[name='+form_name+'] [name='+field+']');
         }
+        
         var hash   = select.data('select2').options.options.hash;
         var url    = select.data('select2').options.options.ajax.url + "&hash=" + hash + "&value=" + value + "&onlyidsearch=1";
         

@@ -31,3 +31,25 @@
     padding-left: 6px;
     pointer-events: none;
 }
+
+.tfield_block_events, .tfield_block_events label, .tfield_block_events input
+{
+    pointer-events: none;
+    color: gray;
+}
+
+.input-inner-icon
+{
+    position: absolute;
+    top: 10px;
+}
+
+.input-inner-icon.right
+{
+    right: 0.5rem;
+}
+
+.input-inner-icon.left
+{
+    left: 0.5rem;
+}

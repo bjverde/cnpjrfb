@@ -1,72 +1,112 @@
-function tfullcalendar_start(id, editable, defaultView, currentDate, language, events, day_click_action, event_click_action, event_update_action, min_time, max_time, hidden_days, movable, resizable, options)
+function tfullcalendar_start(id, editable, defaultView, currentDate, language, events, day_click_action, event_click_action, event_update_action, min_time, max_time, hidden_days, movable, resizable, options, full_height)
 {
     var drag_status   = 0;
     var resize_status = 0;
-    
+
+    events.failure = function(error) {
+        __adianti_failure_request(error.xhr, error.xhr.status, error.xhr.statusText);
+    };
+
     var attributes = {
-        header: {
+        headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'month,agendaWeek,agendaDay,listWeek'
+            right: 'timeGridDay,timeGridWeek,dayGridMonth,listWeek'
         },
+        locale: language,
+        themeSystem: 'bootstrap',
         hiddenDays: hidden_days,
-        defaultDate: currentDate,
-        defaultView: defaultView,
+        initialDate: currentDate,
+        initialView: defaultView,
         allDaySlot: false,
-        viewRender: function(view,element){setTimeout( function() {__adianti_process_popover()},100)},
-        minTime: min_time,
-        maxTime: max_time,
-        slotLabelFormat : 'HH:mm',
-        lang: language, 
+        datesSet: function(view,element){setTimeout( function() {__adianti_process_popover()},100)},
+        slotMinTime: min_time,
+        slotMaxTime: max_time,
+        slotLabelFormat : { hour12: false, hour: '2-digit', minute: '2-digit' },
+        eventTimeFormat: { hour12: false, hour: '2-digit', minute: '2-digit' },
         editable: editable,
-        eventLimit: true, // allow "more" link when too many events
+        dayMaxEventRows: true, // allow "more" link when too many events
         events: events,
         eventDurationEditable: resizable,
         eventStartEditable: movable,
-        eventRender: function (event, element) {
-            element.find('.fc-title').html(event.title);
-            element.find('.fc-list-item-title').html(event.title);
+        eventDisplay: 'block',
+        eventContent: function (arg) {
+            return {html: arg.event.title};
         },
-        dayClick: function(date, jsEvent, view) {
+        dateClick: function(info) {
             if (day_click_action !== '' && drag_status == 0 && resize_status == 0 ) {
-                __adianti_load_page(day_click_action+"&date="+date.format()+"&view="+view.name);
+                var date;
+                if(info.allDay) {
+                    date = info.dateStr;
+                } else {
+                    date = moment(info.date).format('YYYY-MM-DD HH:mm:ss');
+                }
+                __adianti_load_page(day_click_action+"&date="+ date +"&view="+info.view.type);
             }
         },
-        eventClick: function(calEvent, jsEvent, view) {
+        eventClick: function(info) {
             if (event_click_action !== '' && drag_status == 0 && resize_status == 0 ) {
-                __adianti_load_page(event_click_action+"&id="+calEvent.id+"&key="+calEvent.id+"&view="+view.name);
+                __adianti_load_page(event_click_action+"&id="+info.event.id+"&key="+info.event.id+"&view="+info.view.type);
             }
         },
-        eventDragStart : function(calEvent, jsEvent, ui, view) {
+        eventDragStart : function() {
             drag_status = 1;
         },
-        eventDragStop : function(calEvent, jsEvent, ui, view) {
+        eventDragStop : function() {
             drag_status = 0;
         },
-        eventDrop : function(calEvent, jsEvent, ui, view) {
+        eventDrop : function(info) {
             if (event_update_action !== '') {
-                __adianti_ajax_exec(event_update_action+"&id="+calEvent.id+"&key="+calEvent.id+"&start_time="+calEvent.start.format()+"&end_time="+calEvent.end.format());
+                __adianti_ajax_exec(
+                    event_update_action+"&id="+info.event.id+"&key="+info.event.id+"&start_time="+moment(info.event.start).format('YYYY-MM-DD HH:mm:ss')+"&end_time="+moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'));
             }
         },
-        eventResizeStart : function(calEvent, jsEvent, ui, view) {
+        eventResizeStart : function() {
             resize_status = 1; 
         },
-        eventResizeStop : function(calEvent, jsEvent, ui, view) {
+        eventResizeStop : function() {
             resize_status = 0;
         },
-        eventResize : function(calEvent, jsEvent, ui, view) {
+        eventResize : function(info) {
             if (event_update_action !== '') {
-                __adianti_ajax_exec(event_update_action+"&id="+calEvent.id+"&key="+calEvent.id+"&start_time="+calEvent.start.format()+"&end_time="+calEvent.end.format());
+                __adianti_ajax_exec(event_update_action+"&id="+info.event.id+"&key="+info.event.id+"&start_time="+moment(info.event.start).format('YYYY-MM-DD HH:mm:ss')+"&end_time="+moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'));
             }
-        },
-        eventAfterAllRender: function() {
-            __adianti_process_popover();
         }
     };
     
+    if (full_height) {
+        var fullHeight =
+            // Total size page
+            $(document).innerHeight() -
+            // - Navbar size
+            $('html nav.navbar').innerHeight() -
+            // - Tabs size
+            ( $('.adianti_tabs_container').innerHeight() ?? 0) -
+            // - Content page (forms, lists, bradcrumbs) size
+            $('#adianti_div_content').innerHeight() -
+            // - Footer size
+            ($('footer.main-footer').innerHeight() ?? 0)
+            // - Margin size
+            - 40;
+        
+        // Min for not scroll
+        fullHeight = Math.max(fullHeight, 325);
+
+        attributes.expandRows = true;
+        attributes.height = `${fullHeight}px`;
+    }
+
     options = Object.assign(attributes, JSON.parse( options) );
     
-    $('#'+id).fullCalendar(
-        options
-    );
+
+    var calendarEl = $('#'+id)[0];
+    var calendar = new FullCalendar.Calendar(calendarEl, options);
+    calendar.render();
+
+    var resizer = new ResizeObserver(function() {
+        calendar.render();
+    });
+    resizer.observe(calendarEl);
+
+    $('#'+id).data('fullcalendar', calendar);
 }

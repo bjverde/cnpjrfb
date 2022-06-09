@@ -14,7 +14,7 @@ use ApplicationTranslator;
 /**
  * Kanban
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage util
  * @author     Artur Comunello
@@ -332,7 +332,7 @@ class TKanban extends TElement
             
             $this->renderStageItems($stageDiv);
             $this->kanban->add($stageDiv);
-            $stageDiv->add($this->renderStageShortcuts( $stage->{'id'} ));
+            $stageDiv->add($this->renderStageShortcuts( $stage ));
         }
     }
     
@@ -420,16 +420,18 @@ class TKanban extends TElement
     /**
      * Render stage shortcuts
      */
-    private function renderStageShortcuts($stage_id)
+    private function renderStageShortcuts($stage)
     {
         $actions_wrapper = new TElement('div');
         $actions_wrapper->{'class'} = 'kanban-shortcuts';
         
-        foreach ($this->stageShortcuts as $key => $stageAction)
+        foreach ($this->stageShortcuts as $key => $stageActionTemplate)
         {
-            $stageAction->action->setParameter('id',  $stage_id);
-            $stageAction->action->setParameter('key', $stage_id);
-            $url = $stageAction->action->serialize();
+            $stageAction = $stageActionTemplate->action->prepare($stage);
+            
+            $stageAction->setParameter('id',  $stage->{'id'});
+            $stageAction->setParameter('key', $stage->{'id'});
+            $url = $stageAction->serialize();
             
             $action                = new TElement('a');
             $action->{'generator'} = 'adianti';
@@ -438,7 +440,7 @@ class TKanban extends TElement
             {
                 $action->add(new TImage($stageAction->icon));
             }
-            $action->add($stageAction->label);
+            $action->add($stageActionTemplate->label);
             
             $actions_wrapper->add($action);
         }

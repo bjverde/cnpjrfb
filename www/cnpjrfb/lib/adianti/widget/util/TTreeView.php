@@ -7,7 +7,7 @@ use Adianti\Widget\Base\TScript;
 /**
  * TreeView
  * 
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio

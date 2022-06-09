@@ -5,6 +5,7 @@ use Adianti\Widget\Form\AdiantiWidgetInterface;
 use Adianti\Widget\Base\TElement;
 use Adianti\Widget\Base\TScript;
 use Adianti\Widget\Form\TField;
+use Adianti\Widget\Util\TImage;
 use Adianti\Control\TAction;
 use Adianti\Core\AdiantiCoreTranslator;
 use Exception;
@@ -12,7 +13,7 @@ use Exception;
 /**
  * Entry Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -28,6 +29,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
     protected $decimalsSeparator;
     protected $thousandSeparator;
     protected $reverse;
+    protected $allowNegative;
     protected $replaceOnPost;
     protected $exitFunction;
     protected $exitAction;
@@ -38,6 +40,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
     protected $minLength;
     protected $delimiter;
     protected $exitOnEnterOn;
+    protected $innerIcon;
     
     /**
      * Class Constructor
@@ -64,6 +67,20 @@ class TEntry extends TField implements AdiantiWidgetInterface
     }
     
     /**
+     * Define the Inner icon
+     */
+    public function setInnerIcon(TImage $image, $side = 'right')
+    {
+        $this->innerIcon = $image;
+        $this->innerIcon->{'class'} .= ' input-inner-icon ' . $side;
+        
+        if ($side == 'left')
+        {
+            $this->setProperty('style', "padding-left:23px", false); //aggregate style info
+        }
+    }
+    
+    /**
      * Turn on exit on enter
      */
     public function exitOnEnter()
@@ -86,8 +103,9 @@ class TEntry extends TField implements AdiantiWidgetInterface
      * @param $decimals Sets the number of decimal points.
      * @param $decimalsSeparator Sets the separator for the decimal point.
      * @param $thousandSeparator Sets the thousands separator.
+     * @param $allowNegative Sets negative allowed.
      */
-    public function setNumericMask($decimals, $decimalsSeparator, $thousandSeparator, $replaceOnPost = FALSE, $reverse = FALSE)
+    public function setNumericMask($decimals, $decimalsSeparator, $thousandSeparator, $replaceOnPost = FALSE, $reverse = FALSE, $allowNegative = TRUE)
     {
         if (empty($decimalsSeparator))
         {
@@ -98,10 +116,11 @@ class TEntry extends TField implements AdiantiWidgetInterface
             $decimalsSeparator = '';
         }
         
-        $this->{'style'} = 'text-align:right';
+        $this->setProperty('style', "text-align:right;", false); //aggregate style info
         $this->numericMask = TRUE;
         $this->decimals = $decimals;
         $this->reverse = $reverse;
+        $this->allowNegative = $allowNegative;
         $this->decimalsSeparator = $decimalsSeparator;
         $this->thousandSeparator = $thousandSeparator;
         $this->replaceOnPost = $replaceOnPost;
@@ -236,7 +255,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
         $this->tag->{'onKeyPress'} = "return tentry_lower(this)";
         $this->tag->{'onBlur'} = "return tentry_lower(this)";
         $this->tag->{'forcelower'} = "1";
-        $this->setProperty('style', 'text-transform: lowercase');
+        $this->setProperty('style', "text-transform: lowercase;", false); //aggregate style info
         
     }
     
@@ -248,7 +267,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
         $this->tag->{'onKeyPress'} = "return tentry_upper(this)";
         $this->tag->{'onBlur'} = "return tentry_upper(this)";
         $this->tag->{'forceupper'} = "1";
-        $this->setProperty('style', 'text-transform: uppercase');
+        $this->setProperty('style', "text-transform: uppercase;", false); //aggregate style info
     }
     
     /**
@@ -321,17 +340,25 @@ class TEntry extends TField implements AdiantiWidgetInterface
     }
     
     /**
+     * Change mask dynamically
+     */
+    public static function changeMask($formName, $name, $mask)
+    {
+        TScript::create("tentry_change_mask( '{$formName}', '{$name}', '{$mask}');");
+    }
+    
+    /**
      * Shows the widget at the screen
      */
     public function show()
     {
         // define the tag properties
         $this->tag->{'name'}  = $this->name;    // TAG name
-        $this->tag->{'value'} = htmlspecialchars($this->value, ENT_QUOTES | ENT_HTML5, 'UTF-8');   // TAG value
+        $this->tag->{'value'} = htmlspecialchars( (string) $this->value, ENT_QUOTES | ENT_HTML5, 'UTF-8');   // TAG value
         
         if (!empty($this->size))
         {
-            if (strstr($this->size, '%') !== FALSE)
+            if (strstr((string) $this->size, '%') !== FALSE)
             {
                 $this->setProperty('style', "width:{$this->size};", false); //aggregate style info
             }
@@ -362,7 +389,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
             if (isset($this->exitAction))
             {
                 // just aggregate onBlur, if the previous one does not have return clause
-                if (strstr($this->getProperty('onBlur'), 'return') == FALSE)
+                if (strstr((string) $this->getProperty('onBlur'), 'return') == FALSE)
                 {
                     $this->setProperty('onBlur', $this->getProperty('exitaction'), FALSE);
                 }
@@ -383,11 +410,6 @@ class TEntry extends TField implements AdiantiWidgetInterface
                     $this->setProperty('onBlur', $this->exitFunction, TRUE);
                 }
             }
-            
-            if ($this->mask)
-            {
-                TScript::create( "tentry_new_mask( '{$this->id}', '{$this->mask}'); ");
-            }
         }
         else
         {
@@ -397,8 +419,23 @@ class TEntry extends TField implements AdiantiWidgetInterface
             $this->tag->{'onmouseover'} = "style.cursor='default'";
         }
         
-        // shows the tag
-        $this->tag->show();
+        if ($this->mask)
+        {
+            TScript::create( "tentry_new_mask( '{$this->id}', '{$this->mask}'); ");
+        }
+        
+        if (!empty($this->innerIcon))
+        {
+            $icon_wrapper = new TElement('div');
+            $icon_wrapper->add($this->tag);
+            $icon_wrapper->add($this->innerIcon);
+            $icon_wrapper->show();
+        }
+        else
+        {
+            // shows the tag
+            $this->tag->show();
+        }
         
         if (isset($this->completion))
         {
@@ -413,7 +450,10 @@ class TEntry extends TField implements AdiantiWidgetInterface
         }
         if ($this->numericMask)
         {
-            TScript::create( "tentry_numeric_mask( '{$this->id}', {$this->decimals}, '{$this->decimalsSeparator}', '{$this->thousandSeparator}', {$this->reverse}); ");
+            $reverse = $this->reverse ? 'true' : 'false';
+            $allowNegative = $this->allowNegative ? 'true' : 'false';
+
+            TScript::create( "tentry_numeric_mask( '{$this->id}', {$this->decimals}, '{$this->decimalsSeparator}', '{$this->thousandSeparator}', {$reverse}, {$allowNegative}); ");
         }
         
         if ($this->exitOnEnterOn)

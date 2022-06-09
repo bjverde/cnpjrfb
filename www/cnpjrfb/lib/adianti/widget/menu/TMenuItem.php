@@ -9,7 +9,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * MenuItem Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage menu
  * @author     Pablo Dall'Oglio
@@ -25,6 +25,10 @@ class TMenuItem extends TElement
     private $level;
     private $link;
     private $linkClass;
+    private $classLink;
+    private $menu_transformer;
+    private $tagLabel;
+    private $classIcon;
     
     /**
      * Class constructor
@@ -32,7 +36,7 @@ class TMenuItem extends TElement
      * @param $action The menu action
      * @param $image  The menu image
      */
-    public function __construct($label, $action, $image = NULL, $level = 0)
+    public function __construct($label, $action, $image = NULL, $level = 0, $menu_transformer = null)
     {
         parent::__construct('li');
         $this->label     = $label;
@@ -40,7 +44,9 @@ class TMenuItem extends TElement
         $this->level     = $level;
         $this->link      = new TElement('a');
         $this->linkClass = 'dropdown-toggle';
-        
+
+        $this->menu_transformer = $menu_transformer;
+
         if ($image)
         {
             $this->image = $image;
@@ -112,6 +118,30 @@ class TMenuItem extends TElement
         $this->{'class'} = 'dropdown-submenu';
         $this->menu = $menu;
     }
+
+    /**
+     * Set link class Item
+     */
+    public function setClassLink($class)
+    {
+        $this->classLink = $class;
+    }
+
+    /**
+     * Set icon class Item
+     */
+    public function setClassIcon($class)
+    {
+        $this->classIcon = $class;
+    }
+
+    /**
+     * Set tag label
+     */
+    public function setTagLabel($tag)
+    {
+        $this->tagLabel = $tag;
+    }
     
     /**
      * Shows the widget at the screen
@@ -154,10 +184,16 @@ class TMenuItem extends TElement
         if (isset($this->image))
         {
             $image = new TImage($this->image);
+
+            if ($this->classIcon)
+            {
+                $image->{'class'} .= " {$this->classIcon}";
+            }
+
             $this->link->add($image);
         }
         
-        $label = new TElement('span');
+        $label = new TElement($this->tagLabel ?? 'span');
         if (substr($this->label, 0, 3) == '_t{')
         {
             $label->add(_t(substr($this->label,3,-1)));
@@ -173,6 +209,11 @@ class TMenuItem extends TElement
             $this->add($this->link);
         }
         
+        if ($this->classLink)
+        {
+            $this->link->{'class'} = $this->classLink;
+        }
+
         if ($this->menu instanceof TMenu)
         {
             $this->link->{'class'} = $this->linkClass;
@@ -188,6 +229,12 @@ class TMenuItem extends TElement
                 $caret->add('');
                 $this->link->add($caret);
             }
+
+            if (!empty($this->menu_transformer))
+            {
+                $this->link = call_user_func($this->menu_transformer, $this->link);
+            }
+
             parent::add($this->menu);
         }
         

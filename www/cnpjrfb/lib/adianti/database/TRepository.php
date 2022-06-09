@@ -15,7 +15,7 @@ use ReflectionClass;
 /**
  * Implements the Repository Pattern to deal with collections of Active Records
  *
- * @version    7.3
+ * @version    7.4
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -24,6 +24,7 @@ use ReflectionClass;
 class TRepository
 {
     protected $class; // Active Record class to be manipulated
+    protected $trashed;
     protected $criteria; // buffered criteria to use with fluent interfaces
     protected $setValues;
     protected $columns;
@@ -33,13 +34,14 @@ class TRepository
      * Class Constructor
      * @param $class = Active Record class name
      */
-    public function __construct($class)
+    public function __construct($class, $withTrashed = FALSE)
     {
         if (class_exists($class))
         {
             if (is_subclass_of($class, 'TRecord'))
             {
                 $this->class = $class;
+                $this->trashed = $withTrashed;
                 $this->criteria = new TCriteria;
             }
             else
@@ -62,7 +64,16 @@ class TRepository
     {
         $this->criteria = $criteria;
     }
-    
+
+    /**
+     * Set withTrashed using fluent interfaces
+     */
+    public function withTrashed()
+    {
+        $this->trashed = true;
+        return $this;
+    }
+
     /**
      * Returns the name of database entity
      * @return A String containing the name of the entity
@@ -211,7 +222,14 @@ class TRepository
         {
             $criteria = isset($this->criteria) ? $this->criteria : new TCriteria;
         }
+
+        $deletedat = $this->class::getDeletedAtColumn();
         
+        if (!$this->trashed && $deletedat)
+        {
+            $criteria->add(new TFilter($deletedat, 'IS', NULL));
+        }
+
         // creates a SELECT statement
         $sql = new TSqlSelect;
         $sql->addColumn($this->getAttributeList());
@@ -335,6 +353,14 @@ class TRepository
         {
             $criteria = isset($this->criteria) ? $this->criteria : new TCriteria;
         }
+
+        $deletedat = $this->class::getDeletedAtColumn();
+        
+        if (!$this->trashed && $deletedat)
+        {
+            $criteria->add(new TFilter($deletedat, 'IS', NULL));
+        }
+
         $setValues = isset($setValues) ? $setValues : $this->setValues;
         
         $class = $this->class;
@@ -431,6 +457,14 @@ class TRepository
         {
             $criteria = isset($this->criteria) ? $this->criteria : new TCriteria;
         }
+
+        $deletedat = $this->class::getDeletedAtColumn();
+        
+        if (!$this->trashed && $deletedat)
+        {
+            $criteria->add(new TFilter($deletedat, 'IS', NULL));
+        }
+        
         $class = $this->class;
         
         // get the connection of the active transaction
@@ -485,16 +519,38 @@ class TRepository
                 }
             }
             
-            // creates a DELETE statement
-            $sql = new TSqlDelete;
-            $sql->setEntity($this->getEntity());
+            if ($deletedat)
+            {
+                // creates a Update instruction
+                $sql = new TSqlUpdate;
+                $sql->setEntity($this->getEntity());
+
+                $info = TTransaction::getDatabaseInfo();
+                $date_mask = (in_array($info['type'], ['sqlsrv', 'dblib', 'mssql'])) ? 'Ymd H:i:s' : 'Y-m-d H:i:s';
+                $sql->setRowData($deletedat, date($date_mask));
+            }
+            else
+            {
+                // creates a DELETE statement
+                $sql = new TSqlDelete;
+                $sql->setEntity($this->getEntity());
+            }
+
             // assign the criteria to the DELETE statement
             $sql->setCriteria($criteria);
             
             if (isset($dbinfo['prep']) AND $dbinfo['prep'] == '1') // prepared ON
             {
                 $result = $conn-> prepare ( $sql->getInstruction( TRUE ) , array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-                $result-> execute ( $criteria->getPreparedVars() );
+                
+                if ($sql instanceof TSqlUpdate)
+                {
+                    $result-> execute ($sql->getPreparedVars());
+                }
+                else
+                {
+                    $result-> execute ($criteria->getPreparedVars());
+                }
             }
             else
             {
@@ -525,6 +581,14 @@ class TRepository
         {
             $criteria = isset($this->criteria) ? $this->criteria : new TCriteria;
         }
+
+        $deletedat = $this->class::getDeletedAtColumn();
+        
+        if (!$this->trashed && $deletedat)
+        {
+            $criteria->add(new TFilter($deletedat, 'IS', NULL));
+        }
+
         // creates a SELECT statement
         $sql = new TSqlSelect;
         $sql->addColumn('count(*)');
@@ -843,5 +907,26 @@ class TRepository
         }
         
         return $newcollection;
+    }
+    
+    /**
+     * Dump Criteria
+     */
+	public function dump($prepared = FALSE)
+    {
+        if (isset($this->criteria) AND $this->criteria)
+        {
+            $criteria = clone $this->criteria;
+            $deletedat = $this->class::getDeletedAtColumn();
+            
+            if (!$this->trashed && $deletedat)
+            {
+                $criteria->add(new TFilter($deletedat, 'IS', NULL));
+            }
+
+            return $criteria->dump($prepared);
+        }
+
+        return NULL;
     }
 }

@@ -7,7 +7,7 @@ use Adianti\Core\AdiantiApplicationConfig;
 /**
  * File uploader listener
  *
- * @version    7.3
+ * @version    7.4
  * @package    service
  * @author     Nataniel Rabaioli
  * @author     Pablo Dall'Oglio

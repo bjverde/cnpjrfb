@@ -4,7 +4,7 @@ namespace Adianti\Util;
 /**
  * String manipulation
  *
- * @version    7.3
+ * @version    7.4
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)

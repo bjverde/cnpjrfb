@@ -1,10 +1,12 @@
 <?php
 namespace Adianti\Widget\Form;
 
+use Adianti\Widget\Util\TImage;
+
 /**
  * Image capture
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Lucas Tomasi
@@ -19,5 +21,6 @@ class TImageCapture extends TImageCropper
         parent::__construct($name);
         // $this->enableFileHandling(TRUE);
         $this->enableWebCam(TRUE);
+        $this->setImagePlaceholder(new TImage('fa:camera'));
     }
 }

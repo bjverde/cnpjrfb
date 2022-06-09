@@ -1,10 +1,14 @@
 function tchecklist_row_enable_check(table_id)
 {
     $('table#'+table_id+' tbody tr').click(function(ev) {
+        ev.stopImmediatePropagation();
+        ev.stopPropagation();
+        ev.preventDefault();
+
         var check   = $(this).find('[type=checkbox]');
-        var current = $(check).prop('checked');
+        var current = $(check).is(':checked');
         $(check).prop('checked', !current);
-        
+
         if (!current) {
             $(this).addClass('selected')
         }
@@ -14,30 +18,17 @@ function tchecklist_row_enable_check(table_id)
     });
 
     $('table#'+table_id+' tbody tr input[type=checkbox]').click(function(ev) {
-        var current = $(this).prop('checked');
+        ev.stopPropagation();
+
+        var current = $(this).is(':checked');
         var tr = $(this).closest('tr');
         
-        // material check
-        if ($(this).offset().left < 0) {
-            $(this).prop('checked', !current);
-            
-            if (!current) {
-                $(tr).addClass('selected')
-            }
-            else {
-                $(tr).removeClass('selected');
-            }
+        if (current) {
+            $(tr).addClass('selected')
         }
-        else
-        {
-            if (current) {
-                $(tr).addClass('selected')
-            }
-            else {
-                $(tr).removeClass('selected');
-            }
+        else {
+            $(tr).removeClass('selected');
         }
-        ev.stopPropagation();
     });
 }
 

@@ -4,7 +4,7 @@ namespace Adianti\Core;
 /**
  * Framework translation class for internal messages
  *
- * @version    7.3
+ * @version    7.4
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -146,7 +146,14 @@ class AdiantiCoreTranslator
         $this->messages['en'][] = 'Zoom out';
         $this->messages['en'][] = 'Rotate right';
         $this->messages['en'][] = 'Rotate left';
-        
+        $this->messages['en'][] = 'Sunday';
+        $this->messages['en'][] = 'Monday';
+        $this->messages['en'][] = 'Tuesday';
+        $this->messages['en'][] = 'Wednesday';
+        $this->messages['en'][] = 'Thursday';
+        $this->messages['en'][] = 'Friday';
+        $this->messages['en'][] = 'Saturday';
+        $this->messages['en'][] = 'Softdelete is not active';
         
         $this->messages['pt'][] = 'Carregando';
         $this->messages['pt'][] = 'Arquivo não encontrado';
@@ -273,7 +280,15 @@ class AdiantiCoreTranslator
         $this->messages['pt'][] = 'Diminuir zoom';
         $this->messages['pt'][] = 'Rotacionar para a direita';
         $this->messages['pt'][] = 'Rotacionar para a esquerda';
-		
+        $this->messages['pt'][] = 'Domingo';
+        $this->messages['pt'][] = 'Segunda';
+        $this->messages['pt'][] = 'Terça';
+        $this->messages['pt'][] = 'Quarta';
+        $this->messages['pt'][] = 'Quinta';
+        $this->messages['pt'][] = 'Sexta';
+        $this->messages['pt'][] = 'Sábado';
+        $this->messages['pt'][] = 'Softdelete não está ativo';
+        
         $this->messages['es'][] = 'Cargando';
         $this->messages['es'][] = 'Archivo no encontrado';
         $this->messages['es'][] = 'Buscar';
@@ -338,7 +353,7 @@ class AdiantiCoreTranslator
         $this->messages['es'][] = 'Cerrar la aplicación ?';
         $this->messages['es'][] = 'Utilize addField() o setFields() para definir los campos del formulário';
         $this->messages['es'][] = 'Verifique si la acción (^1) existe';
-        $this->messages['es'][] = 'Información';
+        $this->messages['es'][] = 'Informacin';
         $this->messages['es'][] = 'Error';
         $this->messages['es'][] = 'Excepción';
         $this->messages['es'][] = 'Pregunta';
@@ -399,6 +414,14 @@ class AdiantiCoreTranslator
         $this->messages['es'][] = 'Alejar';
         $this->messages['es'][] = 'Girar a la derecha';
         $this->messages['es'][] = 'Girar a la izquierda';
+        $this->messages['es'][] = 'Domingo';
+        $this->messages['es'][] = 'Lunes';
+        $this->messages['es'][] = 'Martes';
+        $this->messages['es'][] = 'Miércoles';
+        $this->messages['es'][] = 'Jueves';
+        $this->messages['es'][] = 'Viernes';
+        $this->messages['es'][] = 'Sábado';
+        $this->messages['es'][] = 'Softdelete no esta activo';
     }
     
     /**

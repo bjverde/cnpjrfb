@@ -10,7 +10,7 @@ use stdClass;
 /**
  * TIconView Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -322,6 +322,7 @@ class TIconView extends TElement
         {
             $wrapper_id = $this->{'id'};
             $source_selectors = [];
+            $source_not_selectors = [];
             $target_selectors = [];
             
             if ($this->dragSelector)
@@ -332,12 +333,28 @@ class TIconView extends TElement
                     {
                         foreach ($value as $val)
                         {
-                            $source_selectors[] = "[{$key}={$val}]";
+                            if (substr($val,0,1) == '!')
+                            {
+                                $val = substr($val,1);
+                                $source_not_selectors[] = "[{$key}!=\"{$val}\"]";
+                            }
+                            else
+                            {
+                                $source_selectors[] = "[{$key}=\"{$val}\"]";
+                            }
                         }
                     }
                     else
                     {
-                        $source_selectors[] = "[{$key}={$value}]";
+                        if (substr($value,0,1) == '!')
+                        {
+                            $value = substr($value,1);
+                            $source_not_selectors[] = "[{$key}!=\"{$value}\"]";
+                        }
+                        else
+                        {
+                            $source_selectors[] = "[{$key}=\"{$value}\"]";
+                        }
                     }
                 }
             }
@@ -350,17 +367,19 @@ class TIconView extends TElement
                     {
                         foreach ($value as $val)
                         {
-                            $target_selectors[] = "[{$key}={$val}]";
+                            $target_selectors[] = "[{$key}=\"{$val}\"]";
                         }
                     }
                     else
                     {
-                        $target_selectors[] = "[{$key}={$value}]";
+                        $target_selectors[] = "[{$key}=\"{$value}\"]";
                     }
                 }
             }
             
-            $source_selector_string = implode(',', $source_selectors);
+            $source_not_selector_string = implode('', $source_not_selectors);
+            $source_selector_string = implode( $source_not_selector_string . ',', $source_selectors) . $source_not_selector_string;
+            
             $target_selector_string = implode(',', $target_selectors);
             $move_action_string = $this->moveAction->serialize();
             

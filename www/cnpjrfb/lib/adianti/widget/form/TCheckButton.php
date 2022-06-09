@@ -1,13 +1,15 @@
 <?php
 namespace Adianti\Widget\Form;
 
+use Adianti\Widget\Base\TElement;
 use Adianti\Widget\Form\AdiantiWidgetInterface;
 use Adianti\Widget\Form\TField;
+use Adianti\Widget\Form\TLabel;
 
 /**
  * CheckButton widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -17,6 +19,8 @@ use Adianti\Widget\Form\TField;
 class TCheckButton extends TField implements AdiantiWidgetInterface
 {
     private $indexValue;
+    private $useSwitch;
+    private $labelClass;
     
     /**
      * Class Constructor
@@ -27,8 +31,18 @@ class TCheckButton extends TField implements AdiantiWidgetInterface
         parent::__construct($name);
         $this->id = 'tcheckbutton_' . mt_rand(1000000000, 1999999999);
         $this->tag->{'class'} = '';
+        $this->useSwitch  = FALSE;
     }
     
+    /**
+     * Show as switch
+     */
+    public function setUseSwitch($useSwitch = TRUE, $labelClass = 'blue')
+    {
+       $this->labelClass = 'tswitch ' . $labelClass;
+       $this->useSwitch  = $useSwitch;
+    }
+
     /**
      * Define the index value for check button
      * @index Index value
@@ -69,7 +83,25 @@ class TCheckButton extends TField implements AdiantiWidgetInterface
             $this->tag->{'tabindex'} = '-1';
         }
         
-        // shows the tag
-        $this->tag->show();
+        if ($this->useSwitch)
+        {
+            $obj = new TLabel('');
+            $obj->{'class'} = 'tswitch ' . $this->labelClass;
+            $obj->{'for'} = $this->id;
+
+            $this->tag->{'class'} = 'filled-in btn-tswitch';
+
+            $wrapper = new TElement('div');
+            $wrapper->{'style'} = 'display:inline-flex;align-items:center;';
+            $wrapper->add($this->tag);
+            $wrapper->add($obj);
+            $wrapper->show();
+        }
+        else
+        {
+            // shows the tag
+            $this->tag->show();
+        }
+
     }
 }

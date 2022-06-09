@@ -6,7 +6,7 @@ use Adianti\Database\TSqlStatement;
 /**
  * Provides an Interface to create DELETE statements
  *
- * @version    7.3
+ * @version    7.4
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -29,6 +29,12 @@ class TSqlDelete extends TSqlStatement
         // concatenates with the criteria (WHERE)
         if ($this->criteria)
         {
+            $dbInfo = TTransaction::getDatabaseInfo();
+            if (isset($dbInfo['case']) && $dbInfo['case'] == 'insensitive')
+            {
+                $this->criteria->setCaseInsensitive(TRUE);
+            }
+
             $expression = $this->criteria->dump( $prepared );
             if ($expression)
             {

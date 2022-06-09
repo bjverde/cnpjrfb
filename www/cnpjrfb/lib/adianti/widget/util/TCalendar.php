@@ -1,6 +1,7 @@
 <?php
 namespace Adianti\Widget\Util;
 
+use Adianti\Core\AdiantiCoreTranslator;
 use Adianti\Control\TAction;
 use Adianti\Widget\Container\TTable;
 use Adianti\Widget\Base\TElement;
@@ -8,7 +9,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Calendar Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -37,8 +38,8 @@ class TCalendar extends TElement
         $this->height = 300;
         $this->selectedDays = array();
         $this->weekendHighlight = false;
-        $this->months = [_t('January'), _t('February'), _t('March'), _t('April'), _t('May'), _t('June'),
-                         _t('July'), _t('August'), _t('September'), _t('October'), _t('November'), _t('December')];
+        $this->months = [AdiantiCoreTranslator::translate('January'), AdiantiCoreTranslator::translate('February'), AdiantiCoreTranslator::translate('March'), AdiantiCoreTranslator::translate('April'), AdiantiCoreTranslator::translate('May'), AdiantiCoreTranslator::translate('June'),
+                         AdiantiCoreTranslator::translate('July'), AdiantiCoreTranslator::translate('August'), AdiantiCoreTranslator::translate('September'), AdiantiCoreTranslator::translate('October'), AdiantiCoreTranslator::translate('November'), AdiantiCoreTranslator::translate('December')];
     }
     
     /**
@@ -132,13 +133,13 @@ class TCalendar extends TElement
         $cell->{'class'} = 'calendar-header';
         
         $row = $table->addRow();
-        $row->addCell(substr(_t('Sunday'),0,1))->{'class'} = 'calendar-header-day';
-        $row->addCell(substr(_t('Monday'),0,1))->{'class'} = 'calendar-header-day';
-        $row->addCell(substr(_t('Tuesday'),0,1))->{'class'} = 'calendar-header-day';
-        $row->addCell(substr(_t('Wednesday'),0,1))->{'class'} = 'calendar-header-day';
-        $row->addCell(substr(_t('Thursday'),0,1))->{'class'} = 'calendar-header-day';
-        $row->addCell(substr(_t('Friday'),0,1))->{'class'} = 'calendar-header-day';
-        $row->addCell(substr(_t('Saturday'),0,1))->{'class'} = 'calendar-header-day';
+        $row->addCell(substr(AdiantiCoreTranslator::translate('Sunday'),0,1))->{'class'} = 'calendar-header-day';
+        $row->addCell(substr(AdiantiCoreTranslator::translate('Monday'),0,1))->{'class'} = 'calendar-header-day';
+        $row->addCell(substr(AdiantiCoreTranslator::translate('Tuesday'),0,1))->{'class'} = 'calendar-header-day';
+        $row->addCell(substr(AdiantiCoreTranslator::translate('Wednesday'),0,1))->{'class'} = 'calendar-header-day';
+        $row->addCell(substr(AdiantiCoreTranslator::translate('Thursday'),0,1))->{'class'} = 'calendar-header-day';
+        $row->addCell(substr(AdiantiCoreTranslator::translate('Friday'),0,1))->{'class'} = 'calendar-header-day';
+        $row->addCell(substr(AdiantiCoreTranslator::translate('Saturday'),0,1))->{'class'} = 'calendar-header-day';
         
         
         $prev_year  = $this->year;

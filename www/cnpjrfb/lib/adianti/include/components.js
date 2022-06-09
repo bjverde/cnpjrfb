@@ -1,3 +1,4 @@
+$.getScript("lib/adianti/include/tpassword/tpassword.js");
 $.getScript("lib/adianti/include/tdialog/tdialog.js");
 $.getScript("lib/adianti/include/tjquerydialog/tjquerydialog.js");
 $.getScript("lib/adianti/include/tform/tform.js");
@@ -37,3 +38,4 @@ $.getScript("lib/adianti/include/tchecklist/tchecklist.js");
 $.getScript("lib/adianti/include/tbarcodeinputreader/tbarcodeinputreader.js");
 $.getScript("lib/adianti/include/tqrcodeinputreader/tqrcodeinputreader.js");
 $.getScript("lib/adianti/include/timagecropper/timagecropper.js");
+$.getScript("lib/adianti/include/tarrowstep/tarrowstep.js");

@@ -8,6 +8,7 @@ use Adianti\Widget\Base\TScript;
 use Adianti\Widget\Form\TField;
 use Adianti\Widget\Form\TForm;
 use Adianti\Widget\Form\TLabel;
+use Adianti\Widget\Form\TCheckButton;
 use Adianti\Widget\Form\TButton;
 use Adianti\Widget\Form\THidden;
 use Adianti\Widget\Form\TSlider;
@@ -31,7 +32,7 @@ use Exception;
 /**
  * Bootstrap form builder for Adianti Framework
  *
- * @version    7.3
+ * @version    7.4
  * @package    wrapper
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -113,11 +114,6 @@ class BootstrapFormBuilder implements AdiantiFormInterface
         
 		TSession::setValue('csrf_token_'.$this->name.'_before', TSession::getValue('csrf_token_'.$this->name));
 		TSession::setValue('csrf_token_'.$this->name, bin2hex(random_bytes(32)));
-		
-		$csrf_token = new THidden('csrf_token');
-		$this->addFields([$csrf_token]);
-		$csrf_token->setValue(TSession::getValue('csrf_token_'.$this->name));
-		$this->decorated->silentField('csrf_token');
     }
     
     /**
@@ -644,6 +640,14 @@ class BootstrapFormBuilder implements AdiantiFormInterface
             return;
         }
         
+        if ($this->csrf_validation)
+        {
+    		$csrf_token = new THidden('csrf_token');
+    		$this->addFields([$csrf_token]);
+    		$csrf_token->setValue(TSession::getValue('csrf_token_'.$this->name));
+    		$this->decorated->silentField('csrf_token');
+        }
+        
         $this->decorated->{'class'} = 'form-horizontal';
         $this->decorated->{'type'}  = 'bootstrap';
         
@@ -927,7 +931,7 @@ class BootstrapFormBuilder implements AdiantiFormInterface
     {
         $object = $field; // BC Compability
         $field_size = (is_object($object) && method_exists($object, 'getSize')) ? $field->getSize() : null;
-        $has_underline = (!$field instanceof TLabel && !$field instanceof TRadioGroup && !$field instanceof TCheckGroup && !$field instanceof TButton && !$field instanceof THidden && !$field instanceof TSlider);
+        $has_underline = (!$field instanceof TLabel && !$field instanceof TRadioGroup && !$field instanceof TCheckGroup && !$field instanceof TButton && !$field instanceof THidden && !$field instanceof TSlider && !$field instanceof TCheckButton);
         $field_wrapper = new TElement('div');
         $field_wrapper->{'class'} = 'fb-inline-field-container ' . ((($field instanceof TField) and ($has_underline)) ? 'form-line' : '');
         $field_wrapper->{'style'} = "display: {$display};vertical-align:top;" . ($display=='inline-block'?'float:left':'');
@@ -979,8 +983,17 @@ class BootstrapFormBuilder implements AdiantiFormInterface
         
         if ($field instanceof AdiantiWidgetInterface)
         {
-            $input_class = ($field instanceof TLabel)  ? '' : 'form-control';
-            $input_class = ($field instanceof TButton) ? 'btn btn-default btn-sm' : $input_class;
+            $input_class = 'form-control';
+            
+            if ($field instanceof TLabel || $field instanceof TCheckButton)
+            {
+                $input_class = '';
+            }
+            else if ($field instanceof TButton)
+            {
+                $input_class = empty($field->{'class'}) ? 'btn btn-default btn-sm' : '';
+            }
+            
             $field_class = $input_class . ' ' . ( isset($field->{'class'}) ? $field->{'class'} : '' );
             
             if (trim($field_class))

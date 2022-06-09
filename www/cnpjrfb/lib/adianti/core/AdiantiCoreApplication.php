@@ -1,8 +1,10 @@
 <?php
 namespace Adianti\Core;
 
+use ReflectionClass;
 use ReflectionMethod;
 use Exception;
+use Error;
 use ErrorException;
 use Adianti\Core\AdiantiCoreTranslator;
 use Adianti\Control\TPage;
@@ -13,7 +15,7 @@ use Adianti\Widget\Util\TExceptionView;
 /**
  * Basic structure to run a web application
  *
- * @version    7.3
+ * @version    7.4
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -23,6 +25,7 @@ class AdiantiCoreApplication
 {
     private static $router;
     private static $request_id;
+    private static $debug;
     
     /**
      * Execute class/method based on request
@@ -32,6 +35,7 @@ class AdiantiCoreApplication
     public static function run($debug = FALSE)
     {
         self::$request_id = uniqid();
+        self::$debug = $debug;
         
         $ini = AdiantiApplicationConfig::get();
         $service = isset($ini['general']['request_log_service']) ? $ini['general']['request_log_service'] : '\SystemRequestLogService';
@@ -52,7 +56,16 @@ class AdiantiCoreApplication
         
         self::filterInput();
         
+        $rc = new ReflectionClass($class); 
+        
         if (in_array(strtolower($class), array_map('strtolower', AdiantiClassMap::getInternalClasses()) ))
+        {
+            ob_start();
+            new TMessage( 'error', AdiantiCoreTranslator::translate('The internal class ^1 can not be executed', " <b><i><u>{$class}</u></i></b>") );
+            $content = ob_get_contents();
+            ob_end_clean();
+        }
+        else if (!$rc->isUserDefined())
         {
             ob_start();
             new TMessage( 'error', AdiantiCoreTranslator::translate('The internal class ^1 can not be executed', " <b><i><u>{$class}</u></i></b>") );
@@ -78,12 +91,13 @@ class AdiantiCoreApplication
                 try
                 {
                     $page = new $class( $_REQUEST );
+                    
                     ob_start();
                     $page->show( $_REQUEST );
 	                $content = ob_get_contents();
 	                ob_end_clean();
                 }
-                catch(Exception $e)
+                catch (Exception $e)
                 {
                     ob_start();
                     if ($debug)
@@ -98,11 +112,23 @@ class AdiantiCoreApplication
                     }
                     ob_end_clean();
                 }
+                catch (Error $e)
+                {
+                    
+                    ob_start();
+                    if ($debug)
+                    {
+                        new TExceptionView($e);
+                        $content = ob_get_contents();
+                    }
+                    else
+                    {
+                        new TMessage('error', $e->getMessage());
+                        $content = ob_get_contents();
+                    }
+                    ob_end_clean();
+                }
             }
-        }
-        else if (function_exists($method))
-        {
-            call_user_func($method, $_REQUEST);
         }
         else if (!empty($class))
         {
@@ -138,6 +164,17 @@ class AdiantiCoreApplication
         
         if (class_exists($class))
         {
+            $rc = new ReflectionClass($class);
+            
+            if (in_array(strtolower($class), array_map('strtolower', AdiantiClassMap::getInternalClasses()) ))
+            {
+                throw new Exception(AdiantiCoreTranslator::translate('The internal class ^1 can not be executed', $class ));
+            }
+            else if (!$rc->isUserDefined())
+            {
+                throw new Exception(AdiantiCoreTranslator::translate('The internal class ^1 can not be executed', $class ));
+            }
+            
             if (method_exists($class, $method))
             {
                 $rf = new ReflectionMethod($class, $method);
@@ -419,5 +456,13 @@ class AdiantiCoreApplication
     public static function getRequestId()
     {
         return self::$request_id;
+    }
+    
+    /**
+     * Returns the debug mode
+     */
+    public static function getDebugMode()
+    {
+        return self::$debug;
     }
 }

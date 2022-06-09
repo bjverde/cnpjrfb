@@ -15,7 +15,7 @@ use Exception;
 /**
  * Multi Search Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Matheus Agnes Dias
@@ -243,7 +243,7 @@ class TMultiSearch extends TSelect implements AdiantiWidgetInterface
             $this->tag->{'name'}  = $this->name.'[]'; // tag name
         }
         
-        if (strstr($this->size, '%') !== FALSE)
+        if (strstr( (string) $this->size, '%') !== FALSE)
         {
             $this->setProperty('style', "width:{$this->size};", false); //aggregate style info
             $size  = "{$this->size}";
@@ -259,7 +259,8 @@ class TMultiSearch extends TSelect implements AdiantiWidgetInterface
         $change_action = 'function() {}';
         $allowclear  = $this->allowClear  ? 'true' : 'false';
         $allowsearch = $this->allowSearch ? '1' : 'Infinity';
-        
+        $with_titles = $this->withTitles ? 'true' : 'false';
+
         if (isset($this->changeAction))
         {
             if (!TForm::getFormByName($this->formName) instanceof TForm)
@@ -281,7 +282,7 @@ class TMultiSearch extends TSelect implements AdiantiWidgetInterface
         parent::renderItems( false );
         $this->tag->show();
         
-        TScript::create(" tmultisearch_start( '{$this->id}', '{$this->minLength}', '{$this->maxSize}', '{$search_word}', $multiple, '{$size}', '{$this->height}px', {$allowclear}, {$allowsearch}, $change_action ); ");
+        TScript::create(" tmultisearch_start( '{$this->id}', '{$this->minLength}', '{$this->maxSize}', '{$search_word}', $multiple, '{$size}', '{$this->height}px', {$allowclear}, {$allowsearch}, $change_action, {$with_titles} ); ");
         
         if (!$this->editable)
         {

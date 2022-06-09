@@ -18,6 +18,7 @@ var TImageCropper = (function (field, title, buttonLabel, serviceAction, fileHan
     this.file = $('#tfile_timagecropper_' + field);
     this.image = $('#timagecropper_' + field);
     this.actions = $('#timagecropper_' + field + '+div.timagecropper_actions');
+    this.placeholder = this.actions.parent().find('.placeholder');
     this.edit = this.actions.find('[action=edit]');
     this.remove = this.actions.find('[action=remove]');
 
@@ -37,14 +38,31 @@ var TImageCropper = (function (field, title, buttonLabel, serviceAction, fileHan
 
         $('#adianti_div_content').append(div);
 
-        var width = $(window).width() * .75;
         var height = $(window).height() * .75;
+        var width = (height / 3) * 4;
 
         Webcam.set({
-            image_format: 'png'
+            image_format: 'png',
+            width: width,
+            height: height,
+            dest_width: width,
+            dest_height: height,
+            constraints: {}
         });
-
-        tjquerydialog_start('#' + div.id, true, false, false, width, height, 0, 0, 2050, [
+        
+        // remove listeners
+        Webcam.off( 'error' );
+        
+        // custom error handler
+        Webcam.on( 'error', function(err) {
+            if ((err.name == 'FlashError') || (err.name == 'WebcamError')) {
+                __adianti_error('Error', err.message);
+            } else {
+                __adianti_error('Error', "Could not access webcam: " + err.message);
+            }
+        });
+        
+        tjquerydialog_start('#' + div.id, true, true, false, width, height, 0, 0, 2050, [
             {
                 text: 'Capturar',
                 click: function() {
@@ -115,6 +133,7 @@ var TImageCropper = (function (field, title, buttonLabel, serviceAction, fileHan
         }
         
         that.actions.hide();
+        that.placeholder.show();
         e.preventDefault();
     }
 
@@ -262,10 +281,12 @@ var TImageCropper = (function (field, title, buttonLabel, serviceAction, fileHan
         });
 
         var canvasUrl = canvas.toDataURL(that.type);
-
+        
         $('#timagecropper_' + that.field).attr('src', canvasUrl);
-
+        $('#timagecropper_' + that.field).show();
+        
         that.actions.show();
+        that.placeholder.hide();
 
         if (that.base64) {
             that.file_input_hidden.val(canvasUrl);
@@ -301,7 +322,7 @@ var TImageCropper = (function (field, title, buttonLabel, serviceAction, fileHan
             }
         }
         
-        $('.ui-dialog').remove();
+        $('#container_timgagecropper_image_' + that.field).closest('.ui-dialog').remove();
         $('#container_timgagecropper_image_' + that.field).remove();
 
         that.cropper.destroy();
@@ -341,6 +362,8 @@ var TImageCropper = (function (field, title, buttonLabel, serviceAction, fileHan
             $(that.file_input_hidden).val('');
         }
     };
+
+    that.sendData = setData;
 
     var getData = function () {
         var file_data = decodeURIComponent(that.file_input_hidden.val());
@@ -563,6 +586,39 @@ var TImageCropper = (function (field, title, buttonLabel, serviceAction, fileHan
         button.appendChild(icon);
         return button;
     }
+    
+    this.clear = function(){
+        this.actions.hide();
+        this.image.hide();
+        this.file_input_hidden.val('');
+    }
+    
+    this.setValue = function(value){
+        
+        this.clear();
+        
+        if(value)
+        {
+            if (this.fileHandling) {
+                var data = {"fileName": value};
+        
+                if(value.indexOf('%7B%') >= 0 )
+                {
+                    data = JSON.parse(decodeURIComponent(value));
+                }
+                
+                this.image.attr('src', 'download.php?file='+data.fileName);
+                this.image.show();
+                this.actions.show();    
+                
+                this.sendData(data);
+            } else {
+                this.file_input_hidden.val(value);
+            }
+        }
+        
+        
+    }
 
     this.file.change(onUpload);
     this.dropzone.on('drop',onUpload);
@@ -572,5 +628,6 @@ var TImageCropper = (function (field, title, buttonLabel, serviceAction, fileHan
 });
 
 function timagecropper_start(field, title, buttonLabel, serviceAction, fileHandling, base64, webcam, config, name, extension) {
-    new TImageCropper(field, title, buttonLabel, serviceAction, fileHandling, base64, webcam, config, name, extension);
+    var timagecropper = new TImageCropper(field, title, buttonLabel, serviceAction, fileHandling, base64, webcam, config, name, extension);
+    $('input[name=' + field + ']')[0].timagecropper = timagecropper;
 }

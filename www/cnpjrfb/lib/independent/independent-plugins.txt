@@ -7,3 +7,4 @@ lib/independent/js/html5-qrcode.min.js
 lib/independent/js/cropper.min.js
 lib/independent/js/zxing.index.min.js
 lib/independent/js/webcam.min.js
+lib/independent/js/pickr.min.js

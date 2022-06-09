@@ -17,7 +17,7 @@ use ReflectionClass;
 /**
  * Record Lookup Widget: Creates a lookup field used to search values from associated entities
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -269,7 +269,7 @@ class TSeekButton extends TEntry implements AdiantiWidgetInterface
             $wrapper = new TElement('div');
             $wrapper->{'class'} = 'tseek-group';
             
-            if (strstr($this->size, '%') !== FALSE)
+            if (strstr((string) $this->size, '%') !== FALSE)
             {
                 $wrapper->{'style'} .= ";width:{$this->size};";
             }

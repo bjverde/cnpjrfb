@@ -15,7 +15,7 @@ use Exception;
 /**
  * MultiSearch backend
  *
- * @version    7.3
+ * @version    7.4
  * @package    service
  * @author     Pablo Dall'Oglio
  * @author     Matheus Agnes Dias
@@ -39,7 +39,7 @@ class AdiantiMultiSearchService
         {
             try
             {
-                TTransaction::open($param['database']);
+                TTransaction::openFake($param['database']);
                 $info = TTransaction::getDatabaseInfo();
                 $default_op = $info['type'] == 'pgsql' ? 'ilike' : 'like';
                 $operator   = !empty($param['operator']) ? $param['operator'] : $default_op;
@@ -69,7 +69,15 @@ class AdiantiMultiSearchService
                             if (stristr(strtolower($operator),'like') !== FALSE)
                             {
                                 $param['value'] = str_replace(' ', '%', $param['value']);
-                                $filter = new TFilter($column, $operator, "%{$param['value']}%");
+                                
+                                if (in_array($info['type'], ['mysql', 'oracle', 'mssql', 'dblib', 'sqlsrv']))
+                                {
+                                    $filter = new TFilter("lower({$column})", $operator, strtolower("%{$param['value']}%"));
+                                }
+                                else
+                                {
+                                    $filter = new TFilter($column, $operator, "%{$param['value']}%");
+                                }
                             }
                             else
                             {
@@ -80,7 +88,7 @@ class AdiantiMultiSearchService
                         }
                     }
                     
-                    $id_search_value = (!empty($param['idtextsearch']) && $param['idtextsearch'] == '1') ? $param['value'] : (int) $param['value'];
+                    $id_search_value = ((!empty($param['idtextsearch']) && $param['idtextsearch'] == '1') || ((defined("{$param['model']}::IDPOLICY")) AND (constant("{$param['model']}::IDPOLICY") == 'uuid'))) ? $param['value'] : (int) $param['value'];
                     
                     if ($param['idsearch'] == '1' and !empty( $id_search_value ))
                     {

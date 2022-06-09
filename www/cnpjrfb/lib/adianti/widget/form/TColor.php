@@ -6,11 +6,13 @@ use Adianti\Widget\Base\TElement;
 use Adianti\Widget\Base\TScript;
 use Adianti\Widget\Form\TEntry;
 use Adianti\Control\TAction;
+use Adianti\Core\AdiantiCoreTranslator;
+use Exception;
 
 /**
  * Color Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -19,12 +21,18 @@ use Adianti\Control\TAction;
  */
 class TColor extends TEntry implements AdiantiWidgetInterface
 {
+    const THEME_CLASSIC  = 'classic';
+    const THEME_NANO     = 'nano';
+    const THEME_MONOLITH = 'monolith';
+
     protected $formName;
     protected $name;
     protected $id;
     protected $size;
     protected $changeFunction;
     protected $changeAction;
+    protected $theme;
+    protected $options;
     
     /**
      * Class Constructor
@@ -37,6 +45,85 @@ class TColor extends TEntry implements AdiantiWidgetInterface
         $this->tag->{'widget'} = 'tcolor';
         $this->tag->{'autocomplete'} = 'off';
         $this->setSize('100%');
+
+        $this->theme = self::THEME_CLASSIC;
+        $this->options = [
+            'swatches' => [
+                '#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#03A9F4',
+                '#00BCD4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#ffe821', '#FFC107',
+                '#FF9800', '#FF5722', '#795548', '#9E9E9E', '#607D8B', '#000000', '#ffffff',
+            ],
+            'components' => [
+                'preview' => true,
+                'opacity' => true,
+                'hue' => true,
+                'interaction' => [
+                    'hex' => false,
+                    'rgba' => false,
+                    'hsla' => false,
+                    'hsva' => false,
+                    'cmyk' => false,
+                    'input' => false,
+                    'clear' => true,
+                    'save' => true
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * Set extra option TColor
+     *
+     * @see Component documentation https://github.com/Simonwep/pickr#options
+     *
+     * @param $option Key name option
+     * @param $value Option value
+     */
+    public function setOption($option, $value)
+    {
+        if (is_array($value))
+        {
+            $oldOptions = $this->options[$option]??[];
+
+            $value = array_merge($oldOptions, $value);
+        }
+
+        $this->options[$option] = $value;
+    }
+
+    /**
+     * Get options TColor
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Get option TColor
+     * 
+     */
+    public function getOption($option)
+    {
+        if (empty($this->options[$option]))
+        {
+            return null;
+        }
+
+        return $this->options[$option];
+    }
+
+    /**
+     * Set theme
+     */
+    public function setTheme($theme)
+    {
+        if (! in_array($theme, [self::THEME_CLASSIC, self::THEME_NANO, self::THEME_MONOLITH]) )
+        {
+            $theme = self::THEME_CLASSIC;
+        }
+
+        $this->theme = $theme;
     }
     
     /**
@@ -89,7 +176,7 @@ class TColor extends TEntry implements AdiantiWidgetInterface
         $span->{'class'} = 'input-group-addon tcolor';
         
         $outer_size = 'undefined';
-        if (strstr($this->size, '%') !== FALSE)
+        if (strstr((string) $this->size, '%') !== FALSE)
         {
             $outer_size = $this->size;
             $this->size = '100%';
@@ -118,7 +205,9 @@ class TColor extends TEntry implements AdiantiWidgetInterface
         $wrapper->add($span);
         $wrapper->show();
         
-        TScript::create("tcolor_start('{$this->id}', '{$outer_size}', function(color) { {$this->changeFunction} }); ");
+        $options = json_encode($this->options);
+
+        TScript::create("tcolor_start('{$this->id}', '{$outer_size}', '{$this->theme}', function(color) { {$this->changeFunction} }, {$options}); ");
         
         if (!parent::getEditable())
         {

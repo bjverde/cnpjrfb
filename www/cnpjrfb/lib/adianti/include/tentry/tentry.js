@@ -221,7 +221,7 @@ function tentry_autocomplete_by_name(field, list, options)
 	tentry_autocomplete(objectId, list, options)
 }
 
-function tentry_numeric_mask(field, decimals, decimal_sep, thousand_sep, reverse)
+function tentry_numeric_mask(field, decimals, decimal_sep, thousand_sep, reverse, allowNegative)
 {
     var selector = 'input[name="'+field+'"]';
 
@@ -237,7 +237,7 @@ function tentry_numeric_mask(field, decimals, decimal_sep, thousand_sep, reverse
         decimal: decimal_sep,
         precision: decimals,
         allowZero: true,
-        allowNegative: true,
+        allowNegative: allowNegative,
         formatOnBlur: reverse, // need for reverse mode
         reverse: reverse,
         bringCaretAtEndOnFocus: ! reverse,
@@ -271,5 +271,36 @@ function tentry_exit_on_enter(field_id)
          if(e.keyCode == 13) {
              document.getElementById(field_id).blur();
          }
+    });
+}
+
+function tentry_change_mask(form_name, field, mask)
+{
+    if(typeof form_name != 'undefined' && form_name != '') {
+        form_name_sel = 'form[name="'+form_name+'"] ';
+    }
+    else {
+        form_name_sel = '';
+    }
+    
+    var selector = '[name="'+field+'"]';
+    if (field.indexOf('[') == -1 && $('#'+field).length >0) {
+        var selector = '#'+field;
+    }
+    
+    $(document).ready(function(){
+        mask = mask.replace(/9/g, '0');
+        var length = $(selector).attr('maxlength') > 0 ? $(selector).attr('maxlength') : 250;
+        
+        if (mask == 'A!') {
+            mask = 'A'.repeat(length);
+        }
+        else if (mask == 'S!') {
+            mask = 'S'.repeat(length);
+        }
+        else if (mask == '0!') {
+            mask = '0'.repeat(length);
+        }
+        $(selector).mask(mask);
     });
 }

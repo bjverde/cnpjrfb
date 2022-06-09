@@ -10,7 +10,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * TDropDown Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -121,7 +121,8 @@ class TDropDown extends TElement
         
         if ($action instanceof TAction)
         { 
-            $link->{'onclick'} = "__adianti_load_page('{$action->serialize()}');";
+            $link->{'href'} = $action->serialize();
+            $link->{'generator'} = "adianti";
         }
         else if (is_string($action))
         {
@@ -268,7 +269,7 @@ class TDropDown extends TElement
     public function addSeparator()
     {
         $li = new TElement('li');
-        $li->{'class'} = 'divider';
+        $li->{'class'} = 'dropdown-divider';
         $this->elements->add($li);
     }
     

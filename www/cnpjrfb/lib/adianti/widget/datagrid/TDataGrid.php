@@ -18,7 +18,7 @@ use Exception;
 /**
  * DataGrid Widget: Allows to create datagrids with rows, columns and actions
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage datagrid
  * @author     Pablo Dall'Oglio
@@ -60,6 +60,7 @@ class TDataGrid extends TTable
     protected $hasInlineEditing;
     protected $hasTotalFunction;
     protected $actionSide;
+    protected $mutationAction;
     
     /**
      * Class Constructor
@@ -99,6 +100,14 @@ class TDataGrid extends TTable
     public function setId($id)
     {
         $this->{'id'} = $id;
+    }
+    
+    /**
+     * Define mutation action
+     */
+    public function setMutationAction(TAction $action)
+    {
+        $this->mutationAction = $action;
     }
     
     /**
@@ -173,7 +182,7 @@ class TDataGrid extends TTable
      */
     private function hasCustomWidth()
     {
-        return ( (strpos($this->getProperty('style'), 'width') !== false) OR !empty($this->getProperty('width')));
+        return ( (strpos((string) $this->getProperty('style'), 'width') !== false) OR !empty($this->getProperty('width')));
     }
     
     /**
@@ -198,7 +207,14 @@ class TDataGrid extends TTable
      */
     public function setHeight($height)
     {
-        $this->height = $height;
+        if (is_numeric($height))
+        {
+            $this->height = $height . 'px';
+        }
+        else
+        {
+            $this->height = $height;
+        }
     }
     
     /**
@@ -358,7 +374,7 @@ class TDataGrid extends TTable
             $this->tbody->{'class'} = 'tdatagrid_body';
             if ($this->scrollable)
             {
-                $this->tbody->{'style'} = "height: {$this->height}px; display: block; overflow-y:scroll; overflow-x:hidden;";
+                $this->tbody->{'style'} = "height: {$this->height}; display: block; overflow-y:scroll; overflow-x:hidden;";
             }
             parent::add($this->tbody);
             
@@ -529,7 +545,7 @@ class TDataGrid extends TTable
         $this->tbody->{'class'} = 'tdatagrid_body';
         if ($this->scrollable)
         {
-            $this->tbody->{'style'} = "height: {$this->height}px; display: block; overflow-y:scroll; overflow-x:hidden;";
+            $this->tbody->{'style'} = "height: {$this->height}; display: block; overflow-y:scroll; overflow-x:hidden;";
         }
         parent::add($this->tbody);
         
@@ -870,6 +886,7 @@ class TDataGrid extends TTable
                         if ($this->hiddenFields AND !isset($used_hidden[$name]))
                         {
                             $hidden = new THidden($this->id . '_' . $name.'[]');
+                            $hidden->{'data-hidden-field'} = 'true';
                             $hidden->setValue($raw_data);
                             $cell->add($hidden);
                             $used_hidden[$name] = true;
@@ -1247,6 +1264,12 @@ class TDataGrid extends TTable
         if ($this->hasTotalFunction)
         {
             TScript::create(" tdatagrid_update_total('#{$this->{'id'}}');");
+        }
+        
+        if ($this->mutationAction)
+        {
+            $url = $this->mutationAction->serialize(false);
+            TScript::create(" tdatagrid_mutation_action('#{$this->{'id'}}', '$url');");
         }
     }
 }

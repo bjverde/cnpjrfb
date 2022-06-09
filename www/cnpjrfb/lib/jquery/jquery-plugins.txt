@@ -9,3 +9,4 @@ lib/jquery/js/dataTables.responsive.min.js
 lib/jquery/js/select2.js
 lib/jquery/js/jquery.mask.min.js
 lib/jquery/js/jquery.maskMoney.js
+lib/jquery/js/select2.custom.min.js

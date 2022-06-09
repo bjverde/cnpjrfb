@@ -10,7 +10,7 @@ use Adianti\Widget\Form\TField;
 /**
  * Html Editor
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -44,7 +44,20 @@ class THtmlEditor extends TField implements AdiantiWidgetInterface
     }
     
     /**
+     * Define max length
+     * @param  $length Max length
+     */
+    public function setMaxLength($length)
+    {
+        if ($length > 0)
+        {
+            $this->options['maxlength'] = $length;
+        }
+    }
+
+    /**
      * Set extra calendar options
+     * @link https://summernote.org/deep-dive/
      */
     public function setOption($option, $value)
     {
@@ -146,7 +159,7 @@ class THtmlEditor extends TField implements AdiantiWidgetInterface
         $locale = !empty($ini['general']['locale']) ? $ini['general']['locale'] : 'pt-BR';
         
         // add the content to the textarea
-        $this->tag->add(htmlspecialchars($this->value));
+        $this->tag->add(htmlspecialchars( (string) $this->value));
         
         // show the tag
         $this->tag->show();

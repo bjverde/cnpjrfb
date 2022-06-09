@@ -14,7 +14,7 @@ use Exception;
 /**
  * Select Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -140,6 +140,10 @@ class TSelect extends TField implements AdiantiWidgetInterface
             if ($value)
             {
                 $this->value = explode($this->separator, $value);
+            }
+            else
+            {
+                $this->value = null;
             }
         }
     }
@@ -324,8 +328,12 @@ class TSelect extends TField implements AdiantiWidgetInterface
         $this->tag->{'name'}  = $this->name.'[]';    // tag name
         $this->tag->{'id'}    = $this->id;
         
-        $this->setProperty('style', (strstr($this->size, '%') !== FALSE)   ? "width:{$this->size}"    : "width:{$this->size}px",   false); //aggregate style info
-        $this->setProperty('style', (strstr($this->height, '%') !== FALSE) ? "height:{$this->height}" : "height:{$this->height}px", false); //aggregate style info
+        $this->setProperty('style', (strstr((string) $this->size, '%') !== FALSE)   ? "width:{$this->size}"    : "width:{$this->size}px",   false); //aggregate style info
+        
+        if (!empty($this->height))
+        {
+            $this->setProperty('style', (strstr($this->height, '%') !== FALSE) ? "height:{$this->height}" : "height:{$this->height}px", false); //aggregate style info
+        }
         
         // verify whether the widget is editable
         if (parent::getEditable())

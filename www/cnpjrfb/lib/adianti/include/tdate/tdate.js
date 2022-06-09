@@ -23,6 +23,12 @@ function tdate_disable_field(form_name, field) {
     setTimeout(function(){ $('form[name='+form_name+'] [name='+field+']').next().hide() },1);
 }
 
+function tdate_set_value(id, value)
+{
+    $(id).val(value);
+    $(id).closest('.tdate-group').datepicker('update');
+}
+
 function tdate_start( id, mask, language, size, options) {
     $( id ).wrap( '<div class="tdate-group date">' );
     $( id ).after( '<span class="btn btn-default tdate-group-addon"><i class="far fa-calendar"></i></span>' );

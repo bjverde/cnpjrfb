@@ -12,7 +12,7 @@ use Exception;
 /**
  * Database Widget trait
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -57,7 +57,7 @@ trait AdiantiDatabaseWidgetTrait
         
         if ($open_transaction)
         {
-            TTransaction::open($database);
+            TTransaction::openFake($database);
         }
         
         // creates repository
@@ -130,7 +130,7 @@ trait AdiantiDatabaseWidgetTrait
         
         if ($open_transaction)
         {
-            TTransaction::open($database);
+            TTransaction::openFake($database);
         }
         
         // creates repository

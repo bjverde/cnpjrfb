@@ -16,7 +16,7 @@ use Exception;
 /**
  * A group of CheckButton's
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -37,6 +37,7 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
     protected $formName;
     protected $labelClass;
     protected $useButton;
+    protected $useSwitch;
     protected $value;
     
     /**
@@ -49,6 +50,7 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
         parent::setSize(NULL);
         $this->labelClass = 'tcheckgroup_label ';
         $this->useButton  = FALSE;
+        $this->useSwitch  = FALSE;
     }
     
     /**
@@ -116,6 +118,15 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
     {
        $this->labelClass = 'btn btn-default ';
        $this->useButton  = TRUE;
+    }
+
+    /**
+     * Show as switch
+     */
+    public function setUseSwitch($useSwitch = TRUE, $labelClass = 'blue')
+    {
+       $this->labelClass = 'tswitch ' . $labelClass . ' ';
+       $this->useSwitch  = $useSwitch;
     }
     
     /**
@@ -192,6 +203,10 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
             {
                 $this->value = explode($this->separator, $value);
             }
+            else
+            {
+                $this->value = null;
+            }
         }
     }
     
@@ -243,6 +258,68 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
     }
     
     /**
+     * Reload checkbox items after it is already shown
+     * @param $formname form name (used in gtk version)
+     * @param $name field name
+     * @param $items array with items
+     * @param $options array of options [layout, size, breakItems, useButton, valueSeparator, value, changeAction, changeFunction, checkAll]
+     */
+    public static function reload($formname, $name, $items, $options)
+    {
+        $field = new self($name);
+        $field->addItems($items);
+
+        if (! empty($options['layout']))
+        {
+            $field->setLayout($options['layout']);
+        }
+
+        if (! empty($options['size']))
+        {
+            $field->setSize($options['size']);
+        }
+
+        if (! empty($options['breakItems']))
+        {
+            $field->setBreakItems($options['breakItems']);
+        }
+
+        if (! empty($options['useButton']))
+        {
+            $field->setUseButton($options['useButton']);
+        }
+
+        if (! empty($options['valueSeparator']))
+        {
+            $field->setValueSeparator($options['valueSeparator']);
+        }
+
+        if (! empty($options['value']))
+        {
+            $field->setValue($options['value']);
+        }
+
+        if (! empty($options['changeAction']))
+        {
+            $field->setChangeAction($options['changeAction']);
+        }
+
+        if (! empty($options['changeFunction']))
+        {
+            $field->setChangeFunction($options['changeFunction']);
+        }
+
+        if (! empty($options['checkAll']))
+        {
+            $field->checkAll($options['checkAll']);
+        }
+
+        $content = $field->getContents();
+
+        TScript::create( " tcheckgroup_reload('{$formname}', '{$name}', `{$content}`); " );
+    }
+
+    /**
      * Enable the field
      * @param $form_name Form name
      * @param $field Field name
@@ -277,14 +354,16 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
      */
     public function show()
     {
+        $editable_class = (!parent::getEditable()) ? 'tfield_block_events' : '';
+        
         if ($this->useButton)
         {
-            echo '<div '.$this->getPropertiesAsString('aria').' data-toggle="buttons">';
+            echo "<div class=\"toggle-wrapper {$editable_class}\" ".$this->getPropertiesAsString('aria').' data-toggle="buttons">';
             echo '<div class="btn-group" style="clear:both;float:left;display:table">';
         }
         else
         {
-            echo '<div '.$this->getPropertiesAsString('aria').' role="group">';
+            echo "<div class=\"toggle-wrapper {$editable_class}\" ".$this->getPropertiesAsString('aria').' role="group">';
         }
         
         if ($this->items)
@@ -339,7 +418,7 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
                 else
                 {
                     $button->setEditable(FALSE);
-                    $obj->setFontColor('gray');
+                    //$obj->setFontColor('gray');
                 }
                 
                 if ($this->useButton)
@@ -349,9 +428,17 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
                 }
                 else
                 {
-                    $button->setProperty('class', 'filled-in');
-                    $obj->{'for'} = $button->getId();
+                    $classButton = 'filled-in';
+
+                    if ($this->useSwitch)
+                    {
+                        $classButton .= ' btn-tswitch';
+                    }
+
+                    $button->setProperty('class', $classButton);
                     
+                    $obj->{'for'} = $button->getId();
+
                     $wrapper = new TElement('div');
                     $wrapper->{'style'} = 'display:inline-flex;align-items:center;';
                     $wrapper->add($button);

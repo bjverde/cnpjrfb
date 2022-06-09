@@ -16,7 +16,7 @@ use stdClass;
 /**
  * Create a field list
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -48,6 +48,8 @@ class TFieldList extends TTable
     private $thead;
     private $tfoot;
     private $tbody;
+    private $allow_post_empty;
+    protected $totalUpdateAction;
     
     /**
      * Class Constructor
@@ -56,6 +58,7 @@ class TFieldList extends TTable
     {
         parent::__construct();
         $this->{'id'}     = 'tfieldlist_' . mt_rand(1000000000, 1999999999);
+        $this->{'name'}   = $this->{'id'};
         $this->{'class'}  = 'tfieldlist';
         
         $this->fields = [];
@@ -71,6 +74,15 @@ class TFieldList extends TTable
         $this->summarize = false;
         $this->total_functions = null;
         $this->remove_enabled = true;
+        $this->allow_post_empty = true;
+    }
+    
+    /**
+     *
+     */
+    public function disablePostEmptyRow()
+    {
+        $this->allow_post_empty = false;
     }
     
     /**
@@ -103,6 +115,22 @@ class TFieldList extends TTable
             {
                 $results[$row] = $results[$row] ?? new stdClass;
                 $results[$row]->$field_name = $value;
+            }
+        }
+        
+        if (!$this->allow_post_empty)
+        {
+            if ($results)
+            {
+                foreach ($results as $row => $object)
+                {
+                    $array_object = (array) $object;
+                    unset($array_object['uniq']);
+                    if (count(array_filter($array_object)) == 0)
+                    {
+                        unset($results[$row]);
+                    }
+                }
             }
         }
         
@@ -232,6 +260,15 @@ class TFieldList extends TTable
     public function addButtonAction(TAction $action, $icon, $title)
     {
         $this->row_actions[] = [$action, $icon, $title];
+    }
+    
+    /**
+     * Define total update action
+     */
+    public function setTotalUpdateAction(TAction $action)
+    {
+        $this->totalUpdateAction = $action;
+        parent::setProperty('total-update-action', $action->serialize(false));
     }
     
     /**
@@ -370,6 +407,7 @@ class TFieldList extends TTable
     public function addDetail( $item )
     {
         $uniqid = mt_rand(1000000, 9999999);
+        $field_list_name = $this->{'name'};
         
         if (!$this->body_created)
         {
@@ -406,8 +444,8 @@ class TFieldList extends TTable
                 
                 if (isset($this->fields_properties[$field_name]['sum']) && $this->fields_properties[$field_name]['sum'] == true)
                 {
-                    $field->{'exitaction'} = "tfieldlist_update_sum('{$name}', 'callback')";
-                    $field->{'onBlur'}     = "tfieldlist_update_sum('{$name}', 'callback')";
+                    $field->{'exitaction'} = "tfieldlist_update_sum('{$field_list_name}', '{$name}', 'callback')";
+                    $field->{'onBlur'}     = "tfieldlist_update_sum('{$field_list_name}', '{$name}', 'callback')";
                     
                     $this->total_functions .= $field->{'exitaction'} . ';';
                     
@@ -627,14 +665,14 @@ class TFieldList extends TTable
     }
     
     /**
-     * Clear some field list rows
+     * Add rows on field list
      * @param $name     field list name
-     * @param $index    field list name
-     * @param $quantity field list name
+     * @param $rows     quantity rows
+     * @param $timeout  timeout
      */
-    public static function addRows($name, $rows)
+    public static function addRows($name, $rows, $timeout = 50)
     {
-        TScript::create( "tfieldlist_add_rows('{$name}', {$rows});" );
+        TScript::create( "tfieldlist_add_rows('{$name}', {$rows}, {$timeout});" );
     }
     
     /**

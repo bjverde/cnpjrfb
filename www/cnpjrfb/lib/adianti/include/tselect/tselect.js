@@ -24,10 +24,77 @@ function tselect_clear_field(form_name, field) {
     }
 }
 
-function tselect_add_option(form_name, field, key, value) {
-    $('<option value="'+key+'">'+value+'</option>').appendTo('form[name="'+form_name+'"] select[name="'+field+'[]"]');
+function tselect_create_opt_group(form_name, field, label)
+{
+    if(typeof form_name != 'undefined' && form_name != '') {
+        form_name = 'form[name="'+form_name+'"] ';
+    }
+    else
+    {
+        form_name = '';
+    }
+
+    var selector = '[name="'+field+'[]"]';
+    if (field.indexOf('[') == -1 && $('#'+field).length >0) {
+        var selector = '#'+field
+    }
+
+    $('<optgroup label="'+label+'"></optgroup>').appendTo(form_name + selector);
 }
 
-function tselect_clear(form_name, field) {
-    $('form[name="'+form_name+'"] select[name="'+field+'[]"]').html("");
+
+function tselect_add_option(form_name, field, key, value) {
+    var key = key.replace(/"/g, '');
+
+    if(typeof form_name != 'undefined' && form_name != '') {
+        form_name = 'form[name="'+form_name+'"] ';
+    }
+    else {
+        form_name = '';
+    }
+
+    var selector = 'select[name="'+field+'[]"]';
+
+    if (field.indexOf('[') == -1 && $('#'+field).length >0) {
+        var selector = '#'+field
+    }
+
+    var optgroups =  $(form_name + selector).find('optgroup');
+
+    if( optgroups.length > 0 ) {
+        $('<option value="'+key+'">'+value+'</option>').appendTo(optgroups.last());
+    }
+    else {
+        $('<option value="'+key+'">'+value+'</option>').appendTo(form_name + selector);
+    }
+}
+
+function tselect_clear(form_name, field, fire_events)
+{
+    if (typeof fire_events == 'undefined') {
+        fire_events = true;
+    }
+
+    if (typeof form_name != 'undefined' && form_name != '') {
+        var form_name = 'form[name="'+form_name+'"] ';
+    }
+    else {
+        var form_name = '';
+    }
+
+    var selector = '[name="'+field+'[]"]';
+    if (field.indexOf('[') == -1 && $('#'+field).length >0) {
+        var selector = '#'+field
+    }
+
+    var field = $(form_name + selector);
+
+    field.val(false);
+    field.html('');
+
+    if (fire_events) {
+        if (field.attr('changeaction')) {
+            tform_events_hang_exec( field.attr('changeaction') );
+        }
+    }
 }

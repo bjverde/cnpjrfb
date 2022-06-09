@@ -18,6 +18,7 @@
 - lib/jquery/js/select2.js
 - lib/jquery/js/jquery.mask.min.js
 - lib/jquery/js/jquery.maskMoney.js
+- lib/jquery/js/select2.custom.min.js
 
 */
 
@@ -6667,7 +6668,13 @@ h("input"),watchDataMask:!1,byPassKeys:[9,16,17,18,36,37,38,39,40,91],translatio
                         // any key except the numbers 0-9. if we're using settings.reverse,
                         // allow the user to input the decimal key
                         if ((key < 48 || key > 57) && (key !== decimalKeyCode || !settings.reverse)) {
-                            return handleAllKeysExceptNumericalDigits(key, e);
+                            if(key==45 && $input.val() == '') {
+                                handleAllKeysExceptNumericalDigits(key, e)
+                                applyMask(e);
+                                return false;
+                            } else {
+                                return handleAllKeysExceptNumericalDigits(key, e);
+                            }   
                         } else if (!canInputMoreNumbers()) {
                             return false;
                         } else {
@@ -7009,3 +7016,12 @@ h("input"),watchDataMask:!1,byPassKeys:[9,16,17,18,36,37,38,39,40,91],translatio
         }
     };
 })(window.jQuery || window.Zepto);
+
+
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* Merging js: lib/jquery/js/select2.custom.min.js begins */
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+
+// remove tooltip
+!function(e){var t=e.fn.select2.amd.require("select2/defaults");e.extend(t.defaults,{selectionTitleAttribute:!0});var i=e.fn.select2.amd.require("select2/selection/single"),l=i.prototype.update;i.prototype.update=function(e){(l.apply(this,Array.prototype.slice.apply(arguments)),!1===this.options.get("selectionTitleAttribute"))&&this.$selection.find(".select2-selection__rendered").removeAttr("title")};var o=e.fn.select2.amd.require("select2/selection/multiple"),s=o.prototype.update;o.prototype.update=function(e){(s.apply(this,Array.prototype.slice.apply(arguments)),!1===this.options.get("selectionTitleAttribute"))&&(this.$selection.find(".select2-selection__rendered").find(".select2-selection__choice").removeAttr("title"),this.$selection.find(".select2-selection__choice__remove").removeAttr("title"))}}(window.jQuery);

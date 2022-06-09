@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Image Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -30,13 +30,21 @@ class TImage extends TElement
             $fa_class = substr($source,3);
             if (strstr($source, '#') !== FALSE)
             {
-                list($fa_class, $fa_color) = explode('#', $fa_class);
+                $parts = explode('#', $fa_class);
+                $fa_color   = substr($parts[1],0,7);
+                $fa_bgcolor = !empty($parts[2]) ? substr($parts[2],0,7) : null;
+                $fa_class   = str_replace( ['#'.$fa_color, '#'.$fa_bgcolor], ['', ''], $fa_class);
             }
             
             $this->{'class'} = 'fa fa-'.$fa_class;
-            if (isset($fa_color))
+            if (!empty($fa_color))
             {
                 $this->{'style'} .= "; color: #{$fa_color};";
+            }
+            
+            if (!empty($fa_bgcolor))
+            {
+                $this->{'style'} .= "; background-color: #{$fa_bgcolor};";
             }
             parent::add('');
         }
@@ -47,13 +55,22 @@ class TImage extends TElement
             $fa_class = substr($source,4);
             if (strstr($source, '#') !== FALSE)
             {
-                list($fa_class, $fa_color) = explode('#', $fa_class);
+                $parts = explode('#', $fa_class);
+                $fa_color   = substr($parts[1],0,7);
+                $fa_bgcolor = !empty($parts[2]) ? substr($parts[2],0,7) : null;
+                $fa_class   = str_replace( ['#'.$fa_color, '#'.$fa_bgcolor], ['', ''], $fa_class);
             }
             
             $this->{'class'} = substr($source,0,3) . ' fa-'.$fa_class;
-            if (isset($fa_color))
+            
+            if (!empty($fa_color))
             {
                 $this->{'style'} .= "; color: #{$fa_color};";
+            }
+            
+            if (!empty($fa_bgcolor))
+            {
+                $this->{'style'} .= "; background-color: #{$fa_bgcolor};";
             }
             parent::add('');
         }

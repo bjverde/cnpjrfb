@@ -6,11 +6,17 @@ function tjquerydialog_start( id, modal, draggable, resizable, width, height, to
 	    var window_container = 'body';
 	}
 	
+	var closeText = 'Close';
+	if (typeof Application.translation !== 'undefined' && typeof Application.translation[Adianti.language]['close'] !== 'undefined') {
+	    closeText = Application.translation[Adianti.language]['close'];
+	}
+	
 	$( id ).dialog({
 		modal: modal,
 		stack: false,
 		zIndex: 2000,
         draggable: draggable,
+        closeText: closeText,
         resizable: resizable,
         closeOnEscape: close_escape,
 		height: height,

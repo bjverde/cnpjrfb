@@ -10,7 +10,7 @@ use Adianti\Control\TAction;
 /**
  * Color Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -81,7 +81,7 @@ class TIcon extends TEntry implements AdiantiWidgetInterface
         $i = new TElement('i');
         $span->add($i);
         
-        if (strstr($this->size, '%') !== FALSE)
+        if (strstr((string) $this->size, '%') !== FALSE)
         {
             $outer_size = $this->size;
             $this->size = '100%';

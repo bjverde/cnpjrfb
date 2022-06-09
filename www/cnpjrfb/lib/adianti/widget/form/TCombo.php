@@ -12,7 +12,7 @@ use Exception;
 /**
  * ComboBox Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -358,7 +358,7 @@ class TCombo extends TField implements AdiantiWidgetInterface
         
         if (!empty($this->size))
         {
-            if (strstr($this->size, '%') !== FALSE)
+            if (strstr((string) $this->size, '%') !== FALSE)
             {
                 $this->setProperty('style', "width:{$this->size};", false); //aggregate style info
             }
@@ -412,7 +412,7 @@ class TCombo extends TField implements AdiantiWidgetInterface
             
             if (!parent::getEditable())
             {
-                TScript::create(" tmultisearch_disable_field( '{$this->formName}', '{$this->name}'); ");
+                TScript::create(" tmultisearch_disable_field( '{$this->formName}', '{$this->name}', '{$this->tag->{'title'}}'); ");
             }
         }
     }

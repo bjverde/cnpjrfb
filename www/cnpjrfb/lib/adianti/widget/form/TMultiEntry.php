@@ -13,7 +13,7 @@ use Exception;
 /**
  * Multi Entry Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Matheus Agnes Dias
@@ -138,7 +138,7 @@ class TMultiEntry extends TSelect implements AdiantiWidgetInterface
         $this->tag->{'name'}  = $this->name.'[]';    // tag name
         $this->tag->{'id'}  = $this->id;    // tag name
         
-        if (strstr($this->size, '%') !== FALSE)
+        if (strstr((string) $this->size, '%') !== FALSE)
         {
             $this->setProperty('style', "width:{$this->size};", false); //aggregate style info
             $size  = "{$this->size}";

@@ -258,8 +258,9 @@ function tfieldlist_execute_scripts(container, filter, callback)
         var text = $(script).text();
         text = callback(text);
         if (text.trim().split('_')[0] == filter) {
-            $(script).text(text);
-            setTimeout(function() {new Function(text)(); }, 10 );
+            //$(script).text(text);
+            //setTimeout(function() {new Function(text)(); }, 10 );
+            $(script).html('<script>'+text+'</script>');
         }
     });
 }
@@ -274,17 +275,19 @@ function tfieldlist_clear(name)
         }
     });
     $('[name='+name+'] tfoot').find('input[type="text"]').each(function(i,e){
-        tfieldlist_update_sum($(e).attr('field_name'));
+        tfieldlist_update_sum(name, $(e).attr('field_name'));
     });
 }
 
-function tfieldlist_add_rows(name, rows)
+function tfieldlist_add_rows(name, rows, timeout)
 {
+    timeout = timeout ? timeout : 50;
+
     for (n=1; n<=rows; n++)
     {
         setTimeout(function() {
             ttable_clone_previous_row( $('[name='+name+'] tbody') );
-        }, 50 * n);
+        }, timeout * n);
     }
 }
 
@@ -347,15 +350,62 @@ function tfieldlist_column_sum(field_name)
     return total;
 }
 
-function tfieldlist_update_sum(field_name, callback)
+function tfieldlist_update_sum(fieldlist_name, field_name, callback)
 {
     setTimeout( function() {
         var total = tfieldlist_column_sum(field_name);
-        $('[name=grandtotal_'+field_name+']').val( number_format( total, 2, ',', '.') );
+        var mask  = $('[name^='+field_name+']:first').data('nmask');
+        var maskParts = [];
+        
+        if (mask) {
+            maskParts = mask.split('');
+        }
+        
+        $('[name=grandtotal_'+field_name+']').val( number_format( total, maskParts[0]??2, maskParts[1]??',', maskParts[2]??'.') );
         
         if (callback && typeof(callback) === "function")
         {
             callback();
+        }
+        
+        var total_update_action = $('table[name='+fieldlist_name+']').attr('total-update-action');
+        
+        if (typeof total_update_action !== 'undefined' && total_update_action.length > 0)
+        {
+            var parent_form = $('table[name='+fieldlist_name+']').closest('form');
+    		
+    		if (parent_form) {
+                var data = {};
+                var final_results = {};
+                
+                var form_data = $(parent_form).serializeArray();
+                
+                $(form_data ).each(function(index, obj) {
+                    var column_name = obj.name;
+                    var column_name = column_name.replace('[]', '');
+                    
+                    if(data[column_name] === undefined) {
+                        data[column_name] = [];
+                    }
+                    
+                    data[column_name].push(obj.value);
+                });
+                
+                for (prop in data) {
+                    if (data[prop].length > 1) {
+                        for (var i = 0; i < data[prop].length; i++) {
+                            if (typeof final_results[i] == 'undefined') {
+                                final_results[i] = {};
+                            }
+                            final_results[i][prop] = data[prop][i]
+                        }
+                    }
+                }
+                
+                data['list_data'] = final_results;
+    		}
+    		
+    		__adianti_post_exec(total_update_action, data, null, '1', true);
         }
     }, 50);
 }

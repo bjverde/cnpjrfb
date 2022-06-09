@@ -16,11 +16,12 @@ use PDO;
 use Exception;
 use IteratorAggregate;
 use ArrayIterator;
+use Traversable;
 
 /**
  * Base class for Active Records
  *
- * @version    7.3
+ * @version    7.4
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -31,6 +32,7 @@ abstract class TRecord implements IteratorAggregate
     protected $data;  // array containing the data of the object
     protected $vdata; // array with virtual data (non-persistant properties)
     protected $attributes; // array of attributes
+    protected $trashed;
     
     /**
      * Class Constructor
@@ -40,6 +42,7 @@ abstract class TRecord implements IteratorAggregate
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         $this->attributes = array();
+        $this->trashed = FALSE;
         
         if ($id) // if the user has informed the $id
         {
@@ -67,7 +70,7 @@ abstract class TRecord implements IteratorAggregate
     /**
      * Returns iterator
      */
-    public function getIterator ()
+    public function getIterator () : Traversable
     {
         return new ArrayIterator( $this->data );
     }
@@ -111,7 +114,7 @@ abstract class TRecord implements IteratorAggregate
                 TTransaction::open($database);
                 $content = forward_static_call_array( array($class_name, $method), $parameters);
                 TTransaction::close();
-                return $content; 
+                return $content;
             }
             else
             {
@@ -243,7 +246,7 @@ abstract class TRecord implements IteratorAggregate
      */
     public function getCacheControl()
     {
-        $class = get_class($this); 
+        $class = get_class($this);
         $cache_name = "{$class}::CACHECONTROL";
         
         if ( defined( $cache_name ) )
@@ -320,17 +323,41 @@ abstract class TRecord implements IteratorAggregate
     }
     
     /**
+     * Returns the the name of the deleted at column
+     * @return A String containing the deleted at column
+     */
+    public static function getDeletedAtColumn()
+    {
+        // get the Active Record class name
+        $class = get_called_class();
+        if(defined("{$class}::DELETEDAT"))
+        {
+            // returns the DELETEDAT Active Record class constant
+            return constant("{$class}::DELETEDAT");
+        }
+
+        return NULL;
+    }
+    
+    /**
      * Returns the the name of the sequence for primary key
      * @return A String containing the sequence name
      */
     private function getSequenceName()
     {
+        $conn = TTransaction::get();
+        $driver = $conn->getAttribute(PDO::ATTR_DRIVER_NAME);
+        
         // get the Active Record class name
         $class = get_class($this);
         
         if (defined("{$class}::SEQUENCE"))
         {
             return constant("{$class}::SEQUENCE");
+        }
+        else if (in_array($driver, array('oci', 'oci8')))
+        {
+            return $this->getEntity().'_seq';
         }
         else
         {
@@ -410,6 +437,14 @@ abstract class TRecord implements IteratorAggregate
     }
     
     /**
+     * Return virtual data (non-persistant properties)
+     */
+    public function getVirtualData()
+    {
+        return $this->vdata;
+    }
+    
+    /**
      * Return the Active Record properties as a json string
      * @return A JSON String
      */
@@ -438,7 +473,7 @@ abstract class TRecord implements IteratorAggregate
                 {
                     settype($value, $cast);
                 }
-                $content  = str_replace($match, $value, $content);
+                $content  = str_replace($match, (string) $value, $content);
             }
         }
         
@@ -517,6 +552,16 @@ abstract class TRecord implements IteratorAggregate
      */
     public function store()
     {
+        $conn = TTransaction::get();
+        
+        if (!$conn)
+        {
+            // if there's no active transaction opened
+            throw new Exception(AdiantiCoreTranslator::translate('No active transactions') . ': ' . __METHOD__ .' '. $this->getEntity());
+        }
+        
+        $driver = $conn->getAttribute(PDO::ATTR_DRIVER_NAME);
+        
         // get the Active Record class name
         $class = get_class($this);
         
@@ -637,77 +682,84 @@ abstract class TRecord implements IteratorAggregate
             }
         }
         
-        // get the connection of the active transaction
-        if ($conn = TTransaction::get())
+        // register the operation in the LOG file
+        TTransaction::log($sql->getInstruction());
+        
+        $dbinfo = TTransaction::getDatabaseInfo(); // get dbinfo
+        if (isset($dbinfo['prep']) AND $dbinfo['prep'] == '1') // prepared ON
         {
-            $driver = $conn->getAttribute(PDO::ATTR_DRIVER_NAME);
+            $command = $sql->getInstruction( TRUE );
             
-            // register the operation in the LOG file
-            TTransaction::log($sql->getInstruction());
-            
-            $dbinfo = TTransaction::getDatabaseInfo(); // get dbinfo
-            if (isset($dbinfo['prep']) AND $dbinfo['prep'] == '1') // prepared ON
+            if ($driver == 'firebird')
             {
-                $command = $sql->getInstruction( TRUE );
-                
-                if ($driver == 'firebird')
-                {
-                    $command = str_replace('{{primary_key}}', $pk, $command);
-                }
-                
-                $result = $conn-> prepare ( $command , array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-                $result-> execute ( $sql->getPreparedVars() );
+                $command = str_replace('{{primary_key}}', $pk, $command);
             }
-            else
+            else if ($driver == 'sqlsrv')
             {
-                $command = $sql->getInstruction();
-                
-                if ($driver == 'firebird')
-                {
-                    $command = str_replace('{{primary_key}}', $pk, $command);
-                }
-                
-                // execute the query
-                $result = $conn-> query($command);
+                $command .= ";SELECT SCOPE_IDENTITY() as 'last_inserted_id'";
             }
             
-            if ((defined("{$class}::IDPOLICY")) AND (constant("{$class}::IDPOLICY") == 'serial'))
-            {
-                if ( ($sql instanceof TSqlInsert) AND empty($this->data[$pk]) )
-                {
-                    if ($driver == 'firebird')
-                    {
-                        $this->$pk = $result-> fetchColumn();
-                    }
-                    else
-                    {
-                        $this->$pk = $conn->lastInsertId( $this->getSequenceName() );
-                    }
-                }
-            }
-            
-            if ( $cache = $this->getCacheControl() )
-            {
-                $record_key = $class . '['. $this->$pk . ']';
-                if ($cache::setValue( $record_key, $this->toArray() ))
-                {
-                    TTransaction::log($record_key . ' stored in cache');
-                }
-            }
-            
-            if (method_exists($this, 'onAfterStore'))
-            {
-                $this->onAfterStore( (object) $this->toArray() );
-            }
-            
-            // return the result of the exec() method
-            return $result;
+            $result = $conn-> prepare ( $command , array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+            $result-> execute ( $sql->getPreparedVars() );
         }
         else
         {
-            // if there's no active transaction opened
-            throw new Exception(AdiantiCoreTranslator::translate('No active transactions') . ': ' . __METHOD__ .' '. $this->getEntity());
+            $command = $sql->getInstruction();
+            
+            if ($driver == 'firebird')
+            {
+                $command = str_replace('{{primary_key}}', $pk, $command);
+            }
+            else if ($driver == 'sqlsrv')
+            {
+                $command .= ";SELECT SCOPE_IDENTITY() as 'last_inserted_id'";
+            }
+            
+            // execute the query
+            $result = $conn-> query($command);
         }
+        
+        if ((defined("{$class}::IDPOLICY")) AND (constant("{$class}::IDPOLICY") == 'serial'))
+        {
+            if ( ($sql instanceof TSqlInsert) AND empty($this->data[$pk]) )
+            {
+                if ($driver == 'firebird')
+                {
+                    $this->$pk = $result-> fetchColumn();
+                }
+                else if ($driver == 'sqlsrv')
+                {
+                    $result->nextRowset();
+                    $this->$pk = $result-> fetchColumn();
+                }
+                else if (in_array($driver, array('oci', 'oci8')))
+                {
+                    $result_id = $conn-> query('SELECT ' . $this->getSequenceName() . ".currval FROM dual");
+                    $this->$pk = $result_id-> fetchColumn();
+                }
+                else
+                {
+                    $this->$pk = $conn->lastInsertId( $this->getSequenceName() );
+                }
+            }
+        }
+        
+        if ( $cache = $this->getCacheControl() )
+        {
+            $record_key = $class . '['. $this->$pk . ']';
+            if ($cache::setValue( $record_key, $this->toArray() ))
+            {
+                TTransaction::log($record_key . ' stored in cache');
+            }
+        }
+        
+        if (method_exists($this, 'onAfterStore'))
+        {
+            $this->onAfterStore( (object) $this->toArray() );
+        }
+        
+        // return the result of the exec() method
+        return $result;
     }
     
     /**
@@ -822,6 +874,13 @@ abstract class TRecord implements IteratorAggregate
         // creates a select criteria based on the ID
         $criteria = new TCriteria;
         $criteria->add(new TFilter($pk, '=', $id));
+
+        $deletedat = self::getDeletedAtColumn();
+        if (!$this->trashed && $deletedat)
+        {
+            $criteria->add(new TFilter($deletedat, 'IS', NULL));
+        }
+
         // define the select criteria
         $sql->setCriteria($criteria);
         // get the connection of the active transaction
@@ -884,6 +943,15 @@ abstract class TRecord implements IteratorAggregate
     }
     
     /**
+     * Load trashed records
+     */
+    public function loadTrashed($id)
+    {
+        $this->trashed = TRUE;
+        return $this->load($id);
+    }
+    
+    /**
      * Delete an Active Record object from the database
      * @param [$id]     The Object ID
      * @exception       Exception if there's no active transaction opened
@@ -901,10 +969,25 @@ abstract class TRecord implements IteratorAggregate
         $pk = $this->getPrimaryKey();
         // if the user has not passed the ID, take the object ID
         $id = $id ? $id : $this->$pk;
-        // creates a DELETE instruction
-        $sql = new TSqlDelete;
-        $sql->setEntity($this->getEntity());
-        
+
+        $deletedat = self::getDeletedAtColumn();
+        if ($deletedat)
+        {
+            // creates a Update instruction
+            $sql = new TSqlUpdate;
+            $sql->setEntity($this->getEntity());
+
+            $info = TTransaction::getDatabaseInfo();
+            $date_mask = (in_array($info['type'], ['sqlsrv', 'dblib', 'mssql'])) ? 'Ymd H:i:s' : 'Y-m-d H:i:s';
+            $sql->setRowData($deletedat, date($date_mask));
+        }
+        else
+        {
+            // creates a DELETE instruction
+            $sql = new TSqlDelete;
+            $sql->setEntity($this->getEntity());
+        }
+
         // creates a select criteria
         $criteria = new TCriteria;
         $criteria->add(new TFilter($pk, '=', $id));
@@ -921,7 +1004,14 @@ abstract class TRecord implements IteratorAggregate
             if (isset($dbinfo['prep']) AND $dbinfo['prep'] == '1') // prepared ON
             {
                 $result = $conn-> prepare ( $sql->getInstruction( TRUE ) , array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-                $result-> execute ( $criteria->getPreparedVars() );
+                if ($sql instanceof TSqlUpdate)
+                {
+                    $result-> execute ($sql->getPreparedVars());
+                }
+                else
+                {
+                    $result-> execute ($criteria->getPreparedVars());
+                }
             }
             else
             {
@@ -954,7 +1044,26 @@ abstract class TRecord implements IteratorAggregate
             throw new Exception(AdiantiCoreTranslator::translate('No active transactions') . ': ' . __METHOD__ .' '. $this->getEntity());
         }
     }
-    
+    /**
+     * Restore soft deleted object
+     */
+    public function restore()
+    {
+        $deletedat = self::getDeletedAtColumn();
+        
+        if ($deletedat)
+        {
+            $pk = $this->getPrimaryKey();
+            $this->withTrashed()->where($pk, '=', $this->$pk)->set($deletedat, null)->update();
+            
+            return $this;
+        }
+        else
+        {
+            throw new Exception(AdiantiCoreTranslator::translate('Softdelete is not active') . ' : '. $this->getEntity());
+        }
+    }
+
     /**
      * Returns the FIRST Object ID from database
      * @return      An Integer containing the FIRST Object ID from database
@@ -975,7 +1084,7 @@ abstract class TRecord implements IteratorAggregate
             TTransaction::log($sql->getInstruction());
             $result= $conn->Query($sql->getInstruction());
             // retorna os dados do banco
-            $row = $result->fetch();
+            $row = $result-> fetch();
             return $row[0];
         }
         else
@@ -1005,7 +1114,7 @@ abstract class TRecord implements IteratorAggregate
             TTransaction::log($sql->getInstruction());
             $result= $conn->Query($sql->getInstruction());
             // retorna os dados do banco
-            $row = $result->fetch();
+            $row = $result-> fetch();
             return $row[0];
         }
         else
@@ -1021,14 +1130,15 @@ abstract class TRecord implements IteratorAggregate
      * @param $callObjectLoad  If load() method from Active Records must be called to load object parts
      * @return                 An array containing the Active Records
      */
-    public static function getObjects($criteria = NULL, $callObjectLoad = TRUE)
+    public static function getObjects($criteria = NULL, $callObjectLoad = TRUE, $withTrashed = FALSE)
     {
         // get the Active Record class name
         $class = get_called_class();
         
         // create the repository
-        $repository = new TRepository( $class );
-        if(!$criteria)
+        $repository = new TRepository($class, $withTrashed);
+        
+        if (!$criteria)
         {
             $criteria = new TCriteria;
         }
@@ -1039,16 +1149,17 @@ abstract class TRecord implements IteratorAggregate
     /**
      * Method countObjects
      * @param $criteria        Optional criteria
+     * @param $withTrashed
      * @return                 An array containing the Active Records
      */
-    public static function countObjects($criteria = NULL )
+    public static function countObjects($criteria = NULL, $withTrashed = FALSE)
     {
         // get the Active Record class name
         $class = get_called_class();
         
         // create the repository
-        $repository = new TRepository( $class );
-        if(!$criteria)
+        $repository = new TRepository($class, $withTrashed);
+        if (!$criteria)
         {
             $criteria = new TCriteria;
         }
@@ -1218,43 +1329,84 @@ abstract class TRecord implements IteratorAggregate
     /**
      * Returns the first object
      */
-    public static function first()
+    public static function first($withTrashed = FALSE)
     {
         $object = new static;
         $id = $object->getFirstID();
+
+        return self::find($id, $withTrashed);
+    }
+    
+    /**
+     * First record or a new one
+     */
+    public static function firstOrNew($filters = NULL)
+    {
+        $criteria = TCriteria::create($filters);
+        $criteria->setProperty('limit', 1);
+        $objects = self::getObjects( $criteria );
         
-        return self::find($id);
+        if (isset($objects[0]))
+        {
+            return $objects[0];
+        }
+        else
+        {
+            $created = new static;
+            if (is_array($filters))
+            {
+                $created->fromArray($filters);
+            }
+            return $created;
+        }
+    }
+    
+    /**
+     * First record or persist a new one
+     */
+    public static function firstOrCreate($filters = NULL)
+    {
+        $obj = self::firstOrNew($filters);
+        $obj->store();
+        return $obj;
     }
     
     /**
      * Returns the last object
      */
-    public static function last()
+    public static function last($withTrashed = FALSE)
     {
         $object = new static;
         $id = $object->getLastID();
-        
-        return self::find($id);
+
+        return self::find($id, $withTrashed);
     }
     
     /**
      * Find a Active Record and returns it
      * @return The Active Record itself or NULL when not found
      */
-    public static function find($id)
+    public static function find($id, $withTrashed = FALSE)
     {
         $classname = get_called_class();
         $ar = new $classname;
-        return $ar->load($id);
+        
+        if ($withTrashed)
+        {
+            return $ar->loadTrashed($id);
+        }
+        else
+        {
+            return $ar->load($id);
+        }
     }
     
     /**
      * Returns all objects
      */
-    public static function all($indexed = false)
+    public static function all($indexed = false, $withTrashed = FALSE)
     {
-        $objects = self::getObjects(NULL, FALSE);
-        
+        $objects = self::getObjects(NULL, FALSE, $withTrashed);
         if ($indexed)
         {
             $list = [];
@@ -1283,7 +1435,7 @@ abstract class TRecord implements IteratorAggregate
      * Creates an indexed array
      * @returns the TRepository object with a filter
      */
-    public static function getIndexedArray($indexColumn, $valueColumn, $criteria = NULL)
+    public static function getIndexedArray($indexColumn, $valueColumn, $criteria = NULL, $withTrashed = FALSE)
     {
         $sort_array = false;
         
@@ -1295,7 +1447,7 @@ abstract class TRecord implements IteratorAggregate
         
         $indexedArray = array();
         $class = get_called_class(); // get the Active Record class name
-        $repository = new TRepository( $class ); // create the repository
+        $repository = new TRepository($class, $withTrashed); // create the repository
         $objects = $repository->load($criteria, FALSE);
         if ($objects)
         {
@@ -1386,7 +1538,12 @@ abstract class TRecord implements IteratorAggregate
         $repository = new TRepository( get_called_class() ); // create the repository
         return $repository->skip($offset);
     }
-    
+
+    public static function withTrashed()
+    {
+        return new TRepository(get_called_class(), TRUE);
+    }
+
     private function underscoreFromCamelCase($string)
     {
         return strtolower(preg_replace('/([a-z])([A-Z])/', '$'.'1_$'.'2', $string)); 

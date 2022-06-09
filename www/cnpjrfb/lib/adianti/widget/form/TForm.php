@@ -15,7 +15,7 @@ use ReflectionClass;
 /**
  * Wrapper class to deal with forms
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -169,10 +169,10 @@ class TForm implements AdiantiFormInterface
             {
                 if (is_array($value))
                 {
-                    $value = implode('|', $value);
+                    $value = json_encode($value);
                 }
                 
-                $value = addslashes($value);
+                $value = addslashes((string) $value);
                 $value = AdiantiStringConversion::assureUnicode($value);
                 
                 $value = str_replace(array("\n", "\r"), array( '\n', '\r'), $value );

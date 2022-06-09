@@ -10,7 +10,7 @@ use ReflectionClass;
 /**
  * Window Container (JQueryDialog wrapper)
  *
- * @version    7.3
+ * @version    7.4
  * @package    control
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -24,16 +24,13 @@ class TWindow extends TPage
     {
         parent::__construct();
         
-        $rc = new ReflectionClass( $this );
-        $classname = $rc->getShortName();
-        
         $this->wrapper = new TJQueryDialog;
         $this->wrapper->setUseOKButton(FALSE);
         $this->wrapper->setTitle('');
         $this->wrapper->setSize(1000, 500);
         $this->wrapper->setModal(TRUE);
         $this->wrapper->{'widget'} = 'T'.'Window';
-        $this->wrapper->{'name'} = $classname;
+        $this->wrapper->{'name'} = $this->getClassName();
         
         $this->{'id'} = 'window_' . mt_rand(1000000000, 1999999999);
         $this->{'window_name'} = $this->wrapper->{'name'};

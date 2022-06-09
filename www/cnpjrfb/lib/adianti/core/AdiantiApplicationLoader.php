@@ -11,7 +11,7 @@ use Exception;
 /**
  * Application loader
  *
- * @version    7.3
+ * @version    7.4
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -19,6 +19,27 @@ use Exception;
  */
 class AdiantiApplicationLoader
 {
+    static $loadedClasses;
+    
+    /**
+     * Return application loaded classes
+     */
+    public static function getLoadedClasses()
+    {
+        return self::$loadedClasses;
+    }
+    
+    /**
+     * Return if the class was already loaded by this loader
+     */
+    public static function isLoadedClass($class)
+    {
+        return !empty(self::$loadedClasses[$class]);
+    }
+    
+    /**
+     * Application autoloder
+     */
     public static function autoload($class)
     {
         // echo "&nbsp;&nbsp;App loader $class<br>";
@@ -34,6 +55,7 @@ class AdiantiApplicationLoader
         if (file_exists("{$class}.class.php"))
         {
             require_once "{$class}.class.php";
+            self::$loadedClasses[$class] = true;
             return TRUE;
         }
         
@@ -41,6 +63,7 @@ class AdiantiApplicationLoader
         if (file_exists("{$class}.php"))
         {
             require_once "{$class}.php";
+            self::$loadedClasses[$class] = true;
             return TRUE;
         }
         
@@ -49,16 +72,19 @@ class AdiantiApplicationLoader
             if (file_exists("{$folder}/{$class}.class.php"))
             {
                 require_once "{$folder}/{$class}.class.php";
+                self::$loadedClasses[$class] = true;
                 return TRUE;
             }
             if (file_exists("{$folder}/{$class}.php"))
             {
                 require_once "{$folder}/{$class}.php";
+                self::$loadedClasses[$class] = true;
                 return TRUE;
             }
             else if (file_exists("{$folder}/{$class}.iface.php"))
             {
                 require_once "{$folder}/{$class}.iface.php";
+                self::$loadedClasses[$class] = true;
                 return TRUE;
             }
             else
@@ -75,16 +101,19 @@ class AdiantiApplicationLoader
                                 if (file_exists("{$entry}/{$class}.class.php"))
                                 {
                                     require_once "{$entry}/{$class}.class.php";
+                                    self::$loadedClasses[$class] = true;
                                     return TRUE;
                                 }
                                 else if (file_exists("{$entry}/{$class}.php"))
                                 {
                                     require_once "{$entry}/{$class}.php";
+                                    self::$loadedClasses[$class] = true;
                                     return TRUE;
                                 }
                                 else if (file_exists("{$entry}/{$class}.iface.php"))
                                 {
                                     require_once "{$entry}/{$class}.iface.php";
+                                    self::$loadedClasses[$class] = true;
                                     return TRUE;
                                 }
                             }

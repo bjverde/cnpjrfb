@@ -8,11 +8,12 @@ use Adianti\Widget\Base\TElement;
 use Adianti\Widget\Base\TScript;
 use Adianti\Widget\Form\TEntry;
 use Adianti\Widget\Container\THBox;
+use Adianti\Widget\Util\TImage;
 
 /**
  * Image uploader with cropper
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Lucas Tomasi
@@ -41,6 +42,8 @@ class TImageCropper extends TField implements AdiantiWidgetInterface
     private $buttonScale;
     private $buttonReset;
     private $buttonZoom;
+
+    private $imagePlaceholder;
     
     // defaults aspect ratios
     const CROPPER_RATIO_16_9 = 16/9;
@@ -77,6 +80,20 @@ class TImageCropper extends TField implements AdiantiWidgetInterface
         $this->base64 = false;
         $this->webcam = false;
         $this->setSize('100%', 100);
+
+        $this->imagePlaceholder = new TImage('fa:image placeholder');
+    }
+
+    /**
+     * Set image placeholder
+     *
+     * @param TImage $image image placeholder
+     */
+    public function setImagePlaceholder(TImage $image)
+    {
+        $image->{'class'} .= ' placeholder';
+
+        $this->imagePlaceholder = $image;
     }
 
     /**
@@ -383,6 +400,7 @@ class TImageCropper extends TField implements AdiantiWidgetInterface
         $label->add($img);
         $label->add($actions);
         $label->add($this->tag);
+        $label->add($this->imagePlaceholder);
 
         $label->show();
 

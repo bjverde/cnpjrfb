@@ -16,7 +16,7 @@ use Exception;
 /**
  * FileChooser widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Nataniel Rabaioli
@@ -198,7 +198,7 @@ class TMultiFile extends TField implements AdiantiWidgetInterface
         
         if ($this->size)
         {
-            $size = (strstr($this->size, '%') !== FALSE) ? $this->size : "{$this->size}px";
+            $size = (strstr((string) $this->size, '%') !== FALSE) ? $this->size : "{$this->size}px";
             $this->setProperty('style', "width:{$size};", FALSE); //aggregate style info
         }
         
@@ -254,18 +254,18 @@ class TMultiFile extends TField implements AdiantiWidgetInterface
         }
         else
         {
-            $hash = md5("{$this->seed}{$this->name}".base64_encode(serialize($this->extensions)));
-            $action = "engine.php?class={$this->uploaderClass}&name={$this->name}&hash={$hash}&extensions=".base64_encode(serialize($this->extensions));
+            $hash = md5("{$this->seed}{$this->name}".base64_encode((string) serialize($this->extensions)));
+            $action = "engine.php?class={$this->uploaderClass}&name={$this->name}&hash={$hash}&extensions=".base64_encode((string) serialize($this->extensions));
         }
         
         if ($router = AdiantiCoreApplication::getRouter())
         {
-	        $action = $router($action);
+	        $action = $router($action, false);
         }
 
         $fileHandling = $this->fileHandling ? '1' : '0';
         $imageGallery = json_encode(['enabled'=> $this->imageGallery ? '1' : '0', 'width' => $this->galleryWidth, 'height' => $this->galleryHeight]);
-        $popover = json_encode(['enabled' => $this->popover ? '1' : '0', 'title' => $this->poptitle, 'content' => base64_encode($this->popcontent)]);
+        $popover = json_encode(['enabled' => $this->popover ? '1' : '0', 'title' => $this->poptitle, 'content' => base64_encode((string) $this->popcontent)]);
         
         TScript::create(" tmultifile_start( '{$this->tag-> id}', '{$div-> id}', '{$action}', {$complete_action}, $fileHandling, '$imageGallery', '$popover');");
     }

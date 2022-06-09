@@ -9,7 +9,7 @@ use Adianti\Widget\Form\TField;
 /**
  * Slider Widget
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -81,7 +81,7 @@ class TSlider extends TField implements AdiantiWidgetInterface
         $this->tag->{'max'}   = $this->max;
         $this->tag->{'step'}  = $this->step;
         
-        if (strstr($this->size, '%') !== FALSE)
+        if (strstr((string) $this->size, '%') !== FALSE)
         {
             $this->setProperty('style', "width:{$this->size};", false); //aggregate style info
         }

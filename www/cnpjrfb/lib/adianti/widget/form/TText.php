@@ -13,7 +13,7 @@ use Exception;
 /**
  * Text Widget (also known as Memo)
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -155,7 +155,7 @@ class TText extends TField implements AdiantiWidgetInterface
         
         if ($this->size)
         {
-            $size = (strstr($this->size, '%') !== FALSE) ? $this->size : "{$this->size}px";
+            $size = (strstr((string) $this->size, '%') !== FALSE) ? $this->size : "{$this->size}px";
             $this->setProperty('style', "width:{$size};", FALSE); //aggregate style info
         }
         
@@ -196,7 +196,7 @@ class TText extends TField implements AdiantiWidgetInterface
         }
         
         // add the content to the textarea
-        $this->tag->add(htmlspecialchars($this->value));
+        $this->tag->add(htmlspecialchars( (string) $this->value));
         // show the tag
         $this->tag->show();
     }

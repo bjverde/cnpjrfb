@@ -10,7 +10,7 @@ use Adianti\Control\TAction;
 /**
  * QR Code Input Reader
  *
- * @version    7.3
+ * @version    7.4
  * @package    widget
  * @subpackage form
  * @author     Lucas Tomasi
@@ -69,7 +69,7 @@ class TQRCodeInputReader extends TEntry implements AdiantiWidgetInterface
         $span->{'class'} = 'input-group-addon tqrcodeinputreader';
 
         $outer_size = 'undefined';
-        if (strstr($this->size, '%') !== FALSE)
+        if (strstr((string) $this->size, '%') !== FALSE)
         {
             $outer_size = $this->size;
             $this->size = '100%';

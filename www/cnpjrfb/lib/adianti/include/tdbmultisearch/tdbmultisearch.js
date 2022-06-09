@@ -1,8 +1,9 @@
-function tdbmultisearch_start( id, minlen, maxsize, placeholder, multiple, service, width, height, hash, callback ) {
+function tdbmultisearch_start( id, minlen, maxsize, placeholder, multiple, service, width, height, hash, callback, with_titles ) {
     var options = {
         minimumInputLength: minlen,
         maximumSelectionLength: maxsize,
         allowClear: true,
+        selectionTitleAttribute: with_titles,
         placeholder: placeholder,
         multiple: multiple,
         hash: hash,

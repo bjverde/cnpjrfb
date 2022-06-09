@@ -1,6 +1,39 @@
+div.color-div .pickr {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 30px;
+}
+
+div.color-div .pickr button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0;
+}
+
+div.color-div .pickr button::after,
+div.color-div .pickr button::before {
+    border: 1px solid #dddddd;
+    height: 15px;
+    width: 15px;
+    border-radius: 0;
+    padding: 0;
+    margin-top: 7px;
+    margin-left: 7px;
+}
+
+div.color-div .pickr button {
+    height: 30px;
+    border-radius: 0px;
+    width: 30px;
+    border: 1px solid #cccccc;
+    border-left: none;
+}
+div.color-div .pickr button.clear {
+    background-size: 50%;
+}
 div.color-div span.tcolor
 {
-    border-color: #e6e6e6 #e6e6e6 #bfbfbf;
     border: 1px solid #cccccc;
     height: 24px;
     padding: 0px;
@@ -11,10 +44,8 @@ div.color-div span.tcolor
     margin-bottom: 0px;
     vertical-align:top;
     box-sizing: border-box;
-    border-left: 1px solid #ccc;
     border-bottom-color: #b3b3b3;
     vertical-align:top;
-    border-left: 0;
 }
 
 div.color-div
@@ -36,14 +67,4 @@ div.color-div .tfield
 {
     width: 14px;
     height: 14px;
-}
-
-.colorpicker-alpha
-{
-    display:none !important;
-}
-
-.colorpicker
-{
-    min-width:128px !important;
 }
