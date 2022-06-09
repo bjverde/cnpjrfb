@@ -17,7 +17,7 @@ O processo de instalação é simples para a parte PHP. Porém a carga do banco 
 
 ## Requisitos
 
-* PHP 7.4 ou superior
+* PHP 7.4 ou superior, a versão 2.1.0 ou superior funciona no PHP 8.1
 * Banco de Dados Relacional, com a carga dos dados conforme modelo. Funciona nos bancos PostgreSQL, MySQL, MariaDB, SQLite !
 * Linux (Debian 10), pode funcionar no Windows porém não foi testado
 * Aproximadamente 50 GB de espaço livre em disco para a instalação:
