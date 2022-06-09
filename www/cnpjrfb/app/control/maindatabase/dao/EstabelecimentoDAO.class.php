@@ -43,7 +43,7 @@ class EstabelecimentoDAO
                                      ,correio_eletronico
                                      ,situacao_especial
                                      ,data_situacao_especial
-                                     from estabelecimento ';
+                                     from '.DATABASE_SCHEMA.'estabelecimento ';
 
     private $tpdo = null;
     private $repositoryName = 'estabelecimento'; //Nome da Classe do tipo Active Record no diretorio /app/model/maindatabase

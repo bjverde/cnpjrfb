@@ -11,7 +11,7 @@
  */
 class simples extends TRecord
 {
-    const TABLENAME = 'simples';
+    const TABLENAME = DATABASE_SCHEMA.'simples';
     const PRIMARYKEY= 'cnpj_basico';
     const IDPOLICY  = 'serial'; //{max, serial}
 

@@ -11,7 +11,7 @@
  */
 class cnae extends TRecord
 {
-    const TABLENAME = 'cnae';
+    const TABLENAME = DATABASE_SCHEMA.'cnae';
     const PRIMARYKEY= 'codigo';
     const IDPOLICY  = 'serial'; //{max, serial}
 

@@ -11,7 +11,7 @@
  */
 class moti extends TRecord
 {
-    const TABLENAME = 'moti';
+    const TABLENAME = DATABASE_SCHEMA.'moti';
     const PRIMARYKEY= 'codigo';
     const IDPOLICY  = 'serial'; //{max, serial}
 

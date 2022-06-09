@@ -11,7 +11,7 @@
  */
 class estabelecimento extends TRecord
 {
-    const TABLENAME = 'estabelecimento';
+    const TABLENAME = DATABASE_SCHEMA.'estabelecimento';
     const PRIMARYKEY= 'cnpj_basico';
     const IDPOLICY  = 'serial'; //{max, serial}
 

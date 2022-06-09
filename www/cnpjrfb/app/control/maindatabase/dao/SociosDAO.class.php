@@ -24,7 +24,7 @@ class SociosDAO
                                      ,nome_do_representante
                                      ,qualificacao_representante_legal
                                      ,faixa_etaria
-                                     from socios ';
+                                     from '.DATABASE_SCHEMA.'socios ';
 
     private $tpdo = null;
     private $repositoryName = 'socios'; //Nome da Classe do tipo Active Record no diretorio /app/model/maindatabase

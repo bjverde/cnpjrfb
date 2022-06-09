@@ -11,7 +11,7 @@
  */
 class pais extends TRecord
 {
-    const TABLENAME = 'pais';
+    const TABLENAME = DATABASE_SCHEMA.'pais';
     const PRIMARYKEY= 'codigo';
     const IDPOLICY  = 'serial'; //{max, serial}
 

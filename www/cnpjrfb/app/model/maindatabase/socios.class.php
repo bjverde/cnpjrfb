@@ -11,7 +11,7 @@
  */
 class socios extends TRecord
 {
-    const TABLENAME = 'socios';
+    const TABLENAME = DATABASE_SCHEMA.'socios';
     const PRIMARYKEY= 'cnpj_basico';
     const IDPOLICY  = 'serial'; //{max, serial}
 

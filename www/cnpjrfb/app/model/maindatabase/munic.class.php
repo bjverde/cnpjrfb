@@ -11,7 +11,7 @@
  */
 class munic extends TRecord
 {
-    const TABLENAME = 'munic';
+    const TABLENAME = DATABASE_SCHEMA.'munic';
     const PRIMARYKEY= 'codigo';
     const IDPOLICY  = 'serial'; //{max, serial}
 

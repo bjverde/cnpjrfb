@@ -11,7 +11,7 @@
  */
 class natju extends TRecord
 {
-    const TABLENAME = 'natju';
+    const TABLENAME = DATABASE_SCHEMA.'natju';
     const PRIMARYKEY= 'codigo';
     const IDPOLICY  = 'serial'; //{max, serial}
 

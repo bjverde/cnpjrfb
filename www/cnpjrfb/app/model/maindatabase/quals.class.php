@@ -11,7 +11,7 @@
  */
 class quals extends TRecord
 {
-    const TABLENAME = 'quals';
+    const TABLENAME = DATABASE_SCHEMA.'quals';
     const PRIMARYKEY= 'codigo';
     const IDPOLICY  = 'serial'; //{max, serial}
 
