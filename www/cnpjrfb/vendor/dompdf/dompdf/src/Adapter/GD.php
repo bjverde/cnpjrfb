@@ -138,7 +138,7 @@ class GD implements Canvas
      * @param float $aa_factor Anti-aliasing factor, 1 for no AA
      * @param array $bg_color Image background color: array(r,g,b,a), 0 <= r,g,b,a <= 1
      */
-    public function __construct($size = 'letter', $orientation = "portrait", Dompdf $dompdf, $aa_factor = 1.0, $bg_color = [1, 1, 1, 0])
+    public function __construct($size = 'letter', $orientation = "portrait", Dompdf $dompdf = null, $aa_factor = 1.0, $bg_color = [1, 1, 1, 0])
     {
 
         if (!is_array($size)) {
@@ -155,7 +155,11 @@ class GD implements Canvas
             list($size[2], $size[3]) = [$size[3], $size[2]];
         }
 
-        $this->_dompdf = $dompdf;
+        if ($dompdf === null) {
+            $this->_dompdf = new Dompdf();
+        } else {
+            $this->_dompdf = $dompdf;
+        }
 
         $this->dpi = $this->get_dompdf()->getOptions()->getDpi();
 
@@ -174,7 +178,7 @@ class GD implements Canvas
         $this->_actual_width = $this->_upscale($this->_width);
         $this->_actual_height = $this->_upscale($this->_height);
 
-        $this->_page_number = $this->_page_count = 1;
+        $this->_page_number = $this->_page_count = 0;
         $this->_page_text = [];
 
         if (is_null($bg_color) || !is_array($bg_color)) {

@@ -17,7 +17,6 @@ use Dompdf\Frame\FrameTree;
 use HTML5_Tokenizer;
 use HTML5_TreeBuilder;
 use Dompdf\Image\Cache;
-use Dompdf\Renderer\ListBullet;
 use Dompdf\Css\Stylesheet;
 use Dompdf\Helpers;
 
@@ -179,11 +178,18 @@ class Dompdf
     private $systemLocale = null;
 
     /**
-     * Tells if the system's locale is the C standard one
+     * The system's mbstring internal encoding
      *
-     * @var bool
+     * @var string
      */
-    private $localeStandard = false;
+    private $mbstringEncoding = null;
+
+    /**
+     * The system's PCRE JIT configuration
+     *
+     * @var string
+     */
+    private $pcreJit = null;
 
     /**
      * The default view of the PDF in the viewer
@@ -272,13 +278,6 @@ class Dompdf
      */
     public function __construct($options = null)
     {
-        mb_internal_encoding('UTF-8');
-
-        if (version_compare(PHP_VERSION, '7.0.0') >= 0)
-        {
-            @ini_set('pcre.jit', 0);
-        }
-
         if (isset($options) && $options instanceof Options) {
             $this->setOptions($options);
         } elseif (is_array($options)) {
@@ -288,12 +287,12 @@ class Dompdf
         }
 
         $versionFile = realpath(__DIR__ . '/../VERSION');
-        if (file_exists($versionFile) && ($version = file_get_contents($versionFile)) !== false && $version !== '$Format:<%h>$') {
-          $this->version = sprintf('dompdf %s', $version);
+        if (file_exists($versionFile) && ($version = trim(file_get_contents($versionFile))) !== false && $version !== '$Format:<%h>$') {
+            $this->version = sprintf('dompdf %s', $version);
         }
 
-        $this->localeStandard = sprintf('%.1f', 1.0) == '1.0';
-        $this->saveLocale();
+        $this->setPhpConfig();
+
         $this->paperSize = $this->options->getDefaultPaperSize();
         $this->paperOrientation = $this->options->getDefaultPaperOrientation();
 
@@ -301,33 +300,48 @@ class Dompdf
         $this->setFontMetrics(new FontMetrics($this->getCanvas(), $this->getOptions()));
         $this->css = new Stylesheet($this);
 
-        $this->restoreLocale();
+        $this->restorePhpConfig();
     }
 
     /**
-     * Save the system's locale configuration and
-     * set the right value for numeric formatting
+     * Save the system's existing locale, PCRE JIT, and MBString encoding
+     * configuration and configure the system for Dompdf processing
      */
-    private function saveLocale()
+    private function setPhpConfig()
     {
-        if ($this->localeStandard) {
-            return;
+        if (sprintf('%.1f', 1.0) !== '1.0') {
+            $this->systemLocale = setlocale(LC_NUMERIC, "0");
+            setlocale(LC_NUMERIC, "C");
         }
 
-        $this->systemLocale = setlocale(LC_NUMERIC, "0");
-        setlocale(LC_NUMERIC, "C");
+        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+            $this->pcreJit = @ini_get('pcre.jit');
+            @ini_set('pcre.jit', '0');
+        }
+
+        $this->mbstringEncoding = mb_internal_encoding();
+        mb_internal_encoding('UTF-8');
     }
 
     /**
      * Restore the system's locale configuration
      */
-    private function restoreLocale()
+    private function restorePhpConfig()
     {
-        if ($this->localeStandard) {
-            return;
+        if (!empty($this->systemLocale)) {
+            setlocale(LC_NUMERIC, $this->systemLocale);
+            $this->systemLocale = null;
         }
 
-        setlocale(LC_NUMERIC, $this->systemLocale);
+        if (!empty($this->pcreJit)) {
+            @ini_set('pcre.jit', $this->pcreJit);
+            $this->pcreJit = null;
+        }
+
+        if (!empty($this->mbstringEncoding)) {
+            mb_internal_encoding($this->mbstringEncoding);
+            $this->mbstringEncoding = null;
+        }
     }
 
     /**
@@ -350,7 +364,7 @@ class Dompdf
      */
     public function loadHtmlFile($file, $encoding = null)
     {
-        $this->saveLocale();
+        $this->setPhpConfig();
 
         if (!$this->protocol && !$this->baseHost && !$this->basePath) {
             [$this->protocol, $this->baseHost, $this->basePath] = Helpers::explode_url($file);
@@ -370,9 +384,17 @@ class Dompdf
         if ($protocol == "" || $protocol === "file://") {
             $realfile = realpath($uri);
 
-            $chroot = realpath($this->options->getChroot());
-            if ($chroot && strpos($realfile, $chroot) !== 0) {
-                throw new Exception("Permission denied on $file. The file could not be found under the directory specified by Options::chroot.");
+            $chroot = $this->options->getChroot();
+            $chrootValid = false;
+            foreach ($chroot as $chrootPath) {
+                $chrootPath = realpath($chrootPath);
+                if ($chrootPath !== false && strpos($realfile, $chrootPath) === 0) {
+                    $chrootValid = true;
+                    break;
+                }
+            }
+            if ($chrootValid !== true) {
+                throw new Exception("Permission denied on $file. The file could not be found under the paths specified by Options::chroot.");
             }
 
             $ext = strtolower(pathinfo($realfile, PATHINFO_EXTENSION));
@@ -402,7 +424,7 @@ class Dompdf
             }
         }
 
-        $this->restoreLocale();
+        $this->restorePhpConfig();
 
         $this->loadHtml($contents, $encoding);
     }
@@ -442,7 +464,7 @@ class Dompdf
      */
     public function loadHtml($str, $encoding = null)
     {
-        $this->saveLocale();
+        $this->setPhpConfig();
 
         // Determine character encoding when $encoding parameter not used
         if ($encoding === null) {
@@ -534,7 +556,7 @@ class Dompdf
             $this->loadDOM($doc, $quirksmode);
         } finally {
             restore_error_handler();
-            $this->restoreLocale();
+            $this->restorePhpConfig();
         }
     }
 
@@ -720,7 +742,7 @@ class Dompdf
      */
     public function render()
     {
-        $this->saveLocale();
+        $this->setPhpConfig();
         $options = $this->options;
 
         $logOutputFile = $options->getLogOutputFile();
@@ -836,7 +858,7 @@ class Dompdf
             ob_end_clean();
         }
 
-        $this->restoreLocale();
+        $this->restorePhpConfig();
     }
 
     /**
@@ -898,14 +920,14 @@ class Dompdf
      */
     public function stream($filename = "document.pdf", $options = [])
     {
-        $this->saveLocale();
+        $this->setPhpConfig();
 
         $canvas = $this->getCanvas();
         if (!is_null($canvas)) {
             $canvas->stream($filename, $options);
         }
 
-        $this->restoreLocale();
+        $this->restorePhpConfig();
     }
 
     /**
@@ -922,7 +944,7 @@ class Dompdf
      */
     public function output($options = [])
     {
-        $this->saveLocale();
+        $this->setPhpConfig();
 
         $canvas = $this->getCanvas();
         if (is_null($canvas)) {
@@ -931,7 +953,7 @@ class Dompdf
 
         $output = $canvas->output($options);
 
-        $this->restoreLocale();
+        $this->restorePhpConfig();
 
         return $output;
     }
@@ -1398,12 +1420,20 @@ class Dompdf
 
     /**
      * Sets callbacks for events like rendering of pages and elements.
-     * The callbacks array contains arrays with 'event' set to 'begin_page',
-     * 'end_page', 'begin_frame', or 'end_frame' and 'f' set to a function or
-     * object plus method to be called.
      *
-     * The function 'f' must take an array as argument, which contains info
-     * about the event.
+     * The callbacks array should contain arrays with `event` set to a callback
+     * event name and `f` set to a function or object plus method to be called.
+     *
+     * The available callback events are:
+     * * `begin_page_reflow`: called before page reflow
+     * * `begin_frame`: called before a frame is rendered
+     * * `end_frame`: called after frame rendering is complete
+     * * `begin_page_render`: called before a page is rendered
+     * * `end_page_render`: called after page rendering is complete
+     *
+     * The function `f` must take an array as argument, which contains info
+     * about the event (`[0 => Canvas, 1 => Frame, "canvas" => Canvas,
+     * "frame" => Frame]`).
      *
      * @param array $callbacks the set of callbacks to set
      */
@@ -1473,12 +1503,11 @@ class Dompdf
      */
     function __get($prop)
     {
-        switch ($prop)
-        {
-            case 'version' :
+        switch ($prop) {
+            case 'version':
                 return $this->version;
             default:
-                throw new Exception( 'Invalid property: ' . $prop );
+                throw new Exception('Invalid property: ' . $prop);
         }
     }
 }

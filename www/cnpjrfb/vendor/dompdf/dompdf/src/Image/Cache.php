@@ -70,6 +70,7 @@ class Cache
         $data_uri = strpos($parsed_url['protocol'], "data:") === 0;
         $full_url = null;
         $enable_remote = $dompdf->getOptions()->getIsRemoteEnabled();
+        $tempfile = false;
 
         try {
 
@@ -92,6 +93,7 @@ class Cache
                     if (($resolved_url = @tempnam($tmp_dir, "ca_dompdf_img_")) === false) {
                         throw new ImageException("Unable to create temporary image in " . $tmp_dir, E_WARNING);
                     }
+                    $tempfile = $resolved_url;
                     $image = "";
 
                     if ($data_uri) {
@@ -127,9 +129,17 @@ class Cache
         
                     $rootDir = realpath($dompdf->getOptions()->getRootDir());
                     if (strpos($realfile, $rootDir) !== 0) {
-                        $chroot = realpath($dompdf->getOptions()->getChroot());
-                        if (!$chroot || strpos($realfile, $chroot) !== 0) {
-                            throw new ImageException("Permission denied on $resolved_url. The file could not be found under the directory specified by Options::chroot.", E_WARNING);
+                        $chroot = $dompdf->getOptions()->getChroot();
+                        $chrootValid = false;
+                        foreach ($chroot as $chrootPath) {
+                            $chrootPath = realpath($chrootPath);
+                            if ($chrootPath !== false && strpos($realfile, $chrootPath) === 0) {
+                                $chrootValid = true;
+                                break;
+                            }
+                        }
+                        if ($chrootValid !== true) {
+                            throw new ImageException("Permission denied on $resolved_url. The file could not be found under the paths specified by Options::chroot.", E_WARNING);
                         }
                     }
         
@@ -149,7 +159,7 @@ class Cache
                 list($width, $height, $type) = Helpers::dompdf_getimagesize($resolved_url, $dompdf->getHttpContext());
 
                 // Known image type
-                if ($width && $height && in_array($type, ["gif", "png", "jpeg", "bmp", "svg"])) {
+                if ($width && $height && in_array($type, ["gif", "png", "jpeg", "bmp", "svg","webp"])) {
                     //Don't put replacement image into cache - otherwise it will be deleted on cache cleanup.
                     //Only execute on successful caching of remote image.
                     if ($enable_remote && $remote || $data_uri) {
@@ -161,10 +171,14 @@ class Cache
                 }
             }
         } catch (ImageException $e) {
+            if ($tempfile) {
+                unlink($tempfile);
+            }
             $resolved_url = self::$broken_image;
             $type = "png";
             $message = self::$error_message;
             Helpers::record_warnings($e->getCode(), $e->getMessage() . " \n $url", $e->getFile(), $e->getLine());
+            self::$_cache[$full_url] = $resolved_url;
         }
 
         return [$resolved_url, $type, $message];
@@ -172,7 +186,7 @@ class Cache
 
     /**
      * Unlink all cached images (i.e. temporary images either downloaded
-     * or converted)
+     * or converted) except for the bundled "broken image"
      */
     static function clear()
     {
@@ -181,6 +195,9 @@ class Cache
         }
 
         foreach (self::$_cache as $file) {
+            if ($file === self::$broken_image) {
+                continue;
+            }
             if (self::$_dompdf->getOptions()->getDebugPng()) {
                 print "[clear unlink $file]";
             }

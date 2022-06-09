@@ -24,7 +24,7 @@ namespace Dompdf;
  */
 interface Canvas
 {
-    function __construct($paper = "letter", $orientation = "portrait", Dompdf $dompdf);
+    function __construct($paper = "letter", $orientation = "portrait", Dompdf $dompdf = null);
 
     /**
      * @return Dompdf
@@ -333,7 +333,7 @@ interface Canvas
      * @param string $font the desired font
      * @param float $size the desired font size
      * @param float $word_spacing word spacing, if any
-     * @param float $char_spacing
+     * @param float $char_spacing char spacing, if any
      *
      * @return float
      */

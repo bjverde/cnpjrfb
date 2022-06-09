@@ -14,14 +14,13 @@ use Dompdf\Adapter\CPDF;
 use Dompdf\Exception;
 use Dompdf\FontMetrics;
 use Dompdf\Frame;
-use Dompdf\Helpers;
 
 /**
  * Represents CSS properties.
  *
  * The Style class is responsible for handling and storing CSS properties.
  * It includes methods to resolve colors and lengths, as well as getters &
- * setters for many CSS properites.
+ * setters for many CSS properties.
  *
  * Actual CSS parsing is performed in the {@link Stylesheet} class.
  *
@@ -78,32 +77,59 @@ class Style
         "super", "text-bottom", "text-top", "top"];
 
     /**
-     * List of all inline types.  Should really be a constant.
+     * List of all block-level (outer) display types.
+     * * https://www.w3.org/TR/css-display-3/#display-type
+     * * https://www.w3.org/TR/css-display-3/#block-level
+     */
+    public const BLOCK_LEVEL_TYPES = [
+        "block",
+        // "flow-root",
+        "list-item",
+        "flex",
+        // "grid",
+        "table"
+    ];
+
+    /**
+     * List of all inline-level (outer) display types.
+     * * https://www.w3.org/TR/css-display-3/#display-type
+     * * https://www.w3.org/TR/css-display-3/#inline-level
+     */
+    public const INLINE_LEVEL_TYPES = [
+        "inline",
+        "inline-block",
+        "inline-flex",
+        // "inline-grid",
+        "inline-table"
+    ];
+
+    /**
+     * List of all inline (inner) display types.  Should really be a constant.
      *
      * @var array
      */
     static $INLINE_TYPES = ["inline"];
 
     /**
-     * List of all block types.  Should really be a constant.
+     * List of all block (inner) display types.  Should really be a constant.
      *
      * @var array
      */
     static $BLOCK_TYPES = ["block", "inline-block", "table-cell", "list-item"];
 
     /**
-     * List of all positionned types.  Should really be a constant.
+     * List of all table (inner) display types.  Should really be a constant.
+     *
+     * @var array
+     */
+    static $TABLE_TYPES = ["table", "inline-table"];
+
+    /**
+     * List of all positioned types.  Should really be a constant.
      *
      * @var array
      */
     static $POSITIONNED_TYPES = ["relative", "absolute", "fixed"];
-
-    /**
-     * List of all table types.  Should really be a constant.
-     *
-     * @var array;
-     */
-    static $TABLE_TYPES = ["table", "inline-table"];
 
     /**
      * List of valid border styles.  Should also really be a constant.
@@ -209,10 +235,14 @@ class Style
             "margin_bottom",
             "margin_left",
             "outline_width",
+            "outline_offset",
             "padding_top",
             "padding_right",
             "padding_bottom",
             "padding_left"
+        ],
+        "outline_style" => [
+            "outline_width"
         ]
     ];
 
@@ -250,11 +280,17 @@ class Style
     private $_computed_bottom_spacing = null;
 
     /**
-     * The computed border radius
+     * @var bool
      */
-    private $_computed_border_radius = null;
+    private $has_border_radius_cache = null;
 
     /**
+     * @var array
+     */
+    private $resolved_border_radius = null;
+
+    /**
+     * @deprecated
      * @var bool
      */
     public $_has_border_radius = false;
@@ -367,8 +403,10 @@ class Style
             $d["outline_color"] = ""; // "invert" special color is not supported
             $d["outline_style"] = "none";
             $d["outline_width"] = "medium";
+            $d["outline_offset"] = "0";
             $d["outline"] = "";
             $d["overflow"] = "visible";
+            $d["overflow_wrap"] = "normal";
             $d["padding_top"] = "0";
             $d["padding_right"] = "0";
             $d["padding_bottom"] = "0";
@@ -406,7 +444,6 @@ class Style
             $d["voice_family"] = "";
             $d["volume"] = "medium";
             $d["white_space"] = "normal";
-            $d["word_wrap"] = "normal";
             $d["widows"] = "2";
             $d["width"] = "auto";
             $d["word_spacing"] = "normal";
@@ -422,7 +459,7 @@ class Style
             $d["src"] = "";
             $d["unicode_range"] = "";
 
-            // vendor-previxed properties
+            // vendor-prefixed properties
             $d["_dompdf_background_image_resolution"] = &$d["background_image_resolution"];
             $d["_dompdf_image_resolution"] = &$d["image_resolution"];
             $d["_dompdf_keep"] = "";
@@ -455,7 +492,7 @@ class Style
                 "list_style_type",
                 "list_style",
                 "orphans",
-                "page_break_inside",
+                "overflow_wrap",
                 "pitch_range",
                 "pitch",
                 "quotes",
@@ -473,7 +510,6 @@ class Style
                 "voice_family",
                 "volume",
                 "white_space",
-                "word_wrap",
                 "widows",
                 "word_spacing",
             ];
@@ -794,7 +830,13 @@ class Style
                         unset($this->_prop_cache[$shorthand]);
                     }
                 }
-                $this->__set($prop, $val);
+                //FIXME: temporary hack around lack of persistence of base href for URLs
+                if (($prop === "background_image" || $prop === "list_style_image") && isset($style->_props_computed[$prop])) {
+                    $this->__set($prop, $style->_props_computed[$prop]);
+                } else {
+                    // computed value not set, recompute use the specified value
+                    $this->__set($prop, $val);
+                }
             }
         }
     }
@@ -863,6 +905,11 @@ class Style
     {
         $prop = str_replace("-", "_", $prop);
 
+        // Legacy property aliases
+        if ($prop === "word_wrap") {
+            $prop = "overflow_wrap";
+        }
+
         if (!isset(self::$_defaults[$prop])) {
             global $_dompdf_warnings;
             $_dompdf_warnings[] = "'$prop' is not a recognized CSS property.";
@@ -918,6 +965,11 @@ class Style
      */
     function __get($prop)
     {
+        // Legacy property aliases
+        if ($prop === "word_wrap") {
+            $prop = "overflow_wrap";
+        }
+
         //FIXME: need to get shorthand from component properties
         if (!isset(self::$_defaults[$prop])) {
             throw new Exception("'$prop' is not a recognized CSS property.");
@@ -931,7 +983,7 @@ class Style
 
         $retval = null;
 
-        // Preview the value based on the default if the property is not cached 
+        // Preview the value based on the default if the property is not cached
         // and the computed value has not yet been set.
         $reset_value = false;
         $specified_value = null;
@@ -985,6 +1037,11 @@ class Style
     {
         $prop = str_replace("-", "_", $prop);
 
+        // Legacy property aliases
+        if ($prop === "word_wrap") {
+            $prop = "overflow_wrap";
+        }
+
         if (!isset(self::$_defaults[$prop])) {
             global $_dompdf_warnings;
             $_dompdf_warnings[] = "'$prop' is not a recognized CSS property.";
@@ -1013,6 +1070,11 @@ class Style
      */
     function get_prop($prop)
     {
+        // Legacy property aliases
+        if ($prop === "word_wrap") {
+            $prop = "overflow_wrap";
+        }
+
         if (!isset(self::$_defaults[$prop])) {
             throw new Exception("'$prop' is not a recognized CSS property.");
         }
@@ -1044,10 +1106,15 @@ class Style
     }
 
     /**
+     * @param float $cbw The width of the containing block.
      * @return float|null|string
      */
-    function computed_bottom_spacing()
+    function computed_bottom_spacing(float $cbw)
     {
+        // Caching the bottom spacing independently of the given width is a bit
+        // iffy, but should be okay, as the containing block should only
+        // potentially change after a page break, and the style is reset in that
+        // case
         if ($this->_computed_bottom_spacing !== null) {
             return $this->_computed_bottom_spacing;
         }
@@ -1056,7 +1123,8 @@ class Style
                 $this->margin_bottom,
                 $this->padding_bottom,
                 $this->border_bottom_width
-            ]
+            ],
+            $cbw
         );
     }
 
@@ -1221,13 +1289,13 @@ class Style
 
     /**
      * Returns the background image URI, or "none"
-     * 
+     *
      * @link https://www.w3.org/TR/CSS21/colors.html#propdef-background-image
      * @return string
      */
     function get_background_image()
     {
-        return $this->_image($this->_props_computed["background_image"]);
+        return $this->_stylesheet->resolve_url($this->_props_computed["background_image"]);
     }
 
     /**
@@ -1372,7 +1440,7 @@ class Style
         $color = $this->__get("border_" . $side . "_color");
 
         return $this->__get("border_" . $side . "_width") . " " .
-            $this->__get("border_" . $side . "_style") . " " . $color["hex"];
+            $this->__get("border_" . $side . "_style") . " " . (is_array($color) ? $color["hex"] : $color);
     }
 
     /**#@+
@@ -1465,50 +1533,116 @@ class Style
     }
 
     /**
-     * @param $w
-     * @param $h
-     * @return array|null
+     * @deprecated
+     * @param float $w
+     * @param float $h
+     * @return float[]
      */
     function get_computed_border_radius($w, $h)
     {
-        if (!empty($this->_computed_border_radius)) {
-            return $this->_computed_border_radius;
+        return $this->resolve_border_radius([0, 0, $w, $h]);
+    }
+
+    public function has_border_radius(): bool
+    {
+        if (isset($this->has_border_radius_cache)) {
+            return $this->has_border_radius_cache;
         }
 
-        $w = (float)$w;
-        $h = (float)$h;
-        $rTL = (float)$this->__get("border_top_left_radius");
-        $rTR = (float)$this->__get("border_top_right_radius");
-        $rBL = (float)$this->__get("border_bottom_left_radius");
-        $rBR = (float)$this->__get("border_bottom_right_radius");
+        // Use a fixed ref size here. We don't know the border-box width here
+        // and font size might be 0. Since we are only interested in whether
+        // there is any border radius at all, this should do
+        $tl = (float) $this->length_in_pt($this->border_top_left_radius, 10);
+        $tr = (float) $this->length_in_pt($this->border_top_right_radius, 10);
+        $br = (float) $this->length_in_pt($this->border_bottom_right_radius, 10);
+        $bl = (float) $this->length_in_pt($this->border_bottom_left_radius, 10);
 
-        if ($rTL + $rTR + $rBL + $rBR == 0) {
-            return $this->_computed_border_radius = [
-                0, 0, 0, 0,
-                "top-left" => 0,
-                "top-right" => 0,
-                "bottom-right" => 0,
-                "bottom-left" => 0,
-            ];
+        $this->has_border_radius_cache = $tl + $tr + $br + $bl > 0;
+        return $this->has_border_radius_cache;
+    }
+
+    /**
+     * Get the final border-radius values to use.
+     *
+     * Percentage values are resolved relative to the width of the border box.
+     * The border radius is additionally scaled for the given render box, and
+     * constrained by its width and height.
+     *
+     * @param float[]      $border_box The border box of the frame.
+     * @param float[]|null $render_box The box to resolve the border radius for.
+     *
+     * @return float[] A 4-tuple of top-left, top-right, bottom-right, and bottom-left radius.
+     */
+    public function resolve_border_radius(
+        array $border_box,
+        ?array $render_box = null
+    ): array {
+        $render_box = $render_box ?? $border_box;
+        $use_cache = $render_box === $border_box;
+
+        if ($use_cache && isset($this->resolved_border_radius)) {
+            return $this->resolved_border_radius;
         }
 
-        $t = (float)$this->__get("border_top_width");
-        $r = (float)$this->__get("border_right_width");
-        $b = (float)$this->__get("border_bottom_width");
-        $l = (float)$this->__get("border_left_width");
+        [$x, $y, $w, $h] = $border_box;
 
-        $rTL = min($rTL, $h - $rBL - $t / 2 - $b / 2, $w - $rTR - $l / 2 - $r / 2);
-        $rTR = min($rTR, $h - $rBR - $t / 2 - $b / 2, $w - $rTL - $l / 2 - $r / 2);
-        $rBL = min($rBL, $h - $rTL - $t / 2 - $b / 2, $w - $rBR - $l / 2 - $r / 2);
-        $rBR = min($rBR, $h - $rTR - $t / 2 - $b / 2, $w - $rBL - $l / 2 - $r / 2);
+        // Resolve percentages relative to width, as long as we have no support
+        // for per-axis radii
+        $tl = (float) $this->length_in_pt($this->border_top_left_radius, $w);
+        $tr = (float) $this->length_in_pt($this->border_top_right_radius, $w);
+        $br = (float) $this->length_in_pt($this->border_bottom_right_radius, $w);
+        $bl = (float) $this->length_in_pt($this->border_bottom_left_radius, $w);
 
-        return $this->_computed_border_radius = [
-            $rTL, $rTR, $rBR, $rBL,
-            "top-left" => $rTL,
-            "top-right" => $rTR,
-            "bottom-right" => $rBR,
-            "bottom-left" => $rBL,
-        ];
+        if ($tl + $tr + $br + $bl > 0) {
+            [$rx, $ry, $rw, $rh] = $render_box;
+
+            $t_offset = $y - $ry;
+            $r_offset = $rx + $rw - $x - $w;
+            $b_offset = $ry + $rh - $y - $h;
+            $l_offset = $x - $rx;
+
+            if ($tl > 0) {
+                $tl = max($tl + ($t_offset + $l_offset) / 2, 0);
+            }
+            if ($tr > 0) {
+                $tr = max($tr + ($t_offset + $r_offset) / 2, 0);
+            }
+            if ($br > 0) {
+                $br = max($br + ($b_offset + $r_offset) / 2, 0);
+            }
+            if ($bl > 0) {
+                $bl = max($bl + ($b_offset + $l_offset) / 2, 0);
+            }
+
+            if ($tl + $bl > $rh) {
+                $f = $rh / ($tl + $bl);
+                $tl = $f * $tl;
+                $bl = $f * $bl;
+            }
+            if ($tr + $br > $rh) {
+                $f = $rh / ($tr + $br);
+                $tr = $f * $tr;
+                $br = $f * $br;
+            }
+            if ($tl + $tr > $rw) {
+                $f = $rw / ($tl + $tr);
+                $tl = $f * $tl;
+                $tr = $f * $tr;
+            }
+            if ($bl + $br > $rw) {
+                $f = $rw / ($bl + $br);
+                $bl = $f * $bl;
+                $br = $f * $br;
+            }
+        }
+
+        $values = [$tl, $tr, $br, $bl];
+
+        if ($use_cache) {
+            $this->resolved_border_radius = $values;
+        }
+
+        return $values;
     }
 
     /**
@@ -1550,7 +1684,7 @@ class Style
         return
             $this->__get("outline_width") . " " .
             $this->__get("outline_style") . " " .
-            $color["hex"];
+            (is_array($color) ? $color["hex"] : $color);
     }
     /**#@-*/
 
@@ -1573,13 +1707,13 @@ class Style
 
     /**
      * Returns the list style image URI, or "none"
-     * 
+     *
      * @link http://www.w3.org/TR/CSS21/generate.html#propdef-list-style-image
      * @return string
      */
     function get_list_style_image()
     {
-        return $this->_image($this->_props_computed["list_style_image"]);
+        return $this->_stylesheet->resolve_url($this->_props_computed["list_style_image"]);
     }
 
     /**
@@ -1692,7 +1826,9 @@ class Style
             } else if (
                 (($style === "border" || $style === "outline") && $type === "width" && strpos($val, "%") !== false)
                 ||
-                (($style === "margin" || $style === "padding") && (strpos($val, "%") !== false || $val === "auto"))
+                ($style === "padding" && strpos($val, "%") !== false)
+                ||
+                ($style === "margin" && (strpos($val, "%") !== false || $val === "auto"))
             ) {
                 $this->_props_computed[$prop] = $val;
             } elseif (($style === "border" || $style === "outline") && $type === "width" && strpos($val, "%") === false) {
@@ -1795,45 +1931,6 @@ class Style
         }
     }
 
-    /**
-     * @param $val
-     * @return string
-     */
-    protected function _image($val)
-    {
-        $DEBUGCSS = $this->_stylesheet->get_dompdf()->getOptions()->getDebugCss();
-        $parsed_url = "none";
-
-        if (empty($val) || $val === "none") {
-            $path = "none";
-        } else if (mb_strpos($val, "url") === false) {
-            $path = "none"; //Don't resolve no image -> otherwise would prefix path and no longer recognize as none
-        } else {
-            $val = preg_replace("/url\(\s*['\"]?([^'\")]+)['\"]?\s*\)/", "\\1", trim($val));
-
-            // Resolve the url now in the context of the current stylesheet
-            $parsed_url = Helpers::explode_url($val);
-            $path = Helpers::build_url($this->_stylesheet->get_protocol(),
-                $this->_stylesheet->get_host(),
-                $this->_stylesheet->get_base_path(),
-                $val);
-            if ($parsed_url["protocol"] == "" && $this->_stylesheet->get_protocol() == "") {
-                $path = realpath($path);
-                // If realpath returns FALSE then specifically state that there is no background image
-                if (!$path) {
-                    $path = 'none';
-                }
-            }
-        }
-        if ($DEBUGCSS) {
-            print "<pre>[_image\n";
-            print_r($parsed_url);
-            print $this->_stylesheet->get_protocol() . "\n" . $this->_stylesheet->get_base_path() . "\n" . $path . "\n";
-            print "_image]</pre>";;
-        }
-        return $path;
-    }
-
     /*======================*/
 
     protected function set_prop_color($prop, $color)
@@ -1884,7 +1981,12 @@ class Style
     function set_background_image($val)
     {
         $this->_props["background_image"] = $val;
-        $this->_props_computed["background_image"] = "url(" . $this->_image($val) . ")";
+        $parsed_val = $this->_stylesheet->resolve_url($val);
+        if ($parsed_val === "none") {
+            $this->_props_computed["background_image"] = "none";
+        } else {
+            $this->_props_computed["background_image"] = "url(" . $parsed_val . ")";
+        }
         $this->_prop_cache["background_image"] = null;
     }
 
@@ -2028,8 +2130,9 @@ class Style
         switch ($width) {
             case "cover":
             case "contain":
-            case "inherit":
                 $this->_props_computed["background_size"] = $width;
+                return;
+            case "inherit":
                 return;
         }
 
@@ -2255,7 +2358,7 @@ class Style
 
     /**
      * Sets the text alignment
-     * 
+     *
      * If no alignment is set on the element and the direction is rtl then
      * the property is set to "right", otherwise it is set to "left".
      *
@@ -2486,30 +2589,29 @@ class Style
     protected function _set_border($side, $border_spec, $important)
     {
         $border_spec = preg_replace("/\s*\,\s*/", ",", $border_spec);
-        //$border_spec = str_replace(",", " ", $border_spec); // Why did we have this ?? rbg(10, 102, 10) > rgb(10  102  10)
         $arr = explode(" ", $border_spec);
-
-        // FIXME: handle partial values
-        //For consistency of individual and combined properties, and with ie8 and firefox3
-        //reset all attributes, even if only partially given
-        //$this->_set_style_side_type('border', $side, 'style', self::$_defaults['border_' . $side . '_style'], $important);
-        //$this->_set_style_side_type('border', $side, 'width', self::$_defaults['border_' . $side . '_width'], $important);
-        //$this->_set_style_side_type('border', $side, 'color', self::$_defaults['border_' . $side . '_color'], $important);
 
         foreach ($arr as $value) {
             $value = trim($value);
-            if (in_array($value, self::$BORDER_STYLES)) {
-                $this->_set_style_side_type('border', $side, 'style', $value, $important);
-            } elseif (preg_match("/[.0-9]+(?:px|pt|pc|em|ex|%|in|mm|cm)|(?:thin|medium|thick)/", $value)) {
-                $this->_set_style_side_type('border', $side, 'width', $value, $important);
-            } elseif ($value === "inherit") {
-                $this->_set_style_side_type('border', $side, 'style', $value, $important);
-                $this->_set_style_side_type('border', $side, 'width', $value, $important);
-                $this->_set_style_side_type('border', $side, 'color', $value, $important);
+            $prop = "";
+            if (strtolower($value) === "inherit") {
+                $this->__set("border_${side}_color", "inherit");
+                $this->__set("border_${side}_style", "inherit");
+                $this->__set("border_${side}_width", "inherit");
+                continue;
+            } elseif (in_array($value, self::$BORDER_STYLES)) {
+                $prop = "border_${side}_style";
+            } elseif ($value === "0" || preg_match("/[.0-9]+(?:px|pt|pc|em|ex|%|in|mm|cm)|(?:thin|medium|thick)/", $value)) {
+                $prop = "border_${side}_width";
             } else {
                 // must be color
-                $this->_set_style_side_type('border', $side, 'color', $this->munge_color($value), $important);
+                $prop = "border_${side}_color";
             }
+
+            if ($important) {
+                $this->_important_props[$prop] = true;
+            }
+            $this->__set($prop, $value);
         }
     }
 
@@ -2741,6 +2843,7 @@ class Style
      */
     protected function _set_border_radius_corner($val, $corner)
     {
+        $this->has_border_radius_cache = null;
         $this->_has_border_radius = true;
 
         $this->_props["border_" . $corner . "_radius"] = $val;
@@ -2792,11 +2895,13 @@ class Style
      */
     protected function _get_border_radius_corner($corner)
     {
-        if (!isset($this->_props_computed["border_" . $corner . "_radius"]) || empty($this->_props_computed["border_" . $corner . "_radius"])) {
+        $prop = "border_" . $corner . "_radius";
+
+        if (!isset($this->_props_computed[$prop]) || empty($this->_props_computed[$prop])) {
             return 0;
         }
 
-        return $this->length_in_pt($this->_props_computed["border_" . $corner . "_radius"]);
+        return $this->_props_computed[$prop];
     }
 
     /**
@@ -2835,7 +2940,7 @@ class Style
 
             if (in_array($value, self::$BORDER_STYLES)) {
                 $this->__set("outline_style", $value);
-            } else if (preg_match("/[.0-9]+(?:px|pt|pc|em|ex|%|in|mm|cm)|(?:thin|medium|thick)/", $value)) {
+            } else if ($value === "0" || preg_match("/[.0-9]+(?:px|pt|pc|em|ex|%|in|mm|cm)|(?:thin|medium|thick)/", $value)) {
                 $this->__set("outline_width", $value);
             } else {
                 // must be color
@@ -2911,7 +3016,12 @@ class Style
     function set_list_style_image($val)
     {
         $this->_props["list_style_image"] = $val;
-        $this->_props_computed["list_style_image"] = "url(" . $this->_image($val) . ")";
+        $parsed_val = $this->_stylesheet->resolve_url($val);
+        if ($parsed_val === "none") {
+            $this->_props_computed["list_style_image"] = "none";
+        } else {
+            $this->_props_computed["list_style_image"] = "url(" . $parsed_val . ")";
+        }
         $this->_prop_cache["list_style_image"] = null;
     }
 
@@ -3301,7 +3411,7 @@ class Style
         $this->_props_computed["z_index"] = null;
         $this->_prop_cache["z_index"] = null;
 
-        if (round($val) != $val && $val !== "auto") {
+        if ($val !== "auto" && round($val) != $val) {
             return;
         }
 

@@ -277,6 +277,10 @@ abstract class AbstractRenderer
                     $src = imagecreatefromjpeg($img);
                     break;
 
+                case "webp":
+                    $src = imagecreatefromwebp($img);
+                    break;
+
                 case "gif":
                     $src = imagecreatefromgif($img);
                     break;
@@ -421,7 +425,7 @@ abstract class AbstractRenderer
         //don't create temp file, but place gd object directly into the pdf
         if (!$is_png && $this->_canvas instanceof CPDF) {
             // Note: CPDF_Adapter image converts y position
-            $this->_canvas->get_cpdf()->addImagePng($filedummy, $x, $this->_canvas->get_height() - $y - $height, $width, $height, $bg);
+            $this->_canvas->get_cpdf()->addImagePng($bg, $filedummy, $x, $this->_canvas->get_height() - $y - $height, $width, $height);
         } else {
             $tmp_dir = $this->_dompdf->getOptions()->getTempDir();
             $tmp_name = @tempnam($tmp_dir, "bg_dompdf_img_");
@@ -845,7 +849,7 @@ abstract class AbstractRenderer
      *
      * @var $top
      */
-    protected function _border_line($x, $y, $length, $color, $widths, $side, $corner_style = "bevel", $pattern_name, $r1 = 0, $r2 = 0)
+    protected function _border_line($x, $y, $length, $color, $widths, $side, $corner_style = "bevel", $pattern_name = "none", $r1 = 0, $r2 = 0)
     {
         /** used by $$side */
         list($top, $right, $bottom, $left) = $widths;
@@ -933,7 +937,7 @@ abstract class AbstractRenderer
     }
 
     /**
-     * @param $box
+     * @param array $box
      * @param string $color
      * @param array $style
      */
