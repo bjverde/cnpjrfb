@@ -30,6 +30,7 @@ define('LANG', $ini['general']['language']);
 session_name('PHPSESSID_'.$ini['general']['application']);
 
 //--- FORMDIN 5 START ---------------------------------------------------------
+define('DATABASE_SCHEMA',''); //Informe o nome do esquema com PONTO no final. Exemplo: RFB.
 define('DS', DIRECTORY_SEPARATOR);
 define('EOL', "\n");
 define('ESP', chr(32).chr(32).chr(32).chr(32) );
