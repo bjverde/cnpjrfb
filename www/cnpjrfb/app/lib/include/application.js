@@ -1,8 +1,25 @@
 loading = true;
 
+Application = {};
+Application.translation = {
+    'en' : {
+        'loading' : 'Loading',
+        'close'   : 'Close'
+    },
+    'pt' : {
+        'loading' : 'Carregando',
+        'close'   : 'Fechar'
+    },
+    'es' : {
+        'loading' : 'Cargando',
+        'close'   : 'Cerrar'
+    }
+};
+
 Adianti.onClearDOM = function(){
 	/* $(".select2-hidden-accessible").remove(); */
-	$(".colorpicker-hidden").remove();
+	/* $(".colorpicker-hidden").remove(); */
+	$(".pcr-app").remove();
 	$(".select2-display-none").remove();
 	$(".tooltip.fade").remove();
 	$(".select2-drop-mask").remove();
@@ -13,11 +30,12 @@ Adianti.onClearDOM = function(){
 	$("#window-resizer-tooltip").remove();
 };
 
+
 function showLoading() 
 { 
     if(loading)
     {
-        __adianti_block_ui('Carregando');
+        __adianti_block_ui(Application.translation[Adianti.language]['loading']);
     }
 }
 
@@ -34,6 +52,9 @@ Adianti.onAfterLoad = function(url, data)
 { 
     loading = false; 
     __adianti_unblock_ui( true );
+    
+    // Fill page tab title with breadcrumb
+    // window.document.title  = $('#div_breadcrumbs').text();
 };
 
 // set select2 language

@@ -16,8 +16,9 @@ class MailService
      * @param $subject message subject
      * @param $body message body
      * @param $bodytype body type (text, html)
+     * @param $attachs attachments array with files paths
      */
-    public static function send($tos, $subject, $body, $bodytype = 'text')
+    public static function send($tos, $subject, $body, $bodytype = 'text', $attachs = [])
     {
         TTransaction::open('permission');
         $preferences = SystemPreference::getAllPreferences();
@@ -47,9 +48,18 @@ class MailService
         
         if ($preferences['smtp_auth'])
         {
-            $mail->SetUseSmtp();
-            $mail->SetSmtpHost($preferences['smtp_host'], $preferences['smtp_port']);
-            $mail->SetSmtpUser($preferences['smtp_user'], $preferences['smtp_pass']);
+            $mail->setUseSmtp( (!empty($preferences['smtp_user']) && !empty($preferences['smtp_pass']) ) );
+        }
+        
+        $mail->SetSmtpUser($preferences['smtp_user'], $preferences['smtp_pass']);
+        $mail->SetSmtpHost($preferences['smtp_host'], $preferences['smtp_port']);
+        
+        if (!empty($attachs))
+        {
+            foreach ($attachs as $attach)
+            {
+                $mail->addAttach($attach[0], (isset($attach[1]) ? $attach[1] : null));
+            }
         }
         
         if ($bodytype == 'text')

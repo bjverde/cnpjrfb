@@ -383,6 +383,7 @@ class AdiantiHTMLDocumentParser
             $options->set('dpi', '128');
             $options->setIsRemoteEnabled(true);
         }
+        $options->setChroot(getcwd());
         
         if (preg_match("/<!DOCTYPE html>/i", $html))
         {

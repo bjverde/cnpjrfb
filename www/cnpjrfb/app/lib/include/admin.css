@@ -162,7 +162,7 @@ pre
     position: fixed;
     top: 0;
     border-right: 1px solid #c0c0c0;
-    width: 700px;
+    width: 800px;
     height: 100%;
     float: right;
     z-index: 1030;
@@ -170,24 +170,33 @@ pre
     overflow: auto;
     opacity: 1;
     overflow-x: hidden;
-    box-shadow: 0px 10px 50px 0px rgba(50, 50, 50, 0.34);
     background: white;
+    box-shadow: -25px 10px 50px 0px rgba(50, 50, 50, 0.34);
+}
+
+.right-panel .container-part
+{
+    position: absolute;
+    width: 800px;
+    height: 100%;
+    top: 0;
+    display: block;
     border-left: 1px solid #c0c0c0;
+    box-shadow: -25px 10px 50px 0px rgba(50, 50, 50, 0.34);
+    background: white;
+    z-index: 1; /** otherwise, check in checklist and other widgets like selected page in datagrid pagination will be renderer over **/
 }
 
-@media screen and (max-width: 1400px) 
+@media screen and (max-width: 800px) 
 {
     .right-panel
     {
-        width: 500px;
+        width: 100%;
     }
-}
-
-@media screen and (max-width: 1000px) 
-{
-    .right-panel
+    
+    .right-panel .container-part
     {
-        width: 300px;
+        width: 100%;
     }
 }
 
