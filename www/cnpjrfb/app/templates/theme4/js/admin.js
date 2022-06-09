@@ -113,11 +113,17 @@ $.AdminBSB.leftSideBar = {
             var height = ($(window).height() - ($('.legal').outerHeight() + $('.user-info').outerHeight() + $('.navbar').innerHeight()));
             var $el = $('.list');
 
+            var alwaysVisible = configs.scrollAlwaysVisible;
+            // Case iOS force true
+            if(/iPad|iPhone|iPod/.test(navigator.platform)) {
+                alwaysVisible = true;
+            }
+
             $el.slimscroll({
                 height: height + "px",
                 color: configs.scrollColor,
                 size: configs.scrollWidth,
-                alwaysVisible: configs.scrollAlwaysVisible,
+                alwaysVisible: alwaysVisible,
                 borderRadius: configs.scrollBorderRadius,
                 railBorderRadius: configs.scrollRailBorderRadius
             });
