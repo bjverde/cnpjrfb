@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b49c225774dae08e52a926558ed922b",
+    "content-hash": "5c331a964051ab587b8cd3d732f3976d",
     "packages": [
         {
             "name": "adianti/pdfdesigner",
@@ -142,16 +142,16 @@
         },
         {
             "name": "dompdf/dompdf",
-            "version": "v0.8.6",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dompdf/dompdf.git",
-                "reference": "db91d81866c69a42dad1d2926f61515a1e3f42c5"
+                "reference": "de4aad040737a89fae2129cdeb0f79c45513128d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/db91d81866c69a42dad1d2926f61515a1e3f42c5",
-                "reference": "db91d81866c69a42dad1d2926f61515a1e3f42c5",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/de4aad040737a89fae2129cdeb0f79c45513128d",
+                "reference": "de4aad040737a89fae2129cdeb0f79c45513128d",
                 "shasum": ""
             },
             "require": {
@@ -159,11 +159,11 @@
                 "ext-mbstring": "*",
                 "phenx/php-font-lib": "^0.5.2",
                 "phenx/php-svg-lib": "^0.3.3",
-                "php": "^7.1"
+                "php": "^7.1 || ^8.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.3",
-                "phpunit/phpunit": "^7.5",
+                "phpunit/phpunit": "^7.5 || ^8 || ^9",
                 "squizlabs/php_codesniffer": "^3.5"
             },
             "suggest": {
@@ -173,11 +173,6 @@
                 "ext-zlib": "Needed for pdf stream compression"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "0.7-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Dompdf\\": "src/"
@@ -208,22 +203,22 @@
             "homepage": "https://github.com/dompdf/dompdf",
             "support": {
                 "issues": "https://github.com/dompdf/dompdf/issues",
-                "source": "https://github.com/dompdf/dompdf/tree/master"
+                "source": "https://github.com/dompdf/dompdf/tree/v1.1.1"
             },
-            "time": "2020-08-30T22:54:22+00:00"
+            "time": "2021-11-24T00:45:04+00:00"
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v5.4.0",
+            "version": "v5.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "d2113d9b2e0e349796e72d2a63cf9319100382d2"
+                "reference": "83b609028194aa042ea33b5af2d41a7427de80e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/d2113d9b2e0e349796e72d2a63cf9319100382d2",
-                "reference": "d2113d9b2e0e349796e72d2a63cf9319100382d2",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/83b609028194aa042ea33b5af2d41a7427de80e6",
+                "reference": "83b609028194aa042ea33b5af2d41a7427de80e6",
                 "shasum": ""
             },
             "require": {
@@ -265,9 +260,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v5.4.0"
+                "source": "https://github.com/firebase/php-jwt/tree/v5.5.1"
             },
-            "time": "2021-06-23T19:00:23+00:00"
+            "time": "2021-11-08T20:18:51+00:00"
         },
         {
             "name": "linfo/linfo",
@@ -374,12 +369,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pablodalloglio/ole.git",
-                "reference": "f2c9e55125889d4106bee23ab2ecdffe29f7c0e5"
+                "reference": "ba03f4bd294fe5202b3e18092c1a79e67a8024ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pablodalloglio/ole/zipball/f2c9e55125889d4106bee23ab2ecdffe29f7c0e5",
-                "reference": "f2c9e55125889d4106bee23ab2ecdffe29f7c0e5",
+                "url": "https://api.github.com/repos/pablodalloglio/ole/zipball/ba03f4bd294fe5202b3e18092c1a79e67a8024ec",
+                "reference": "ba03f4bd294fe5202b3e18092c1a79e67a8024ec",
                 "shasum": ""
             },
             "default-branch": true,
@@ -413,7 +408,7 @@
                 "issues": "https://github.com/pablodalloglio/ole/issues",
                 "source": "https://github.com/pablodalloglio/OLE"
             },
-            "time": "2020-10-25T18:04:22+00:00"
+            "time": "2021-08-11T12:41:26+00:00"
         },
         {
             "name": "pablodalloglio/spreadsheet_excel_writer",
@@ -421,12 +416,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pablodalloglio/spreadsheet_excel_writer.git",
-                "reference": "4c7138aadc6a4dc3865c1aa24911cb0ddc5ea8a4"
+                "reference": "c7ad7feeb4fb5586fd3d35ab812ace1f1168e9ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pablodalloglio/spreadsheet_excel_writer/zipball/4c7138aadc6a4dc3865c1aa24911cb0ddc5ea8a4",
-                "reference": "4c7138aadc6a4dc3865c1aa24911cb0ddc5ea8a4",
+                "url": "https://api.github.com/repos/pablodalloglio/spreadsheet_excel_writer/zipball/c7ad7feeb4fb5586fd3d35ab812ace1f1168e9ef",
+                "reference": "c7ad7feeb4fb5586fd3d35ab812ace1f1168e9ef",
                 "shasum": ""
             },
             "require": {
@@ -474,7 +469,7 @@
                 "issues": "https://github.com/pablodalloglio/spreadsheet_excel_writer/issues",
                 "source": "https://github.com/pablodalloglio/spreadsheet_excel_writer"
             },
-            "time": "2020-10-25T18:05:36+00:00"
+            "time": "2021-08-11T12:40:21+00:00"
         },
         {
             "name": "phenx/php-font-lib",
@@ -563,16 +558,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.5.0",
+            "version": "v6.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "a5b5c43e50b7fba655f793ad27303cd74c57363c"
+                "reference": "baeb7cde6b60b1286912690ab0693c7789a31e71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a5b5c43e50b7fba655f793ad27303cd74c57363c",
-                "reference": "a5b5c43e50b7fba655f793ad27303cd74c57363c",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/baeb7cde6b60b1286912690ab0693c7789a31e71",
+                "reference": "baeb7cde6b60b1286912690ab0693c7789a31e71",
                 "shasum": ""
             },
             "require": {
@@ -584,10 +579,12 @@
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
                 "doctrine/annotations": "^1.2",
+                "php-parallel-lint/php-console-highlighter": "^0.5.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
                 "phpcompatibility/php-compatibility": "^9.3.5",
                 "roave/security-advisories": "dev-latest",
-                "squizlabs/php_codesniffer": "^3.5.6",
-                "yoast/phpunit-polyfills": "^0.2.0"
+                "squizlabs/php_codesniffer": "^3.6.0",
+                "yoast/phpunit-polyfills": "^1.0.0"
             },
             "suggest": {
                 "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
@@ -627,7 +624,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.5.0"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.5.3"
             },
             "funding": [
                 {
@@ -635,7 +632,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-06-16T14:33:43+00:00"
+            "time": "2021-11-25T16:34:11+00:00"
         },
         {
             "name": "phprtflite/phprtflite",
@@ -676,23 +673,29 @@
         },
         {
             "name": "picqer/php-barcode-generator",
-            "version": "v0.2.2",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/picqer/php-barcode-generator.git",
-                "reference": "f754cbd592f3131af144dfcc6a3090fd0f6d1793"
+                "reference": "16c51a795454198500cdfb4f82de288945af3960"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/picqer/php-barcode-generator/zipball/f754cbd592f3131af144dfcc6a3090fd0f6d1793",
-                "reference": "f754cbd592f3131af144dfcc6a3090fd0f6d1793",
+                "url": "https://api.github.com/repos/picqer/php-barcode-generator/zipball/16c51a795454198500cdfb4f82de288945af3960",
+                "reference": "16c51a795454198500cdfb4f82de288945af3960",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "ext-mbstring": "*",
+                "php": ">=7.2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.3"
+                "phpunit/phpunit": "^8.5"
+            },
+            "suggest": {
+                "ext-bcmath": "Barcode IMB (Intelligent Mail Barcode) needs bcmath extension",
+                "ext-gd": "For JPG and PNG generators, GD or Imagick is required",
+                "ext-imagick": "For JPG and PNG generators, GD or Imagick is required"
             },
             "type": "library",
             "autoload": {
@@ -702,7 +705,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPLv3"
+                "LGPL-3.0-or-later"
             ],
             "authors": [
                 {
@@ -712,11 +715,12 @@
                 },
                 {
                     "name": "Casper Bakker",
-                    "email": "info@picqer.com"
+                    "email": "info@picqer.com",
+                    "homepage": "https://picqer.com"
                 }
             ],
             "description": "An easy to use, non-bloated, barcode generator in PHP. Creates SVG, PNG, JPG and HTML images from the most used 1D barcode standards.",
-            "homepage": "http://github.com/picqer/php-barcode-generator",
+            "homepage": "https://github.com/picqer/php-barcode-generator",
             "keywords": [
                 "CODABAR",
                 "Code11",
@@ -745,7 +749,7 @@
                 "issues": "https://github.com/picqer/php-barcode-generator/issues",
                 "source": "https://github.com/picqer/php-barcode-generator/tree/master"
             },
-            "time": "2017-09-28T19:23:19+00:00"
+            "time": "2020-01-28T13:00:23+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -867,5 +871,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }
