@@ -2,16 +2,21 @@
 
 require_once 'filtroHref.class.php';
 
+//POG no PHP 8.1 filesize não funciona com Wrapper HTTP ou HTTPS. Então a solução é baixar o conteudo e trabalhar localmente
 $url = 'https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros/consultas/dados-publicos-cnpj';
-$conteudoTotal = file_get_contents($url);
+$conteudoRemoto = file_get_contents($url);
 
-//POG no PHP 8.1 filesize não funciona com Wrapper HTTP ou HTTPS
-$tamanho = strlen($conteudoTotal);
+preg_match_all('/http:\/\/200.152.38.155\/((\w+\/?)+)(.zip)/i', $conteudoRemoto, $output_array);
+$listArquivos = $output_array[0];
 
-$conteudo = fopen($url, "r");
-stream_filter_register('alura.partes',filtroHref::class);
-stream_filter_append($conteudo,'alura.partes');
+$file = 'listArquivo.txt';
+if( file_exists($file) ) {
+    unlink($file);
+}
+foreach ($listArquivos as $chave => $valor) {
+    file_put_contents($file, 'wget -c '.$valor.PHP_EOL, FILE_APPEND);
+}
 
-$conteudoLimpo = fread($conteudo,$tamanho);
-
-var_dump($conteudoLimpo);
+echo '<pre>';
+var_dump($listArquivos);
+echo '</pre>';
