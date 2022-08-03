@@ -15,8 +15,6 @@ $file = 'download_arquivos.sh';
 if( file_exists($file) ) {
     unlink($file);
 }
-
-
 addArquivo($file,'#!/bin/bash');
 addArquivo($file);
 addArquivo($file);
@@ -35,6 +33,7 @@ addArquivo($file);
 foreach ($listArquivos as $chave => $valor) {
     addArquivo($file, 'wget -c '.$valor);
 }
+echo exec('chmod +x download_arquivos.sh');
 
 echo '<h2>Arquivo Gerado</h2>';
 echo '<br>';
