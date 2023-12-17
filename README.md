@@ -1,5 +1,5 @@
 # cnpjrfb
-Sistema web em PHP usando o usando o [Adianti FrameWork](https://www.adianti.com.br/framework) para consultar os [Dados públicos CNPJ](https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros/consultas/dados-publicos-cnpj) fornecidos pela Receita Federal do Brasil.
+Sistema web em PHP usando o usando o [Adianti FrameWork](https://www.adianti.com.br/framework) para consultar os [Dados públicos CNPJ](https://dados.gov.br/dados/conjuntos-dados/cadastro-nacional-da-pessoa-juridica---cnpj) fornecidos pela Receita Federal do Brasil.
 
 A Versão 2.0.0 contem as alterações do modelo de dados de 21/03/2021 feito pela RFB. 
 
@@ -49,7 +49,7 @@ simples | 27.893.923 |
 ### Parte 2 - a carga dos dados, no banco relacional !
 Agora vem parte demorada ! 
 
-* Baixe todos os arquivos do [site de receita federal](https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros/consultas/dados-publicos-cnpj). Para quem está usando Linux tem um script para essa parta `projeto/dados_receita/output_files/download_files.sh`
+* Baixe todos os arquivos do [site de receita federal](https://dados.gov.br/dados/conjuntos-dados/cadastro-nacional-da-pessoa-juridica---cnpj). Para quem está usando Linux tem um script para essa parta `projeto/dados_receita/output_files/download_files.sh`
 * Se conhece python e deseja usar o PostgreSQL faça os procedimentos https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ 
 * Se não conhece python pode usar o script PHP para carga no banco 
     * na pasta `projeto/modelo_banco/` vai encontrar os scripts criação do banco de dados, para os SGBD's: SqLite, MySql, MariaDB e PostgreSQL. Se precisar de um MER tem na pasta `projeto/modelo_banco/mysql`
