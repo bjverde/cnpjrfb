@@ -1,8 +1,6 @@
 <?php
 require_once 'init.php';
 
-FormDinHelper::setFormDinMinimumVersion($ini['system']['formdin_min_version']);
-
 $theme  = $ini['general']['theme'];
 new TSession;
 
