@@ -43,7 +43,7 @@
 /**
  * Biblioteca de Funções JavaScript utilizadas pela classe FormDin5
  * É uma reconstrução do FormDin 4 Sobre o Adianti 7.X
- * Criado em :30/04/2020s    Por: Reinaldo A. Barrêto Junior
+ * Criado em :30/04/2020    Por: Reinaldo A. Barrêto Junior
  */
 
 //-------------------------------------------------------------------------------------
@@ -107,12 +107,11 @@ function fwGetObj(nomeObjeto,propriedade)
 //-----------------------------------------------------------------------------------
 function fwRemoverCaractere(input,codigoAscii)
 {
-	var output = '';
+	let output = '';
 	if( codigoAscii){
-		for (var i = 0; i < input.value.length; i++){
-			if ( (input.value.charCodeAt(i) == codigoAscii) ){
+		for (let i = 0; i < input.value.length; i++){
+			if ( (input.value.charCodeAt(i) === codigoAscii) ){
 				i++;
-			//output += '';
 			}else{
 				output += input.value.charAt(i);
 			}
