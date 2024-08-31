@@ -1,0 +1,178 @@
+.tgantt .fixed-table-xs tr td,
+.tgantt .fixed-table-xs tr th {
+  width: 30px;
+  min-width: 30px;
+  max-width: 30px;
+  min-height: 90px;
+  height: 50px;
+  padding: 10px 0px;
+}
+
+.tgantt .fixed-table-sm tr td,
+.tgantt .fixed-table-sm tr th {
+  width: 60px;
+  min-width: 60px;
+  max-width: 60px;
+  min-height: 90px;
+  height: 100px;
+  padding: 10px 2px;
+}
+
+.tgantt .fixed-table-md tr td,
+.tgantt .fixed-table-md tr th {
+  width: 120px;
+  min-width: 120px;
+  max-width: 120px;
+  min-height: 90px;
+  height: 100px;
+  padding: 10px 4px;
+}
+
+.tgantt .fixed-table-lg tr td,
+.tgantt .fixed-table-lg tr th {
+  width: 240px;
+  min-width: 240px;
+  max-width: 240px;
+  min-height: 90px;
+  height: 100px;
+  padding: 10px 10px;
+}
+
+.tgantt .fixedTable-body {
+  overflow: auto;
+  overflow-y: hidden; 
+}
+
+.tgantt .fixed-table-lg .fixedTable-sidebar {
+    width: 250px;
+}
+
+.tgantt .fixedTable-sidebar {
+  width: 200px;
+  float: left;
+  overflow: hidden;
+}
+
+.tgantt .table-rows {
+    width: 100%;
+}
+
+.tgantt .table-rows tbody > tr > td {
+    border: 1px solid #e0e0e0;
+    padding: 0px;
+    border-left: unset;
+}
+
+.tgantt .fixedTable-body > table > tbody > tr {
+    border-right: 1px solid #e0e0e0;
+}
+
+.tgantt .fixedTable-body > table > tbody > tr > td {
+    border: #e0e0e0 1px solid;
+}
+
+.tgantt .fixedTable-body > table{
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+.tgantt aside > table {
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+
+.tgantt-head {
+    background: #ffffff !important;
+}
+
+.tgantt .table-content {
+    margin-left: -1px;
+}
+
+.tgantt-head > td {
+    border-right: none !important;
+}
+
+.tgantt-head-hour > td {
+    height: 30px !important;
+}
+
+.tgantt-weekly-header-day-label {
+    color: #757575;
+    font-weight: 400;
+}
+
+.tgantt-weekly-header-day-number-xs {
+    font-size: 18px;
+    font-weight: 400;
+    color: #9e9e9e;
+}
+
+.tgantt-weekly-header-day-number-sm {
+    font-size: 32px;
+    font-weight: 400;
+    color: #9e9e9e;
+}
+
+.tgantt-weekly-header-day-number-md {
+    font-size: 48px;
+    font-weight: 400;
+    color: #9e9e9e;
+}
+
+.tgantt-weekly-header-day-number-lg{
+    font-size: 48px;
+    font-weight: 400;
+    color: #9e9e9e;
+}
+
+.tgantt-weekly-header-info-xs {
+    margin-left: 4px;
+}
+
+.tgantt-weekly-header-info-sm {
+    margin-left: 4px;
+}
+
+.tgantt-weekly-header-info-md,
+.tgantt-weekly-header-info-lg {
+    margin-left: 4px;
+}
+
+.tgantt-title {
+    font-size: 24px;
+    color: #595959 !important;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    border-bottom: unset;
+}
+
+.tgantt-event .btn-default {
+    border: unset;
+}
+
+.tgantt-event {
+    height:30px;
+    width: 200px;
+    display: inline-block;
+    cursor: pointer;
+    background: #9e9e9e;
+    color:white;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 30px;
+    border-radius: 3px;
+    user-select: none;
+    border: 1px solid #e0e0e0;
+}
+
+.tgantt .hour-cell {
+    text-align: center;
+    height: 30px !important;
+    padding: 0px !important;
+}
+
+.tgannt-cell-opacity {
+    background-color: whitesmoke;
+}

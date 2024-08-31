@@ -1,0 +1,68 @@
+.tqrcodeinputreader-cameras
+{
+    text-align: center;
+    padding: 15px;
+}
+
+.tqrcodeinputreader-cameras input[type=radio]
+{
+    margin: 0px 15px;
+}
+
+.tqrcodeinputreader_container
+{
+    position: relative;
+}
+
+.tqrcodeinputreader_reader
+{
+    height: calc(100% - 100px);
+}
+
+.tqrcodeinputreader_reader video
+{
+    margin: auto;
+    width: 100% !important;
+    height: 100%;
+}
+
+span.tqrcodeinputreader.input-group-addon
+{
+    border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    width: 24px;
+    text-align: center;
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    border-left:0;
+    padding-left: 5px;
+}
+
+div.tqrcodeinputreader
+{
+    display: table;
+}
+
+div.tqrcodeinputreader .tfield
+{
+    display: table-cell;
+    border-right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.tqrcodeinputreader
+{
+    display: table-cell;
+}
+
+.tqrcodeinputreader i
+{
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    padding-top: 6px;
+    left: 4px;
+}

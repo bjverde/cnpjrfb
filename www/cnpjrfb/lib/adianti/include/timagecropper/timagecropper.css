@@ -1,0 +1,126 @@
+.timagecropper_webcam {
+    width: unset !important;
+    justify-content: center;
+    display: flex;
+    height: 100%;
+}
+
+.timagecropper_webcam video {
+    width: calc(100% - 10px) !important;
+    height: calc(100% - 10px) !important;
+}
+
+.timagecropper {
+    cursor: pointer;
+}
+
+.label_timagecropper {
+    position: relative;
+    display: flex;
+    border: 1px solid #e9e9e9;
+    border-radius: .25rem;
+    background-color: #e9e9e959;
+    background-size: 21px 21px;
+    cursor: pointer;
+}
+
+.label_timagecropper img.placeholder {
+    object-fit: contain;
+    margin: auto;
+    width: 100%;
+    opacity: 0.3;
+    max-height: 100%;
+}
+
+.label_timagecropper i.placeholder {
+    font-size: 75px;
+    margin: auto;
+    width: 100%;
+    opacity: 0.3;
+    text-align: center;
+}
+
+.label_timagecropper.highlight {
+    border: 2px dashed #e9e9e9;
+}
+
+.container_timagecrroper {
+    position: relative;
+}
+
+.actions_timagecrroper div {
+    margin: auto;
+}
+
+.actions_timagecrroper div button i {
+    margin: auto;
+}
+
+.actions_timagecrroper div button:nth-child(1) {
+    margin-right: 5px;
+}
+
+.actions_timagecrroper div button {
+    width: 30px;
+    height: 30px;
+}
+
+.actions_timagecrroper div > button, .actions_timagecrroper div > div {
+    display: flex;
+    margin-top: 2.5px;
+    margin-bottom: 2.5px;
+}
+
+.actions_timagecrroper {
+    display: flex;
+    position: absolute;
+    top: 0px;
+    right: -75px;
+    height: 100%;
+    width: 70px;
+}
+
+.timagecropper_actions div {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 50%;
+    font-size: 12px;
+    background: #33333347;
+    cursor: pointer;
+}
+
+.timagecropper_actions {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+}
+
+.timagecropper_actions div i {
+    color: white;
+    background: #80808099;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.timagecropper_actions div i:hover {
+    background: #808080;
+}
+
+@media (max-width: 540px) { 
+    .actions_timagecrroper div > div {
+        margin: 0px 2.5px;
+    }
+    .actions_timagecrroper div {
+        display: flex;
+    }
+    .actions_timagecrroper {
+        bottom: -70px;
+        left: 0px;
+        height: 70px;
+        width: 100%;
+        top: unset;
+        overflow: auto;
+    }   
+}

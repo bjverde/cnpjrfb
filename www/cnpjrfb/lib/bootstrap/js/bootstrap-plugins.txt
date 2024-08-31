@@ -1,0 +1,6 @@
+lib/bootstrap/js/bootstrap-colorpicker.min.js
+lib/bootstrap/js/bootstrap-datepicker.min.js
+lib/bootstrap/js/bootstrap-datetimepicker.min.js
+lib/bootstrap/js/summernote.js
+lib/bootstrap/js/bootbox.min.js
+lib/bootstrap/js/fontawesome-iconpicker.min.js

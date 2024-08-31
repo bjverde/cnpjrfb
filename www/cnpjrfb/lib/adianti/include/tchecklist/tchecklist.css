@@ -1,0 +1,9 @@
+.tchecklist-disable
+{
+    width: calc(100% - 20px);
+    background: #eeeeee;
+    height: calc(100% + 1px);
+    position: absolute;
+    opacity: 0.5;
+    z-index: 1;
+}

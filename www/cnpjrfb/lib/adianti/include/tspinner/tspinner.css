@@ -1,0 +1,39 @@
+.ui-spinner {
+    border: 1px solid #a0a0a0;
+    height: 28px;
+}
+
+.ui-spinner input {
+    margin-left: 0px;
+    margin-right: 15px;
+    margin-top: 0px;
+    border: none;
+    border-right: 1px solid silver;
+}
+
+.fb-inline-field-container .ui-spinner {
+    width: 100%
+}
+
+.tstepper .spin-minus, .tstepper .spin-plus {
+    display: flex;
+    user-select: none;
+    height: auto;
+    width: 30px;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    border: 1px solid silver;
+}
+
+.tstepper .spin-minus {
+    border-right: none;
+}
+
+.tstepper .spin-plus {
+    border-left: none;
+}
+
+.tstepper input {
+    text-align: center !important;
+}

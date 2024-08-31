@@ -1,0 +1,32 @@
+.iconpicker {
+  position: relative;
+  text-align: left;
+  text-shadow: none;
+  line-height: 0;
+  display: block;
+  margin: 0;
+  overflow: visible !important;
+}
+
+.iconpicker-component{
+    padding: 2px;
+    width: 24px !important;
+}
+
+.iconpicker-search{
+    margin-bottom: 10px;
+}
+
+.iconpicker .iconpicker-items, .iconpicker-popover.popover .popover-title {
+    padding: 7px;
+}
+
+.iconpicker .iconpicker-item {
+    margin: 0 5px 5px 0;
+    padding: 5px;
+}
+
+.iconpicker-container
+{
+    border-spacing: 0;
+}

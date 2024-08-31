@@ -1,0 +1,49 @@
+table.tfieldlist.dashed > tbody > tr > td.field {
+    border: 1px dotted gray !important;
+}
+
+table.tfieldlist.dashed .tfield {
+    border: 0px !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+table.tfieldlist td {
+    vertical-align: top;
+}
+
+/** TFile customs **/
+table.tfieldlist td .div_file {
+    display: flex !important;
+}
+
+table.tfieldlist td .tfile_row_wrapper {
+    width: 50%;
+}
+
+table.tfieldlist td .tfile_row_1 {
+    display: flex;
+}
+
+table.tfieldlist td .tfile_link_wrapper {
+    padding: 2px;
+}
+
+table.tfieldlist td .tfile_row_wrapper {
+    width: 100%;
+    padding-left: 5px;
+}
+
+table.tfieldlist .tfile_link_wrapper {
+    width: unset !important;
+}
+
+.tfieldlist-disable
+{
+    width: calc(100% - 20px);
+    background: #eeeeee;
+    height: calc(100% + 1px);
+    position: absolute;
+    opacity: 0.5;
+    z-index: 1;
+}
