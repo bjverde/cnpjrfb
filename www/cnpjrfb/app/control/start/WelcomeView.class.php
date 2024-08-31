@@ -7,7 +7,7 @@
  * @subpackage tutor
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006-2012 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license
  */
 class WelcomeView extends TPage
 {
