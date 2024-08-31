@@ -1,0 +1,49 @@
+{
+    "authors": [
+        {
+            "email": "cschmitz@limesurvey.org",
+            "name": "Carsten Schmitz",
+            "role": "Lead"
+        },
+        {
+            "email": "xnoguer@php.net",
+            "name": "Xavier Noguer",
+            "role": "Lead"
+        },
+        {
+            "email": "progi1984@gmail.com",
+            "name": "Franck Lefevre",
+            "role": "Developer"
+        },
+        {
+            "email": "tuupola@appelsiini.net",
+            "name": "Mika Tuupola",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Spreadsheet": ""
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "Test": "test"
+        }
+    },
+    "description": "Derivation from SpreadsheetExcelWriter without PEAR dependency, and with Exceptions instead of PearErrors.",
+    "include-path": [
+        "./"
+    ],
+    "license": "LGPL-2.1-or-later",
+    "minimum-stability": "dev",
+    "name": "pablodalloglio/spreadsheet_excel_writer",
+    "support": {
+        "source": "https://github.com/pablodalloglio/spreadsheet_excel_writer"
+    },
+    "type": "library",
+    "require": {
+        "pablodalloglio/ole": "*",
+        "php": ">=5.3.3"
+    }
+}

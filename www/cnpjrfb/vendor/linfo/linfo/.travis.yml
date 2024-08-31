@@ -1,0 +1,15 @@
+language:
+ - php
+
+php:
+ - 7.4
+
+before_install:
+ - travis_retry composer self-update
+
+install:
+ - travis_retry composer update --prefer-dist --no-interaction
+
+script:
+ - cd tests
+ - ../vendor/bin/phpunit
