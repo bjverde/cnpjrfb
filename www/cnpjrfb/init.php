@@ -36,16 +36,18 @@ session_name('PHPSESSID_'.$ini['general']['application']);
 
 setlocale(LC_ALL, 'C');
 
-//--- FORMDIN 5 START ---------------------------------------------------------
 define('DATABASE_SCHEMA',''); //Informe o nome do esquema com PONTO no final. Exemplo: RFB.
-define('DS', DIRECTORY_SEPARATOR);
-define('EOL', "\n");
-define('ESP', chr(32).chr(32).chr(32).chr(32) );
-define('TAB', chr(9));
 
-define('FORMDIN_VERSION', $ini['system']['formdin_min_version']);
-define('SYSTEM_VERSION', $ini['system']['version']);
-define('SYSTEM_NAME', $ini['system']['system_name']);
+//--- FORMDIN 5 START ---------------------------------------------------------
+FormDinHelper::verifyFormDinMinimumVersion($ini['system']['formdin_min_version']);
+FormDinHelper::verifyMinimumVersionAdiantiFrameWorkToSystem($ini['system']['adianti_min_version']);
+
+if(!defined('SYSTEM_VERSION') ){ define('SYSTEM_VERSION', $ini['system']['system_version']); }
+if(!defined('SYSTEM_NAME') )   { define('SYSTEM_NAME'   , $ini['general']['application']); }
+if(!defined('DS') )  { define('DS', DIRECTORY_SEPARATOR); }
+if(!defined('EOL') ) { define('EOL', "\n"); }
+if(!defined('ESP') ) { define('ESP', chr(32).chr(32).chr(32).chr(32) ); }
+if(!defined('TAB') ) { define('TAB', chr(9)); }
 //--- FORMDIN 5 END -----------------------------------------------------------
 
 //--- SysGen For Adianti START ------------------------------------------------
