@@ -6,7 +6,15 @@ class Cargabanco
     private $pathExtractedFiles  = null;
     
     private $cnaeDAO  = null;
+    private $motiDAO = null;
+    private $municDAO = null;
+    private $natjuDAO = null;
+    private $paisDAO = null;
     private $qualsDAO = null;
+    private $estabelecimentoDAO = null;
+    private $simplesDAO = null;
+    private $sociosDAO = null;
+    private $empresaDAO = null;
 
     public function __construct()
     {
