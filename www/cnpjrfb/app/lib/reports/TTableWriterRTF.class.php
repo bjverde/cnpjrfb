@@ -2,10 +2,10 @@
 /**
  * RTF writer
  *
- * @version    7.0
+ * @version    7.6
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class TTableWriterRTF implements ITableWriter
 {
@@ -197,10 +197,8 @@ class TTableWriterRTF implements ITableWriter
         // obtém a fonte e a cor de preenchimento
         $font      = $this->styles[$stylename]['font'];
         $fillcolor = $this->styles[$stylename]['bgcolor'];
-        if (utf8_encode(utf8_decode($content)) !== $content ) // SE NÃO UTF8
-        {
-            $content = utf8_encode($content);
-        }
+        
+        $content = AdiantiStringConversion::assureUnicode($content);
         
         // escreve o conteúdo na célula utilizando a fonte e alinhamento
         $this->table->writeToCell($this->rowcounter, $this->colcounter,

@@ -2,10 +2,10 @@
 /**
  * PDF Writer
  *
- * @version    7.0
+ * @version    7.6
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class TTableWriterPDF implements ITableWriter
 {
@@ -157,10 +157,7 @@ class TTableWriterPDF implements ITableWriter
         $this->applyStyle($stylename); // aplica o estilo
         $fontsize = $this->styles[$stylename][1]; // obtém a fonte
         
-        if (utf8_encode(utf8_decode($content)) == $content ) // SE UTF8
-        {
-            $content = utf8_decode($content);
-        }
+        $content = AdiantiStringConversion::assureISO($content);
         
         $width = 0;
         // calcula a largura da célula (incluindo as mescladas)

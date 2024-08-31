@@ -1,18 +1,20 @@
 <?php
 
 use Picqer\Barcode\BarcodeGeneratorPNG;
-use BaconQrCode\Renderer\Image\Png;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
 
 /**
  * Barcode generator
  *
- * @version    7.0
+ * @version    7.6
  * @package    app
  * @subpackage lib
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class AdiantiBarcodeDocumentGenerator extends AdiantiPDFDesigner
 {
@@ -163,12 +165,15 @@ class AdiantiBarcodeDocumentGenerator extends AdiantiPDFDesigner
                         {
                             $rand   = mt_rand(1000000000, 1999999999);
                             $output = "tmp/barcode_{$counter}_{$rand}.png";
-                            $renderer = new Png;
-                            $renderer->setHeight( $this->barcodeHeight * 3.78 );
-                            $renderer->setWidth( $this->barcodeHeight * 3.78 );
-                            $renderer->setMargin(0);
+                            
+                            $renderer = new ImageRenderer(new RendererStyle((int) ($this->barcodeHeight * 3.78),2), new ImagickImageBackEnd);
+                            
                             $writer = new Writer($renderer);
                             $writer->writeFile($barcode, $output);
+                            
+                            $imagick_image = new Imagick($output);
+                            $imagick_image->setCompressionQuality(100);
+                            $imagick_image->writeImage("png24:$output");
                             list($w,$h) = $this->Image($output, parent::GetX() + $this->imageMargin, parent::GetY(), 0, $this->barcodeHeight, '', '', true);
                             
                             unlink($output);
@@ -177,7 +182,7 @@ class AdiantiBarcodeDocumentGenerator extends AdiantiPDFDesigner
                         }
                         else
                         {
-                            parent::writeHTML(parent::GetX(), parent::GetY(), utf8_decode($label_line));
+                            parent::writeHTML(parent::GetX(), parent::GetY(), AdiantiStringConversion::assureISO($label_line));
                             parent::Ln( $lineBreak );
                         }
                     }

@@ -6,7 +6,7 @@
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license
  */
 class ApplicationTranslator
 {
@@ -70,6 +70,7 @@ class ApplicationTranslator
         $this->messages['en'][] = 'Program';
         $this->messages['en'][] = 'Path';
         $this->messages['en'][] = 'Results';
+        $this->messages['en'][] = 'Extension not found: ^1';
         
         $this->messages['pt'][] = 'Arquivo não encontrado';
         $this->messages['pt'][] = 'Buscar';
@@ -121,7 +122,7 @@ class ApplicationTranslator
         $this->messages['pt'][] = 'Programa';
         $this->messages['pt'][] = 'Caminho';
         $this->messages['pt'][] = 'Resultados';
-
+        $this->messages['pt'][] = 'Extensão não encontrada: ^1';
         
         $this->enWords = [];
         foreach ($this->messages['en'] as $key => $value)

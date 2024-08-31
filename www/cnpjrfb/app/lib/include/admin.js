@@ -76,7 +76,28 @@ Template.onAfterLoad = function(url, data) {
     let view_width     = $( document ).width() >= 800 ? 780 : ($( document ).width());
     let curtain_offset = $( document ).width() >= 800 ? 20  : 0;
     
-    if ((url.indexOf("target_container=adianti_right_panel") !== -1) || (data.indexOf('adianti_target_container="adianti_right_panel"') !== -1) ) {
+    let url_container = url.match('target_container=([0-z-]*)');
+    let dom_container = data.match('adianti_target_container\\s?=\\s?"([0-z-]*)"');
+    let into_right_panel = false;
+
+    if (url_container || dom_container) {
+        let id = '';
+        if (url_container) {
+            id = url_container[1];
+        }
+        else if (dom_container) {
+            id = dom_container[1];
+        }
+
+       into_right_panel = $('#' + id).closest('#adianti_right_panel').length > 0;
+    }
+
+    if ((url.indexOf('target_container=adianti_right_panel') !== -1) || (data.indexOf('adianti_target_container="adianti_right_panel"') !== -1) ) {
+        
+        if (data.indexOf('override="true"') !== -1) {
+            $('#adianti_right_panel').find('[page_name]').not(':last').remove();
+        }
+        
         var right_panels = Math.max($('#adianti_right_panel').find('[page_name]').length,1);
         
         $('#adianti_right_panel').css('width', (view_width + curtain_offset) + 'px');
@@ -107,7 +128,7 @@ Template.onAfterLoad = function(url, data) {
         $('#adianti_right_panel').find('[page_name]').last().prepend(warnings);
         
     }
-    else if ( (url.indexOf('&static=1') == -1) && (data.indexOf('widget="TWindow"') == -1) ) {
+    else if ( (url.indexOf('&static=1') == -1) && (data.indexOf('widget="TWindow"') == -1) && ! into_right_panel ) {
         if ($('#adianti_right_panel').is(":visible")) {
             $('#adianti_right_panel').hide();
             $('#adianti_right_panel').html('');
@@ -122,17 +143,17 @@ Template.closeRightPanel = function () {
     let view_width     = $( document ).width() >= 800 ? 780 : ($( document ).width());
     let curtain_offset = $( document ).width() >= 800 ? 20  : 0;
     
-    if ($('#adianti_right_panel').find('[page_name]').length > 0) {
-        if ($('#adianti_right_panel').find('[page_name]').length == 1) {
+    if ($('#adianti_right_panel > [page_name]').length > 0) {
+        if ($('#adianti_right_panel > [page_name]').length == 1) {
             $('#adianti_right_panel').hide('slide',{direction:'right', complete: function() {
                 $('body').css('overflow', 'unset');
                 $('#adianti_right_panel').html('');
             }},320)
         }
         
-        $('#adianti_right_panel').find('[page_name]').last().hide('slide',{direction:'right', complete: function() {
-            $('#adianti_right_panel').find('[page_name]').last().remove();
-            var right_panels = Math.max($('#adianti_right_panel').find('[page_name]').length,1);
+        $('#adianti_right_panel > [page_name]').last().hide('slide',{direction:'right', complete: function() {
+            $('#adianti_right_panel > [page_name]').last().remove();
+            var right_panels = Math.max($('#adianti_right_panel > [page_name]').length,1);
             $('#adianti_right_panel').css('width', (view_width + (curtain_offset * right_panels)) + 'px');
         }}, 320);
     }

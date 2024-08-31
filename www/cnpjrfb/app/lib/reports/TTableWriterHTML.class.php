@@ -2,16 +2,17 @@
 /**
  * HTML Table writer
  *
- * @version    7.0
+ * @version    7.6
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license-template
  */
 class TTableWriterHTML implements ITableWriter
 {
     private $styles;
     private $widths;
     private $colcounter;
+    private $tables;
     private $table;
     private $currentRow;
     private $footerCallback;

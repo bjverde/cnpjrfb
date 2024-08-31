@@ -4,15 +4,21 @@ Application = {};
 Application.translation = {
     'en' : {
         'loading' : 'Loading',
-        'close'   : 'Close'
+        'close'   : 'Close',
+        'insert'  : 'Insert',
+        'open_new_tab' : 'Open on a new tab'
     },
     'pt' : {
         'loading' : 'Carregando',
-        'close'   : 'Fechar'
+        'close'   : 'Fechar',
+        'insert'  : 'Inserir',
+        'open_new_tab' : 'Abrir em uma nova aba'
     },
     'es' : {
         'loading' : 'Cargando',
-        'close'   : 'Cerrar'
+        'close'   : 'Cerrar',
+        'insert'  : 'Insertar',
+        'open_new_tab' : 'Abrir en una nueva pestaña'
     }
 };
 
@@ -43,7 +49,7 @@ Adianti.onBeforeLoad = function(url)
 { 
     loading = true; 
     setTimeout(function(){showLoading()}, 400);
-    if (url.indexOf('&static=1') == -1) {
+    if (url.indexOf('&static=1') == -1 && url.indexOf('&noscroll=1') == -1) {
         $("html, body").animate({ scrollTop: 0 }, "fast");
     }
 };

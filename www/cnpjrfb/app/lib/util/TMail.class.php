@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\Exception;
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
- * @license    http://www.adianti.com.br/framework-license
+ * @license    https://adiantiframework.com.br/license
  */
 class TMail
 {
@@ -166,7 +166,7 @@ class TMail
         $this->pm-> Host = $host;
         $this->pm-> Port = $port;
         
-        if (strstr($this->pm-> Host, 'gmail') !== FALSE)
+        if ($port == 465)
         {
             $this->pm-> SMTPSecure = "ssl";
         }
