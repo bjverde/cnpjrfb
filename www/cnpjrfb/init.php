@@ -1,7 +1,12 @@
 <?php
-if (version_compare(PHP_VERSION, '7.1.0') == -1)
+if (version_compare(PHP_VERSION, '7.4.0') == -1)
 {
-    die ('The minimum version required for PHP is 7.1.0');
+    die ('The minimum version required for PHP is 7.4.0');
+}
+
+if (!file_exists('app/config/application.ini'))
+{
+    die('Application configuration file not found');
 }
 
 // define the autoloader
@@ -28,6 +33,8 @@ define('LANG', $ini['general']['language']);
 
 // custom session name
 session_name('PHPSESSID_'.$ini['general']['application']);
+
+setlocale(LC_ALL, 'C');
 
 //--- FORMDIN 5 START ---------------------------------------------------------
 define('DATABASE_SCHEMA',''); //Informe o nome do esquema com PONTO no final. Exemplo: RFB.
