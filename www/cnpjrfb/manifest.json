@@ -1,0 +1,16 @@
+{
+  "short_name": "CNPJ"
+ ,"name": "Consulta Pública de CNPJ da RFB"
+ ,"display": "standalone"
+ ,"theme_color": "#000000"  
+ ,"background_color": "#FFFFFF"
+ ,"description": "CNPJ"
+ ,"start_url": "index.php"
+ ,"icons": [
+  {
+    "src": "app/images/icon.png",
+    "type": "image/png",
+    "sizes": "180x180"
+   }
+ ]
+}
