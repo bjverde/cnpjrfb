@@ -3,6 +3,11 @@ class AdiantiMenuBuilder
 {
     public static function parse($file, $theme)
     {
+        if (!in_array('SimpleXML', get_loaded_extensions()))
+        {
+            throw new Exception(_t('Extension not found: ^1', 'SimpleXML'));
+        }
+        
         switch ($theme)
         {
             case 'theme3':
