@@ -14,6 +14,7 @@ $content     = str_replace('{LIBRARIES}', file_get_contents("app/templates/{$the
 $content     = str_replace('{class}', isset($_REQUEST['class']) ? $_REQUEST['class'] : '', $content);
 $content     = str_replace('{template}', $theme, $content);
 $content     = str_replace('{MENU}', $menu_string, $content);
+$content     = str_replace('{lang}', $ini['general']['language'], $content);
 $css         = TPage::getLoadedCSS();
 $js          = TPage::getLoadedJS();
 $content     = str_replace('{HEAD}', $css.$js, $content);
