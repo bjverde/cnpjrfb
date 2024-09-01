@@ -10,8 +10,8 @@ return [
      'db_drive' => 'mysql'
     ,'db_host' => '127.0.0.1'
     ,'db_port' => '3306'
-    ,'db_name' => 'dados_rfb'
-    ,'db_user' => 'dados_rfb'
-    ,'db_password' => '123456'
+    ,'db_name' => 'mybb'
+    ,'db_user' => 'mybb'
+    ,'db_password' => 'mybb'
     ,'EXTRACTED_FILES_PATH'=>'/var/opt/dados_receita/extracted_files'
 ];
