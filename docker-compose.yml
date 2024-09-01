@@ -30,7 +30,7 @@ services:
     volumes:
       #- ./000-default.conf:/etc/apache2/sites-enabled/000-default.conf
       - ./php.ini:/etc/php/8.2/apache2/php.ini:ro
-      - ./www:/var/www/:rw               #WWW ROOT
+      - ./www:/var/www/html:rw               #WWW ROOT
       - ./log_apache:/var/log/apache2:rw #Log Apahce
       - ./dados_receita:/var/opt/dados_receita:rw
 
