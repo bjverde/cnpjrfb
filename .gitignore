@@ -15,9 +15,12 @@
 /log_apache/
 
 #Iginorando arquivos da receita federal
+!/www/cargabd/download/unzip_files.sh
 !/www/cargabd/download/download_files.sh
 !/www/cargabd/download/readme.md
 /www/cargabd/download/
+!/www/cargabd/extracted/readme.md
+/www/cargabd/extracted/
 
 #Ignorando arquivos do Banco de dados
 !/mariadb_database/readme.md
