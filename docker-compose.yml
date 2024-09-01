@@ -47,7 +47,8 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./mariadb_database:/var/lib/mysql:rw
+      - mariadb_database:/var/lib/mysql    # Volume para os dados do banco de dados
+      - mariadb_logs:/var/log/mysql        # Volume para os logs do MySQL
     networks:
       - formdin-network
 
