@@ -32,7 +32,6 @@ services:
       - ./php.ini:/etc/php/8.2/apache2/php.ini:ro
       - ./www:/var/www/html:rw               #WWW ROOT
       - ./log_apache:/var/log/apache2:rw #Log Apahce
-      - ./dados_receita:/var/opt/dados_receita:rw
 
   mariadb:
     image: mariadb:10.11
