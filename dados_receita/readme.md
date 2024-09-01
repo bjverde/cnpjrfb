@@ -1,1 +1,0 @@
-Pasta guarda os dados da receita federal

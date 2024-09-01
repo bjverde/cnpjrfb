@@ -1,1 +1,0 @@
-Arquivos zip da receita
