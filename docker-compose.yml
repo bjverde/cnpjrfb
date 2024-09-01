@@ -30,8 +30,8 @@ services:
     volumes:
       #- ./000-default.conf:/etc/apache2/sites-enabled/000-default.conf
       - ./php.ini:/etc/php/8.2/apache2/php.ini:ro
-      - ./www:/var/www/html:rw            #WWW ROOT
-      - ./log_apache:/var/log/apache2:rw  #Log Apahce
+      - ./www:/var/www/:rw               #WWW ROOT
+      - ./log_apache:/var/log/apache2:rw #Log Apahce
       - ./dados_receita:/var/opt/dados_receita:rw
 
   mariadb:
@@ -47,8 +47,8 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mariadb_database:/var/lib/mysql    # Volume para os dados do banco de dados
-      - mariadb_logs:/var/log/mysql        # Volume para os logs do MySQL
+      - ./mariadb_database:/var/lib/mysql    # Volume para os dados do banco de dados
+      - ./mariadb_logs:/var/log/mysql        # Volume para os logs do MySQL
     networks:
       - formdin-network
 
