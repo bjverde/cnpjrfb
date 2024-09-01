@@ -63,29 +63,7 @@ Agora vem parte demorada !
 * altera o arquivo `<caminho servidor>/cnjrfb/app/config/maindatabase.php` para apontar para o novo banco de dados. Veja como em [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
 * PARA quem criu o banco o DATABASE_SCHEMA altere o arquivo `<caminho servidor>/cnjrfb/init.php` na linha 33 alterando o valor da constante `define('DATABASE_SCHEMA','');` para o valor desjado usando o PONTO para separar SCHEMA.TABELA
 
-## Intalação com VirtualBox - NÃO ESTÁ COMPLETO
-Abaixo um breve tutorial para quem deseja rodar dentro do VirtualBox.
 
-1. Instalar o VirtualBox
-1. Baixa o ISO do Debian 10 https://www.debian.org/releases/buster/debian-installer/
-1. Instarlar o Debian 10
-1. Instale virtual guest additional https://averagelinuxuser.com/virtualbox-shared-folder/
-    * montar CD do Virtual Box
-    * logar como root
-    * coloque o usuário principal no sudores `/sbin/usermod -aG sudo <NOME_USUARIO>`
-    * executar `apt-get update; apt-get -y install build-essential dkms linux-headers-$(uname -r)`
-    * rodar `sh /media/cdrom/VBoxLinuxAdditions.sh`
-    * reiniciar a VM
-    * colocar usuário no grupo virtual box `/sbin/usermod -aG vboxsf <NOME_USUARIO>`
-    * reiniciar a VM
-1. Se for usar pasta compatilhada no VirtualBox faça o mapeamento
-    * copiar `<projeto>/www/` para `/var/www/html/`
-    * copiar `<projeto>/dados_receita/` para `/var/opt/dados_receita/`
-1. Se for clonar ou baixar esse projeto
-    *  copiar a pasta `dados_receita` para `/var/opt/dados_receita/`
-    * copiar `www/cnpjrfb` para `/var/www/httpd/cnpjrfb/`
-1. rodar o script `vbox_environment_1.sh`
-1. rodar o script `vbox_environment_2.sh`
 
 ## Intalação via Docker-compose - NÃO ESTÁ COMPLETO
 Existem alguns arquivos em Docker-compose para criar todo o ambiente necessários para rodar tudo que é necessário. A ideia é com um comando o usuário consiga ter tudo funcionando sem muito esforço.
