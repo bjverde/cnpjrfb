@@ -15,49 +15,61 @@
 version: '3.8'
 services:
 
-  cnpjrfb:
-    build:      
+  apache_php:
+    build:
+      dockerfile: adianti_debian12_php8.2.Dockerfile
       context: .
-      dockerfile: Dockerfile
-    image: cnpjrfb:v2
-    container_name: cnpjrfb
-    restart: always    
+    image: adianti_debian12_php8.2:last
+    container_name: adianti_debian12_php8.2
+    restart: always
     ports:
       - "80:80"
+      - "443:443"
+      - "9003:9003"
     networks:
-      - cnpj-network
+      - formdin-network
     volumes:
+      - ./php.ini:/etc/php/8.2/apache2/php.ini
       - ./www:/var/www/html:rw            #WWW ROOT
       - ./log_apache:/var/log/apache2:rw  #Log Apahce
       - ./dados_receita:/var/opt/dados_receita:rw
 
-  database:
-    image: postgres
-    container_name: postgres
-    restart: always
+  mariadb:
+    image: mariadb:10.11
+    container_name: mariadb
+    restart: on-failure
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      #MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: p123456
+      MYSQL_DATABASE: mybb
+      MYSQL_USER: mybb
+      MYSQL_PASSWORD: mybb
     ports:
-      - "5432:5432"
+      - "3306:3306"
+    volumes:
+      - ./mariadb_database:/var/lib/mysql:rw
     networks:
-      - cnpj-network
-    #volumes:
-      #- ./log_postgresql:/var/log/postgresql:rw  #Log PosgreSQL
-      #- ./postgresql:/var/lib/postgresql/data:rw      
+      - formdin-network
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgAdmin
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    networks:
+      - formdin-network
+    ports:
+      - 8080:8080
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: user@domain.com
-      PGADMIN_DEFAULT_PASSWORD: 123456
+      PMA_ARBITRARY: 1
     ports:
-      - "5050:5050"
+      - 9090:80
     networks:
-      - cnpj-network      
+      - formdin-network
 
 networks: 
     cnpj-network:
