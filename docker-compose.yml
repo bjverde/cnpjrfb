@@ -12,7 +12,6 @@
 #Purging All Unused or Dangling Images, Containers, Volumes, and Networks
 #sudo docker system prune -a
 
-version: '3.8'
 services:
 
   apache_php:
@@ -29,7 +28,8 @@ services:
     networks:
       - formdin-network
     volumes:
-      - ./php.ini:/etc/php/8.2/apache2/php.ini
+      #- ./000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./php.ini:/etc/php/8.2/apache2/php.ini:ro
       - ./www:/var/www/html:rw            #WWW ROOT
       - ./log_apache:/var/log/apache2:rw  #Log Apahce
       - ./dados_receita:/var/opt/dados_receita:rw
@@ -72,5 +72,5 @@ services:
       - formdin-network
 
 networks: 
-    cnpj-network:
+    formdin-network:
         driver: bridge
