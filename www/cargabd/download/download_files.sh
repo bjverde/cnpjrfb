@@ -9,45 +9,54 @@ LGREEN='\033[0;32m'
 YBLUE='\033[1;33;4;44m'
 NC='\033[0m' # No Color
 
-#Codigo
+# Constants
+URL="https://dadosabertos.rfb.gov.br/CNPJ/dados_abertos_cnpj/2024-08/"
+DEST_DIR="/var/www/html/cargabd/download" # Replace with your destination directory
+USER_AGENT="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0"
 
-echo ''
-echo -e "${YBLUE} Download Arquivos dados outubro 2021${NC}"
-echo ''
-wget -c http://200.152.38.155/CNPJ/F.K03200$W.SIMPLES.CSV.D11113.zip
-wget -c http://200.152.38.155/CNPJ/F.K03200$Z.D11113.CNAECSV.zip
-wget -c http://200.152.38.155/CNPJ/F.K03200$Z.D11113.MOTICSV.zip
-wget -c http://200.152.38.155/CNPJ/F.K03200$Z.D11113.MUNICCSV.zip
-wget -c http://200.152.38.155/CNPJ/F.K03200$Z.D11113.NATJUCSV.zip
-wget -c http://200.152.38.155/CNPJ/F.K03200$Z.D11113.PAISCSV.zip
-wget -c http://200.152.38.155/CNPJ/F.K03200$Z.D11113.QUALSCSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y0.D11113.EMPRECSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y0.D11113.ESTABELE.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y0.D11113.SOCIOCSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y1.D11113.EMPRECSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y1.D11113.ESTABELE.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y1.D11113.SOCIOCSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y2.D11113.EMPRECSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y2.D11113.ESTABELE.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y2.D11113.SOCIOCSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y3.D11113.EMPRECSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y3.D11113.ESTABELE.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y3.D11113.SOCIOCSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y4.D11113.EMPRECSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y4.D11113.ESTABELE.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y4.D11113.SOCIOCSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y5.D11113.EMPRECSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y5.D11113.ESTABELE.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y5.D11113.SOCIOCSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y6.D11113.EMPRECSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y6.D11113.ESTABELE.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y6.D11113.SOCIOCSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y7.D11113.EMPRECSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y7.D11113.ESTABELE.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y7.D11113.SOCIOCSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y8.D11113.EMPRECSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y8.D11113.ESTABELE.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y8.D11113.SOCIOCSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y9.D11113.EMPRECSV.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y9.D11113.ESTABELE.zip
-wget -c http://200.152.38.155/CNPJ/K3241.K03200Y9.D11113.SOCIOCSV.zip
+# Ensure destination directory exists
+mkdir -p "$DEST_DIR"
+
+# Fetch all ZIP URLs from the website
+get_zip_urls() {
+    local urls
+    if ! urls=$(wget -qO- --user-agent="$USER_AGENT" "$URL" | grep -Eo 'href="([^"]+\.zip)"' | awk -F'"' '{print $2}'); then
+        printf "Error: Failed to retrieve ZIP URLs.\n" >&2
+        return 1
+    fi
+
+    # Prepend the base URL to each relative URL
+    urls=$(printf "%s\n" "$urls" | sed "s|^|$URL|")
+    printf "%s\n" "$urls"
+}
+
+# Download all ZIP files
+download_zips() {
+    local zip_urls
+    if ! zip_urls=$(get_zip_urls); then
+        return 1
+    fi
+
+    while IFS= read -r zip_url; do
+        local file_name; file_name=$(basename "$zip_url")
+
+        printf "Downloading %s...\n" "$file_name"
+        if ! wget -q --user-agent="$USER_AGENT" -P "$DEST_DIR" "$zip_url"; then
+            printf "Error: Failed to download %s\n" "$file_name" >&2
+            continue
+        fi
+
+        printf "Downloaded %s successfully.\n" "$file_name"
+    done <<< "$zip_urls"
+}
+
+# Main function
+main() {
+    if ! download_zips; then
+        printf "Error: ZIP download process failed.\n" >&2
+        return 1
+    fi
+    printf "All downloads completed.\n"
+}
+
+main "$@"
