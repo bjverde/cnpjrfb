@@ -23,7 +23,8 @@
 /dados_receita/extracted_files/
 
 #Banco de dados
-/postgresql/
+/mariadb_database/
+!/mariadb_database/readme.md
 
 # Iginorando arquivos do projeto
 !/www/cnpjrfb/app/cnpj_full/banco/CNPJ_full.db
