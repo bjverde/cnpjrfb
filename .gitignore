@@ -13,7 +13,6 @@
 
 # Iginorando arquivos de log
 /log_apache/
-/log_postgresql/
 
 #Arquivos da receita federal
 !/dados_receita/output_files/download_files.sh
@@ -23,8 +22,11 @@
 /dados_receita/extracted_files/
 
 #Banco de dados
-/mariadb_database/
 !/mariadb_database/readme.md
+/mariadb_database/
+!/mariadb_logs/readme.md
+/mariadb_logs/
+
 
 # Iginorando arquivos do projeto
 !/www/cnpjrfb/app/cnpj_full/banco/CNPJ_full.db
