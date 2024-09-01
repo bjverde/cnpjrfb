@@ -53,10 +53,10 @@ download_zips() {
 # Main function
 main() {
     if ! download_zips; then
-        printf "Error: ZIP download process failed.\n" >&2
+        echo -e "${RED} Error: ZIP download process failed.${NC}\n" >&2
         return 1
     fi
-    printf "All downloads completed.\n"
+    echo -e "${YBLUE} All downloads completed.${NC}\n"
 }
 
 main "$@"
