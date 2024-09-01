@@ -69,7 +69,6 @@ Agora vem parte demorada !
 Existem alguns arquivos em Docker-compose para criar todo o ambiente necessários para rodar tudo que é necessário. A ideia é com um comando o usuário consiga ter tudo funcionando sem muito esforço.
 
 1. Instale o Docker e Docker-compose 
-1. clone o projeto
 1. Abriu um terminal na raiz do projeto
 1. Execute o comando `docker-compose build` para gerar todo o ambiente.
 1. Execute o comando `docker-compose -f docker-compose.yml up -d` para rodar o ambiente já configurado. O Docker pretender resolver apenas [Parte 1 - PHP](#parte-1---php) e a [Parte 2 - Python](#parte-2---python).
