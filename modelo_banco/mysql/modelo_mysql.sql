@@ -123,10 +123,10 @@ CREATE TABLE IF NOT EXISTS `estabelecimento` (
   `situacao_especial` VARCHAR(45) NULL,
   `data_situacao_especial` DATE NULL,
   PRIMARY KEY (`cnpj_basico`),
-  INDEX `fk_estabelecimento_pais_idx` (`pais` ASC) VISIBLE,
-  INDEX `fk_estabelecimento_munic1_idx` (`municipio` ASC) VISIBLE,
-  INDEX `fk_estabelecimento_cnae1_idx` (`cnae_fiscal_principal` ASC) VISIBLE,
-  INDEX `fk_estabelecimento_moti1_idx` (`motivo_situacao_cadastral` ASC) VISIBLE,
+  INDEX `fk_estabelecimento_pais_idx` (`pais` ASC),
+  INDEX `fk_estabelecimento_munic1_idx` (`municipio` ASC),
+  INDEX `fk_estabelecimento_cnae1_idx` (`cnae_fiscal_principal` ASC),
+  INDEX `fk_estabelecimento_moti1_idx` (`motivo_situacao_cadastral` ASC),
   CONSTRAINT `fk_estabelecimento_pais`
     FOREIGN KEY (`pais`)
     REFERENCES `dados_rfb`.`pais` (`codigo`)
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `simples` (
   `opcao_mei` CHAR(1) NULL COMMENT 'INDICADOR DA EXISTÊNCIA DA OPÇÃO PELO MEI\n S - SIM\n N - NÃO\n EM BRANCO - OUTROS',
   `data_opcao_mei` DATE NULL COMMENT 'DATA DE OPÇÃO PELO MEI',
   `data_exclusao_mei` DATE NULL COMMENT 'DATA DE EXCLUSÃO DO MEI',
-  INDEX `fk_simples_estabelecimento1_idx` (`cnpj_basico` ASC) VISIBLE,
+  INDEX `fk_simples_estabelecimento1_idx` (`cnpj_basico` ASC),
   PRIMARY KEY (`cnpj_basico`),
   CONSTRAINT `fk_simples_estabelecimento1`
     FOREIGN KEY (`cnpj_basico`)
@@ -188,9 +188,9 @@ CREATE TABLE IF NOT EXISTS `socios` (
   `nome_do_representante` VARCHAR(500) NULL,
   `qualificacao_representante_legal` INT NULL COMMENT 'CÓDIGO DA QUALIFICAÇÃO DO REPRESENTANTE LEGAL',
   `faixa_etaria` INT NULL COMMENT 'CÓDIGO CORRESPONDENTE À FAIXA ETÁRIA DO SÓCIO.\nBaseada na data de nascimento do CPF de cada sócio, deverá ser criado o valor para o\ncampo \"Faixa Etária\" conforme a regra abaixo:\n- 1 para os intervalos entre 0 a 12 anos;\n- 2 para os intervalos entre 13 a 20 anos;\n- 3 para os intervalos entre 21 a 30 anos;\n- 4 para os intervalos entre 31 a 40 anos;\n- 5 para os intervalos entre 41 a 50 anos;\n- 6 para os intervalos entre 51 a 60 anos;\n- 7 para os intervalos entre 61 a 70 anos;\n- 8 para os intervalos entre 71 a 80 anos; - 9 para maiores de 80 anos.\n- 0 para não se aplica',
-  INDEX `fk_socios_quals1_idx` (`qualificacao_socio` ASC) VISIBLE,
-  INDEX `fk_socios_pais1_idx` (`pais` ASC) VISIBLE,
-  INDEX `fk_socios_quals2_idx` (`qualificacao_representante_legal` ASC) VISIBLE,
+  INDEX `fk_socios_quals1_idx` (`qualificacao_socio` ASC),
+  INDEX `fk_socios_pais1_idx` (`pais` ASC),
+  INDEX `fk_socios_quals2_idx` (`qualificacao_representante_legal` ASC),
   PRIMARY KEY (`cnpj_basico`),
   CONSTRAINT `fk_socios_quals1`
     FOREIGN KEY (`qualificacao_socio`)
@@ -223,10 +223,10 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   `capital_social` VARCHAR(45) NULL COMMENT 'CAPITAL SOCIAL DA EMPRESA',
   `porte_empresa` VARCHAR(45) NULL COMMENT 'CÓDIGO DO PORTE DA EMPRESA:\n1 – NÃO INFORMADO\n2 - MICRO EMPRESA\n03 - EMPRESA DE PEQUENO PORTE\n05 - DEMAIS',
   `ente_federativo_responsavel` VARCHAR(45) NULL COMMENT 'O ENTE FEDERATIVO RESPONSÁVEL É PREENCHIDO PARA OS CASOS DE ÓRGÃOS E ENTIDADES DO GRUPO DE NATUREZA JURÍDICA 1XXX. PARA AS DEMAIS NATUREZAS, ESTE ATRIBUTO FICA EM BRANCO',
-  INDEX `fk_empresa_estabelecimento1_idx` (`cnpj_basico` ASC) VISIBLE,
+  INDEX `fk_empresa_estabelecimento1_idx` (`cnpj_basico` ASC),
   PRIMARY KEY (`cnpj_basico`),
-  INDEX `fk_empresa_natju1_idx` (`natureza_juridica` ASC) VISIBLE,
-  INDEX `fk_empresa_quals1_idx` (`qualificacao_responsavel` ASC) VISIBLE,
+  INDEX `fk_empresa_natju1_idx` (`natureza_juridica` ASC),
+  INDEX `fk_empresa_quals1_idx` (`qualificacao_responsavel` ASC),
   CONSTRAINT `fk_empresa_estabelecimento1`
     FOREIGN KEY (`cnpj_basico`)
     REFERENCES `dados_rfb`.`estabelecimento` (`cnpj_basico`)
