@@ -34,6 +34,14 @@ class CnaeController
         return $result;
     }
     //--------------------------------------------------------------------------------
+    public function getNameTransformerById( $id )
+    {
+        $result = $this->selectById( $id );
+        $cnae = $result[0];
+        $name = $cnae->CODIGO.' - '.$cnae->DESCRICAO;
+        return $name;
+    }    
+    //--------------------------------------------------------------------------------
     public function selectCount( $where=null )
     {
         $result = $this->dao->selectCount( $where );
