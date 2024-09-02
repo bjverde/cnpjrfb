@@ -64,6 +64,12 @@ class cnpjFormView extends TPage
                 $this->form->addFields([new TLabel("Data situação cadastral:")],[new TTextDisplay( Transforme::date($estabelecimento->data_situacao_cadastral) )]
                                       ,[new TLabel("Situação cadastral:")],[new TTextDisplay( $estabelecimento->situacao_cadastral )]
                                       );
+                $this->form->addContent([new TFormSeparator("CNAE", '#333', '18', '#eee')]);
+                $controllerCnae = new CnaeController();
+                $cnae_principal =  $controllerCnae->getNameTransformerById( $estabelecimento->cnae_fiscal_principal );                
+                $this->form->addFields([new TLabel("Principal:")],[new TTextDisplay( $cnae_principal )]
+                                      ,[new TLabel("Lista secundário:")],[new TTextDisplay( $estabelecimento->cnae_fiscal_secundaria )]
+                                      );                
                 $this->showEmpresaSimples($cnpj_basico);                
                 $this->form->addContent([new TFormSeparator("Endereço", '#333', '18', '#eee')]);
     
@@ -89,7 +95,7 @@ class cnpjFormView extends TPage
             TTransaction::close(); // fecha a transação.
             parent::add($this->form);            
             $this->showGridSocios($cnpj_basico);
-            //$this->showGridCnae($empresa->getCnaesSecundarios());
+            //$this->showGridCnae($estabelecimento->getCnaesSecundarios());
         }
         catch(Exception $e)
         {
