@@ -142,6 +142,8 @@ class EstabelecimentoList extends TPage
         $nome_cidade_exterior->setMaxLength(45);
         $cnae_fiscal_secundaria->setMaxLength(1000);
 
+        $cnae_fiscal_secundaria->placeholder = "Informar o código. Separado por vírgula para mais de um";
+
         $row1 = $this->form->addFields([new TLabel("CNPJ Básico:", null, '14px', null),$cnpj_basico]
                                       ,[new TLabel("CNPJ ordem:", null, '14px', null),$cnpj_ordem]
                                       ,[new TLabel("CNPJ DV:", null, '14px', null),$cnpj_dv]
@@ -209,6 +211,11 @@ class EstabelecimentoList extends TPage
         $column_identificador_matriz_filial->setTransformer(function($value, $object, $row) 
         {
             return TipoMatrizFilial::getByid($value);
+        });
+
+        $column_cnae_fiscal_principal->setTransformer(function($value, $object, $row){
+            $controllerCnae = new CnaeController();
+            return $controllerCnae->getNameTransformerById( $value );;
         });
 
         $column_data_situacao_cadastral_transformed->setTransformer(function($value, $object, $row) 
