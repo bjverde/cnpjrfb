@@ -37,9 +37,10 @@ simples | 27.893.923 |
 ## Intalação separada
 
 ### Parte 1 - PHP
-1. Ter um servidor PHP 7.4 ou superior. Com o drive PDO do banco relacional desejado e para o SqLite
+1. Ter um servidor PHP 8.1 ou superior. Com o drive PDO do banco relacional desejado e para o SqLite
 1. Configura o PHP conforme orientações do [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
-1. Copie o conteudo da pasta `www/cnjrfb` do projeto para o seu servidor PHP.
+1. Crie no seu servidor a pasta `cnjrfb`.
+1. Copie o conteudo da pasta `www/cnjrfb` do projeto para a pasta `cnjrfb` do seu servidor PHP.
 1. Verifique se tudo dentro de `<caminho servidor>/cnjrfb/` tem permissão de execução do servidor web. Se for Linux (Debian/Ubuntu) com Apache pode executar `sudo chown -R www-data:www-data`
 1. Abra o sistema em um navegador e verifique se os sistema está funcionando. Existe um pequeno banco em SqLite para demonstrar o funcionamento.
 
@@ -48,15 +49,20 @@ simples | 27.893.923 |
 ### Parte 2 - a carga dos dados, no banco relacional !
 Agora vem parte demorada ! 
 
-* Baixe todos os arquivos do [site de receita federal](https://dados.gov.br/dados/conjuntos-dados/cadastro-nacional-da-pessoa-juridica---cnpj). Para quem está usando Linux tem um script para essa parta `projeto/dados_receita/output_files/download_files.sh`
-* Se conhece python e deseja usar o PostgreSQL faça os procedimentos https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ 
-* Se não conhece python pode usar o script PHP para carga no banco 
+### Caminho normal
+
+* Baixe todos os arquivos do [site de receita federal](https://dados.gov.br/dados/conjuntos-dados/cadastro-nacional-da-pessoa-juridica---cnpj). Para quem está usando Linux tem um script para essa parta `www/cargabs/download/download_files.sh`
+* Script PHP para carga no banco 
     * na pasta `projeto/modelo_banco/` vai encontrar os scripts criação do banco de dados, para os SGBD's: SqLite, MySql, MariaDB e PostgreSQL. Se precisar de um MER tem na pasta `projeto/modelo_banco/mysql`
     * Altere o arquivo de configuração `projeto/www/cargabd/config.php`
     * rode o script em modo terminal `projeto/www/cargabd/index.php`
-    * vá descençar !! o processo todo em desktop no win10, i5, 16 ram, PHP 7.4 no wamp com config padrão levaria mais de 30 horas.
+    * vá descençar !! o processo todo em desktop no win10, i5, 16 ram, PHP 7.4 no wamp com config padrão levou mais de 30 horas.
 
-**ATENÇÃO!! devido o volume de dados crie índices, nas colunas que pretender ter o maior volume de pesquisa. Recomendo criar na coluna cnpj_basico em todas as tabelas**
+### Caminho alternativo
+* Se conhece python e deseja usar o PostgreSQL faça os procedimentos https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
+
+
+**ATENÇÃO!! devido o volume de dados crie índices, nas colunas que pretender ter o maior volume de pesquisa e assim diminuir o tempo de busco. Recomendo criar na coluna cnpj_basico em todas as tabelas**
 
 ### Parte 3 - Configurando o PHP para o banco completo !
 * altera o arquivo `<caminho servidor>/cnjrfb/app/config/maindatabase.php` para apontar para o novo banco de dados. Veja como em [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
