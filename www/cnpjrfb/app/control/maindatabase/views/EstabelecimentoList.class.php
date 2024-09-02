@@ -150,20 +150,33 @@ class EstabelecimentoList extends TPage
                                       );
         $row1->layout = [' col-md-4',' col-md-4',' col-md-4'];
 
-        $row2 = $this->form->addFields([new TLabel("Matriz/Filial:", null, '14px', null)],[$identificador_matriz_filial],[new TLabel("Nome fantasia:", null, '14px', null)],[$nome_fantasia]);
-        $row3 = $this->form->addFields([new TLabel("Situação cadastral:", null, '14px', null)],[$situacao_cadastral],[new TLabel("Data situacao cadastral:", null, '14px', null)],[$data_situacao_cadastral]);
-        $row4 = $this->form->addFields([new TLabel("Motivo situação cadastral:", null, '14px', null)],[$motivo_situacao_cadastral],[new TLabel("Nome cidade exterior:", null, '14px', null)],[$nome_cidade_exterior]);
-        $row5 = $this->form->addFields([new TLabel("Pais:", null, '14px', null)],[$pais],[new TLabel("Data inicio atividade:", null, '14px', null)],[$data_inicio_atividade]);
-        $row6 = $this->form->addFields([new TLabel("Cnae fiscal principal:", null, '14px', null)],[$cnae_fiscal_principal],[new TLabel("Cnae fiscal secundaria:", null, '14px', null)],[$cnae_fiscal_secundaria]);
-        $row7 = $this->form->addContent([new TFormSeparator("Endereço", '#333', '18', '#eee')]);
-        $row8 = $this->form->addFields([new TLabel("Tipo logradouro:", null, '14px', null)],[$tipo_logradouro],[new TLabel("Logradouro:", null, '14px', null)],[$logradouro]);
-        $row9 = $this->form->addFields([new TLabel("Número:", null, '14px', null)],[$numero],[new TLabel("Complemento:", null, '14px', null)],[$complemento]);
-        $row10 = $this->form->addFields([new TLabel("Bairro:", null, '14px', null)],[$bairro],[new TLabel("Cep:", null, '14px', null)],[$cep]);
-        $row11 = $this->form->addFields([new TLabel("Uf:", null, '14px', null)],[$uf],[new TLabel("Municipio:", null, '14px', null)],[$municipio]);
-        $row12 = $this->form->addFields([new TLabel("Ddd 1:", null, '14px', null)],[$ddd_1],[new TLabel("Telefone 1:", null, '14px', null)],[$telefone_1]);
-        $row13 = $this->form->addFields([new TLabel("Ddd 2:", null, '14px', null)],[$ddd_2],[new TLabel("Telefone 2:", null, '14px', null)],[$telefone_2]);
-        $row14 = $this->form->addFields([new TLabel("Ddd fax:", null, '14px', null)],[$ddd_fax],[new TLabel("Fax:", null, '14px', null)],[$fax]);
-        $row15 = $this->form->addFields([new TLabel("Correio eletronico:", null, '14px', null)],[$correio_eletronico],[new TLabel("Situacao especial:", null, '14px', null)],[$situacao_especial]);
+        $row2  = $this->form->addFields([new TLabel("Matriz/Filial:", null, '14px', null)],[$identificador_matriz_filial]
+                                       ,[new TLabel("Nome fantasia:", null, '14px', null)],[$nome_fantasia]);
+        $row3  = $this->form->addFields([new TLabel("Situação cadastral:", null, '14px', null)],[$situacao_cadastral]
+                                       ,[new TLabel("Data situacao cadastral:", null, '14px', null)],[$data_situacao_cadastral]);
+        $row4  = $this->form->addFields([new TLabel("Motivo situação cadastral:", null, '14px', null)],[$motivo_situacao_cadastral]
+                                       ,[new TLabel("Nome cidade exterior:", null, '14px', null)],[$nome_cidade_exterior]);
+        $row5  = $this->form->addFields([new TLabel("Pais:", null, '14px', null)],[$pais]
+                                       ,[new TLabel("Data inicio atividade:", null, '14px', null)],[$data_inicio_atividade]);
+        $row6  = $this->form->addFields([new TLabel("Cnae fiscal principal:", null, '14px', null)],[$cnae_fiscal_principal]
+                                       ,[new TLabel("Cnae fiscal secundaria:", null, '14px', null)],[$cnae_fiscal_secundaria]);
+        $row7  = $this->form->addContent([new TFormSeparator("Endereço", '#333', '18', '#eee')]);
+        $row8  = $this->form->addFields([new TLabel("Tipo logradouro:", null, '14px', null)],[$tipo_logradouro]
+                                       ,[new TLabel("Logradouro:", null, '14px', null)],[$logradouro]);
+        $row9  = $this->form->addFields([new TLabel("Número:", null, '14px', null)],[$numero]
+                                       ,[new TLabel("Complemento:", null, '14px', null)],[$complemento]);
+        $row10 = $this->form->addFields([new TLabel("Bairro:", null, '14px', null)],[$bairro]
+                                       ,[new TLabel("Cep:", null, '14px', null)],[$cep]);
+        $row11 = $this->form->addFields([new TLabel("Uf:", null, '14px', null)],[$uf]
+                                       ,[new TLabel("Municipio:", null, '14px', null)],[$municipio]);
+        $row12 = $this->form->addFields([new TLabel("Ddd 1:", null, '14px', null)],[$ddd_1]
+                                       ,[new TLabel("Telefone 1:", null, '14px', null)],[$telefone_1]);
+        $row13 = $this->form->addFields([new TLabel("Ddd 2:", null, '14px', null)],[$ddd_2]
+                                       ,[new TLabel("Telefone 2:", null, '14px', null)],[$telefone_2]);
+        $row14 = $this->form->addFields([new TLabel("Ddd fax:", null, '14px', null)],[$ddd_fax]
+                                       ,[new TLabel("Fax:", null, '14px', null)],[$fax]);
+        $row15 = $this->form->addFields([new TLabel("Correio eletronico:", null, '14px', null)],[$correio_eletronico]
+                                       ,[new TLabel("Situacao especial:", null, '14px', null)],[$situacao_especial]);
         $row16 = $this->form->addFields([new TLabel("Data situação especial:", null, '14px', null)],[$data_situacao_especial],[],[]);
 
         // keep the form filled during navigation with session data
