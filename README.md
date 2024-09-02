@@ -17,11 +17,10 @@ O processo de instalação é simples para a parte PHP. Porém a carga do banco 
 
 ## Requisitos
 
-* PHP 7.4 ou superior, a versão 2.1.0 ou superior funciona no PHP 8.1
+* Apache PHP 8.1 ou superior para a versão 2.1.0 ou superior.
 * Banco de Dados Relacional, com a carga dos dados conforme modelo. Funciona nos bancos PostgreSQL, MySQL, MariaDB, SQLite !
-* Linux (Debian 10), pode funcionar no Windows porém não foi testado
 * Aproximadamente 50 GB de espaço livre em disco para a instalação:
-    * 5 GB arquivos zip da Receita Federal, que pode ser liberado depois da instalação.
+    * 6,1 GB arquivos zip da Receita Federal (Agosto/2024), que pode ser liberado depois da instalação.
     * 18 GB para arquivos texto descompactados, que pode ser liberado depois da instalação
     * 18 GB para banco de dados. Considerando o PostgreSQL.
 
