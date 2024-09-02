@@ -21,7 +21,7 @@ mkdir -p "$DEST_DIR"
 get_zip_urls() {
     local urls
     if ! urls=$(wget -qO- --user-agent="$USER_AGENT" "$URL" | grep -Eo 'href="([^"]+\.zip)"' | awk -F'"' '{print $2}'); then
-        printf "Error: Failed to retrieve ZIP URLs.\n" >&2
+        printf "${RED}Error: Failed to retrieve ZIP URLs.${NC}\n" >&2
         return 1
     fi
 
@@ -42,7 +42,7 @@ download_zips() {
 
         printf "Downloading %s...\n" "$file_name"
         if ! wget -q --user-agent="$USER_AGENT" -P "$DEST_DIR" "$zip_url"; then
-            printf "Error: Failed to download %s\n" "$file_name" >&2
+            printf "${RED}Error: Failed to download %s${NC}\n" "$file_name" >&2
             continue
         fi
 
@@ -53,10 +53,10 @@ download_zips() {
 # Main function
 main() {
     if ! download_zips; then
-        echo -e "${RED} Error: ZIP download process failed.${NC}\n" >&2
+        printf "${RED}Error: ZIP download process failed.${NC}\n" >&2
         return 1
     fi
-    echo -e "${YBLUE} All downloads completed.${NC}\n"
+    printf "${YBLUE} All downloads completed.${NC}\n"
 }
 
 main "$@"
