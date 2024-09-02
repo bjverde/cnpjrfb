@@ -79,10 +79,15 @@ class EstabelecimentoList extends TPage
         $situacao_cadastral = new TCombo('situacao_cadastral');
         $data_situacao_cadastral = new TDate('data_situacao_cadastral');
         $motivo_situacao_cadastral = new TDBCombo('motivo_situacao_cadastral', 'maindatabase', 'moti', 'codigo', '{descricao}','descricao asc'  );
+        $motivo_situacao_cadastral->enableSearch();
+
         $nome_cidade_exterior = new TEntry('nome_cidade_exterior');
         $pais = new TEntry('pais');
         $data_inicio_atividade = new TDateTime('data_inicio_atividade');
-        $cnae_fiscal_principal = new TEntry('cnae_fiscal_principal');
+        //$cnae_fiscal_principal = new TEntry('cnae_fiscal_principal');
+        $cnae_fiscal_principal = new TDBCombo('cnae_fiscal_principal', 'maindatabase', 'cnae', 'codigo', '{codigo} - {descricao}','descricao asc'  );
+        $cnae_fiscal_principal->enableSearch();
+
         $cnae_fiscal_secundaria = new TEntry('cnae_fiscal_secundaria');
         $tipo_logradouro = new TEntry('tipo_logradouro');
         $logradouro = new TEntry('logradouro');
@@ -92,6 +97,8 @@ class EstabelecimentoList extends TPage
         $cep = new TEntry('cep');
         $uf = new TEntry('uf');
         $municipio = new TDBCombo('municipio', 'maindatabase', 'munic', 'codigo', '{descricao}','descricao asc'  );
+        $municipio->enableSearch();
+
         $ddd_1 = new TEntry('ddd_1');
         $telefone_1 = new TEntry('telefone_1');
         $ddd_2 = new TEntry('ddd_2');
@@ -103,8 +110,6 @@ class EstabelecimentoList extends TPage
         $data_situacao_especial = new TDate('data_situacao_especial');
 
 
-        $municipio->enableSearch();
-        $motivo_situacao_cadastral->enableSearch();
         $identificador_matriz_filial->addItems(TipoMatrizFilial::getList());
         $situacao_cadastral->addItems(TipoEmpresaSituacao::getList());
 
