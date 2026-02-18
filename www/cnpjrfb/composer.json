@@ -5,7 +5,7 @@
     "picqer/php-barcode-generator": "^2.0.1",
     "dompdf/dompdf": "^2.0",
     "bacon/bacon-qr-code": "^2.0",
-    "firebase/php-jwt": "^6.0",
+    "firebase/php-jwt": "^7.0",
     "linfo/linfo": "^4.0",
     "adianti/plugins": "dev-master",
     "adianti/pdfdesigner": "dev-master",

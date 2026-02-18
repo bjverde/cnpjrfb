@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "864184f9819c3ad407a12e332e60f470",
+    "content-hash": "33f4ae2aca1e4e931755ce51e4d9e504",
     "packages": [
         {
             "name": "adianti/pdfdesigner",
@@ -325,26 +325,26 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v6.9.0",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "f03270e63eaccf3019ef0f32849c497385774e11"
+                "reference": "c03036fd5dbd530a95406ca3b5f6d7b24eaa3910"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/f03270e63eaccf3019ef0f32849c497385774e11",
-                "reference": "f03270e63eaccf3019ef0f32849c497385774e11",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/c03036fd5dbd530a95406ca3b5f6d7b24eaa3910",
+                "reference": "c03036fd5dbd530a95406ca3b5f6d7b24eaa3910",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4||^8.0"
+                "php": "^8.0"
             },
             "require-dev": {
-                "guzzlehttp/guzzle": "^6.5||^7.4",
+                "guzzlehttp/guzzle": "^7.4",
                 "phpspec/prophecy-phpunit": "^2.0",
                 "phpunit/phpunit": "^9.5",
-                "psr/cache": "^1.0||^2.0",
+                "psr/cache": "^2.0||^3.0",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0"
             },
@@ -382,9 +382,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v6.9.0"
+                "source": "https://github.com/firebase/php-jwt/tree/v7.0.0"
             },
-            "time": "2023-10-05T00:24:42+00:00"
+            "time": "2025-12-15T19:26:43+00:00"
         },
         {
             "name": "linfo/linfo",
@@ -1350,16 +1350,16 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "adianti/plugins": 20,
         "adianti/pdfdesigner": 20,
-        "pablodalloglio/ole": 20,
-        "pablodalloglio/spreadsheet_excel_writer": 20,
+        "adianti/plugins": 20,
         "pablodalloglio/fpdf": 20,
-        "pablodalloglio/phprtflite": 20
+        "pablodalloglio/ole": 20,
+        "pablodalloglio/phprtflite": 20,
+        "pablodalloglio/spreadsheet_excel_writer": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
