@@ -1,34 +1,43 @@
 <?php
 require_once 'init.php';
 
+$ini = AdiantiApplicationConfig::get();
 $theme  = $ini['general']['theme'];
 new TSession;
 
-$content     = file_get_contents("app/templates/{$theme}/layout.html");
+if (isset($_REQUEST['template']) AND $_REQUEST['template'] == 'iframe') {
+	$content = file_get_contents("app/templates/{$theme}/iframe.html");
+} else {
+	$content  = file_get_contents("app/templates/{$theme}/layout.html");
+}
+
 $menu_string = AdiantiMenuBuilder::parse('menu.xml', $theme);
-$content     = str_replace('{MENU}', $menu_string, $content);
 $content     = ApplicationTranslator::translateTemplate($content);
+
+//--- START: TEMA ADMINBS5_V7  ---------------------------------------------------------
+$system_version = $ini['system']['system_version'];
+$title          = $ini['general']['title'];
+$head_title     = $title.' - v'.$system_version;
+
+$content = str_replace('{head_title}', $head_title, $content);
+$content = str_replace('{title}', $title, $content);
+$content = str_replace('{system_version}', $system_version, $content);
+//--- END: TEMA ADMINBS5_V7 ------------------------------------------------------------
+
 $content     = str_replace('{LIBRARIES}', file_get_contents("app/templates/{$theme}/libraries.html"), $content);
 $content     = str_replace('{class}', isset($_REQUEST['class']) ? $_REQUEST['class'] : '', $content);
 $content     = str_replace('{template}', $theme, $content);
 $content     = str_replace('{MENU}', $menu_string, $content);
+$content     = str_replace('{MENUTOP}', AdiantiMenuBuilder::parseNavBar('menu-top-public.xml', $theme), $content);
+$content     = str_replace('{MENUBOTTOM}', AdiantiMenuBuilder::parseNavBar('menu-bottom-public.xml', $theme), $content);
 $content     = str_replace('{lang}', $ini['general']['language'], $content);
+//$content     = str_replace('{title}', $ini['general']['title'] ?? '', $content);
+$content     = str_replace('{template_options}',  json_encode($ini['template'] ?? []), $content);
+$content     = str_replace('{adianti_options}',  json_encode($ini['general']), $content);
+
 $css         = TPage::getLoadedCSS();
 $js          = TPage::getLoadedJS();
 $content     = str_replace('{HEAD}', $css.$js, $content);
-
-//--- FORMDIN 5 START ---------------------------------------------------------
-$content     = str_replace('{head_title}'     , $ini['general']['application'], $content);
-$content     = str_replace('{formdin_version}', FormDinHelper::version(), $content);
-$content     = str_replace('{system_version}' , $ini['system']['system_version'], $content);
-$content     = str_replace('{system_name}'    , $ini['system']['system_name'], $content);
-$content     = str_replace('{system_name_sub}', $ini['system']['system_version'], $content);
-$content     = str_replace('{logo-mini}', $ini['system']['logo-mini'], $content);
-$content     = str_replace('{logo-lg}', $ini['system']['logo-lg'], $content);
-$content     = str_replace('{logo-link-class}', $ini['system']['logo-link-class'], $content);
-$content     = str_replace('{login-link}', $ini['system']['login-link'], $content);
-$content     = str_replace('{login}', $ini['system']['login'], $content);
-//--- FORMDIN 5 END -----------------------------------------------------------
 
 echo $content;
 
