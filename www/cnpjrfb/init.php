@@ -20,3 +20,5 @@ AdiantiApplicationConfig::start();
 define('PATH', dirname(__FILE__));
 
 setlocale(LC_ALL, 'C');
+
+define('DATABASE_SCHEMA',''); //Informe o nome do esquema com PONTO no final. Exemplo: RFB.
