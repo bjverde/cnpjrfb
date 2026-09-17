@@ -1,0 +1,20 @@
+<!--[main]-->
+<div class="info-box card" style="background-color: {$cardColor}; color: {$fontColor}; flex-wrap: wrap; padding: 0;">
+    <div style="display: flex; flex: 1; width: 100%;">
+        <span class="info-box-icon" style="background-color: {$background}; margin-bottom: 0;">
+            <i class="{$icon}" style="color: {$iconColor};" aria-hidden="true"></i>
+        </span>
+
+        <div class="info-box-content" style="flex: 1; width: 100%; display: flex; flex-direction: column; justify-content: center; padding: 0 10px; margin-left: 0 !important;">
+          <span class="info-box-text" style="color: {$fontColor}; display: block; width: 100%; text-align: left !important;">{$title}</span>
+          <span class="info-box-number" style="color: {$fontColor}; display: block; width: 100%; text-align: left !important;">{$value}</span>
+        </div>
+    </div>
+
+    <!--[has_link]-->
+    <a href="{$linkUrl}" target="{$linkTarget}" class="small-box-footer" style="display: block; text-align: center; padding: 3px 0; color: {$fontColor}; background: rgba(0,0,0,0.1); text-decoration: none; width: 100%; transition: background 0.3s;" onmouseover="this.style.background='rgba(0,0,0,0.15)'" onmouseout="this.style.background='rgba(0,0,0,0.1)'">
+        {$linkText} <i class="fas fa-arrow-circle-right" style="margin-left: 5px;"></i>
+    </a>
+    <!--[/has_link]-->
+</div>
+<!--[/main]-->
