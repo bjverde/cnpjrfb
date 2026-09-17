@@ -1,0 +1,191 @@
+.col-sm-6 {
+    width: 45%;
+    float: left;
+}
+.col-sm-3 {
+    width: 23%;
+    float: left;
+}
+.col-sm-9 {
+    width: 71%;
+    float: left;
+}
+.table>thead>tr>th
+{
+    border-bottom: 0;
+}
+.header-actions {
+    display:none;
+}
+
+.tdatagrid_cell.action * {
+    display:none;
+}
+
+.control-label {
+    text-align:right;
+}
+
+.form-group {
+    margin-bottom: 7px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+body {
+    font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-size: 12px;
+    line-height: 1.42857143;
+}
+
+.panel {
+    border-radius: initial;
+    min-height: 50px;
+    border: 1px solid silver;
+    border-radius: 2px;
+    margin-bottom: 4px;
+}
+
+.panel-title {
+    font-size: 16px;
+}
+
+.panel-heading{
+    background-color: whitesmoke;
+    border-bottom: 1px solid silver;
+}
+
+.panel-footer, .card-footer {
+    background-color: rgba(0,0,0,.03);
+}
+
+.label {
+    display:inline-block;
+}
+
+label {
+    max-width: calc(100% - 20px);
+}
+
+.tdatagrid_cell
+{
+    text-decoration:none;
+    color:#212529;
+}
+
+.card-item
+{
+    display: block;
+}
+
+.card-body.card-item-content > .tformrow
+{
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.card-body.card-item-content > .row {
+    display:inline !important;
+}
+
+.card-wrapper {
+    display:table;
+}
+.card-wrapper > .card-item {
+    display: table-row;
+}
+
+/* Badges */
+.badge {
+  padding: 0.4em 0.6em;
+  border-radius: 10px; 
+  font-weight:normal;
+}
+  
+.badge-primary {
+  background-color: #007bff;
+  color: #fff;
+} 
+  
+.badge-secondary {
+  background-color: #6c757d;
+  color: #fff;
+} 
+  
+.badge-success {
+  background-color: #28a745;
+  color: #fff;
+} 
+  
+.badge-danger {
+  background-color: #dc3545;
+  color: #fff;
+} 
+  
+.badge-warning {
+  background-color: #ffc107;
+  color: #212529;
+} 
+
+
+.badge-info {
+  background-color: #17a2b8;
+  color: #fff;
+} 
+
+.badge-light {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+.badge-dark {
+  background-color: #343a40;
+  color: #fff;
+}
+
+
+/* Classes text-bg-* */
+.text-bg-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.text-bg-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.text-bg-success {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.text-bg-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.text-bg-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.text-bg-info {
+  background-color: #17a2b8;
+  color: #fff;
+}
+
+.text-bg-light {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+.text-bg-dark {
+  background-color: #343a40;
+  color: #fff;
+}

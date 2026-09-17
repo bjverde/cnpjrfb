@@ -1,0 +1,8 @@
+<menu>
+    <menuitem label="Aprenda">
+      <icon>fas:book fa-fw</icon>
+      <action>LearnView</action>
+      <title>Aprenda</title>
+      <mobile>Y</mobile>
+    </menuitem>
+</menu>
