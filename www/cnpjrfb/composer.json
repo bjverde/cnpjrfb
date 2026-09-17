@@ -2,18 +2,23 @@
   "require": {
     "phpmailer/phpmailer": "^6.0",
     "tburry/pquery": "^1.1",
-    "picqer/php-barcode-generator": "^2.0.1",
-    "dompdf/dompdf": "^2.0",
-    "bacon/bacon-qr-code": "^2.0",
+    "picqer/php-barcode-generator": "^3.0",
+    "dompdf/dompdf": "^3.0",
+    "bacon/bacon-qr-code": "^3.0",
     "firebase/php-jwt": "^6.0",
     "linfo/linfo": "^4.0",
     "adianti/plugins": "dev-master",
-    "adianti/pdfdesigner": "dev-master",
+    "adianti/pdfdesigner": "^1.0",
+    "adianti/barcode-document": "^1.0",
+    "adianti/html-document": "^1.0",
+    "adianti/studio-forms": "^1.0",
+    "adianti/table-writers": "^1.0",
     "pablodalloglio/ole": "dev-master",
     "pablodalloglio/spreadsheet_excel_writer": "dev-master",
     "pablodalloglio/fpdf": "dev-master",
     "pablodalloglio/phprtflite": "dev-master",
-    "spomky-labs/otphp": "^10.0"
+    "spomky-labs/otphp": "^11.0",
+    "jfcherng/php-diff": "^6.16"
   },
   "config": {
     "preferred-install": {

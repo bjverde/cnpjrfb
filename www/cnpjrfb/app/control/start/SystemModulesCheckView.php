@@ -48,26 +48,60 @@ class SystemModulesCheckView extends TPage
             $warning = '&nbsp;<i class="fa fa-exclamation-triangle red" aria-hidden="true"></i>';
             $success = '&nbsp;<i class="far fa-check-circle green" aria-hidden="true"></i>';
             
+            $error_level_tostring = function($intval, $separator = ',') {
+                
+                $error_levels = array(
+                    E_ALL => 'E_ALL',
+                    E_USER_DEPRECATED => 'E_USER_DEPRECATED',
+                    E_DEPRECATED => 'E_DEPRECATED',
+                    E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+                    2048 => 'E_STRICT', /* using number avoid deprecated in php8.4 */
+                    E_USER_NOTICE => 'E_USER_NOTICE',
+                    E_USER_WARNING => 'E_USER_WARNING',
+                    E_USER_ERROR => 'E_USER_ERROR',
+                    E_COMPILE_WARNING => 'E_COMPILE_WARNING',
+                    E_COMPILE_ERROR => 'E_COMPILE_ERROR',
+                    E_CORE_WARNING => 'E_CORE_WARNING',
+                    E_CORE_ERROR => 'E_CORE_ERROR',
+                    E_NOTICE => 'E_NOTICE',
+                    E_PARSE => 'E_PARSE',
+                    E_WARNING => 'E_WARNING',
+                    E_ERROR => 'E_ERROR');
+                $used = [];
+                foreach($error_levels as $number => $name)
+                {
+                    if (($intval & $number) == $number) {
+                        $used[] = $name;
+                    }
+                }
+                
+                $all_but_e_all = $error_levels;
+                unset($all_but_e_all[E_ALL]);
+                $notused = array_diff($all_but_e_all, $used);
+                
+                if (!empty($notused))
+                {
+                    return 'E_ALL & ~' . implode(' & ~', $notused);
+                }
+                return 'E_ALL';
+            };
+            
             $item = new stdClass;
             $item->directive   = 'error_reporting';
-            $item->current     = ini_get($item->directive) == E_ALL ?
-                                '<span><b>E_ALL</b></span>' :
-                                '<span><b>'.ini_get($item->directive).'</b></span>';
+            $item->current     = '<span><b>'.$error_level_tostring(ini_get($item->directive)).'</b></span>';
             $item->development = ini_get($item->directive) == E_ALL ?
                                 '<span class="green"><b>E_ALL</b></span>' . $success:
                                 '<span class="red"><b>E_ALL</b></span>' . $warning;
-            $item->production  = ini_get($item->directive) == E_ALL - E_DEPRECATED - E_STRICT ?
-                                '<span class="green"><b>E_ALL & ~E_DEPRECATED & ~E_STRICT</b></span>' . $success:
-                                '<span class="red"><b> E_ALL & ~E_DEPRECATED & ~E_STRICT </b></span>' . $warning;
+            $item->production  = ini_get($item->directive) == E_ALL - E_DEPRECATED ?
+                                '<span class="green"><b>E_ALL & ~E_DEPRECATED</b></span>' . $success:
+                                '<span class="red"><b> E_ALL & ~E_DEPRECATED</b></span>' . $warning;
             $this->datagrid->addItem($item);
             
             $item = new stdClass;
             $item->directive   = 'display_errors';
             $item->current     = '<span><b>' . (ini_get($item->directive) ? 'On' : 'Off' ) . '</b></span>';
-            $item->development = ini_get($item->directive) ?
-                                 '<span class="green"><b>On</b></span>' . $success : '<span class="red"><b>On</b></span>' . $warning;
-            $item->production  = !ini_get($item->directive) ?
-                                 '<span class="green"><b>Off</b></span>' . $success: '<span class="red"><b>Off</b></span>' . $warning;
+            $item->development = ini_get($item->directive)  ? '<span class="green"><b>On</b></span>' . $success : '<span class="red"><b>On</b></span>' . $warning;
+            $item->production  = !ini_get($item->directive) ? '<span class="green"><b>Off</b></span>' . $success: '<span class="red"><b>Off</b></span>' . $warning;
             $this->datagrid->addItem($item);
             
             $item = new stdClass;
@@ -82,6 +116,27 @@ class SystemModulesCheckView extends TPage
             $item->current     = '<span><b>' . ini_get($item->directive) . '</b></span>';
             $item->development = ini_get($item->directive) == '4096' ? '<span class="green"><b>4096</b></span>' . $success : '<span class="red"><b>4096</b></span>' . $warning;
             $item->production  = ini_get($item->directive) == '4096' ? '<span class="green"><b>4096</b></span>' . $success : '<span class="red"><b>4096</b></span>' . $warning;
+            $this->datagrid->addItem($item);
+            
+            $item = new stdClass;
+            $item->directive   = 'session.use_only_cookies';
+            $item->current     = '<span><b>' . (ini_get($item->directive) ? 'On' : 'Off' ) . '</b></span>';
+            $item->development = ini_get($item->directive)  ? '<span class="green"><b>On</b></span>' . $success : '<span class="red"><b>On</b></span>' . $warning;
+            $item->production  = ini_get($item->directive)  ? '<span class="green"><b>On</b></span>' . $success : '<span class="red"><b>On</b></span>' . $warning;
+            $this->datagrid->addItem($item);
+            
+            $item = new stdClass;
+            $item->directive   = 'session.cookie_httponly';
+            $item->current     = '<span><b>' . (ini_get($item->directive) ? 'On' : 'Off' ) . '</b></span>';
+            $item->development = ini_get($item->directive)  ? '<span class="green"><b>On</b></span>' . $success : '<span class="red"><b>On</b></span>' . $warning;
+            $item->production  = ini_get($item->directive)  ? '<span class="green"><b>On</b></span>' . $success : '<span class="red"><b>On</b></span>' . $warning;
+            $this->datagrid->addItem($item);
+            
+            $item = new stdClass;
+            $item->directive   = 'request_order';
+            $item->current     = '<span><b>' . ini_get($item->directive) . '</b></span>';
+            $item->development = ini_get($item->directive) == 'GP' ? '<span class="green"><b>GP</b></span>' . $success : '<span class="red"><b>GP</b></span>' . $warning;
+            $item->production  = ini_get($item->directive) == 'GP' ? '<span class="green"><b>GP</b></span>' . $success : '<span class="red"><b>GP</b></span>' . $warning;
             $this->datagrid->addItem($item);
             
             $item = new stdClass;

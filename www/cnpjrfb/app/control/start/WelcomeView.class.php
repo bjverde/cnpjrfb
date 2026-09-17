@@ -21,7 +21,6 @@ class WelcomeView extends TPage
     {
         parent::__construct();
         
-        TPage::include_css('app/resources/styles.css');
         $this->html = new THtmlRenderer('app/resources/welcome.html');
 
         // define replacements for the main section

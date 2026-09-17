@@ -1,7 +1,25 @@
 <?php
 if (isset($_GET['file']))
 {
-    $file      = $_GET['file'];
+    $file = $_GET['file'];
+    
+    // must be inside the application
+    if (strpos(realpath($file), __DIR__) === false)
+    {
+        return;
+    }
+    
+    if (!file_exists($file))
+    {
+        return;
+    }
+    
+    // reserved path
+    if (substr($file,0,12) === 'files/system')
+    {
+        return;
+    }
+    
     $info      = pathinfo($file);
     $extension = $info['extension'];
     

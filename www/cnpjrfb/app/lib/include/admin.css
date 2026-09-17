@@ -18,44 +18,49 @@
     font-weight: bold;
 }
 
-.left-mailbox
-{
-    float: left; 
-    width: 160px;
-    margin-right: 10px;
-}
-
-.right-mailbox
-{ 
-    overflow: hidden;
-}
 
 @media screen and (max-width: 500px)
 {
-    .left-mailbox
+    .left-mailbox, .system-drive.menu, .system-calendar.menu
     { 
-        float: none;
-        width: auto;
-        margin-right:0;
+        float: none !important;
+        width: 100% !important;
+        margin-right:0 !important;
     }
-}
-
-@media only screen and (min-width: 501px)
-{
-    #search-box, #word-search-box
+    
+    .system-calendar, .system-drive
     {
-        display:inline !important;
-        float:left;
+        height: unset !important;
+    }
+    
+    .folder-box
+    {
+        max-width: unset !important;
+    }
+    
+    .folder-box-name
+    {
+        width: calc(100vw - 150px) !important;
+    }
+    
+    .fc-toolbar-title
+    {
+        font-size: var(--ad-font-size-mini) !important;
+    }
+    
+    .fc-toolbar-chunk button
+    {
+       font-size: var(--ad-font-size-mini) !important;
+    }
+    
+    .fc-today-button
+    {
+        display:none;
     }
 }
 
 @media only screen and (max-width: 500px)
 {
-    #search-box, #word-search-box
-    {
-        display:none !important;
-    }
-    
     ol.tbreadcrumb li 
     {
         padding: 0;
@@ -63,7 +68,7 @@
     
     .tbreadcrumb li span
     {
-        font-size: 8pt;
+        font-size: var(--ad-font-size-less);
     }
     
     #div_breadcrumbs > ol > li:nth-child(1)
@@ -80,50 +85,22 @@
     }
 }
 
-.thin-scroll::-webkit-scrollbar
-{
-    width: 10px;
-}
-
-.thin-scroll::-webkit-scrollbar-track
-{
-  background: white;
-}
-
-.thin-scroll::-webkit-scrollbar-thumb
-{
-    border-radius: 6px;
-    background:gray;
-}
   
 /** sourcecode **/
 .sourcecodewrapper
 {
     background: #262722;
-    font-weight:bold;
-    border-radius:3px;
+    border-radius: var(--bs-border-radius);
     padding:8px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--bs-box-shadow);
     margin-bottom: 10px;
     overflow-x: auto;
 }
 
 pre
 {
-    font-family: Andale mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Lucida Console, Monaco, Consolas, Droid Sans monospace, Monospace;
+    font-family: "Droid Sans Mono", "monospace", monospace;
     border-radius: 0;
-}
-
-.tsourcecode code
-{
-    font-family: Andale mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Lucida Console, Monaco, Consolas, Droid Sans monospace, Monospace;
-    line-height: normal;
-    background: #262722;
-}
-
-.tsourcecode code li
-{
-    color: #484848;
 }
 
 .file-response-icon
@@ -161,7 +138,7 @@ pre
     right: 0;
     position: fixed;
     top: 0;
-    border-right: 1px solid #c0c0c0;
+    border-right: 1px solid var(--bs-border-color);
     width: 800px;
     height: 100%;
     float: right;
@@ -170,8 +147,9 @@ pre
     overflow: auto;
     opacity: 1;
     overflow-x: hidden;
-    background: white;
-    box-shadow: -25px 10px 50px 0px rgba(50, 50, 50, 0.34);
+    background: var(--bs-body-bg);
+    /* box-shadow: -25px 10px 50px 0px rgba(50, 50, 50, 0.34); */
+    box-shadow: -15px 10px 30px 0px rgba(50, 50, 50, 0.24);
 }
 
 .right-panel .container-part
@@ -181,9 +159,9 @@ pre
     height: 100%;
     top: 0;
     display: block;
-    border-left: 1px solid #c0c0c0;
+    border-left: 1px solid var(--bs-border-color);
     box-shadow: -25px 10px 50px 0px rgba(50, 50, 50, 0.34);
-    background: white;
+    background: var(--bs-body-bg);
     z-index: 1; /** otherwise, check in checklist and other widgets like selected page in datagrid pagination will be renderer over **/
 }
 
@@ -202,23 +180,14 @@ pre
 
 .debug-panel
 {
-    position: fixed;
-    height:200px;
-    bottom: 0;
-    width: 100%;
-    background: #404040;
-    z-index: 20000;
     color: white;
-    border-top: 1px solid #7b7b7b;
-    font-family: Andale mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Lucida Console, Monaco, Consolas, Droid Sans monospace, Monospace;
-    display: none;
 }
 
-.debug-panel > div
+.debug-panel .debug-block
 {
     white-space: pre;
-    margin: 10px;
-    width: calc(50% - 40px);
+    margin-top: 3px;
+    width: 100%;
     display: block;
     height: calc(100% - 40px);
     position: relative;
@@ -227,16 +196,8 @@ pre
     background: #2f2f2f;
     border-radius: 3px;
     padding: 3px;
-}
-
-.debug-panel > span
-{
-    display: block;
-    width: calc(50% - 20px);
-    text-align: center;
-    float:left;
-    font-weight: bold;
-    color: #87a7f5;
+    font-family: Andale mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Lucida Console, Monaco, Consolas, Droid Sans monospace, Monospace;
+    font-size: var(--ad-font-size-less);
 }
 
 .debug-panel > i
@@ -253,7 +214,7 @@ pre
     height: 60px;
     bottom: 60px;
     right: 20px;
-    background-color: #fb954a;
+    background-color: var(--bs-orange);
     color: #FFF;
     border-radius: 50px;
     text-align: center;
@@ -316,56 +277,6 @@ pre
     margin-top: 8px;
 }
 
-.info-box
-{
-    display: block;
-    min-height: 90px;
-    background: #fff;
-    width: 100%;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-    border-radius: 2px;
-    margin-bottom: 15px !important;
-}
-
-.info-box-icon
-{
-    border-top-left-radius: 2px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 2px;
-    display: block;
-    float: left;
-    height: 90px;
-    width: 90px;
-    text-align: center;
-    font-size: 45px;
-    line-height: 90px;
-    background: rgba(0,0,0,0.2);
-}
-
-.info-box-text
-{
-    display: block;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-transform: uppercase;
-    color: gray;
-}
-
-.info-box-number
-{
-    display: block;
-    font-weight: bold;
-    font-size: 25px !important;
-    color: #5f5f5f;
-}
-
-.info-box-content
-{
-    padding: 10px;
-}
 
 .black
 {
@@ -378,10 +289,10 @@ pre {
     line-height: 1.42857143;
     word-break: break-all;
     word-wrap: break-word;
-    color: #333;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    background-color: var(--bs-body-bg);
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color)
 }
 
 /** menu editor **/

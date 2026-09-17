@@ -1,59 +1,67 @@
 <?php
 class AdiantiMenuBuilder
 {
+    const CHECK_PERMISSION = null;
+    
+    /**
+     * Parse main menu and converts into HTML
+     */
     public static function parse($file, $theme)
     {
-        if (!in_array('SimpleXML', get_loaded_extensions()))
-        {
+        if (!extension_loaded('SimpleXML')){
             throw new Exception(_t('Extension not found: ^1', 'SimpleXML'));
         }
         
-        switch ($theme)
-        {
-            case 'theme3':
-            case 'theme3_v5':
-            case 'theme_formdinv':
-                ob_start();
-                $xml = new SimpleXMLElement(file_get_contents($file));
-                $menu = new TMenu($xml, null, 1, 'treeview-menu', 'treeview', '');
-                $menu->class = 'sidebar-menu';
-                $menu->id    = 'side-menu';
-                $menu->show();
-                $menu_string = ob_get_clean();
-                return $menu_string;
-            break;
-            case 'theme_formdin':
-                ob_start();
-                $xml = new SimpleXMLElement(file_get_contents($file));
-                $menu = new TMenu($xml,null, 1,'dropdown-menu','nav-item dropdown','nav-link dropdown-toggle');
-                $menu->id    = 'main-menu-top';
-                $menu->show();
-                $menu_string = ob_get_clean();
-                
-                $menu_string = str_replace('class="dropdown-menu level-1" id="main-menu-top"', 'class="nav navbar-nav" id="main-menu-top"', $menu_string);
-                //$menu_string = str_replace('<a href="', '<a class="dropdown-menu" href="', $menu_string);
-                return $menu_string;
-            break;
-            default:
-                ob_start();
-                $xml = new SimpleXMLElement(file_get_contents($file));
-                $menu = new TMenu($xml, null, 1, 'ml-menu', 'x', 'menu-toggle waves-effect waves-block');
-                
-                $li = new TElement('li');
-                $li->{'class'} = 'active';
-                $menu->add($li);
-                
-                $li = new TElement('li');
-                $li->add('MENU');
-                $li->{'class'} = 'header';
-                $menu->add($li);
-                
-                $menu->class = 'list';
-                $menu->style = 'overflow: hidden; width: auto; height: 390px;';
-                $menu->show();
-                $menu_string = ob_get_clean();
-                return $menu_string;
-                break;
+        if (!file_exists($file)){
+            throw new Exception(_t('File not found').': ' . $file);
         }
+        
+        $listTemas = array('adminbs5', 'adminbs5_v7');
+        if ( in_array($theme, $listTemas) ) {
+            $xml  = new SimpleXMLElement(file_get_contents($file));
+            $menu = new TMenu($xml, self::CHECK_PERMISSION, 1, 'sidebar-dropdown list-unstyled collapse', 'sidebar-item', 'sidebar-link collapsed', [__class__, 'prepareItem']);
+            $menu->class = 'sidebar-nav';
+            $menu->id    = 'side-menu';
+
+            ob_start();
+            $menu->show();
+            return ob_get_clean();
+        }else{
+            throw new Exception(_t('Theme not supported').': ' . $theme);
+        }
+    }
+    
+    /**
+     *
+     */
+    public static function prepareItem($menuitem)
+    {
+        $ini = AdiantiApplicationConfig::get();
+        if (!empty($ini['template']['navbar']['allow_page_tabs']))
+        {
+            $action = $menuitem->getAction();
+            if (!$menuitem->getMenu() && strpos($action, 'LoginForm#method=onLogout') === false)
+            {
+                $open_tab = new TElement('div');
+                $open_tab->title = _t('Open in new tab');
+                $open_tab->onclick = "event.stopPropagation();Template.createPageTabFromMenu(this);return false;";
+                $open_tab->style = 'width: 15px;height: var(--ad-font-size-menu);position: relative;float: right;';
+                $open_tab->add('<i class="fa-solid fa-up-right-from-square" style="font-size:9pt"></i>');
+                $menuitem->setRightWidget($open_tab);
+            }
+        }
+    }
+    
+    /**
+     *
+     */
+    public static function parseNavBar($file, $theme)
+    {
+        if (file_exists($file))
+        {
+            return AdiantiNavBarParser::parse($file);
+        }
+        
+        return '';
     }
 }
