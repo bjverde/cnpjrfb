@@ -1,0 +1,39 @@
+.tfullcalendar
+{
+    background: var(--bs-body-bg);
+}
+
+.fc-toolbar {
+    padding: 10px;
+    margin: 0;
+}
+
+.fc-theme-bootstrap a:not([href])
+{
+    color: var(--bs-body-color);
+}
+
+table.fc-scrollgrid
+{
+    border-color: var(--bs-border-color) !important;
+}
+
+.fc-toolbar-title
+{
+    color: var(--bs-body-color);
+}
+
+.fc-daygrid-day, .fc-col-header-cell
+{
+    border-color: var(--bs-border-color) !important;
+}
+
+.fc .fc-list-sticky .fc-list-day>*
+{
+    background: var(--bs-body-bg);
+}
+
+.fc .fc-list-event:hover td
+{
+    background: var(--bs-secondary-bg);
+}

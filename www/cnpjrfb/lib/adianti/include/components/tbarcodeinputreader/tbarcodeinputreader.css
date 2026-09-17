@@ -1,0 +1,61 @@
+.tbarcodeinputreader-cameras
+{
+    text-align: center;
+    padding: 15px;
+}
+
+.tbarcodeinputreader-cameras input[type=radio]
+{
+    margin: 0px 15px;
+}
+
+.tbarcodeinputreader_container
+{
+    position: relative;
+}
+
+.tbarcodeinputreader_reader
+{
+    margin: auto;
+    width: 100%;
+    height: calc(100% - 100px);
+}
+
+span.tbarcodeinputreader.input-group-addon
+{
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    vertical-align: middle;
+    display: inline-block;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.tbarcodeinputreader i
+{
+    display: inline-block;
+    margin-top: 25%;
+    vertical-align: text-top;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+div.tbarcodeinputreader
+{
+    display: table;
+}
+
+div.tbarcodeinputreader .tfield
+{
+    display: table-cell;
+    border-right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.tbarcodeinputreader
+{
+    display: table-cell;
+}

@@ -1,0 +1,102 @@
+.tdate-group
+{
+    display:table;
+    border-spacing: 0;
+    float:inherit;
+    border-collapse: separate;
+}
+
+.tdate-group .tfield, .tdate-group .tfield_disabled
+{
+    display:table-cell;
+}
+
+span.tdate-group-addon > i.fa-clock {
+    min-width:20px !important;
+}
+
+span.tdate-group-addon > i.fa-calendar, span.tdate-group-addon > i.fa-clock {
+    margin-top: 10% !important;
+}
+
+span.tdate-group-addon
+{
+    padding-left: 4px;
+    padding-right: 4px;
+    vertical-align:top;
+    display:table-cell;
+    width: 24px;
+}
+
+.ui-datepicker-trigger
+{
+    height: 34px !important;
+}
+
+
+.input-append.date .add-on i
+{
+    width: unset; /* override BS */
+    height: unset; /* override BS */
+}
+
+span.tdate-group-addon i
+{
+    display: inline-block;
+    margin-top: 1px;
+    vertical-align: text-top;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.datepicker-days .day
+{
+    border: 1px solid;
+    border-color: var(--bs-border-color);
+    border-spacing: 0;
+    padding: 2px;
+}
+
+.datepicker.dropdown-menu td
+{
+    padding: 1px;
+}
+
+.datepicker.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    float: left;
+    display: none;
+    min-width: 160px;
+    list-style: none;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    background-clip: padding-box;
+    *border-right-width: 2px;
+    *border-bottom-width: 2px;
+    font-size: 13px;
+    line-height: 20px;
+}
+.datepicker.dropdown-menu th,
+.datepicker.datepicker-inline th,
+.datepicker.dropdown-menu td,
+.datepicker.datepicker-inline td {
+    padding: 2px 3px;
+}
+.datepicker .datepicker-switch:hover, .datepicker .next:hover, .datepicker .prev:hover, .datepicker tfoot tr th:hover
+{
+    background: var(--bs-secondary-bg-subtle);
+}
+
+.datepicker table tr td span.focused, .datepicker table tr td span:hover
+{
+    background: var(--bs-secondary-bg-subtle);
+}
+
+.datepicker table tr td.day.focused, .datepicker table tr td.day:hover {
+    background: var(--bs-secondary-bg-subtle);
+}

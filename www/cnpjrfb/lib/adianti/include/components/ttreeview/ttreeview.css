@@ -1,0 +1,102 @@
+.ttreeview{
+  --spacing : 1.5rem;
+  --radius  : 10px;
+  padding-left: 0;
+}
+
+.ttreeview li.menu-item{
+  display      : block;
+  position     : relative;
+  padding-left : calc(2 * var(--spacing) - var(--radius) - 1px);
+}
+
+.ttreeview ul.submenu {
+  margin-left  : calc(var(--radius) - var(--spacing));
+  padding-left : 0;
+}
+
+.ttreeview ul.submenu li.menu-item{
+  border-left : 1px solid var(--bs-border-color);
+}
+
+.ttreeview ul.submenu li.menu-item:last-child{
+  border-color : transparent;
+}
+
+.ttreeview ul.submenu li.menu-item::before{
+  content      : '';
+  display      : block;
+  position     : absolute;
+  top          : calc(var(--spacing) / -2);
+  left         : -1px;
+  width        : calc(var(--spacing) + 1px);
+  height       : calc(var(--spacing) + 1px);
+  border-style : solid;
+  border-color : var(--bs-border-color);
+  border-width : 0 0 1px 1px;
+}
+
+.ttreeview summary {
+  display : inline;
+  cursor  : pointer;
+}
+
+.ttreeview summary::marker,
+.ttreeview summary::-webkit-details-marker{
+  display : none;
+}
+
+.ttreeview summary:focus{
+  outline : none;
+}
+
+.ttreeview summary:focus-visible{
+  outline : 1px dotted #000;
+}
+
+.ttreeview li.menu-item {
+    color: var(--bs-body-color);
+    user-select: none;
+}
+
+.ttreeview li.menu-item:hover span.item-spam {
+  cursor: pointer;
+}
+
+.ttreeview span.item-spam:hover,
+.ttreeview summary:hover {
+    font-weight: bold;
+}
+
+.ttreeview li.menu-item::after,
+.ttreeview span.item-spam::before,
+.ttreeview summary::before{
+  content       : '';
+  display       : block;
+  position      : absolute;
+  top           : calc(var(--spacing) / 2 - var(--radius));
+  left          : calc(var(--spacing) - var(--radius) - 1px);
+  width         : calc(2 * var(--radius));
+  height        : calc(2 * var(--radius));
+  background    : var(--bs-body-bg);
+}
+
+.ttreeview summary::before{
+    z-index    : 1;
+    background : url("components/ttreeview/icons/folder.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ttreeview details[open] > summary::before{
+    background: url("components/ttreeview/icons/folder-open.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ttreeview span.item-spam::before{
+    z-index    : 1;
+    background : url('components/ttreeview/icons/file.svg') 0 0;
+    background-repeat: no-repeat;
+    background-position: center;
+}

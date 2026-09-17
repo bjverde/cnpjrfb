@@ -1,0 +1,29 @@
+.datetimepicker
+{
+    font-size: 13px !important;
+    line-height: 14px;
+}
+
+.datetimepicker .day, .datetimepicker .hour, .datetimepicker .minute
+{
+    border: 1px solid;
+    border-color: var(--bs-border-color);
+    border-spacing: 0;
+    
+}
+
+.datetimepicker.dropdown-menu th,
+.datetimepicker.datepicker-inline th,
+.datetimepicker.dropdown-menu td,
+.datetimepicker.datepicker-inline td {
+    padding: 5px;
+}
+
+.datetimepicker thead tr:first-child th:hover, .datetimepicker tfoot th:hover
+{
+    background: var(--bs-secondary-bg-subtle);
+}
+.datetimepicker table tr td.day:hover, .datetimepicker table tr td span:hover
+{
+    background: var(--bs-secondary-bg-subtle);
+}

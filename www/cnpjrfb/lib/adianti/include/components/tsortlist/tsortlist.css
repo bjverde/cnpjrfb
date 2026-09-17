@@ -1,0 +1,30 @@
+.tsortlist
+{
+    box-sizing: content-box !important;
+}
+
+.tsortlist
+{
+    background: var(--bs-light-bg-subtle);
+    align: center;
+    display: block;
+    padding:20px !important;
+    overflow: auto;
+    margin: 0px;
+    scroll: none;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    box-shadow: var(--bs-box-shadow-sm);
+}
+
+.tsortlist img
+{
+    padding-right: 5px;
+}
+
+.tsortlist_item, .tsortlist_item label
+{
+    cursor: move !important;
+    text-align: left;
+    margin: 2px;
+}

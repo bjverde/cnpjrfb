@@ -1,0 +1,53 @@
+<div class="tpiechart" style="padding:10px">
+    <canvas style="height:{height}px;max-height:{height}px;" id="{chart_id}"></canvas>
+</div>
+
+<script>
+var data = {
+  labels: {xlabels},
+  datasets: [{
+    label: '{title}',
+    backgroundColor: {colors},
+    data: {data},
+  }]
+};
+
+var config = {
+    type: '{type}',
+    data: data,
+    options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+      title: {
+        display: true,
+        text: '{title}'
+      },
+      datalabels: {
+        formatter: (value, ctx) => {
+            let sum = 0;
+            let dataArr = ctx.chart.data.datasets[0].data;
+            dataArr.map(data => {
+                sum += data;
+            });
+            let percentage = (value*100 / sum).toFixed(2) + "%";
+            return ctx.chart.data.labels[ctx.dataIndex] + "\n" + '{numberPrefix}'+number_format(value,{decimals}, '{decimalsSeparator}', '{thousandSeparator}') + "\n" + percentage;
+        },
+        borderRadius: 5,
+        backgroundColor: 'rgba(64, 64, 64, 0.7)',
+        color: 'white',
+      }
+    }
+  },
+};
+
+Chart.register(ChartDataLabels);
+
+var myChart = new Chart(
+    document.getElementById('{chart_id}'),
+    config
+);
+</script>

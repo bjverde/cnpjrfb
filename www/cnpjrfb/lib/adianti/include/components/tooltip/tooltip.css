@@ -1,0 +1,27 @@
+.tooltip
+{
+    position: absolute;
+    z-index: 1000000000000;
+}
+
+.tooltip .tooltip-inner
+{
+    color: #000;
+    background-color: white;
+    background-repeat: repeat-x;
+    border: 1px solid black;
+    padding: 8px;
+    border:#ccc 1px solid;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+    -moz-box-shadow: 2px 2px 2px #BFBFBF;
+    -webkit-box-shadow: 2px 2px 2px #BFBFBF;
+    box-shadow: 2px 2px 2px #BFBFBF;
+    max-width: none;
+}
+
+.tooltip.right .tooltip-arrow
+{
+    border-right-color: #3D3D3D;
+}

@@ -1,0 +1,48 @@
+ul.likert {
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: block;
+    border-bottom: 2px solid #efefef;
+}
+
+ul.likert:last-of-type {
+    border-bottom: 0;
+}
+
+ul.likert:before {
+    content: '';
+    position: relative;
+    top: 11px;
+    left: 9.5%;
+    display: block;
+    background-color: var(--bs-secondary-bg-subtle);
+    height: 4px;
+    width: 78%;
+}
+
+ul.likert.full:before {
+    left: 0;
+    width: 100%;
+}
+
+ul.likert li {
+    display: inline-block;
+    width: 19%;
+    text-align: center;
+    vertical-align: top;
+}
+
+ul.likert li input[type=radio] {
+    display: block;
+    position: relative;
+    top: 0;
+    left: 50%;
+    margin-left: -6px;
+}
+
+ul.likert li label {
+    width: 100%;
+    cursor: pointer;
+}

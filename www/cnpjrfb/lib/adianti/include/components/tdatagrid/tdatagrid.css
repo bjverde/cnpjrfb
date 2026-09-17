@@ -1,0 +1,301 @@
+table.tdatagrid_table
+{
+    border-collapse: separate;
+    border-top: var(--bs-border-width) solid var(--bs-border-color);
+    border-left: var(--bs-border-width) solid var(--bs-border-color);
+    color: var(--bs-body-color);
+    border-spacing: 0px;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+table.tdatagrid_table a
+{
+    color: black;
+}
+
+table.tdatagrid_table > thead.tdatagrid_head
+{
+    background-color: #E8E8E8;
+}
+
+table.tdatagrid_table > tfoot.tdatagrid_footer
+{
+    background-color: #E8E8E8;
+}
+
+table.tdatagrid_table > thead.tdatagrid_head > tr > td,
+table.tdatagrid_table > thead.tdatagrid_head > tr > th
+{
+    height: 35px;
+}
+
+table.tdatagrid_table > tfoot.tdatagrid_footer > tr > td
+{
+    border-top: var(--bs-border-width) solid var(--bs-border-color);
+    height: 24px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+table.table > tfoot.tdatagrid_footer > tr > td
+{
+    font-weight: 600;
+}
+
+table.tdatagrid_table > thead.tdatagrid_head > tr > th.tdatagrid_col,
+table.tdatagrid_table > thead.tdatagrid_head > tr > th.tdatagrid_action
+{
+    border-left: 0px solid;
+    border-top: 0px;
+    padding-left: 1px;
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+    background-color: var(--bs-secondary-bg-subtle);
+    user-select: none;
+    cursor: default;
+    font-weight: 600;
+    color: var(--bs-body-color);
+    border-right: 0px;
+    padding-right: 2px;
+}
+
+table.tdatagrid_table > thead.tdatagrid_head > tr > th.tdatagrid_col[generator=adianti]:hover
+{
+    cursor: pointer;
+    background-color: var(--bs-body-bg);
+    border-left: var(--bs-border-width) solid var(--bs-border-color);
+    border-right: var(--bs-border-width) solid var(--bs-border-color);
+    padding-right: 0px;
+    user-select: none;
+    font-weight: 600;
+}
+
+table.tdatagrid_table > tbody.tdatagrid_body
+{
+}
+
+table.tdatagrid_table > tbody.tdatagrid_body > tr > td
+{
+    height: 35px;
+}
+
+table.tdatagrid_table > tbody.tdatagrid_body > tr.tdatagrid_group
+{
+    background-color: #a5a3a3;
+    color: white;
+    text-shadow: none;
+    user-select: none;
+}
+
+table.tdatagrid_table > tbody.tdatagrid_body > tr.tdatagrid_group > td
+{
+    padding-left: 5px;
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+table.tdatagrid_table > tbody.tdatagrid_body > tr.tdatagrid_row_even
+{
+    background-color: var(--bs-secondary-bg);
+}
+
+table.tdatagrid_table > tbody.tdatagrid_body > tr.tdatagrid_row_odd
+{
+    /* background-color: #fafafa; */
+}
+
+table.tdatagrid_table > tbody.tdatagrid_body > tr.tdatagrid_row_even:hover,
+table.tdatagrid_table > tbody.tdatagrid_body > tr.tdatagrid_row_odd:hover
+{
+    background-color: var(--bs-tertiary-color);
+    cursor: pointer;
+}
+
+table.tdatagrid_table > tbody.tdatagrid_body > tr > td.tdatagrid_cell
+{
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+    border-left: var(--bs-border-width) solid var(--bs-border-color);
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+table.tdatagrid_table > tbody.tdatagrid_body > tr > td.tdatagrid_cell.action
+{
+    vertical-align: middle;
+}
+
+table.table>tbody>tr>td.tdatagrid_cell.action
+{
+    padding-left:5px;
+    padding-right:5px;
+}
+
+
+table.table>tbody>tr>td.tdatagrid_cell.popover_action:hover
+{
+    /*border: 1px solid var(--bs-primary);*/
+    box-shadow: inset 0px 0px 0px 1px rgb(0 0 255 / 80%);
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before
+{
+    text-shadow: none;
+    top: inherit !important;
+}
+
+table.tdatagrid_table tr:first-child td
+{
+    border-top: 0;
+}
+
+table.tdatagrid_table tr td:first-child,
+table.tdatagrid_table tr.tdatagrid_head td:first-child,
+table.tdatagrid_table tr.tdatagrid_head th:first-child
+{
+    border-left: 0;
+}
+
+table.tdatagrid_table tr td:last-child,
+table.tdatagrid_table tr.tdatagrid_head td:last-child,
+table.tdatagrid_table tr.tdatagrid_head th:last-child
+{
+    border-right: 0;
+}
+
+table.tdatagrid_body tr td input
+{
+    height: 24px;
+    margin: 0;
+    padding: 0px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+table .tdatagrid_group td
+{
+    background: var(--bs-secondary-border-subtle);
+}
+
+table tr.tdatagrid_group:nth-of-type(odd) > td
+{
+    background: var(--bs-secondary-border-subtle);
+}
+
+/** hiddable **/
+@media screen and (max-width: 100px) 
+{
+    [hiddable="100"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 200px) 
+{
+    [hiddable="200"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 300px) 
+{
+    [hiddable="300"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 400px) 
+{
+    [hiddable="400"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 500px) 
+{
+    [hiddable="500"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 600px) 
+{
+    [hiddable="600"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 700px) 
+{
+    [hiddable="700"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 800px) 
+{
+    [hiddable="800"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 900px) 
+{
+    [hiddable="900"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 1000px) 
+{
+    [hiddable="1000"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 1100px) 
+{
+    [hiddable="1100"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 1200px) 
+{
+    [hiddable="1200"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 1300px) 
+{
+    [hiddable="1300"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 1400px) 
+{
+    [hiddable="1400"]
+    {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 1500px) 
+{
+    [hiddable="1500"]
+    {
+        display:none;
+    }
+}

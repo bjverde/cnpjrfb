@@ -1,0 +1,25 @@
+.tsourcecode code
+{
+    padding: 0;
+    font-size: 100%;
+    color: auto;
+    border-radius: 0;
+}
+
+.tsourcecode pre
+{
+    background: unset;
+    border: unset;
+}
+
+.tsourcecode code
+{
+    font-family: "Droid Sans Mono", "monospace", monospace;
+    line-height: normal;
+    background: #262722;
+}
+
+.tsourcecode code li
+{
+    color: #484848;
+}

@@ -1,0 +1,30 @@
+.tchecklist-disable
+{
+    width: calc(100% - 20px);
+    height: calc(100% + 1px);
+    position: absolute;
+    opacity: 0.5;
+    z-index: 1;
+    background: var(--bs-light-bg-subtle);
+    border-radius: var(--bs-border-radius);
+}
+
+table.table[widget="tchecklist"]>thead>tr>th, table.table[widget="tchecklist"]>tbody>tr>td
+{
+    user-select:none;
+}
+
+table.table[widget="tchecklist"]>thead>tr>th:first-child
+{
+    min-width: 50px;
+}
+
+table.table[widget="tchecklist"]>tbody>tr>td:first-child
+{
+    min-width: 50px;
+}
+
+.table tbody tr.selected td {
+    background-color: var(--bs-primary-bg-subtle);
+    --bs-table-striped-bg: var(--bs-primary-border-subtle);
+}

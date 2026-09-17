@@ -1,0 +1,65 @@
+.tcalendar
+{
+	border: var(--bs-border-width) solid var(--bs-border-color);
+	border-left: 0;	 
+    color: none;
+    border-spacing: 0px;
+	user-select : none;
+	background: var(--bs-body-bg);
+}
+
+.tcalendar table
+{
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-spacing: 0; 
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+}
+
+.tcalendar table td
+{
+    color: var(--bs-body-color);
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+div.tcalendar table td.calendar-header
+{
+    background-color: var(--bs-secondary-bg-subtle);
+    color: var(--bs-body-color);
+}
+
+div.tcalendar table td.calendar-header-day
+{
+    color: #007bff;
+}
+
+.tcalendar table tr.calendar-rowdata
+{
+    height: auto;
+}
+
+.tcalendar table tr.calendar-rowdata td
+{
+    font: 12px Verdana,Arial,sans-serif;
+}
+
+.tcalendar table td.calendar-data:hover
+{
+    background-color: var(--bs-secondary-bg);
+    color: var(--bs-body-color);
+    cursor: pointer;
+}
+
+.tcalendar table td.calendar-data.weekend
+{
+    color: #DC4C4C;
+}
+
+.tcalendar table tr.calendar-rowdata td.calendar-selected
+{
+    font-weight: bold;
+}

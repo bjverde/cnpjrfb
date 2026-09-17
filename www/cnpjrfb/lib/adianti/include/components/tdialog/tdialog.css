@@ -1,0 +1,14 @@
+body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom
+{
+    margin-right: 0;
+}
+
+.modal
+{
+    overflow-y: auto;
+}
+
+.bootbox.modal {
+    padding-top: 10%;
+    z-index: 10000;
+}

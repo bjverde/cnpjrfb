@@ -1,0 +1,41 @@
+.tnotebook .frame.tab-content {
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    padding: 12px;
+}
+
+.tnotebook .nav.nav-tabs {
+    border: unset;
+}
+
+.tnotebook .nav.nav-tabs .nav-item .nav-link {
+    margin-right: 5px;
+    padding: 4px 8px;
+    border-radius: unset;
+}
+
+.tnotebook .nav.nav-tabs .nav-item .nav-link:not(.active) {
+    background-color: var(--bs-secondary-bg);
+    color: var(--bs-secondary);
+    margin-top: -1px;
+}
+
+.tnotebook .nav.nav-tabs .nav-item .nav-link:not(.active):hover {
+    color: #444;
+}
+
+.tnotebook .nav.nav-tabs .nav-item .nav-link.active {
+    border-color: var(--bs-border-color);
+    border-bottom: unset;
+    margin-top: 1px;
+}
+
+.tabwrapper.bordered .tab-pane {
+    padding: 10px;
+    margin-top: -1px;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+.tabwrapper.bordered.pills .tab-pane {
+    margin-top: 10px;
+    border-radius: 10px;
+}

@@ -1,0 +1,20 @@
+.select2-dropdown
+{
+    z-index: 4051;
+}
+
+.select2-selection__choice
+{
+    white-space: normal !important;
+}
+
+.select2-disable
+{
+    width: 100%;
+    background: var(--bs-secondary-bg) !important;
+    height: calc(100% + 1px);
+    position: absolute;
+    opacity: 0.8;
+    z-index: 1;
+    border-radius: var(--bs-border-radius);
+}

@@ -1,0 +1,47 @@
+.tseekbutton
+{
+    border-radius: 0 4px 4px 0;
+    height: 100%;
+    width: 24px;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    margin: 0px;
+    margin-left: -2px;
+    margin-bottom: 0px;
+    vertical-align:top;
+    float:left;
+}
+
+.tseekbutton i
+{
+    padding-left:2px;
+}
+
+.tseekentry
+{
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    display:table-cell;
+    border-right:0;
+    float:left;
+}
+
+.tseekentry:focus
+{
+    border-radius: 3px 0px 0px 3px;
+}
+
+.tseekbutton img
+{
+    display: inline-block;
+    margin-top: 1px;
+    width: 90%;
+    vertical-align: text-top;
+}
+
+.tseek-group
+{
+    display:flex;
+    border-spacing:0;
+    width: 100%;
+}

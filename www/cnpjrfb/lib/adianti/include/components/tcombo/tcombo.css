@@ -1,0 +1,5 @@
+.tcombo_disabled {
+    background-color: var(--bs-secondary-bg) !important;
+    user-select: none;
+    pointer-events: none;
+}

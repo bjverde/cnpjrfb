@@ -1,0 +1,12 @@
+.tselect
+{
+    padding-right  : 2px;
+    padding-left   : 2px;
+    padding-top    : 0px;
+    padding-bottom : 0px;
+}
+
+.tselect_disabled
+{
+    background-color : var(--bs-secondary-bg) !important;
+}

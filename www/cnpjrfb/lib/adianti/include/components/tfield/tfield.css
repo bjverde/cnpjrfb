@@ -1,0 +1,101 @@
+.tfield, .inplace_field
+{
+    padding-right: 6px;
+    padding-left: 6px;
+}
+
+.tfield:focus
+{
+    border-color : rgba(82, 168, 236, 0.8);
+    outline : 0;
+    outline : thin dotted \9;
+}
+
+.tfield_disabled
+{
+    background-color: var(--bs-secondary-bg) !important;
+    color: #282828;
+    user-select: none;
+    padding-right: 6px;
+    padding-left: 6px;
+    pointer-events: none;
+}
+
+.tfield_block_events, .tfield_block_events label, .tfield_block_events input
+{
+    pointer-events: none;
+    color: gray;
+}
+
+.inner-icon-container {
+    position: relative;
+}
+
+.input-inner-icon
+{
+    position: absolute;
+    top: 10px;
+}
+
+.input-inner-icon.right
+{
+    right: 0.5rem;
+}
+
+.input-inner-icon.left
+{
+    left: 0.5rem;
+}
+
+.input-group {
+    flex-wrap: unset; /** Spinner **/
+}
+
+
+.input-group-addon {
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-top-left-radius: var(--bs-border-radius) !important; /* override BS */
+    border-bottom-left-radius: var(--bs-border-radius) !important; /* override BS */
+}
+
+.input-group-addon a i.fa {
+    align-items: center;
+    display: flex;
+    height: 10px;
+}
+
+.input-group input {
+    border-top-right-radius: var(--bs-border-radius) !important; /* override BS */
+    border-bottom-right-radius: var(--bs-border-radius) !important; /* override BS */
+}
+
+/** Radio, check as button **/
+
+.toggle-wrapper .btn-group .btn-check+label {
+    border-radius:0;
+}
+
+.toggle-wrapper .btn-group>div:first-child .btn-check+label {
+    border-top-left-radius: var(--bs-border-radius);
+    border-bottom-left-radius: var(--bs-border-radius);
+}
+
+.toggle-wrapper .btn-group>div:last-child .btn-check+label {
+    border-top-right-radius: var(--bs-border-radius);
+    border-bottom-right-radius: var(--bs-border-radius);
+}
+
+
+.toggle-wrapper .btn-group>div:not(:first-child):not(:last-child) .btn-check+label {
+    border-left: 0;
+}
+
+.tcheckgroup_label, .tcheckgroup_label > input
+{
+    cursor: pointer;
+}
+
+input[type="radio"], input[type="checkbox"]
+{
+    margin-right: 4px !important;
+}

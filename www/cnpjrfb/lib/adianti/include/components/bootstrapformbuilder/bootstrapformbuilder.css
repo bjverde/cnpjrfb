@@ -1,0 +1,36 @@
+form[type="bootstrap"] .ttd {
+    margin-top: unset;
+}
+
+.panel form[type="bootstrap"] .ttd {
+    display: inline-block;
+    margin-top: 7px;
+}
+
+.fb-field-container {
+    position: relative;
+}
+
+.fb-inline-field-container {
+    position: relative;
+}
+
+.fb-field-container:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.fb-inline-field-container > .panel, .panel-body .panel {
+    box-shadow: none !important;
+}
+
+@media (min-width: 576px) {
+    .col-form-label {
+        text-align: right;
+    }
+
+    .control-label {
+        text-align: right !important;
+    }
+}

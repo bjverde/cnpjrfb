@@ -1,0 +1,61 @@
+<div class="tbarchart" style="padding:10px">
+    <canvas style="height:{height}px;max-height:{height}px;" id="{chart_id}"></canvas>
+</div>
+
+<script>
+
+var data = {
+  labels: {xlabels},
+  datasets: {datasets}
+};
+
+var config = {
+    type: 'bar',
+    data: data,
+    options: {
+    indexAxis: '{indexAxis}',
+    scales: {scales},
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+      title: {
+        display: true,
+        text: '{title}'
+      },
+      datalabels: {
+        anchor: 'end',
+        align: 'center',
+        formatter: (value, ctx, c, d) => {
+            /*
+            var dataArr = ctx.chart.data.datasets[ctx.datasetIndex].data;
+            var label = ctx.chart.data.labels[ctx.dataIndex];
+            var value = dataArr[ctx.dataIndex];
+            */
+            const isStacked = ctx.chart.config.options.scales?.x?.stacked || ctx.chart.config.options.scales?.y?.stacked;
+
+            if (isStacked) {
+                return null; // não exibe o valor
+            }
+            return  '{numberPrefix}'+number_format(value,{decimals}, '{decimalsSeparator}', '{thousandSeparator}');
+        },
+        borderRadius: 5,
+        backgroundColor: 'rgba(64, 64, 64, 0.7)',
+        color: 'white',
+        font: {
+          size: '10'
+        },
+      }
+    },
+  },
+};
+
+Chart.register(ChartDataLabels);
+
+var myChart = new Chart(
+    document.getElementById('{chart_id}'),
+    config
+);
+</script>

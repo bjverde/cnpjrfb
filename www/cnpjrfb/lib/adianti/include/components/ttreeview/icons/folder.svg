@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="folder.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2509"
+     inkscape:window-height="1056"
+     id="namedview6"
+     showgrid="false"
+     inkscape:zoom="0.921875"
+     inkscape:cx="-48.140331"
+     inkscape:cy="222.36138"
+     inkscape:window-x="51"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <path
+     inkscape:connector-curvature="0"
+     d="m 80.271186,123.17314 c 0,-26.62458 21.646604,-48.27119 48.271194,-48.27119 h 99.63474 c 14.40593,0 28.20846,5.73221 38.39067,15.91441 l 32.35678,32.35678 h 119.24492 c 26.62458,0 48.27117,21.6466 48.27117,48.27118 v 193.08474 c 0,26.62458 -21.64659,48.2712 -48.27117,48.2712 H 128.54238 c -26.62459,0 -48.271194,-21.64662 -48.271194,-48.2712 z m 48.271194,-12.0678 c -6.6373,0 -12.0678,5.43051 -12.0678,12.0678 v 241.35592 c 0,6.63729 5.4305,12.06781 12.0678,12.06781 h 289.62711 c 6.63729,0 12.06779,-5.43052 12.06779,-12.06781 V 171.44432 c 0,-6.63729 -5.4305,-12.06779 -12.06779,-12.06779 H 296.43558 c -7.99491,0 -15.68813,-3.16781 -21.34491,-8.82458 L 240.99915,116.385 c -3.39407,-3.39407 -7.99492,-5.27966 -12.82203,-5.27966 z"
+     id="path2-3"
+     style="stroke-width:0.75423729;fill:#ff9933" />
+  <!--! Font Awesome Pro 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc. -->
+</svg>

@@ -1,0 +1,10 @@
+.note-toolbar {
+    display: flow-root !important;
+    background: inherit;
+    border-top-left-radius: var(--bs-card-border-radius);
+    border-top-right-radius: var(--bs-card-border-radius);
+}
+
+.note-editor {
+    box-shadow: none !important;
+}

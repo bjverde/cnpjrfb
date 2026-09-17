@@ -1,0 +1,16 @@
+lib/independent/js/moment.min.js
+lib/independent/js/fullcalendar.min.js
+lib/independent/js/iziToast.min.js
+lib/independent/js/php.min.js
+lib/independent/js/fuse.min.js
+lib/independent/js/html5-qrcode.min.js
+lib/independent/js/cropper.min.js
+lib/independent/js/zxing.index.min.js
+lib/independent/js/webcam.min.js
+lib/independent/js/pickr.min.js
+lib/independent/js/popper.min.js
+lib/independent/js/tippy.min.js
+lib/independent/js/sweetalert2.min.js
+lib/independent/js/chart.umd.min.js
+lib/independent/js/chartjs-plugin-datalabels.min.js
+lib/independent/js/signature_pad.umd.min.js

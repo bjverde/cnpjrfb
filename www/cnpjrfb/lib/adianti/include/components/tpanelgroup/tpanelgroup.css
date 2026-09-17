@@ -1,0 +1,8 @@
+.header-actions {
+    margin-left: auto;
+    display: flex;
+}
+
+.card.expand-title .card-title {
+    width: 100%;
+}
