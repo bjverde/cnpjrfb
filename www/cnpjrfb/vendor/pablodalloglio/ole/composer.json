@@ -1,0 +1,30 @@
+{
+    "authors": [
+        {
+            "email": "schmidt@php.net",
+            "name": "Christian Schmidt",
+            "role": "Lead"
+        },
+        {
+            "email": "xnoguer@php.net",
+            "name": "Xavier Noguer",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "OLE": "./"
+        }
+    },
+    "description": "Derivation from pear OLE without PEAR dependency, and with Exceptions instead of PearErrors.",
+    "include-path": [
+        "./"
+    ],
+    "license": "PHP-3.01",
+    "minimum-stability": "dev",
+    "name": "pablodalloglio/ole",
+    "support": {
+        "source": "https://github.com/pablodalloglio/OLE"
+    },
+    "type": "library"
+}

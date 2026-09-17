@@ -1,0 +1,30 @@
+{
+    "authors": [
+        {
+            "email": "pablo@php.net",
+            "name": "Pablo Dall'Oglio",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "AdiantiBarcodeDocumentGenerator": "./"
+        }
+    },
+    "description": "Barcode/QRCode document generation using FPDF",
+    "include-path": [
+        "./"
+    ],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "name": "adianti/barcode-document",
+    "support": {
+        "source": "https://github.com/adianti/barcode-document"
+    },
+    "require": {
+        "adianti/pdfdesigner": "*",
+        "bacon/bacon-qr-code": "*",
+        "picqer/php-barcode-generator": "*"
+    },
+    "type": "library"
+}
