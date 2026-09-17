@@ -1,0 +1,51 @@
+
+/****************************** MOBILE **************************************/
+
+.display-mobile
+{
+    display: none;
+}
+
+@media (max-width:767.98px) {
+    #sidebar.collapsed {
+        margin-left: calc(-1 * var(--ad-menu-size));
+    }
+
+    #sidebar {
+        margin-left: 0;
+    }
+
+    .navbar, footer {
+        width: 100vw;
+    }
+    
+    main.content {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    .hide-mobile
+    {
+        display: none !important;
+    }
+    
+    .display-mobile
+    {
+        display: flex !important;
+    }
+    
+    .card.mobile .card-header
+    {
+        display:block;
+    }
+    
+    .card.mobile .header-actions
+    {
+        display:grid;
+    }
+    
+    .system_contacts .system-contact
+    {
+        width: 100% !important;
+    }
+}

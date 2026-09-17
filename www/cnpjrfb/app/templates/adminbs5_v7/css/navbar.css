@@ -1,0 +1,17 @@
+/*********************************************** TOPNAVBAR **************************************************/
+.navbar {
+    min-height: 52px;
+}
+
+.navbar {
+    --bs-navbar-padding-x: 5px;
+    --bs-navbar-padding-y: 5px;
+}
+
+.navbar-expand .navbar-nav {
+    /* margin-left: auto; */
+}
+
+[data-bs-theme=light] .navbar {
+    background: white;
+}

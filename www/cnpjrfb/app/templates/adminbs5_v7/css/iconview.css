@@ -1,0 +1,82 @@
+/************************************ FOLDER ICON VIEW  ********************************/
+.folder-box
+{
+    width: 100%;
+    max-width: 200px;
+    border-radius: var(--bs-border-radius);
+    border: 2px solid var(--bs-secondary-bg);
+    background-color: var(--bs-body-bg);
+    user-select: none;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    cursor: auto;
+    height: 82px;
+    color: var(--bs-body-color);
+    overflow: hidden;
+	margin-left: 1px;
+	margin-right: 1px;
+	word-break: break-word;
+    cursor:pointer;
+}
+
+.folder-box:hover
+{
+    border-color: var(--bs-primary-border-subtle);
+    color: var(--bs-secondary-color);
+}
+
+.filesystem-icon
+{
+    font-size: 26px;
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+    flex-shrink: 0;
+    text-align: center;
+    padding-top: 14px;
+    padding: 8px;
+}
+
+.folder-box-name
+{
+    line-height: 17px;
+    white-space: nowrap;
+    width: 100px;
+    text-overflow: ellipsis;
+    max-height: 60px;
+}
+
+.folder-box-name.expand
+{
+    /* color: red; */
+    white-space: normal;
+}
+
+[data-type="folder_back"] .folder-box > .item-ellipsis {
+    display: none !important;
+}
+
+.folder-box > .item-ellipsis {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 15px;
+    display: none;
+    text-align: center;
+}
+
+.folder-box:hover > .item-ellipsis {
+    display: block;
+    color: rgba(1,123,255, 1);
+}
+
+.folder-box > .item-ellipsis:hover {
+    background: rgba(1,123,255, 1);
+    color: white;
+    border-radius: 5px;
+}
+
+.ui-droppable-hover .folder-box {
+    border-color: var(--bs-primary);
+}

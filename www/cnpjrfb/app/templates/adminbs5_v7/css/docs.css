@@ -1,0 +1,40 @@
+/********************************* DRIVE ********************************************/
+.system-drive {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bs-body-bg);
+    height: calc( 100vh - 120px);
+}
+
+.system-drive.menu {
+    float: left;
+    width: 250px;
+    margin-right: 10px;
+}
+
+.system-drive .system-drive-container {
+    display: flex;
+    flex-direction: row;    
+}
+
+.system-drive .tbreadcrumb li span {
+    font-size: 13px;
+}
+
+.system-drive-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.system-drive-menu .list-group {
+    margin-top: 15px;
+}
+
+.system-drive-content {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+}

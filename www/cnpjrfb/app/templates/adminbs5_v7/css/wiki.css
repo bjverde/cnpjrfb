@@ -1,0 +1,40 @@
+/******************************** WIKI ********************************************/
+#system-wiki-search-table thead {
+    display: none;
+}
+
+#system-wiki-search-table tbody .tdatagrid_cell {
+    border: unset;
+}
+
+.system-wiki-result {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.system-wiki-result a {
+    font-size: var(--ad-font-size-super);
+}
+
+.system-wiki-result .description {
+    color: var(--bs-secondary-text-emphasis);
+}
+
+.system-wiki-view-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.system-wiki-view-title div {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.system-wiki-view-title small {
+    color: var(--bs-secondary-text-emphasis);
+}
+
+.system-wiki-tags {
+    float: right;
+}

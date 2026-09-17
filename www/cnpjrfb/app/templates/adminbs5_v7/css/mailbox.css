@@ -1,0 +1,17 @@
+/********************************** MAILBOX *********************************************/
+.left-mailbox
+{
+    float: left; 
+    width: 250px;
+    margin-right: 10px;
+}
+
+.right-mailbox
+{ 
+    overflow: hidden;
+}
+
+.right-mailbox.nopadding .card-body
+{
+    padding: 0;
+}

@@ -1,0 +1,11 @@
+.popover {
+    --bs-popover-body-padding-x: 10px;
+    --bs-popover-body-padding-y: 10px;
+}
+
+.popover img {
+    max-width: 100%;
+}
+.popover {
+    max-width: 800px;
+}

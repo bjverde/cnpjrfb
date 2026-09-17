@@ -1,0 +1,44 @@
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Source Sans Pro', 'Open Sans', sans-serif;
+    font-size: var(--ad-font-size);
+    opacity: 1;
+    overflow-y: scroll;
+    margin: 0;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.text-right {
+    text-align: right!important;
+}
+
+.float-right {
+    float: right!important;
+}
+
+table.vertical-middle td
+{
+    vertical-align:middle;
+}
+
+[data-bs-theme=light] .popover {
+    --bs-popover-header-bg: white;
+}
+
+.fade {
+    opacity: 1 !important;
+}
+
+.toggle-wrapper  .btn-group .btn-outline-secondary
+{
+    border-color: var(--bs-border-color);
+}

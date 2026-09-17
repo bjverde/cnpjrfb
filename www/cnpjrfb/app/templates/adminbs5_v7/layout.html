@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="notranslate" translate="no" data-bs-theme="light" data-menu-theme="dark">
+<head>
+    <title>{head_title}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="manifest" href="manifest.json?appver=860">
+    <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel="apple-touch-icon" sizes="180x180" href="app/images/icon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    {LIBRARIES}
+    {HEAD}
+    
+    <script src="app/lib/include/admin.js?appver=860" type="text/javascript"></script>
+    <link href="app/lib/include/admin.css?appver=860" rel="stylesheet" type="text/css" media="screen">
+    
+    <script src="app/templates/{template}/js/theme.js?appver=860"></script>
+    <link rel="stylesheet" href="app/templates/{template}/theme.css?appver=860">
+    <link rel="stylesheet" href="app/templates/{template}/custom.css?appver={buildid}">
+    
+    <script>
+        $(function() {
+            // Start framework.
+            Adianti.configure({adianti_options});
+            Adianti.start();
+            
+            // Start template.
+            Template.configure({template_options});
+            Template.start();
+        });
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        
+        <!--[SIDEBAR]-->
+        <aside id="sidebar" class="js-sidebar thin-scroll">
+            <div class="h-100" id="menu-wrapper">
+                <span class="sidebar-system-name border-bottom">
+                    <span class="sidebar-logo" style="margin-left: 0;">
+                        <img style="width:75%;margin-top:-5px" src="favicon.png">
+                    </span>
+                    <span class="name">
+                        {title}
+                    </span>
+                </span>
+                
+                <span class="sidebar-menu-title">
+                    <span class="name">MENU</span>
+                    <div id="has_menu_mode_switch" class="form-check form-switch" title="_t{Dark mode}" style="display: inline;position: absolute;right: 0;margin-right: 15px; display:none">
+                        <input class="form-check-input" type="checkbox" role="switch" id="menu_theme_switch" checked="" style="cursor:pointer" onclick="Template.toggleMenuTheme(this)">
+                        <i class="fa-solid fa-circle-half-stroke"></i>
+                    </div>
+                </span>
+                
+                <div id="search-box" style="margin-left:15px"></div>
+                {MENU}
+                
+            </div>
+        </aside>
+        <!--[/SIDEBAR]-->
+        
+        <div class="main">
+            <nav class="navbar navbar-expand px-3 border-bottom">
+                <button class="btn superlight" id="sidebar-toggle" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse navbar">
+                    <div class="nav-item" style="float:left">
+                        {MENUTOP}
+                    </div>
+                    <ul id="navbar-wrapper" class="navbar-nav" style="margin-right:10px">
+                    </ul>
+                </div>
+            </nav>
+            
+            <ul id="adianti_tab_area" class="nav nav-underline" style="display:none">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" onclick="Template.goFirstPageTab()"> <i class="fa-solid fa-house"></i> <span>Home</span></a>
+              </li>
+            </ul>
+            
+            <main id="adianti_div_content_wrapper" class="content px-3 py-2">
+                <div class="container-fluid" style="padding-right:0">
+                    <div id="adianti_div_content"></div>
+                </div>
+                
+                <div id="adianti_right_panel" class="right-panel"></div>
+                <div id="adianti_online_content"></div>
+            </main>
+            
+            <main id="adianti_tab_content_wrapper">
+                <div class="container-fluid" style="padding-right:0">
+                    <div id="adianti_tab_content"></div>
+                </div>
+            </main>
+            
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row text-muted">
+                        <div class="col-12 text-start">
+                            <div style="text-align:right;float:left">
+                                {MENUBOTTOM}
+                            </div>
+                            <div id="has_main_mode_switch" class="form-check form-switch" title="_t{Dark mode}" style="display: block;margin-left: 10px;float: right;padding-top:5px;">
+                                <input class="form-check-input" type="checkbox" role="switch" id="global_theme_switch" checked="" style="cursor:pointer" onclick="Template.toggleGlobalTheme(this)">
+                                <i class="fa-solid fa-circle-half-stroke"></i>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            
+            <div class="offcanvas offcanvas-bottom debug-panel" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="debug-panel" aria-labelledby="offcanvasScrollingLabel">
+              <div class="offcanvas-header">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                  <span class="debug-title"> Request URL </span>
+                  <span class="debug-title"> Request Data </span>
+                  <div class="debug-block" id="request_url_panel"> </div>
+                  <div class="debug-block" id="request_data_panel"> </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

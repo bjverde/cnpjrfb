@@ -1,0 +1,96 @@
+/************************* DATABASE EXPLORER **************************************/
+#database_browser_container .card-body
+{
+    padding:0;
+}
+
+.database-containter
+{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    height: calc( 100vh - 150px);
+}
+
+.database-containter > div:nth-child(1)
+{
+    width: 300px;
+}
+
+.database-containter > div:nth-child(2)
+{
+    flex: 1;
+}
+
+@media screen and (max-width: 550px)
+{
+    .database-containter
+    {
+        flex-direction: column;
+        height: calc( 100vh - 150px);
+    }
+    .database-containter > div:nth-child(1)
+    {
+        width: 100%;
+        flex: 3;
+    }
+    .database-containter > div:nth-child(2)
+    {
+        flex: 1;
+        display: contents;
+    }
+}
+
+#table_list_container .table-list .card
+{
+    width: 300px;
+    overflow: visible;
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+     
+}
+#table_list_container .table-list .card .card-header
+{
+    font-size: var(--ad-font-size);
+    font-weight: normal;
+}
+
+#table_list_container .table-list .card .btn
+{
+    font-size: var(--ad-font-size-less);
+}
+#table_list_container .table-list .card .card-footer
+{
+    border-top: 0;
+    padding: 8px !important;
+}
+#table_list_container .table-list .card:hover
+{
+    border-color: var(--bs-primary-border-subtle);
+}
+
+#table_list_container > div > .card > .card-header
+{
+    position: relative;
+    padding-bottom: 15px;
+}
+
+#table_list_container .table-list .card .card-header.card-item-title
+{
+    background: var(--bs-light-bg-subtle) !important;
+    border-bottom: 0;
+    font-weight: bold;
+}
+
+#table_list_container .card .card-header.card-item-title
+{
+    padding: 10px !important;
+}
+
+#table_list_container .card .card-footer .btn
+{
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}

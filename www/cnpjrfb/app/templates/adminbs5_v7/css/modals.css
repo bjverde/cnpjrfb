@@ -1,0 +1,21 @@
+/****************************** MODALS **********************************/
+.bootbox .icon-dialog
+{
+    color: var(--bs-secondary);
+}
+
+.bootbox-body {
+    /* overflow: auto; */
+}
+
+.modal-dialog .modal-content .modal-header {
+    /*display: block;*/
+}
+
+.modal {
+    --bs-modal-zindex: 2055; /* over windows */
+}
+
+.modal.tinputdialog {
+    --bs-modal-width: 800px;
+}

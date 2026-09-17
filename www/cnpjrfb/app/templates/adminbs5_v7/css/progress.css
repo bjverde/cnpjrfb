@@ -1,0 +1,24 @@
+/********************** PROGRESS BARS (Backward compatibility) *********************/
+.progress, .progress-stacked
+{
+    --bs-progress-height: 1.5rem;
+}
+.progress-bar-light-blue,.progress-bar-primary {
+    background-color: #3c8dbc
+}
+
+.progress-bar-green,.progress-bar-success {
+    background-color: #00a65a
+}
+
+.progress-bar-aqua,.progress-bar-info {
+    background-color: #00c0ef
+}
+
+.progress-bar-yellow,.progress-bar-warning {
+    background-color: #f39c12
+}
+
+.progress-bar-red,.progress-bar-danger {
+    background-color: #dd4b39
+}

@@ -1,0 +1,56 @@
+/*********************** WINDOWS *******************************************/
+.ui-dialog .ui-dialog-content {
+    padding: 1px !important;
+}
+
+.ui-widget.ui-widget-content {
+    border: var(--bs-border-width) solid var(--bs-border-color);
+}
+.ui-widget-content, .ui-widget-content a {
+    color: var(--bs-body-color);
+}
+.ui-corner-all {
+    border-radius: var(--bs-border-radius);
+}
+
+.ui-widget {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.ui-dialog > .ui-dialog-titlebar > .ui-button {
+    width: 24px;
+    height: 24px;
+    background-color: var(--bs-dark-bg-subtle);
+    border-radius: var(--bs-border-radius);
+    border-color: var(--bs-secondary-bg-subtle);
+}
+
+.ui-state-active .ui-icon, .ui-button:active .ui-icon {
+    background-image: url(../../../lib/jquery/css/images/ui-icons_777777_256x240.png);
+}
+
+.ui-dialog-title {
+    color: var(--bs-body-color);
+}
+.ui-dialog-titlebar {
+    height: 50px;
+    background: var(--bs-body-bg);
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+    right: 0.5em;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+    border-color: var(--bs-border-color);
+    background: var(--bs-body-bg);
+}
+
+.ui-widget-overlay {
+    background: #000;
+    opacity: .2;
+}

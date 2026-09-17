@@ -1,0 +1,22 @@
+/* Houver amarelo nas tabelas  */
+[data-bs-theme=light] .table-hover > tbody > tr:hover > * {
+    --bs-table-color-state: var(--bs-table-hover-color);
+    --bs-table-bg-state: rgb(255, 249, 153);
+}
+
+[data-bs-theme=dark] .table-hover > tbody > tr:hover > * {
+    --bs-table-color-state:  rgb(0, 0, 0);
+    --bs-table-bg-state: rgb(255, 249, 153);
+}
+
+/* permitir selecionar label e campos para permite copiar e colar qualquer texto */
+label, 
+input, 
+textarea, 
+select, 
+.form-control, 
+.tfield {
+	-moz-user-select: text !important;
+	-webkit-user-select: text !important;
+	user-select: text !important;
+}

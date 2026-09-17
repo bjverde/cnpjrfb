@@ -1,0 +1,7 @@
+/****************************** KANBAN **************************************/
+.kanban-item > .kanban-item-content > .tformrow {
+    margin:0;
+}
+.kanban-item.drag > .kanban-item-content label {
+    cursor: move;
+}

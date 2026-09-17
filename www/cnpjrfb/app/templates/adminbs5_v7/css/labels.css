@@ -1,0 +1,55 @@
+/********************** LABELS (Backward compatibility) *********************/
+.label-primary, .label-secondary, .label-success, .label-danger, .label-warning, .label-info, .label-light, .label-dark
+{
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: var(--ad-font-size-less);
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.label-primary
+{
+    background-color: #0d6efd!important;
+}
+
+
+.label-secondary
+{
+    background-color:#6c757d!important;
+}
+
+.label-success
+{
+    background-color: #198754!important;
+}
+
+.label-danger
+{
+    background-color: #dc3545!important;
+}
+
+.label-warning
+{
+    background-color: #ffc107!important;
+}
+
+.label-info
+{
+    background-color: #0dcaf0!important;
+}
+
+.label-light
+{
+    background-color: #f8f9fa!important;
+}
+
+.label-dark
+{
+    background-color: #212529!important;
+}

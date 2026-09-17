@@ -1,0 +1,110 @@
+/************************* CONTACTS **************************************/
+
+div[page_name="SystemContactsList"] .card {
+    border: 0;
+    box-shadow: none;
+}
+.system_contacts {
+    justify-content: left;
+}
+
+.system_contacts .system-contact {
+    margin: unset;
+    width: 50%;
+    border: unset;
+    padding-left: 0px;
+    padding-right: 0px;
+    background-color: transparent;
+}
+
+.system_contacts .system-contact .card-item-content {
+    padding: 0;
+}
+
+.system_contacts .system-contact .contact-card {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--bs-light-bg-subtle);
+    height: calc( 100% - 20px);
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+.system_contacts .system-contact .contact-card-header {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+}
+
+.system_contacts .system-contact .contact-card-body {
+    flex: 1;
+    padding: 35px 15px 15px 15px;
+}
+
+.system_contacts .system-contact .contact-card-line {
+    display: flex;
+    flex-direction: row;
+}
+
+.system_contacts .system-contact .contact-card-description {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+}
+
+.system_contacts .system-contact .contact-card-image {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    padding-right: 10px ;
+    max-width: 80px;
+}
+
+.system_contacts .system-contact .contact-card img {
+    max-width: 100%;
+    border-radius: 50%;
+    height: auto;
+}
+
+.system_contacts .system-contact .contact-card-footer {
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.system_contacts .system-contact .contact-card .contact-name {
+    font-weight: 700;
+    font-size: 18px;
+    color: #3c8dbc;
+    margin-bottom: 10px;
+}
+
+.system_contacts .system-contact .contact-card .contact-about {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.system_contacts .system-contact .contact-card .contact-address,
+.system_contacts .system-contact .contact-card .contact-email,
+.system_contacts .system-contact .contact-card .contact-phone {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.system_contacts .system-contact .contact-card .contact-about[data-content=''],
+.system_contacts .system-contact .contact-card .contact-address[data-content=''],
+.system_contacts .system-contact .contact-card .contact-email[data-content=''],
+.system_contacts .system-contact .contact-card .contact-phone[data-content=''] {
+    display: none;
+}

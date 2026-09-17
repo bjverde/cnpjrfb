@@ -1,0 +1,7 @@
+/************************* INLINE EDITING **************************************/
+.inlineediting input {
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    outline: none;
+    border-radius: var(--bs-border-radius);
+    width: 100%; 
+}

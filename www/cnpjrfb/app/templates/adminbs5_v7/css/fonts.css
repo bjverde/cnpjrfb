@@ -1,0 +1,95 @@
+/****************************** FONT **************************************/
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro'), url('fonts/SourceSansPro-Regular.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro Italic'), url('fonts/SourceSansPro-It.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro ExtraLight';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro ExtraLight'), url('fonts/SourceSansPro-ExtraLight.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro ExtraLight Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro ExtraLight Italic'), url('fonts/SourceSansPro-ExtraLightIt.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro Light'), url('fonts/SourceSansPro-Light.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro Light Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro Light Italic'), url('fonts/SourceSansPro-LightIt.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro Semibold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro Semibold'), url('fonts/SourceSansPro-Semibold.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro Semibold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro Semibold Italic'), url('fonts/SourceSansPro-SemiboldIt.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro Bold'), url('fonts/SourceSansPro-Bold.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro Bold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro Bold Italic'), url('fonts/SourceSansPro-BoldIt.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro Black';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro Black'), url('fonts/SourceSansPro-Black.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'Source Sans Pro Black Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Source Sans Pro Black Italic'), url('fonts/SourceSansPro-BlackIt.woff') format('woff');
+}

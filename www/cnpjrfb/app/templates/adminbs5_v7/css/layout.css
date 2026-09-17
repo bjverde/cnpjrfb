@@ -1,0 +1,56 @@
+/************************************ LAYOUT SKELETON ********************************/
+
+.wrapper {
+    align-items: stretch;
+    display: flex;
+    width: 100%;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 0;
+    overflow: hidden;
+    transition: all 0.35s ease-in-out;
+    width: 100%;
+}
+
+[data-menu-theme=dark] .main,
+[data-bs-theme=dark] .main {
+    background: var(--bs-dark-bg-subtle);
+}
+
+[data-menu-theme=light][data-bs-theme=light] .main {
+    background: var(--bs-light-bg-subtle);
+}
+
+.content {
+    flex: 1;
+    max-width: 100vw;
+    width: 100vw;
+}
+
+.container-fluid
+{
+    /* height: 100%; */
+}
+
+#adianti_div_content
+{
+    height: 100%;
+}
+
+@media (min-width:768px) {
+    .content {
+        max-width: auto;
+        width: auto;
+    }
+}
+
+body.boxed-layout .navbar-collapse.navbar,
+body.boxed-layout  #adianti_div_content,
+body.boxed-layout .footer>.container-fluid {
+    max-width: 1200px;
+    margin: auto;
+}

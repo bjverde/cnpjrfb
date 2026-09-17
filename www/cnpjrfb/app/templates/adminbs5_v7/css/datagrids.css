@@ -1,0 +1,18 @@
+/****************************** DATAGRIDS **************************************/
+.card-body > .table {
+    margin-bottom: 0;
+}
+
+.table>:not(caption)>*>* {
+    border-bottom-width: 0;
+    border-top-width: var(--bs-border-width);
+}
+
+.table thead th {
+    border-top: unset;
+}
+
+[data-bs-theme=light] .table {
+    --bs-table-striped-color: #212529;
+    --bs-table-striped-bg: rgba(248, 248, 248, 0.5);
+}

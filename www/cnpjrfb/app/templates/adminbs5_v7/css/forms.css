@@ -1,0 +1,46 @@
+/************************************ BF FORMS ********************************/
+.form-control {
+    font-size: var(--ad-font-size);
+}
+
+.control-label label {
+    /* font-weight: bold; */
+}
+
+/************ NATIVE FORM FIELDS OUTSIDE Bootstrap forms (copy of BS5 .form-control) ***************/
+.tfield {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.tfield_disabled {
+    padding: 0.375rem 0.75rem;
+}
+
+.tfield:focus {
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+}
+
+.tfield {
+    font-size: var(--ad-font-size);
+}
+
+[data-bs-theme=dark] .tcombo_disabled
+{
+    background-color: var(--bs-secondary-bg) !important;
+}

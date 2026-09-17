@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class="notranslate" translate="no" data-bs-theme="light" data-menu-theme="dark">
+<head>
+    <title>{head_title}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="manifest" href="manifest.json?appver=860">
+    <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel="apple-touch-icon" sizes="180x180" href="app/images/icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    {LIBRARIES}
+    {HEAD}
+    
+    <script src="app/lib/include/admin.js?appver=860" type="text/javascript"></script>
+    <link href="app/lib/include/admin.css?appver=860" rel="stylesheet" type="text/css" media="screen">
+    
+    <script src="app/templates/{template}/js/theme.js?appver=860"></script>
+    <link rel="stylesheet" href="app/templates/{template}/theme.css?appver=860">
+    
+    <style>
+    .form-floating>div>.form-control {
+        padding: 1rem 0.75rem;
+    }
+    .tabpanel_two_factor_form {
+        padding: 2rem !important;
+    }
+    :root {
+        --ad-font-size: 1rem;
+    }
+    </style>
+    <script>
+        $(function() {
+            // Start framework.
+            Adianti.configure({adianti_options});
+            Adianti.start();
+            
+            // Start template.
+            Template.configure({template_options}, 'login');
+            Template.start();
+        });
+    </script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="main" style="{login_background};background-size: cover;height: 100%;overflow: hidden;">
+            <main class="content px-3 py-2">
+                <div class="container-fluid">
+                    <!-- Where the framework content is injected -->
+                    <div id="adianti_div_content"></div>
+                </div>
+                
+                <div id="adianti_online_content"></div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

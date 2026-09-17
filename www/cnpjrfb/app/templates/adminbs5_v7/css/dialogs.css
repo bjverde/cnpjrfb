@@ -1,0 +1,38 @@
+
+/********************************* DIALOGS ********************************************/
+div:where(.swal2-container) {
+    z-index: 10000;
+}
+
+.modal-backdrop.fade {
+    opacity: var(--bs-backdrop-opacity) !important;
+}
+
+
+/* Swal2 icon question - Background apenas no modo escuro */
+[data-bs-theme="dark"] .swal2-container .swal2-icon-question{
+    background-color:#2b2b2b;
+    color:#ffffff;
+    box-shadow:0px 0px 2px 0px #ffffff;
+}
+
+/* Swal2 icon success */
+[data-bs-theme="dark"] .swal2-container .swal2-icon-success{
+    background-color:#2b2b2b;
+    color:#ffffff;
+    box-shadow:0px 0px 2px 0px #ffffff;
+}
+   
+/* Swal2 icon warning */
+[data-bs-theme="dark"] .swal2-container .swal2-icon-warning{
+    background-color:#2b2b2b;
+    color:#ffffff;
+    box-shadow:0px 0px 2px 0px #ffffff;
+}
+   
+/* Swal2 icon error */
+[data-bs-theme="dark"] .swal2-container .swal2-icon-error{
+    background-color:#2b2b2b;
+    color:#ffffff;
+    box-shadow:0px 0px 2px 0px #ffffff;
+}

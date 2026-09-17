@@ -1,0 +1,44 @@
+/****************************** CUSTOMS **************************************/
+:root {
+    --bs-dark: rgb(48 51 55);
+    --bs-light: white;
+    --bs-border-radius-sm: 6px;
+    --ad-font-size: 0.95rem;
+    --ad-font-size-plus: 1.05rem;
+    --ad-font-size-less: 0.8rem;
+    --ad-font-size-mini: 0.6rem;
+    --ad-font-size-menu: 0.95rem;
+    --ad-font-size-super: 1.25rem;
+    --ad-menu-item-color: #538fec;
+    --ad-menu-size: 340px;
+    /* outras que podem ser personalizadas
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    */
+}
+
+.offcanvas {
+    --bs-offcanvas-width: 500px;
+}
+
+[data-bs-theme=light] {
+    --bs-dark-bg-subtle: rgb(240, 241, 247);
+}
+
+iframe
+{
+   background:white;
+}
+
+* {
+    --scrollbar-width: thin;
+    --scrollbar-width-legacy: 10px;
+}
+
+/* Modern browsers with `scrollbar-*` support */
+@supports (scrollbar-width: auto) {
+    * {
+        scrollbar-width: var(--scrollbar-width);
+    }
+}
+

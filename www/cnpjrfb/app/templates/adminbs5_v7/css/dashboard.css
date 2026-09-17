@@ -1,0 +1,59 @@
+/********************** Dashboards (Backward compatibility) *********************/
+
+.info-box
+{
+    display: block;
+    min-height: 90px;
+    background: var(--bs-body-bg);
+    width: 100%;
+    margin-bottom: 15px !important;
+    box-shadow: var(--bs-card-box-shadow);
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+
+.info-box-icon
+{
+    border-radius: var(--bs-border-radius);
+    display: block;
+    float: left;
+    min-height: 75px;
+    width: 90px;
+    line-height: 75px;
+    text-align: center;
+    font-size: 45px;
+    background: rgba(0,0,0,0.2);
+    margin: 6px;
+}
+
+.info-box-text
+{
+    display: block;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    color: var(--bs-secondary);
+}
+
+.info-box-number
+{
+    display: block;
+    font-weight: bold;
+    font-size: 25px !important;
+    color: var(--bs-body-color);
+}
+
+.info-box-content
+{
+    padding: 10px 10px;
+    margin-left: 100px;
+}
+
+.chart {
+}
+
+.chart svg {
+    border-radius: var(--bs-border-radius);
+}

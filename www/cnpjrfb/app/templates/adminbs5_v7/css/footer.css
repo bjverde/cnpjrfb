@@ -1,0 +1,15 @@
+/********************** FOOTER / NAV **********************************/
+footer {
+    padding: 1rem;
+    border-top: 1px solid;
+    border-color: var(--bs-border-color);
+    color: #869099;
+    z-index: 1;
+}
+[data-bs-theme=light] footer {
+    background-color: #fff;
+}
+
+[data-bs-theme=dark] footer {
+    background-color: black;
+}

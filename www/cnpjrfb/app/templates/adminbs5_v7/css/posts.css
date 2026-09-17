@@ -1,0 +1,124 @@
+/******************************** POST ********************************************/
+.system_post .card-item {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.system_post .card-item .title-system-post {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+}
+
+.system_post .card-item .title-system-post img {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+}
+
+
+.system_post .card-item .title-system-post div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+
+.system_post .card-item .title-system-post div span {
+    color: var(--bs-primary-text-emphasis);
+    font-size: var(--ad-font-size-super);
+}
+
+.system_post .card-item .title-system-post div span.badge {
+    font-size: var(--ad-font-size-less);
+}
+
+.system_post .card-item .title-system-post div small {
+    color: var(--bs-secondary);
+}
+
+.system_post .card-item .post-title {
+    display: flex;
+    font-weight: bold;
+    flex-direction: column;
+    font-size: var(--ad-font-size-plus);
+    padding: 20px;
+    padding-bottom: 0;
+}
+
+.system_post .card-item .post-content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    color: var(--bs-secondary-text-emphasis);
+}
+
+.system_post .card-item .post-info {
+    color: var(--bs-secondary-text-emphasis);
+    padding-left: 20px;
+    display: flex;
+}
+
+.system_post .card-item .post-actions {
+    display: flex;
+    flex-direction: row;
+    border-top: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+.system_post .card-item .post-actions a.like[liked="1"] {
+    color: var(--bs-primary-text-emphasis);
+}
+
+.system_post .card-item .post-actions a {
+    color: var(--bs-secondary-text-emphasis);
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: center;
+    width: 100%;
+}
+
+.system_post .card-item .post-actions a.like:not([liked="1"]) .fas {
+    display: none;
+}
+.system_post .card-item .post-actions a.like[liked="1"] .far {
+    display: none;
+}
+
+.system_post .card-item .post-actions a i {
+    margin: auto 0px;
+}
+
+.system_post .post-comments > div.post-comment {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: gray;
+    background: var(--bs-light-bg-subtle);
+    border-radius: var(--bs-border-radius);
+    margin: 10px;
+    padding: 12px 10px 15px 55px;
+}
+
+.system_post .post-comments > div > img {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    left: 5px;
+}
+
+.system_post .post-comments > div > .post-comment-date {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 12px;
+}
+
+.system_post .post-comments > div > b {
+    color: var(--bs-secondary-text-emphasis);
+}

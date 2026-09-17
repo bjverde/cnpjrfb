@@ -1,0 +1,26 @@
+#adianti_tab_area {
+    background: var(--bs-body-bg);
+    padding: 5px;
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+    --bs-nav-underline-gap: 0;
+}
+
+#adianti_tab_area .nav-item {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-bottom: 5px;
+}
+
+#adianti_tab_area .nav-link {
+    color: var(--bs-body-color);
+}
+
+#adianti_tab_area .nav-link.active {
+    color: var(--bs-nav-link-color);
+}
+
+@media (max-width:767.98px) {
+    #adianti_tab_area {
+        width: 100vw;
+    }
+}

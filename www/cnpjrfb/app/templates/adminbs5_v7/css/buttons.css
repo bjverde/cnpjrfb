@@ -1,0 +1,76 @@
+/************************************ BUTTONS ********************************/
+
+.btn {
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn {
+    --bs-btn-font-size: var(--ad-font-size);
+    --bs-btn-active-border-color: rgba(0, 0, 0, 0.175);
+}
+
+.btn-lg {
+    --bs-btn-font-size: var(--ad-font-size-super);
+}
+
+/** btn cadastrar **/
+.inline-button {
+    position:absolute !important;
+    box-shadow:none !important;
+}
+
+[data-bs-theme=light] .btn-default {
+    background-color: white;
+    border-color: var(--bs-border-color);
+    color: #444;
+}
+
+[data-bs-theme=dark] .btn-default {
+    background-color: #212529;
+    border-color: var(--bs-border-color);
+    color: white;
+}
+
+[data-bs-theme=light] .btn-default:hover,
+[data-bs-theme=light] .btn-default:active,
+[data-bs-theme=light] .btn-default.hover {
+    background-color: #e9ecef;
+    color: #2b2b2b;
+    border-color: var(--bs-border-color);
+}
+
+[data-bs-theme=dark] .btn-default:hover,
+[data-bs-theme=dark] .btn-default:active,
+[data-bs-theme=dark] .btn-default.hover {
+    color: #fff;
+    background-color: #1c1f23;
+    border-color: var(--bs-border-color);
+}
+
+.btn-outline-default {
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-border-color: var(--bs-border-color);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--bs-primary);
+}
+
+.superlight, .superlight *, .superlight:hover, .superlight:active
+{
+    color: var(--bs-secondary);
+}
+
+[data-bs-theme=light] .superlight:hover {
+    background: whitesmoke;
+    border: var(--bs-border-width) solid rgba(0, 0, 0, 0.15);
+}
+
+[data-bs-theme=dark] .superlight:hover {
+    background: #2d2d2d;
+    border: var(--bs-border-width) solid rgba(255, 255, 255, 0.15);
+}
+
+.nav-pills {
+    --bs-nav-pills-link-active-bg: #607ba3;
+}

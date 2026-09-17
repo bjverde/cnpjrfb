@@ -1,0 +1,14 @@
+
+/********************************* CALENDAR ********************************************/
+.system-calendar {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bs-body-bg);
+    height: calc( 100vh - 120px);
+}
+
+.system-calendar.menu {
+    float: left;
+    width: 250px;
+    margin-right: 10px;
+}
