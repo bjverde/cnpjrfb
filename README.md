@@ -1,84 +1,78 @@
 # cnpjrfb
-Sistema web em PHP usando o usando o [Adianti FrameWork](https://www.adianti.com.br/framework) para consultar os [Dados públicos CNPJ](https://dados.gov.br/dados/conjuntos-dados/cadastro-nacional-da-pessoa-juridica---cnpj) fornecidos pela Receita Federal do Brasil.
 
-A Versão 2.0.0 contem as alterações do modelo de dados de 21/03/2021 feito pela RFB. 
+Sistema web em PHP, feito com o [Adianti Framework](https://www.adianti.com.br/framework), para consultar os [dados públicos do CNPJ](https://dados.gov.br/dados/conjuntos-dados/cadastro-nacional-da-pessoa-juridica---cnpj) publicados pela Receita Federal do Brasil (RFB): empresas, estabelecimentos (matriz e filiais), sócios, Simples/MEI e as tabelas de apoio (CNAE, municípios, países, naturezas jurídicas, qualificações e motivos).
 
-Agradecimento para todas as pessoas que contribuíram de forma direta ou indireta para o projeto. Abaixo alguns nomes de destaque, pois o sistema de consulta foi baseado nos scripts de carga de dados das pessoas abaixo. Sem essas pessoas o trabalho seria bem mais difícil: 
-* Versão 2.0.0 ou superior, Aphonso Henrique do Amaral Rafael - https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
-* Até a versão 1.2.0, Fabio Serpa - https://github.com/fabioserpa/CNPJ-full
+O projeto tem três partes:
+
+* **Sistema web** (`www/cnpjrfb`): telas de pesquisa e ficha completa do CNPJ, no celular, tablet ou desktop.
+* **Carga** (`www/cargabd`): script PHP de terminal que lê os arquivos da RFB e grava no banco. Funciona com MySQL/MariaDB, PostgreSQL, SQLite, SQL Server e Oracle.
+* **Modelo de banco** (`modelo_banco`): scripts de criação das tabelas para os mesmos cinco bancos, gerados de uma única definição e seguindo o [dicionário de dados da RFB](docs/cnpj-metadados.pdf).
 
 ![Visão no Celular](www/cnpjrfb/app/images/celular_empresa_visao.png?raw=true "Visão no Celular")
 
 ![Visão no Tablet](www/cnpjrfb/app/images/tablet.png?raw=true "Visão no Tablet")
 
+## Projetos irmãos
 
-# Instalando e rodando
-O processo de instalação é simples para a parte PHP. Porém a carga do banco de dados pode ser complicada e muito demorada, levando algumas horas até dias dependendo do seu hardware.
+Agradecimento para todas as pessoas que contribuíram de forma direta ou indireta para o projeto. Abaixo alguns nomes de destaque, pois o sistema de consulta foi baseado nos scripts de carga de dados das pessoas abaixo. Sem essas pessoas o trabalho seria bem mais difícil:
+
+* Versão 2.0.0 ou superior, Aphonso Henrique do Amaral Rafael - https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
+* Até a versão 1.2.0, Fabio Serpa. Hoje o projeto continua em https://github.com/bjverde/CNPJ-full, uma atualização do [CNPJ-full do Fabio Serpa](https://github.com/fabioserpa/CNPJ-full) para o layout novo da RFB
+
+| Projeto | Linguagem | O que faz |
+| --- | --- | --- |
+| [bjverde/cnpjrfb](https://github.com/bjverde/cnpjrfb) | PHP | Este projeto: sistema web de consulta, carga e modelo de banco. |
+| [aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ](https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ) | Python | Baixa os arquivos e faz a carga no PostgreSQL. Base do cnpjrfb desde a versão 2.0.0. |
+| [bjverde/CNPJ-full](https://github.com/bjverde/CNPJ-full) | Python | Atualização do [CNPJ-full do Fabio Serpa](https://github.com/fabioserpa/CNPJ-full) para o layout novo da RFB. Converte os arquivos em SQLite ou CSV, faz consultas e gera o **grafo de relacionamentos**. Usa o mesmo modelo de banco do cnpjrfb. |
+
+## Documentação
+
+* [Instalação do sistema web](docs/instalacao.md): requisitos, cópia dos arquivos e configuração do banco
+* [Carga dos dados](docs/carga.md): download dos arquivos da RFB, criação do banco e execução da carga
+* [Modelo de banco](modelo_banco/README.md): tabelas, chaves e scripts por banco
+* [Docker](docs/docker.md): ambiente pronto com Apache, PHP 8.2 e MariaDB
+* [Segurança em produção](docs/seguranca.md): o que desligar antes de publicar o sistema
+* [Desenvolvimento](docs/desenvolvimento.md): estrutura de pastas e como alterar o projeto
+* [Dicionário de dados da RFB](docs/cnpj-metadados.pdf) (cnpj-metadados.pdf)
+
+## Início rápido
+
+O sistema vem com um pequeno banco SQLite de demonstração, então dá para ver as telas antes de fazer a carga completa:
+
+```bash
+git clone https://github.com/bjverde/cnpjrfb.git
+cd cnpjrfb/www/cnpjrfb
+php -S localhost:8080
+# abra http://localhost:8080 no navegador
+```
+
+Para usar a base completa da RFB:
+
+1. Crie o banco com o script do seu SGBD em [`modelo_banco/`](modelo_banco/README.md).
+2. Baixe e descompacte os arquivos da RFB e rode a carga (veja [Carga dos dados](docs/carga.md)). Leva horas.
+3. Aponte o sistema web para o novo banco em `www/cnpjrfb/app/config/maindatabase.php` (veja [Instalação](docs/instalacao.md#3-configurar-o-banco)).
 
 ## Requisitos
 
-* Apache PHP 8.1 ou superior para a versão 2.1.0 ou superior.
-* Banco de Dados Relacional, com a carga dos dados conforme modelo. Funciona nos bancos PostgreSQL, MySQL, MariaDB, SQLite !
-* Aproximadamente 50 GB de espaço livre em disco para a instalação:
-    * 6,1 GB arquivos zip da Receita Federal (Agosto/2024), que pode ser liberado depois da instalação.
-    * 18 GB para arquivos texto descompactados, que pode ser liberado depois da instalação
-    * 18 GB para banco de dados. Considerando o PostgreSQL.
+* PHP 8.1 ou superior, com `pdo`, `mbstring`, `pdo_sqlite` e o driver PDO do seu banco (`pdo_mysql`, `pdo_pgsql`, `pdo_sqlsrv` ou `pdo_oci`).
+* Um servidor web (Apache, Nginx ou o servidor embutido do PHP para testes).
+* Para a base completa, cerca de 50 GB livres em disco. Números de agosto de 2024:
+    * 6,1 GB de arquivos ZIP da RFB, que podem ser apagados depois da carga;
+    * 18 GB de arquivos descompactados, que também podem ser apagados depois;
+    * 18 GB de banco de dados (PostgreSQL).
 
-## Informação sobre o Banco de dados e carga ETL
+| Tabela | Linhas (ago/2024) |
+| --- | --- |
+| empresa | 45.811.638 |
+| estabelecimento | 48.421.619 |
+| socios | 20.426.417 |
+| simples | 27.893.923 |
+| **Total** | **142.553.597** |
 
-Tabela | Quantidade de linhas | Tamanho em MB
------- | ------------------ | --------------------
-empresa | 45.811.638 | 
-estabelecimento | 48.421.619 | 
-socios | 20.426.417 | 
-simples | 27.893.923 |
-**Total** | **142.553.597**|
+## Grafo de relacionamentos
 
-## Intalação separada
+A geração do grafo está desativada no menu desde a versão 2.0.0. O grafo é gerado pelo [CNPJ-full](https://github.com/bjverde/CNPJ-full), que já foi atualizado para o layout novo da RFB. A integração das duas partes ainda está em andamento.
 
-### Parte 1 - PHP
-1. Ter um servidor PHP 8.1 ou superior. Com o drive PDO do banco relacional desejado e para o SqLite
-1. Configura o PHP conforme orientações do [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
-1. Crie no seu servidor a pasta `cnjrfb`.
-1. Copie o conteudo da pasta `www/cnjrfb` do projeto para a pasta `cnjrfb` do seu servidor PHP.
-1. Verifique se tudo dentro de `<caminho servidor>/cnjrfb/` tem permissão de execução do servidor web. Se for Linux (Debian/Ubuntu) com Apache pode executar `sudo chown -R www-data:www-data`
-1. Abra o sistema em um navegador e verifique se os sistema está funcionando. Existe um pequeno banco em SqLite para demonstrar o funcionamento.
+## Sobre o CPF dos sócios e a LGPD
 
-**ATENÇÃO!! a função de gerar grafo foi removida temporarimente da versão 2.**
-
-### Parte 2 - a carga dos dados, no banco relacional !
-Agora vem parte demorada ! 
-
-### Caminho normal
-
-* Baixe todos os arquivos do [site de receita federal](https://dados.gov.br/dados/conjuntos-dados/cadastro-nacional-da-pessoa-juridica---cnpj). Para quem está usando Linux tem um script para essa parta `www/cargabs/download/download_files.sh`
-* Script PHP para carga no banco 
-    * na pasta `projeto/modelo_banco/` vai encontrar os scripts criação do banco de dados, para os SGBD's: SqLite, MySql, MariaDB, PostgreSQL, SQL Server e Oracle. Veja `projeto/modelo_banco/README.md`
-    * Altere o arquivo de configuração `projeto/www/cargabd/config.php`
-    * rode o script em modo terminal `projeto/www/cargabd/index.php`
-    * para carregar só algumas tabelas: `php projeto/www/cargabd/index.php --tabela=empresa,socios` (apaga e recarrega só essas)
-    * a carga para com erro (código de saída 1) se o banco recusar uma linha, mostrando o arquivo e a linha. Linhas com número de colunas errado são descartadas, contadas no resumo e registradas em `projeto/www/cargabd/error_log.txt`
-    * crie as chaves estrangeiras (`*_fk.sql`) só depois da carga
-    * bancos aceitos na carga (`db_drive`): `mysql` (MySQL/MariaDB), `pgsql`, `sqlite`, `sqlsrv` (SQL Server, precisa do `pdo_sqlsrv`) e `oci` (Oracle, precisa do `pdo_oci` com o Oracle Instant Client; no PHP 8.4 ou superior o `pdo_oci` é instalado pelo PECL). No Oracle, `db_name` é o nome do serviço (ex.: `XEPDB1`)
-    * vá descençar !! o processo todo em desktop no win10, i5, 16 ram, PHP 7.4 no wamp com config padrão levou mais de 30 horas.
-
-### Caminho alternativo
-* Se conhece python e deseja usar o PostgreSQL faça os procedimentos https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
-
-
-**ATENÇÃO!! devido o volume de dados crie índices, nas colunas que pretender ter o maior volume de pesquisa e assim diminuir o tempo de busco. Recomendo criar na coluna cnpj_basico em todas as tabelas**
-
-### Parte 3 - Configurando o PHP para o banco completo !
-* altera o arquivo `<caminho servidor>/cnjrfb/app/config/maindatabase.php` para apontar para o novo banco de dados. Veja como em [Adianti FrameWork 7.3.0](https://www.adianti.com.br/framework-quickstart)
-* PARA quem criu o banco o DATABASE_SCHEMA altere o arquivo `<caminho servidor>/cnjrfb/init.php` na linha 33 alterando o valor da constante `define('DATABASE_SCHEMA','');` para o valor desjado usando o PONTO para separar SCHEMA.TABELA
-
-
-
-## Intalação via Docker-compose - NÃO ESTÁ COMPLETO
-Existem alguns arquivos em Docker-compose para criar todo o ambiente necessários para rodar tudo que é necessário. A ideia é com um comando o usuário consiga ter tudo funcionando sem muito esforço.
-
-1. Instale o Docker e Docker-compose 
-1. Abriu um terminal na raiz do projeto
-1. Execute o comando `docker-compose build` para gerar todo o ambiente.
-1. Execute o comando `docker-compose -f docker-compose.yml up -d` para rodar o ambiente já configurado. O Docker pretender resolver apenas [Parte 1 - PHP](#parte-1---php)
-1. Verificando se a instalação está correta: Abra o sistema em um navegador e verifique se os 3 menus dentre home está funcionando: Empresa, Sócios e CNEA.
+A RFB publica o CPF dos sócios mascarado (ex.: `***123456**`), então uma busca por CPF pode trazer pessoas diferentes. Os dados incluem informações pessoais: use-os de acordo com a LGPD (Lei 13.709/2018).

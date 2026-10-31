@@ -1,7 +1,15 @@
 #!/bin/bash
 
-ORIGEM=$1
-DESTINO=$2
+#
+# Descompacta todos os ZIPs da Receita Federal.
+#
+# Uso:
+#   ./unzip_files.sh [pasta_zips] [pasta_destino]
+#
+# Padrão: os ZIPs desta pasta (download/) vão para ../extracted
+# (a pasta que o config.php da carga usa em EXTRACTED_FILES_PATH).
+
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 
 #Cores
 RED='\033[0;31m'
@@ -10,10 +18,9 @@ YBLUE='\033[1;33;4;44m'
 NC='\033[0m' # No Color
 
 # Constants
-SRC_DIR="." # Replace with your source directory containing ZIP files
-DEST_DIR="../extracted" # Replace with your destination directory for extracted files
+SRC_DIR=${1:-$SCRIPT_DIR}
+DEST_DIR=${2:-$SCRIPT_DIR/../extracted}
 
-# Ensure destination directory exists
 # Ensure destination directory exists
 mkdir -p "$DEST_DIR"
 
@@ -28,7 +35,7 @@ extract_zips() {
         fi
 
         printf "Extracting %s...\n" "$(basename "$zip_file")"
-        if ! unzip -q "$zip_file" -d "$DEST_DIR"; then
+        if ! unzip -q -o "$zip_file" -d "$DEST_DIR"; then
             printf "${RED}Error: Failed to extract %s${NC}\n" "$(basename "$zip_file")" >&2
             continue
         fi
