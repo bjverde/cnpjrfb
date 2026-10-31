@@ -88,6 +88,7 @@ class Dao
             break;
             default:
                 //MySQL/MariaDB: as FKs são desligadas na conexão (TPDOConnection::configurarSessao)
+                //Oracle: como no PostgreSQL, crie as FKs (modelo_oracle_fk.sql) depois da carga
                 $sql = 'TRUNCATE TABLE '.$tabela;
             break;
         }

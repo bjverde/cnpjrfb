@@ -13,6 +13,7 @@ class TPDOConnection {
     const DBMS_MYSQL    = "mysql";
     const DBMS_POSTGRES = "pgsql";
     const DBMS_SQLSERVER= "sqlsrv";
+    const DBMS_ORACLE   = "oci";
 
     private static $error = null;
     private static $instance = null;
@@ -36,7 +37,7 @@ class TPDOConnection {
     }
     public static function validarDBMS()
     {
-        $listDbms = array(self::DBMS_MYSQL,self::DBMS_POSTGRES, self::DBMS_SQLITE, self::DBMS_SQLSERVER);
+        $listDbms = array(self::DBMS_MYSQL,self::DBMS_POSTGRES, self::DBMS_SQLITE, self::DBMS_SQLSERVER, self::DBMS_ORACLE);
         $drive = ConfigHelper::getDBDrive();
         if (!in_array($drive,$listDbms,TRUE)){
             throw new PDOException ("ERRO: o sistema não funciona com drive: ".$drive);
@@ -94,6 +95,13 @@ class TPDOConnection {
             break;
             case self::DBMS_SQLITE :
                 $pdo->exec('PRAGMA foreign_keys = OFF');
+            break;
+            case self::DBMS_ORACLE :
+                //Oracle devolve os nomes das colunas em maiúsculas (count(...) as qtd vira QTD)
+                $pdo->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+                //Datas chegam como AAAA-MM-DD e capital_social com ponto decimal
+                $pdo->exec("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'");
+                $pdo->exec("ALTER SESSION SET NLS_NUMERIC_CHARACTERS = '.,'");
             break;
         }
     }
@@ -159,6 +167,11 @@ class TPDOConnection {
 					$dsn = $driver.':Server='.$host.';Database='.$database;
                 }
             break;
+            //-----------------------------------------------------------------------
+            case self::DBMS_ORACLE:
+                //db_name = nome do serviço (ex.: XEPDB1, ORCLPDB1). Usa Easy Connect: //host:porta/servico
+                $dsn = 'oci:dbname=//'.$host.':'.$port.'/'.$database.';charset=AL32UTF8';
+            break;
         }
         return $dsn;
     }
@@ -177,9 +190,12 @@ class TPDOConnection {
             case self::DBMS_SQLSERVER:
                 $port='1433';
             break;
+            case self::DBMS_ORACLE:
+                $port='1521';
+            break;
             default:
                 $msg = 'ERRO: db_drive não informado ou inválido em config.php.';
-                $msg = $msg.' Use: mysql, pgsql, sqlite ou sqlsrv';
+                $msg = $msg.' Use: mysql, pgsql, sqlite, sqlsrv ou oci';
                 throw new InvalidArgumentException($msg);
             break;
         }
