@@ -53,7 +53,7 @@ Agora vem parte demorada !
 
 * Baixe todos os arquivos do [site de receita federal](https://dados.gov.br/dados/conjuntos-dados/cadastro-nacional-da-pessoa-juridica---cnpj). Para quem está usando Linux tem um script para essa parta `www/cargabs/download/download_files.sh`
 * Script PHP para carga no banco 
-    * na pasta `projeto/modelo_banco/` vai encontrar os scripts criação do banco de dados, para os SGBD's: SqLite, MySql, MariaDB e PostgreSQL. Se precisar de um MER tem na pasta `projeto/modelo_banco/mysql`
+    * na pasta `projeto/modelo_banco/` vai encontrar os scripts criação do banco de dados, para os SGBD's: SqLite, MySql, MariaDB, PostgreSQL, SQL Server e Oracle. Veja `projeto/modelo_banco/README.md`
     * Altere o arquivo de configuração `projeto/www/cargabd/config.php`
     * rode o script em modo terminal `projeto/www/cargabd/index.php`
     * vá descençar !! o processo todo em desktop no win10, i5, 16 ram, PHP 7.4 no wamp com config padrão levou mais de 30 horas.

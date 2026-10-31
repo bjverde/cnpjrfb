@@ -41,7 +41,7 @@ class EmpresaDAO  extends Dao
                         , $linhaArquivoCsv[1]
                         , $linhaArquivoCsv[2]
                         , $linhaArquivoCsv[3]
-                        , $linhaArquivoCsv[4]
+                        , str_replace(',', '.', $linhaArquivoCsv[4]) //capital_social vem com vírgula decimal
                         , $linhaArquivoCsv[5]
                         , $linhaArquivoCsv[6]
                         );
