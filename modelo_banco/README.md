@@ -22,7 +22,7 @@ python3 modelo_banco/gerar_modelos.py
 ## Ordem de uso
 
 1. Rode o script de criação.
-2. Faça a carga dos dados (`www/cargabd`).
+2. Faça a carga dos dados (`www/cargabd`), conforme [docs/carga.md](../docs/carga.md).
 3. Opcional: rode o script `_fk.sql` para criar as chaves estrangeiras. Elas ficam separadas porque
    deixam a carga muito mais lenta e porque a carga grava `estabelecimento` e `socios` antes de `empresa`.
 

@@ -10,16 +10,33 @@
             </div>
             <div class="card-body panel-body">
                 <blockquote>
-                    Sistema web em PHP usando o usando o  <a href="https://www.adianti.com.br/framework" rel="nofollow">Adianti FrameWork</a> para consultar os <a href="https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/cadastros/consultas/dados-publicos-cnpj" rel="nofollow">Dados públicos CNPJ</a> fornecidos pela Receita Federal do Brasil.
+                    Sistema web em PHP, feito com o <a href="https://www.adianti.com.br/framework" rel="nofollow">Adianti Framework</a>, para consultar os <a href="https://dados.gov.br/dados/conjuntos-dados/cadastro-nacional-da-pessoa-juridica---cnpj" rel="nofollow">dados públicos do CNPJ</a> publicados pela Receita Federal do Brasil: empresas, estabelecimentos, sócios, Simples/MEI e tabelas de apoio.
                     <br>
-                    <br>A Versão 2.0.0 contem as alterações do modelo de dados de 21/03/2021 feito pela RFB.
+                    <br>Desde a versão 2.0.0 o sistema usa o layout de dados que a RFB adotou em 2021. Código-fonte e documentação: <a href="https://github.com/bjverde/cnpjrfb" target="_blank" rel="nofollow">github.com/bjverde/cnpjrfb</a>.
                     <br>
                     <br>Agradecimento para todas as pessoas que contribuíram de forma direta ou indireta para o projeto. Abaixo alguns nomes de destaque, pois o sistema de consulta foi baseado nos scripts de carga de dados das pessoas abaixo. Sem essas pessoas o trabalho seria bem mais difícil:
                     <ul>
-                        <li>Versão 2.0.0 ou superior, Aphonso Henrique do Amaral Rafael - https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ</li>
-                        <li>Até a versão 1.2.0, Fabio Serpa - https://github.com/fabioserpa/CNPJ-full</li>
+                        <li>Versão 2.0.0 ou superior, Aphonso Henrique do Amaral Rafael - <a href="https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ" target="_blank" rel="nofollow">Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ</a></li>
+                        <li>Até a versão 1.2.0, Fabio Serpa - <a href="https://github.com/fabioserpa/CNPJ-full" target="_blank" rel="nofollow">CNPJ-full</a></li>
                     </ul>
                 </blockquote>
+            </div>
+        </div>
+    </div>
+    <!------------------------------------->
+    <div class="col-sm-12">
+        <div class="card panel">
+            <div class="card-header panel-heading">
+               <div class="card-title panel-title">
+                   <div style="width: 100%">Projetos irmãos</div>
+                </div>
+            </div>
+            <div class="card-body panel-body">
+                <ul>
+                    <li><a href="https://github.com/bjverde/CNPJ-full" target="_blank" rel="nofollow">bjverde/CNPJ-full</a> (Python): converte os arquivos da RFB em SQLite ou CSV, faz consultas e gera o grafo de relacionamentos entre empresas e sócios. Usa o mesmo modelo de banco deste sistema.</li>
+                    <li><a href="https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ" target="_blank" rel="nofollow">aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ</a> (Python): baixa os arquivos e faz a carga no PostgreSQL.</li>
+                    <li><a href="https://github.com/fabioserpa/CNPJ-full" target="_blank" rel="nofollow">fabioserpa/CNPJ-full</a> (Python): projeto original do CNPJ-full, para o layout antigo da RFB.</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -39,6 +56,7 @@
                     <li>2021-05-22 <a href="https://github.com/bjverde/cnpjrfb" rel="nofollow">versão 1.2.0</a></li>
                     <li>2021-06-13 <a href="https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ" rel="nofollow">Primeiro commit do Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ do Aphonso Henrique do Amaral Rafael </a></li>
                     <li>2021-12-13 <a href="https://github.com/bjverde/cnpjrfb" rel="nofollow">versão 2.0.0</a></li>
+                    <li>2026-10-31 <a href="https://github.com/bjverde/cnpjrfb" rel="nofollow">Modelo de banco revisado para MySQL/MariaDB, PostgreSQL, SQLite, SQL Server e Oracle, carga corrigida e CNPJ-full atualizado para o layout novo</a></li>
                 </ul>
             </div>
         </div>
@@ -53,13 +71,10 @@
             </div>
             <div class="card-body panel-body">
                 <blockquote>
-                    Na versão 2.0.0 a geração do grafo como acontecia na versão 1.2.0 baseado <a href="https://github.com/fabioserpa/CNPJ-full/commits/master" rel="nofollow">Primeiro commit do CNPJ-FULL do Fabio Serpa</a> foi temporariamente desativada.
-                    <br>
-                    <br>
-                    Possibilita também fazer consultas de empresas ou sócios e gravar resultados em CSV ou em grafo de relacionamentos.
+                    Desde a versão 2.0.0 a geração do grafo está desativada no sistema. O grafo é gerado pelo <a href="https://github.com/bjverde/CNPJ-full" target="_blank" rel="nofollow">CNPJ-full</a>, que já foi atualizado para o layout novo da RFB e permite consultar empresas ou sócios e gravar o resultado em CSV ou em grafo de relacionamentos. A integração com este sistema ainda está em andamento.
                 </blockquote>
                 
-                <a href="https://github.com/fabioserpa/CNPJ-full" target="newwindow" style="display:flex">
+                <a href="https://github.com/bjverde/CNPJ-full" target="newwindow" style="display:flex">
                     <img src="app/images/grafo.png" width="90%" style="max-width:1000px;margin:auto">
                 </a>
             </div>
