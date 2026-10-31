@@ -63,18 +63,53 @@ class TPDOConnection {
         self::$databaseName = $strNewValue;
     }
     //--------------------------------------------------------------------------------------
+    /**
+     * Abre a conexão. Lança PDOException se não conseguir conectar, para a
+     * carga não seguir sem banco.
+     */
     public static function connect() {        
+        $dsn = self::defineDsnPDO();
+        $username = ConfigHelper::getDdUser();
+        $password = ConfigHelper::getDdPassword();
         try {
-            $dsn = self::defineDsnPDO();
-            $username = ConfigHelper::getDdUser();
-            $password = ConfigHelper::getDdPassword();
             $pdo = new PDO( $dsn, $username, $password );
-            $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-            self::setInstance($pdo);
         } catch( PDOException $e ){
-            error_log($e->getMessage());
-        }        
+            throw new PDOException('ERRO: não foi possível conectar no banco ('.self::getDBMS().'): '.$e->getMessage(), (int) $e->getCode(), $e);
+        }
+        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+        self::setInstance($pdo);
+        self::configurarSessao($pdo);
         return true;
+    }
+    /**
+     * Ajustes feitos uma vez por conexão.
+     * As FKs do modelo ficam em *_fk.sql e devem ser criadas depois da carga;
+     * no MySQL elas são desligadas na sessão para o TRUNCATE e a carga
+     * funcionarem mesmo se já existirem.
+     */
+    private static function configurarSessao(PDO $pdo) {
+        switch( self::getDBMS() ) {
+            case self::DBMS_MYSQL :
+                $pdo->exec('SET FOREIGN_KEY_CHECKS=0');
+            break;
+            case self::DBMS_SQLITE :
+                $pdo->exec('PRAGMA foreign_keys = OFF');
+            break;
+        }
+    }
+    //------------------------------------------------------------------------------------------
+    public static function beginTransaction() {
+        return self::getInstance()->beginTransaction();
+    }
+    public static function commit() {
+        return self::getInstance()->commit();
+    }
+    public static function rollBack() {
+        $pdo = self::getInstance();
+        if ( $pdo->inTransaction() ) {
+            return $pdo->rollBack();
+        }
+        return false;
     }
     /**
      * Define DSN (Data source name) for connection.
@@ -92,11 +127,11 @@ class TPDOConnection {
         
         switch( self::getDBMS() ) {
             case self::DBMS_MYSQL :
-                $dsn = 'mysql:host='.$host.';dbname='.$database.';port='.$port;
+                $dsn = 'mysql:host='.$host.';dbname='.$database.';port='.$port.';charset=utf8mb4';
             break;
             //-----------------------------------------------------------------------
             case self::DBMS_POSTGRES :
-                $dsn = 'pgsql:host='.$host.';dbname='.$database.';port='.$port;
+                $dsn = 'pgsql:host='.$host.';dbname='.$database.';port='.$port.";options='--client_encoding=UTF8'";
             break;
             //-----------------------------------------------------------------------
             case self::DBMS_SQLITE:
@@ -143,8 +178,8 @@ class TPDOConnection {
                 $port='1433';
             break;
             default:
-                $msg = 'Name of DBMS (Data Base Management System) is wrong or not defined.';
-                $msg = $msg.' Please see the list of DBMS in BASE/classes/constants.php';
+                $msg = 'ERRO: db_drive não informado ou inválido em config.php.';
+                $msg = $msg.' Use: mysql, pgsql, sqlite ou sqlsrv';
                 throw new InvalidArgumentException($msg);
             break;
         }
@@ -210,6 +245,7 @@ class TPDOConnection {
                    .PHP_EOL.' valores: '.print_r($arrParams, TRUE)
                    ;
             error_log($msg);
+            throw $e;
         }        
     }
 }

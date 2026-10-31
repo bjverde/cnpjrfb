@@ -56,6 +56,9 @@ Agora vem parte demorada !
     * na pasta `projeto/modelo_banco/` vai encontrar os scripts criação do banco de dados, para os SGBD's: SqLite, MySql, MariaDB, PostgreSQL, SQL Server e Oracle. Veja `projeto/modelo_banco/README.md`
     * Altere o arquivo de configuração `projeto/www/cargabd/config.php`
     * rode o script em modo terminal `projeto/www/cargabd/index.php`
+    * para carregar só algumas tabelas: `php projeto/www/cargabd/index.php --tabela=empresa,socios` (apaga e recarrega só essas)
+    * a carga para com erro (código de saída 1) se o banco recusar uma linha, mostrando o arquivo e a linha. Linhas com número de colunas errado são descartadas, contadas no resumo e registradas em `projeto/www/cargabd/error_log.txt`
+    * crie as chaves estrangeiras (`*_fk.sql`) só depois da carga
     * vá descençar !! o processo todo em desktop no win10, i5, 16 ram, PHP 7.4 no wamp com config padrão levou mais de 30 horas.
 
 ### Caminho alternativo
