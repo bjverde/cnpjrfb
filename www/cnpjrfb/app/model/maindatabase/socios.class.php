@@ -12,12 +12,13 @@
 class socios extends TRecord
 {
     const TABLENAME = DATABASE_SCHEMA.'socios';
-    const PRIMARYKEY= 'cnpj_basico';
+    const PRIMARYKEY= 'id';
     const IDPOLICY  = 'serial'; //{max, serial}
 
     public function __construct($id = NULL, $callObjectLoad = TRUE)
     {
         parent::__construct($id, $callObjectLoad);
+        parent::addAttribute('cnpj_basico');
         parent::addAttribute('identificador_socio');
         parent::addAttribute('nome_socio_razao_social');
         parent::addAttribute('cpf_cnpj_socio');
