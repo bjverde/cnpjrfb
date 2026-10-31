@@ -14,15 +14,16 @@ O projeto tem três partes:
 
 ## Projetos irmãos
 
-O cnpjrfb faz parte de uma família de projetos que tratam os mesmos dados da RFB:
+Agradecimento para todas as pessoas que contribuíram de forma direta ou indireta para o projeto. Abaixo alguns nomes de destaque, pois o sistema de consulta foi baseado nos scripts de carga de dados das pessoas abaixo. Sem essas pessoas o trabalho seria bem mais difícil:
+
+* Versão 2.0.0 ou superior, Aphonso Henrique do Amaral Rafael - https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ
+* Até a versão 1.2.0, Fabio Serpa. Hoje o projeto continua em https://github.com/bjverde/CNPJ-full, uma atualização do [CNPJ-full do Fabio Serpa](https://github.com/fabioserpa/CNPJ-full) para o layout novo da RFB
 
 | Projeto | Linguagem | O que faz |
 | --- | --- | --- |
-| [bjverde/CNPJ-full](https://github.com/bjverde/CNPJ-full) | Python | Converte os arquivos da RFB em SQLite ou CSV, faz consultas e gera o **grafo de relacionamentos** entre empresas e sócios. Usa o mesmo modelo de banco deste projeto. |
-| [aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ](https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ) | Python | Baixa os arquivos e faz a carga no PostgreSQL. Foi a base da versão 2.0.0 do cnpjrfb. |
-| [fabioserpa/CNPJ-full](https://github.com/fabioserpa/CNPJ-full) | Python | Projeto original do CNPJ-full, criado para o layout antigo da RFB. Foi a base do cnpjrfb até a versão 1.2.0. |
-
-Agradecimento a todas as pessoas que contribuíram de forma direta ou indireta, em especial a Fabio Serpa e a Aphonso Henrique do Amaral Rafael, autores dos scripts de carga em que este sistema se baseou.
+| [bjverde/cnpjrfb](https://github.com/bjverde/cnpjrfb) | PHP | Este projeto: sistema web de consulta, carga e modelo de banco. |
+| [aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ](https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ) | Python | Baixa os arquivos e faz a carga no PostgreSQL. Base do cnpjrfb desde a versão 2.0.0. |
+| [bjverde/CNPJ-full](https://github.com/bjverde/CNPJ-full) | Python | Atualização do [CNPJ-full do Fabio Serpa](https://github.com/fabioserpa/CNPJ-full) para o layout novo da RFB. Converte os arquivos em SQLite ou CSV, faz consultas e gera o **grafo de relacionamentos**. Usa o mesmo modelo de banco do cnpjrfb. |
 
 ## Documentação
 

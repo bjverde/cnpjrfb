@@ -70,6 +70,5 @@ Vale incluir casos como aspas e `;` dentro do texto, datas `00000000`, campos va
 
 ## Projetos irmãos
 
-* [bjverde/CNPJ-full](https://github.com/bjverde/CNPJ-full): carga em Python para SQLite/CSV, consultas e grafo. Usa o mesmo modelo de banco.
 * [aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ](https://github.com/aphonsoar/Receita_Federal_do_Brasil_-_Dados_Publicos_CNPJ): carga em Python para o PostgreSQL.
-* [fabioserpa/CNPJ-full](https://github.com/fabioserpa/CNPJ-full): projeto original do CNPJ-full.
+* [bjverde/CNPJ-full](https://github.com/bjverde/CNPJ-full): atualização do [CNPJ-full do Fabio Serpa](https://github.com/fabioserpa/CNPJ-full) para o layout novo. Carga em Python para SQLite/CSV, consultas e grafo, com o mesmo modelo de banco.
