@@ -2,8 +2,8 @@
 error_reporting(E_ALL);
 ini_set('error_log', __DIR__.'/error_log.txt');
 
-if (version_compare(PHP_VERSION, '7.3.0') == -1) {
-    die ('ERRO: The minimum version required for PHP is 7.3.0');
+if (version_compare(PHP_VERSION, '8.1.0') == -1) {
+    die ('ERRO: The minimum version required for PHP is 8.1.0');
 }
 
 define( 'DS', DIRECTORY_SEPARATOR );
@@ -16,10 +16,25 @@ require_once 'dao/autoload_cargabd_cnpjrfb_dao.php';
 
 
 if (php_sapi_name() == "cli") {
-    ValidarHelper::InformacoesIniciais();
-
-    $carga = new Cargabanco();
-    $carga->executar();
+    /**
+     * Uso:
+     *   php index.php                          carrega todas as tabelas
+     *   php index.php --tabela=empresa,socios  carrega só as tabelas informadas
+     */
+    $opcoes = getopt('', array('tabela:'));
+    $somenteTabelas = null;
+    if ( !empty($opcoes['tabela']) ) {
+        $somenteTabelas = array_filter(array_map('trim', explode(',', strtolower($opcoes['tabela']))));
+    }
+    try {
+        ValidarHelper::InformacoesIniciais();
+        $carga = new Cargabanco();
+        $carga->executar($somenteTabelas);
+    } catch (Throwable $e) {
+        fwrite(STDERR, PHP_EOL.$e->getMessage().PHP_EOL);
+        error_log($e->getMessage().PHP_EOL.$e->getTraceAsString());
+        exit(1);
+    }
 } else {
     echo '<h2>Esse script funciona apenas em modo CLI</h2>';
     echo 'O comando abaixo irá rodar o script de carga em background gerando dois arquivos de log';

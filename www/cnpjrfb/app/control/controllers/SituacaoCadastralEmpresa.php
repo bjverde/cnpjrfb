@@ -8,7 +8,8 @@ class SituacaoCadastralEmpresa
             $id='0';
         }
         $list = self::getList();
-        return $list[$id];
+        $id = is_numeric($id) ? (int) $id : $id; //motivo vem como '01' ou 1
+        return isset($list[$id]) ? $list[$id] : $id;
     }
     
     public static function getList()

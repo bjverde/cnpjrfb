@@ -28,6 +28,32 @@ class EstabelecimentoController
         $this->dao = $dao;
     }
     //--------------------------------------------------------------------------------
+    /**
+     * Carrega um estabelecimento (Active Record) pela chave completa
+     * (cnpj_basico + cnpj_ordem + cnpj_dv). Sem ordem/dv, devolve a matriz;
+     * se não houver matriz, o primeiro estabelecimento do CNPJ básico.
+     * Precisa de uma transação aberta (TTransaction::open).
+     *
+     * @return estabelecimento|null
+     */
+    public static function findEstabelecimento($cnpj_basico, $cnpj_ordem = null, $cnpj_dv = null)
+    {
+        if( empty($cnpj_basico) ){
+            return null;
+        }
+        $repository = new TRepository('estabelecimento');
+        $criteria = new TCriteria;
+        $criteria->add(new TFilter('cnpj_basico', '=', $cnpj_basico));
+        if( !empty($cnpj_ordem) && !empty($cnpj_dv) ){
+            $criteria->add(new TFilter('cnpj_ordem', '=', $cnpj_ordem));
+            $criteria->add(new TFilter('cnpj_dv', '=', $cnpj_dv));
+        }
+        $criteria->setProperty('order', 'identificador_matriz_filial, cnpj_ordem'); //matriz (1) primeiro
+        $criteria->setProperty('limit', 1);
+        $lista = $repository->load($criteria, false);
+        return empty($lista) ? null : $lista[0];
+    }
+    //--------------------------------------------------------------------------------
     public function selectById( $id )
     {
         $result = $this->dao->selectById( $id );

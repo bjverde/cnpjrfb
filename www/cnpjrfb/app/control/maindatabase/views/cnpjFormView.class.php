@@ -36,9 +36,12 @@ class cnpjFormView extends TPage
     {     
         try{
             $cnpj_basico = ArrayHelper::getArray($param,'cnpj_basico');
+            $cnpj_ordem  = ArrayHelper::getArray($param,'cnpj_ordem');
+            $cnpj_dv     = ArrayHelper::getArray($param,'cnpj_dv');
 
             TTransaction::open(self::$database);
-            $estabelecimento = estabelecimento::find($cnpj_basico);
+            //estabelecimento tem chave composta: sem ordem/dv mostra a matriz
+            $estabelecimento = EstabelecimentoController::findEstabelecimento($cnpj_basico, $cnpj_ordem, $cnpj_dv);
             $empresa = empresa::find($cnpj_basico);
             
             if( empty($estabelecimento) ){
@@ -62,7 +65,7 @@ class cnpjFormView extends TPage
                                       ,[new TLabel("Qualificação responsável:")],[new TTextDisplay($empresa->fk_qualificacao_responsavel->descricao)]
                                       );                                  
                 $this->form->addFields([new TLabel("Data situação cadastral:")],[new TTextDisplay( Transforme::date($estabelecimento->data_situacao_cadastral) )]
-                                      ,[new TLabel("Situação cadastral:")],[new TTextDisplay( $estabelecimento->situacao_cadastral )]
+                                      ,[new TLabel("Situação cadastral:")],[new TTextDisplay( TipoEmpresaSituacao::getByid($estabelecimento->situacao_cadastral) )]
                                       );
                 $this->form->addContent([new TFormSeparator("CNAE", '#333', '18', '#eee')]);
                 $controllerCnae = new CnaeController();
