@@ -231,6 +231,11 @@ class EstabelecimentoList extends TPage
             return TipoMatrizFilial::getByid($value);
         });
 
+        $column_situacao_cadastral->setTransformer(function($value, $object, $row)
+        {
+            return TipoEmpresaSituacao::getByid($value);
+        });
+
         $column_cnae_fiscal_principal->setTransformer(function($value, $object, $row){
             $controllerCnae = new CnaeController();
             return $controllerCnae->getNameTransformerById( $value );;
@@ -273,7 +278,7 @@ class EstabelecimentoList extends TPage
         $action_group = new TDataGridActionGroup("Ações", 'fas:cog');
         $action_group->addHeader('');
 
-        $actionEmpresa = Transforme::getDataGridActionDetalharEmpresa();
+        $actionEmpresa = Transforme::getDataGridActionDetalharEmpresa(true);
         $action_group->addAction($actionEmpresa);
 
         $this->datagrid->addActionGroup($action_group); 

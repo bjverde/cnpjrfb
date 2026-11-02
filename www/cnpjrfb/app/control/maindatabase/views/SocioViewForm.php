@@ -27,8 +27,20 @@ class SocioViewForm extends TPage
             $nome_socio_razao_social = ArrayHelper::getArray($param,'nome_socio_razao_social');
             $cpf_cnpj_socio = ArrayHelper::getArray($param,'cpf_cnpj_socio');
 
+            $id = ArrayHelper::getArray($param,'id');
+
             $sociosController = new SociosController();
-            $socio = $sociosController->selectBySocio($cnpj_basico,$nome_socio_razao_social);            
+            if( is_numeric($id) ){
+                //socios tem chave própria (id) desde o modelo novo: abre exatamente a linha clicada
+                $socio = $sociosController->selectByIdAdianti($id);
+                if( !empty($socio) ){
+                    $cnpj_basico = $socio->CNPJ_BASICO;
+                    $nome_socio_razao_social = $socio->NOME_SOCIO_RAZAO_SOCIAL;
+                    $cpf_cnpj_socio = $socio->CPF_CNPJ_SOCIO;
+                }
+            }else{
+                $socio = $sociosController->selectBySocio($cnpj_basico,$nome_socio_razao_social);
+            }            
 
             $this->form = new BootstrapFormBuilder(__CLASS__);            
             $this->form->generateAria(); // automatic aria-label
@@ -41,11 +53,16 @@ class SocioViewForm extends TPage
                 $this->form->addFields( [new TLabel('Nome')],[new TTextDisplay('ERRO ao carregar socio')]);
                 parent::add($this->form);
             }else{
-                $estabelecimentoController = new EstabelecimentoController();
-                $listEstabelecimento = $estabelecimentoController->selectById($cnpj_basico);
-                $estabelecimento = ArrayHelper::getArray($listEstabelecimento,0);
-                $cnpj =  $estabelecimento->CNPJ_BASICO.$estabelecimento->CNPJ_ORDEM.$estabelecimento->CNPJ_DV;
-                $cnpjEmpresa = StringHelper::formatCnpjCpf($cnpj);
+                //sócios ficam na empresa (cnpj_basico): mostra o CNPJ da matriz
+                TTransaction::open('maindatabase');
+                $estabelecimento = EstabelecimentoController::findEstabelecimento($cnpj_basico);
+                TTransaction::close();
+                if( empty($estabelecimento) ){
+                    $cnpjEmpresa = $cnpj_basico;
+                }else{
+                    $cnpj =  $estabelecimento->cnpj_basico.$estabelecimento->cnpj_ordem.$estabelecimento->cnpj_dv;
+                    $cnpjEmpresa = StringHelper::formatCnpjCpf($cnpj);
+                }
 
                 $this->form->setFormTitle('Dados do Sócio na empresa: '.$cnpjEmpresa);                
                 $this->form->addFields( [new TLabel('CNPJ')],[new TTextDisplay($cnpjEmpresa)]);

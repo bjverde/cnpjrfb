@@ -13,6 +13,7 @@ class TPDOConnection {
     const DBMS_MYSQL    = "mysql";
     const DBMS_POSTGRES = "pgsql";
     const DBMS_SQLSERVER= "sqlsrv";
+    const DBMS_ORACLE   = "oci";
 
     private static $error = null;
     private static $instance = null;
@@ -36,7 +37,7 @@ class TPDOConnection {
     }
     public static function validarDBMS()
     {
-        $listDbms = array(self::DBMS_MYSQL,self::DBMS_POSTGRES, self::DBMS_SQLITE, self::DBMS_SQLSERVER);
+        $listDbms = array(self::DBMS_MYSQL,self::DBMS_POSTGRES, self::DBMS_SQLITE, self::DBMS_SQLSERVER, self::DBMS_ORACLE);
         $drive = ConfigHelper::getDBDrive();
         if (!in_array($drive,$listDbms,TRUE)){
             throw new PDOException ("ERRO: o sistema não funciona com drive: ".$drive);
@@ -63,18 +64,60 @@ class TPDOConnection {
         self::$databaseName = $strNewValue;
     }
     //--------------------------------------------------------------------------------------
+    /**
+     * Abre a conexão. Lança PDOException se não conseguir conectar, para a
+     * carga não seguir sem banco.
+     */
     public static function connect() {        
+        $dsn = self::defineDsnPDO();
+        $username = ConfigHelper::getDdUser();
+        $password = ConfigHelper::getDdPassword();
         try {
-            $dsn = self::defineDsnPDO();
-            $username = ConfigHelper::getDdUser();
-            $password = ConfigHelper::getDdPassword();
             $pdo = new PDO( $dsn, $username, $password );
-            $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-            self::setInstance($pdo);
         } catch( PDOException $e ){
-            error_log($e->getMessage());
-        }        
+            throw new PDOException('ERRO: não foi possível conectar no banco ('.self::getDBMS().'): '.$e->getMessage(), (int) $e->getCode(), $e);
+        }
+        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+        self::setInstance($pdo);
+        self::configurarSessao($pdo);
         return true;
+    }
+    /**
+     * Ajustes feitos uma vez por conexão.
+     * As FKs do modelo ficam em *_fk.sql e devem ser criadas depois da carga;
+     * no MySQL elas são desligadas na sessão para o TRUNCATE e a carga
+     * funcionarem mesmo se já existirem.
+     */
+    private static function configurarSessao(PDO $pdo) {
+        switch( self::getDBMS() ) {
+            case self::DBMS_MYSQL :
+                $pdo->exec('SET FOREIGN_KEY_CHECKS=0');
+            break;
+            case self::DBMS_SQLITE :
+                $pdo->exec('PRAGMA foreign_keys = OFF');
+            break;
+            case self::DBMS_ORACLE :
+                //Oracle devolve os nomes das colunas em maiúsculas (count(...) as qtd vira QTD)
+                $pdo->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+                //Datas chegam como AAAA-MM-DD e capital_social com ponto decimal
+                $pdo->exec("ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'");
+                $pdo->exec("ALTER SESSION SET NLS_NUMERIC_CHARACTERS = '.,'");
+            break;
+        }
+    }
+    //------------------------------------------------------------------------------------------
+    public static function beginTransaction() {
+        return self::getInstance()->beginTransaction();
+    }
+    public static function commit() {
+        return self::getInstance()->commit();
+    }
+    public static function rollBack() {
+        $pdo = self::getInstance();
+        if ( $pdo->inTransaction() ) {
+            return $pdo->rollBack();
+        }
+        return false;
     }
     /**
      * Define DSN (Data source name) for connection.
@@ -92,11 +135,11 @@ class TPDOConnection {
         
         switch( self::getDBMS() ) {
             case self::DBMS_MYSQL :
-                $dsn = 'mysql:host='.$host.';dbname='.$database.';port='.$port;
+                $dsn = 'mysql:host='.$host.';dbname='.$database.';port='.$port.';charset=utf8mb4';
             break;
             //-----------------------------------------------------------------------
             case self::DBMS_POSTGRES :
-                $dsn = 'pgsql:host='.$host.';dbname='.$database.';port='.$port;
+                $dsn = 'pgsql:host='.$host.';dbname='.$database.';port='.$port.";options='--client_encoding=UTF8'";
             break;
             //-----------------------------------------------------------------------
             case self::DBMS_SQLITE:
@@ -124,6 +167,11 @@ class TPDOConnection {
 					$dsn = $driver.':Server='.$host.';Database='.$database;
                 }
             break;
+            //-----------------------------------------------------------------------
+            case self::DBMS_ORACLE:
+                //db_name = nome do serviço (ex.: XEPDB1, ORCLPDB1). Usa Easy Connect: //host:porta/servico
+                $dsn = 'oci:dbname=//'.$host.':'.$port.'/'.$database.';charset=AL32UTF8';
+            break;
         }
         return $dsn;
     }
@@ -142,9 +190,12 @@ class TPDOConnection {
             case self::DBMS_SQLSERVER:
                 $port='1433';
             break;
+            case self::DBMS_ORACLE:
+                $port='1521';
+            break;
             default:
-                $msg = 'Name of DBMS (Data Base Management System) is wrong or not defined.';
-                $msg = $msg.' Please see the list of DBMS in BASE/classes/constants.php';
+                $msg = 'ERRO: db_drive não informado ou inválido em config.php.';
+                $msg = $msg.' Use: mysql, pgsql, sqlite, sqlsrv ou oci';
                 throw new InvalidArgumentException($msg);
             break;
         }
@@ -210,6 +261,7 @@ class TPDOConnection {
                    .PHP_EOL.' valores: '.print_r($arrParams, TRUE)
                    ;
             error_log($msg);
+            throw $e;
         }        
     }
 }

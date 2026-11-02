@@ -4,8 +4,12 @@ class TipoPorteEmpresa
 
     public static function getByid($id)
     {
+        if( is_null($id) || $id === '' ){
+            return $id;
+        }
+        $id = str_pad(trim((string) $id), 2, '0', STR_PAD_LEFT); //'1' ou '01'
         $list = self::getList();
-        return $list[$id];
+        return isset($list[$id]) ? $list[$id] : $id;
     }
 
     public static function getList()

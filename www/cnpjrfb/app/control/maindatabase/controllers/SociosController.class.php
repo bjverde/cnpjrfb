@@ -60,6 +60,28 @@ class SociosController
         $socio = ArrayHelper::getArray($result,0);
         return $socio;
     }
+    /**
+     * Carrega o sócio pela chave (id) da tabela socios e devolve um objeto com
+     * os atributos em maiúsculas, no mesmo formato de selectBySocio().
+     *
+     * @param int $id
+     * @return stdClass|null
+     */
+    public function selectByIdAdianti($id)
+    {
+        TTransaction::open('maindatabase');
+        try {
+            $registro = socios::find($id);
+            TTransaction::close();
+        } catch (Exception $e) {
+            TTransaction::rollback();
+            throw $e;
+        }
+        if( empty($registro) ){
+            return null;
+        }
+        return (object) array_change_key_case($registro->toArray(), CASE_UPPER);
+    }
     public function selectBySocioAdianti($cnpj_basico, $nome_socio_razao_social,$cpf_cnpj_socio)
     {
         try {

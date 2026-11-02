@@ -7,6 +7,7 @@ class Transforme
         $actionSocioView = new TDataGridAction(array('SocioViewForm', 'onView'));
         $actionSocioView->setLabel('Detalhar Sócio');
         $actionSocioView->setImage('fa:user green');
+        $actionSocioView->setParameter('id', '{id}');
         $actionSocioView->setParameter('cnpj_basico', '{cnpj_basico}');
         $actionSocioView->setParameter('nome_socio_razao_social', '{nome_socio_razao_social}');
         $actionSocioView->setParameter('cpf_cnpj_socio', '{cpf_cnpj_socio}');
@@ -14,13 +15,21 @@ class Transforme
         return $actionSocioView;
     }
 
-    public static function getDataGridActionDetalharEmpresa()
+    /**
+     * @param boolean $comEstabelecimento - true quando a grid é de estabelecimentos:
+     *                                      abre o estabelecimento da linha, não a matriz
+     */
+    public static function getDataGridActionDetalharEmpresa($comEstabelecimento = false)
     {
         $action = new TDataGridAction(array('cnpjFormView', 'onView'));
         $action->setLabel("Detalhar Empresa");
         $action->setButtonClass('btn btn-default');
         $action->setImage('fas:building #7C93CF');
         $action->setParameter('cnpj_basico', '{cnpj_basico}');
+        if( $comEstabelecimento ){
+            $action->setParameter('cnpj_ordem', '{cnpj_ordem}');
+            $action->setParameter('cnpj_dv', '{cnpj_dv}');
+        }
         $action->setField('cnpj_basico');
         return $action;
     }

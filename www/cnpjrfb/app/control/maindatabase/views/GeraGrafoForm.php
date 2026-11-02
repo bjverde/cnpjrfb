@@ -69,11 +69,11 @@ class GeraGrafoForm extends TPage
             $msg = $msg.'<br> abaixo o dois comandos que são excutado para gerar o grafo. Abra um terminal do seu SO, copie e cole o comando ter certeza que está funcionando.';
             $msg = $msg.'<br>';
             $msg = $msg.'<br>';
-            $msg = $msg.'<b><pre>'.$resultado[GeraGrafoController::COMANDO].'</pre></b>';
+            $msg = $msg.'<b><pre>'.htmlspecialchars((string) $resultado[GeraGrafoController::COMANDO], ENT_QUOTES, 'UTF-8').'</pre></b>';
             $msg = $msg.'<br>';
             $msg = $msg.'<br> abaixo a mensagem de retorno da exeução';
             FormDinHelper::debug($msg);
-            FormDinHelper::debug($resultado[GeraGrafoController::INFO]);
+            FormDinHelper::debug(htmlspecialchars((string) $resultado[GeraGrafoController::INFO], ENT_QUOTES, 'UTF-8'));
         }
     }
 }
