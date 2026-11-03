@@ -200,16 +200,6 @@ RUN apt-get -y install php8.5-mongodb
 # python-dotenv) + pytest para rodar os testes do CNPJ-full dentro do container.
 RUN apt-get -y install python3 python3-venv python3-pip
 
-ENV CNPJ_FULL_VENV=/opt/cnpj-full-venv
-RUN python3 -m venv ${CNPJ_FULL_VENV} \
-    && ${CNPJ_FULL_VENV}/bin/pip install --no-cache-dir --upgrade pip \
-    && ${CNPJ_FULL_VENV}/bin/pip install --no-cache-dir \
-       pandas numpy numexpr networkx python-dotenv pytest
-ENV PATH="${CNPJ_FULL_VENV}/bin:${PATH}"
-
-# Garante o mesmo PATH para o Apache (www-data), mesmo se ele for reiniciado
-# com "service apache2 restart" ou "apachectl" dentro do container.
-RUN echo "export PATH=${CNPJ_FULL_VENV}/bin:\$PATH" >> /etc/apache2/envvars
 
 ## ------------- Finishing ------------------
 RUN apt-get clean
