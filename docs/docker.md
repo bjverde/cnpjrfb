@@ -35,7 +35,7 @@ docker compose exec apache_php bash
 
 1. Crie as tabelas:
    ```bash
-   docker compose exec -T mariadb mariadb -uroot -pp123456 < modelo_banco/mysql/modelo_mysql.sql
+   docker compose exec -T mariadb mariadb -uroot -pp123456 < docs/modelo_banco/mysql/modelo_mysql.sql
    ```
 2. Coloque os arquivos descompactados da RFB em `www/cargabd/extracted/`. Veja os passos 1 e 2 de [Carga dos dados](carga.md).
 3. Em `www/cargabd/config.php`, use `db_host` = `mariadb`, `db_user` = `root`, `db_password` = `p123456` e `EXTRACTED_FILES_PATH` = `/var/www/html/cargabd/extracted`.

@@ -70,7 +70,7 @@ O sistema lê as tabelas sem schema. Se elas estiverem num schema que não é o 
 define('DATABASE_SCHEMA','dados_rfb.');
 ```
 
-| Banco | `DATABASE_SCHEMA` com os scripts de `modelo_banco/` |
+| Banco | `DATABASE_SCHEMA` com os scripts de `docs/modelo_banco/` |
 | --- | --- |
 | PostgreSQL | `'dados_rfb.'` (as tabelas ficam no schema `dados_rfb`) |
 | SQL Server | `'dados_rfb.'` |

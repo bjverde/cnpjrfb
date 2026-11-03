@@ -8,9 +8,8 @@
 cnpjrfb/
 ├── README.md
 ├── docs/                         documentação e dicionário de dados da RFB (cnpj-metadados.pdf)
-├── modelo_banco/                 scripts de criação do banco
-│   ├── gerar_modelos.py          gera todos os scripts a partir de uma única definição
-│   ├── mysql/ postgresql/ sqlite/ sqlserver/ oracle/
+│   ├── modelo_banco/             scripts de criação do banco
+│   │   ├── mysql/ postgresql/ sqlite/ sqlserver/ oracle/
 ├── www/
 │   ├── cargabd/                  carga dos arquivos da RFB (PHP, só terminal)
 │   │   ├── index.php             ponto de entrada (aceita --tabela=)
@@ -37,11 +36,7 @@ cnpjrfb/
 
 ## Alterar o modelo de banco
 
-Os scripts de `modelo_banco/` são gerados. Não edite os `.sql` à mão: altere `modelo_banco/gerar_modelos.py` e rode
-
-```bash
-python3 modelo_banco/gerar_modelos.py
-```
+Os scripts de `docs/modelo_banco/` seguem o mesmo modelo em todos os bancos. Ao mudar uma tabela, altere os scripts de **todos** os bancos (MySQL, PostgreSQL, SQLite, SQL Server e Oracle) e os `_fk.sql` correspondentes.
 
 Se mudar colunas, atualize também:
 
@@ -63,7 +58,7 @@ Para testar com dados próprios, carregue um SQLite com a carga (`db_drive` = `s
 Ainda não há testes automáticos. Para conferir uma mudança na carga:
 
 1. Monte uma pasta com poucos arquivos no formato da RFB: CSV sem cabeçalho, `;` como separador, campos entre aspas e codificação ISO-8859-1. Use nomes como `K3241.K03200Y0.D41012.EMPRECSV`.
-2. Crie um banco de teste com o script de `modelo_banco/`.
+2. Crie um banco de teste com o script de `docs/modelo_banco/`.
 3. Rode `php www/cargabd/index.php` e confira as contagens e os valores gravados.
 
 Vale incluir casos como aspas e `;` dentro do texto, datas `00000000`, campos vazios e uma linha com colunas a menos.

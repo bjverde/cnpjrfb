@@ -4,7 +4,7 @@
  * https://github.com/bjverde/cnpjrfb
  *
  * Colunas na mesma ordem do arquivo CSV da RFB (cnpj-metadados.pdf) e do
- * modelo em modelo_banco/.
+ * modelo em docs/modelo_banco/.
  */
 class SimplesDAO extends Dao
 {

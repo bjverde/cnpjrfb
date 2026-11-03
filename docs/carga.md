@@ -2,7 +2,7 @@
 
 # Carga dos dados
 
-A carga é um script PHP de terminal, em `www/cargabd`. Ele lê os arquivos CSV da Receita Federal (RFB) e grava no banco criado com os scripts de [`modelo_banco/`](../modelo_banco/README.md). Funciona com MySQL/MariaDB, PostgreSQL, SQLite, SQL Server e Oracle.
+A carga é um script PHP de terminal, em `www/cargabd`. Ele lê os arquivos CSV da Receita Federal (RFB) e grava no banco criado com os scripts de [`docs/modelo_banco/`](modelo_banco/README.md). Funciona com MySQL/MariaDB, PostgreSQL, SQLite, SQL Server e Oracle.
 
 A carga completa tem cerca de 140 milhões de linhas e leva horas, dependendo do computador e do banco.
 
@@ -56,12 +56,12 @@ Cada ZIP tem um CSV sem cabeçalho, separado por `;`, com campos entre aspas e c
 
 ## 3. Criar o banco
 
-Rode o script de criação do seu banco, que está em [`modelo_banco/`](../modelo_banco/README.md). Por exemplo:
+Rode o script de criação do seu banco, que está em [`docs/modelo_banco/`](modelo_banco/README.md). Por exemplo:
 
 ```bash
-mysql -u root -p < modelo_banco/mysql/modelo_mysql.sql
-psql -d dados_rfb -f modelo_banco/postgresql/modelo_postgres.sql
-sqlite3 dados_rfb.db < modelo_banco/sqlite/modelo_sqlite.sql
+mysql -u root -p < docs/modelo_banco/mysql/modelo_mysql.sql
+psql -d dados_rfb -f docs/modelo_banco/postgresql/modelo_postgres.sql
+sqlite3 dados_rfb.db < docs/modelo_banco/sqlite/modelo_sqlite.sql
 ```
 
 Não rode ainda os scripts `*_fk.sql`: as chaves estrangeiras são criadas no [passo 6](#6-criar-as-chaves-estrangeiras-opcional).
@@ -87,7 +87,7 @@ return [
 | Opção | Descrição |
 | --- | --- |
 | `db_drive` | Driver PDO: `mysql` (MySQL/MariaDB), `pgsql`, `sqlite`, `sqlsrv` (SQL Server) ou `oci` (Oracle). |
-| `db_schema` | Schema das tabelas. O padrão é `dados_rfb`, igual aos scripts de `modelo_banco/`. No MySQL o schema é o banco criado pelo `modelo_mysql.sql`. No Oracle use `''` se conectar com o usuário dono das tabelas. No SQLite é ignorado. |
+| `db_schema` | Schema das tabelas. O padrão é `dados_rfb`, igual aos scripts de `docs/modelo_banco/`. No MySQL o schema é o banco criado pelo `modelo_mysql.sql`. No Oracle use `''` se conectar com o usuário dono das tabelas. No SQLite é ignorado. |
 | `linhas_por_transacao` | Quantas linhas gravar antes de cada `COMMIT`. O padrão é 10000. |
 | `EXTRACTED_FILES_PATH` | Pasta com os arquivos descompactados. |
 
@@ -128,7 +128,7 @@ Para cada arquivo, a carga mostra quantas linhas foram lidas, gravadas e descart
 
 ## 6. Criar as chaves estrangeiras (opcional)
 
-Depois da carga, rode o script `_fk.sql` do seu banco (ex.: `modelo_banco/postgresql/modelo_postgres_fk.sql`). As chaves ficam separadas por dois motivos: deixam a carga muito mais lenta, e a carga grava `estabelecimento` e `socios` antes de `empresa`.
+Depois da carga, rode o script `_fk.sql` do seu banco (ex.: `docs/modelo_banco/postgresql/modelo_postgres_fk.sql`). As chaves ficam separadas por dois motivos: deixam a carga muito mais lenta, e a carga grava `estabelecimento` e `socios` antes de `empresa`.
 
 Para recarregar depois que as FKs existirem, apague as FKs antes. No PostgreSQL, no SQL Server e no Oracle, o `TRUNCATE` ou `DELETE` falha se houver FK apontando para a tabela. No MySQL as FKs são desligadas durante a carga.
 

@@ -6,7 +6,7 @@ O projeto tem três partes:
 
 * **Sistema web** (`www/cnpjrfb`): telas de pesquisa e ficha completa do CNPJ, no celular, tablet ou desktop.
 * **Carga** (`www/cargabd`): script PHP de terminal que lê os arquivos da RFB e grava no banco. Funciona com MySQL/MariaDB, PostgreSQL, SQLite, SQL Server e Oracle.
-* **Modelo de banco** (`modelo_banco`): scripts de criação das tabelas para os mesmos cinco bancos, gerados de uma única definição e seguindo o [dicionário de dados da RFB](docs/cnpj-metadados.pdf).
+* **Modelo de banco** (`docs/modelo_banco`): scripts de criação das tabelas para os mesmos cinco bancos, todos com o mesmo modelo e seguindo o [dicionário de dados da RFB](docs/cnpj-metadados.pdf).
 
 ![Visão no Celular](www/cnpjrfb/app/images/celular_empresa_visao.png?raw=true "Visão no Celular")
 
@@ -29,7 +29,7 @@ Agradecimento para todas as pessoas que contribuíram de forma direta ou indiret
 
 * [Instalação do sistema web](docs/instalacao.md): requisitos, cópia dos arquivos e configuração do banco
 * [Carga dos dados](docs/carga.md): download dos arquivos da RFB, criação do banco e execução da carga
-* [Modelo de banco](modelo_banco/README.md): tabelas, chaves e scripts por banco
+* [Modelo de banco](docs/modelo_banco/README.md): tabelas, chaves e scripts por banco
 * [Docker](docs/docker.md): ambiente pronto com Apache, PHP 8.2 e MariaDB
 * [Segurança em produção](docs/seguranca.md): o que desligar antes de publicar o sistema
 * [Desenvolvimento](docs/desenvolvimento.md): estrutura de pastas e como alterar o projeto
@@ -48,7 +48,7 @@ php -S localhost:8080
 
 Para usar a base completa da RFB:
 
-1. Crie o banco com o script do seu SGBD em [`modelo_banco/`](modelo_banco/README.md).
+1. Crie o banco com o script do seu SGBD em [`docs/modelo_banco/`](docs/modelo_banco/README.md).
 2. Baixe e descompacte os arquivos da RFB e rode a carga (veja [Carga dos dados](docs/carga.md)). Leva horas.
 3. Aponte o sistema web para o novo banco em `www/cnpjrfb/app/config/maindatabase.php` (veja [Instalação](docs/instalacao.md#3-configurar-o-banco)).
 
