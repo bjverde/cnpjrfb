@@ -1,0 +1,15 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "PostgreSQL Docker (database)",
+            "Group": "Servers",
+            "Host": "database",
+            "Port": 5432,
+            "MaintenanceDB": "postgres",
+            "Username": "postgres",
+            "SSLMode": "prefer",
+            "Comment": "Servidor PostgreSQL local do container Docker (senha padrão: postgres)"
+        }
+    }
+}
+
