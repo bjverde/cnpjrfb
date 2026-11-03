@@ -32,6 +32,10 @@ Ambiente Docker completo baseado em **Debian 13**, **Apache 2.4.X**, **PHP 8.5**
   * Composer
   * PHPUnit 13.X
   * Git
+* **Python 3.13 para o [CNPJ-full](https://github.com/bjverde/CNPJ-full):**
+  * Ambiente virtual em `/opt/cnpj-full-venv`, já no `PATH` (terminal e Apache)
+  * Bibliotecas: `pandas`, `numpy`, `numexpr`, `networkx`, `python-dotenv` e `pytest`
+  * Detalhes em [🐍 Python e CNPJ-full no container](#-python-e-cnpj-full-no-container)
 * **Containers Adicionais no `docker-compose.yml`:**
   * **PostgreSQL (`database`):** Banco de dados relacional na porta `5432` com persistência em `./postgres_database`
   * **pgAdmin 4 (`pgadmin`):** Interface web de administração rodando em [http://localhost:8080](http://localhost:8080)
@@ -139,6 +143,56 @@ Este arquivo é montado automaticamente no container do pgAdmin (`/pgadmin4/serv
 Arquivo opcional com parâmetros do banco PostgreSQL (`max_connections`, `shared_buffers`, `timezone = 'America/Sao_Paulo'`, `log_statement`). Para utilizá-lo por completo, basta descomentar a linha do volume `./config/postgresql.conf` no serviço `database` dentro do [`docker-compose.yml`](docker-compose.yml).
 
 ---
+
+## 🐍 Python e CNPJ-full no container
+
+A imagem já traz o Python 3.13 com tudo o que o [CNPJ-full](https://github.com/bjverde/CNPJ-full) precisa (o mesmo `requirements.txt` dele, mais o `pytest`).
+
+* O Debian 13 não deixa instalar pacotes com `pip` no Python do sistema (PEP 668). Por isso as bibliotecas ficam no ambiente virtual `/opt/cnpj-full-venv`.
+* Esse ambiente está no `PATH` do container e do Apache. Então `python3` e `pip` já são os do venv, sem precisar de `source .../activate`. É esse `python3` que a tela do grafo (`GeraGrafoController`) executa.
+* O código do CNPJ-full **não** vai dentro da imagem. Ele fica em `www/cnpjrfb/app/CNPJ-full` (ignorado pelo git), que chega ao container pelo volume `./www`.
+
+### Baixar o CNPJ-full
+
+No host, na raiz do cnpjrfb:
+
+```bash
+git clone https://github.com/bjverde/CNPJ-full.git www/cnpjrfb/app/CNPJ-full
+```
+
+### Conferir e testar dentro do container
+
+```bash
+docker-compose exec apache_php bash
+
+python3 --version                       # Python 3.13.x do /opt/cnpj-full-venv
+python3 -c "import pandas, networkx, dotenv; print('ok')"
+
+cd /var/www/html/cnpjrfb/app/CNPJ-full
+python3 -m pytest -q                    # testes do CNPJ-full com a amostra sintética
+```
+
+### Usar o CNPJ-full
+
+```bash
+cd /var/www/html/cnpjrfb/app/CNPJ-full
+
+# carga (hoje gera SQLite ou CSV)
+python3 cnpj_full/cnpj.py dados sqlite saida --dir
+
+# consulta + grafo
+python3 cnpj_full/consulta.py cnpj 00000000000191 resultado --base saida/CNPJ_full.db --nivel 2 --viz --cache
+```
+
+Veja a documentação completa no [README do CNPJ-full](https://github.com/bjverde/CNPJ-full#readme).
+
+### Instalar outra biblioteca Python
+
+```bash
+docker-compose exec apache_php pip install <pacote>
+```
+
+Isso dura só até o container ser recriado. Para ficar permanente, inclua o pacote na linha do `pip install` do [`debian13_apache_php85_pgsql.Dockerfile`](../debian13_apache_php85_pgsql.Dockerfile) e rode `docker-compose up -d --build`.
 
 ## 🛠️ Comandos Úteis
 
