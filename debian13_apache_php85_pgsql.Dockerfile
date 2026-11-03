@@ -186,6 +186,31 @@ RUN apt-get -y install php8.5-mongodb
 #RUN echo "extension=mongodb.so" >> /etc/php/8.4/mods-available/mongodb.ini
 #RUN ln -s /etc/php/8.4/mods-available/mongodb.ini /etc/php/8.4/apache2/conf.d/20-mongodb.ini
 
+## ------------- Python 3 para o CNPJ-full ------------------
+# https://github.com/bjverde/CNPJ-full
+# O CNPJ-full faz a carga, as consultas e o grafo em Python. O cnpjrfb chama o
+# consulta.py com "python3" (GeraGrafoController).
+#
+# O Debian 13 traz o Python 3.13 e não deixa usar o pip no Python do sistema
+# (PEP 668, "externally-managed-environment"). Por isso as bibliotecas ficam num
+# ambiente virtual em /opt/cnpj-full-venv, que entra no PATH: assim "python3"
+# e "pip" já são os do venv, no terminal e no PHP executado pelo Apache.
+#
+# Bibliotecas = requirements.txt do CNPJ-full (pandas, numpy, numexpr, networkx,
+# python-dotenv) + pytest para rodar os testes do CNPJ-full dentro do container.
+RUN apt-get -y install python3 python3-venv python3-pip
+
+ENV CNPJ_FULL_VENV=/opt/cnpj-full-venv
+RUN python3 -m venv ${CNPJ_FULL_VENV} \
+    && ${CNPJ_FULL_VENV}/bin/pip install --no-cache-dir --upgrade pip \
+    && ${CNPJ_FULL_VENV}/bin/pip install --no-cache-dir \
+       pandas numpy numexpr networkx python-dotenv pytest
+ENV PATH="${CNPJ_FULL_VENV}/bin:${PATH}"
+
+# Garante o mesmo PATH para o Apache (www-data), mesmo se ele for reiniciado
+# com "service apache2 restart" ou "apachectl" dentro do container.
+RUN echo "export PATH=${CNPJ_FULL_VENV}/bin:\$PATH" >> /etc/apache2/envvars
+
 ## ------------- Finishing ------------------
 RUN apt-get clean
 
