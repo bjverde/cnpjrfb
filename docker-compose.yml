@@ -8,69 +8,89 @@
 # How use iterative mode container
 # sudo docker-compose exec apache_php bash
 
-
 #Purging All Unused or Dangling Images, Containers, Volumes, and Networks
 #sudo docker system prune -a
 
 services:
 
+  database:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_database:/var/lib/postgresql/data:rw # Persistência dos dados do PostgreSQL
+      #- ./logs:/var/log/postgresql:rw # Descomente junto com o 'command' abaixo se quiser log em arquivo
+      #- ./config/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    #command:
+      #- "postgres"
+      #- "-c"
+      #- "logging_collector=on"
+      #- "-c"
+      #- "log_directory=/var/log/postgresql"
+      #- "-c"
+      #- "log_filename=postgresql.log"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - formdin-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgAdmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: 123456
+      PGADMIN_REPLACE_SERVERS_ON_STARTUP: "True"
+    ports:
+      - "8080:80"
+    volumes:
+      - ./config/servers.json:/pgadmin4/servers.json:ro
+    networks:
+      - formdin-network
+    depends_on:
+      database:
+        condition: service_healthy
+
   apache_php:
     build:
-      dockerfile: adianti_debian12_php8.2.Dockerfile
+      dockerfile: debian13_apache_php85_pgsql.Dockerfile
       context: .
-    image: adianti_debian12_php8.2:last
-    container_name: adianti_debian12_php8.2
+    image: debian13_apache_php85_pgsql:last
+    container_name: debian13_apache_php85_pgsql
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
-      - "9003:9003"
+      - "80:80" # Porta para acessar o Apache com HTTP
+      - "443:443" # Porta para acessar o Apache com HTTPS
+      - "9003:9003" # Porta para o Xdebug (padrão na versão 3)
     networks:
       - formdin-network
     volumes:
-      #- ./000-default.conf:/etc/apache2/sites-enabled/000-default.conf
-      - ./php.ini:/etc/php/8.2/apache2/php.ini:ro
-      - ./www:/var/www/html:rw               #WWW ROOT
-      - ./log_apache:/var/log/apache2:rw #Log Apahce
-
-  mariadb:
-    image: mariadb:10.11
-    container_name: mariadb
-    restart: on-failure
+      - ./config/php-apache.ini:/etc/php/8.5/apache2/php.ini
+      - ./config/php-cli.ini:/etc/php/8.5/cli/php.ini
+      - ./config/xdebug.ini:/etc/php/8.5/apache2/conf.d/20-xdebug.ini
+      - ./config/apache_default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./www:/var/www/html:rw # Caminho relativo da pasta www (DOCUMENT_ROOT)
+      - ./logs:/var/log/apache2:rw # Caminho relativo da pasta de logs do Apache
     environment:
-      #MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      MYSQL_ROOT_PASSWORD: p123456
-      MYSQL_DATABASE: mybb
-      MYSQL_USER: mybb
-      MYSQL_PASSWORD: mybb
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./mariadb_database:/var/lib/mysql    # Volume para os dados do banco de dados
-      - ./mariadb_logs:/var/log/mysql        # Volume para os logs do MySQL
-    networks:
-      - formdin-network
+      XDEBUG_CONFIG: "client_host=host.docker.internal" # Define o IP do host para depuração
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      database:
+        condition: service_healthy
 
-  adminer:
-    image: adminer
-    container_name: adminer
-    restart: always
-    networks:
-      - formdin-network
-    ports:
-      - 8080:8080
 
-  phpmyadmin:
-    image: phpmyadmin
-    container_name: phpmyadmin
-    restart: always
-    environment:
-      PMA_ARBITRARY: 1
-    ports:
-      - 9090:80
-    networks:
-      - formdin-network
-
-networks: 
-    formdin-network:
-        driver: bridge
+networks:
+  formdin-network:
+    driver: bridge
