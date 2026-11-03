@@ -1,4 +1,4 @@
-[← Voltar ao README](../README.md)
+[← Voltar ao README](../README.md) | [Sumário da documentação](sumario.md)
 
 # Segurança em produção
 

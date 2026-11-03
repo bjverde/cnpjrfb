@@ -1,4 +1,4 @@
-[← Voltar ao README](../README.md)
+[← Voltar ao README](../README.md) | [Sumário da documentação](sumario.md)
 
 # Desenvolvimento
 
@@ -7,7 +7,7 @@
 ```
 cnpjrfb/
 ├── README.md
-├── docs/                         documentação e dicionário de dados da RFB (cnpj-metadados.pdf)
+├── docs/                         guias (sumario.md, instalacao.md, carga.md, modelo_banco.md...) e dicionário da RFB (cnpj-metadados.pdf)
 │   ├── modelo_banco/             scripts de criação do banco
 │   │   ├── mysql/ postgresql/ sqlite/ sqlserver/ oracle/
 ├── www/
@@ -36,7 +36,7 @@ cnpjrfb/
 
 ## Alterar o modelo de banco
 
-Os scripts de `docs/modelo_banco/` seguem o mesmo modelo em todos os bancos. Ao mudar uma tabela, altere os scripts de **todos** os bancos (MySQL, PostgreSQL, SQLite, SQL Server e Oracle) e os `_fk.sql` correspondentes.
+Os scripts descritos em [`docs/modelo_banco.md`](modelo_banco.md) seguem o mesmo modelo em todos os bancos. Ao mudar uma tabela, altere os scripts de **todos** os bancos (MySQL, PostgreSQL, SQLite, SQL Server e Oracle) e os `_fk.sql` correspondentes.
 
 Se mudar colunas, atualize também:
 

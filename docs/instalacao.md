@@ -1,4 +1,4 @@
-[← Voltar ao README](../README.md)
+[← Voltar ao README](../README.md) | [Sumário da documentação](sumario.md)
 
 # Instalação do sistema web
 
@@ -70,7 +70,7 @@ O sistema lê as tabelas sem schema. Se elas estiverem num schema que não é o 
 define('DATABASE_SCHEMA','dados_rfb.');
 ```
 
-| Banco | `DATABASE_SCHEMA` com os scripts de `docs/modelo_banco/` |
+| Banco | `DATABASE_SCHEMA` com os scripts de [`docs/modelo_banco.md`](modelo_banco.md) |
 | --- | --- |
 | PostgreSQL | `'dados_rfb.'` (as tabelas ficam no schema `dados_rfb`) |
 | SQL Server | `'dados_rfb.'` |

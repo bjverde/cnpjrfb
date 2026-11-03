@@ -1,8 +1,8 @@
-[← Voltar ao README](../README.md)
+[← Voltar ao README](../README.md) | [Sumário da documentação](sumario.md)
 
 # Carga dos dados
 
-A carga é um script PHP de terminal, em `www/cargabd`. Ele lê os arquivos CSV da Receita Federal (RFB) e grava no banco criado com os scripts de [`docs/modelo_banco/`](modelo_banco/README.md). Funciona com MySQL/MariaDB, PostgreSQL, SQLite, SQL Server e Oracle.
+A carga é um script PHP de terminal, em `www/cargabd`. Ele lê os arquivos CSV da Receita Federal (RFB) e grava no banco criado com os scripts descritos em [`docs/modelo_banco.md`](modelo_banco.md). Funciona com MySQL/MariaDB, PostgreSQL, SQLite, SQL Server e Oracle.
 
 A carga completa tem cerca de 140 milhões de linhas e leva horas, dependendo do computador e do banco.
 
@@ -56,7 +56,7 @@ Cada ZIP tem um CSV sem cabeçalho, separado por `;`, com campos entre aspas e c
 
 ## 3. Criar o banco
 
-Rode o script de criação do seu banco, que está em [`docs/modelo_banco/`](modelo_banco/README.md). Por exemplo:
+Rode o script de criação do seu banco, conforme [`docs/modelo_banco.md`](modelo_banco.md). Por exemplo:
 
 ```bash
 mysql -u root -p < docs/modelo_banco/mysql/modelo_mysql.sql
