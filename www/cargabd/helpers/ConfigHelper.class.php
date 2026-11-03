@@ -85,7 +85,7 @@ class ConfigHelper
     }
     /**
      * Schema das tabelas. Se não estiver no config.php: 'dados_rfb', igual aos
-     * scripts de modelo_banco/. No SQLite é sempre vazio (modelo_sqlite.sql não usa schema).
+     * scripts de docs/modelo_banco/. No SQLite é sempre vazio (modelo_sqlite.sql não usa schema).
      */
     public static function getDbSchema()
     {

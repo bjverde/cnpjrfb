@@ -2,8 +2,8 @@
 -- Base de dados para gravar os dados públicos de CNPJ da Receita Federal do Brasil
 -- Layout: "Novo Layout para os DADOS ABERTOS do CNPJ" (cnpj-metadados.pdf)
 --
--- ARQUIVO GERADO por modelo_banco/gerar_modelos.py. Não edite à mão:
--- altere o gerador e rode de novo para manter todos os bancos iguais.
+-- Os scripts de todos os bancos seguem o mesmo modelo (docs/modelo_banco/README.md).
+-- Ao alterar uma tabela aqui, altere também os scripts dos outros bancos.
 -- -----------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------
@@ -26,4 +26,3 @@ ALTER TABLE dados_rfb.socios ADD CONSTRAINT fk_soc_empresa FOREIGN KEY (cnpj_bas
 ALTER TABLE dados_rfb.socios ADD CONSTRAINT fk_soc_quals FOREIGN KEY (qualificacao_socio) REFERENCES dados_rfb.quals (codigo);
 ALTER TABLE dados_rfb.socios ADD CONSTRAINT fk_soc_quals_rep FOREIGN KEY (qualificacao_representante_legal) REFERENCES dados_rfb.quals (codigo);
 ALTER TABLE dados_rfb.socios ADD CONSTRAINT fk_soc_pais FOREIGN KEY (pais) REFERENCES dados_rfb.pais (codigo);
-GO

@@ -2,8 +2,8 @@
 -- Base de dados para gravar os dados públicos de CNPJ da Receita Federal do Brasil
 -- Layout: "Novo Layout para os DADOS ABERTOS do CNPJ" (cnpj-metadados.pdf)
 --
--- ARQUIVO GERADO por modelo_banco/gerar_modelos.py. Não edite à mão:
--- altere o gerador e rode de novo para manter todos os bancos iguais.
+-- Os scripts de todos os bancos seguem o mesmo modelo (docs/modelo_banco/README.md).
+-- Ao alterar uma tabela aqui, altere também os scripts dos outros bancos.
 -- -----------------------------------------------------------------------------
 
 -- Requer SQL Server 2016 ou superior (DROP TABLE IF EXISTS).
