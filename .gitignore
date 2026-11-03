@@ -12,7 +12,9 @@
 /.buildpath
 
 # Iginorando arquivos de log
-/log_apache/
+/logs/
+#Ignorando arquivos do Banco de dados
+/postgres_database/
 
 #Iginorando arquivos da receita federal
 !/www/cargabd/download/unzip_files.sh
