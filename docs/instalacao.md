@@ -80,6 +80,40 @@ define('DATABASE_SCHEMA','dados_rfb.');
 
 Mais detalhes sobre os tipos de conexão estão no [quickstart do Adianti](https://www.adianti.com.br/framework-quickstart).
 
-## 4. Antes de publicar
+## 4. Grafo de relacionamentos (opcional)
+
+O grafo é gerado pelo [CNPJ-full](https://github.com/bjverde/CNPJ-full), em Python. O código dele fica dentro do sistema web, na pasta `www/cnpjrfb/app/CNPJ-full`, que o git do cnpjrfb ignora. O nome tem que ser exatamente `CNPJ-full`, com maiúsculas, que é o nome que o `git clone` cria. No Linux, `cnpj-full` não funciona.
+
+1. Baixe o CNPJ-full dentro da pasta `app`:
+
+    ```bash
+    cd www/cnpjrfb/app
+    git clone https://github.com/bjverde/CNPJ-full.git
+    ```
+
+    Para atualizar depois, rode `git pull` dentro de `app/CNPJ-full`.
+2. Instale o Python 3.13 e as bibliotecas do CNPJ-full, conforme [Ambientes](https://github.com/bjverde/CNPJ-full/blob/master/docs/ambientes.md). No Docker do cnpjrfb isso já vem pronto (veja [Docker](docker.md#-python-e-cnpj-full-no-container)).
+3. Informe ao CNPJ-full onde está o banco, no `.env` dele (`app/CNPJ-full/.env`, variável `CNPJ_DB_ARQUIVO`). Sem isso, ele usa o banco de teste que vem junto.
+
+Onde fica cada coisa:
+
+| O quê | Onde | Para trocar |
+|-------|------|-------------|
+| Código do CNPJ-full | `app/CNPJ-full` | não muda |
+| Grafos gerados (`grafo.html` e `cache.json`) | `app/output/grafos/<cnpj>` | variável de ambiente `CNPJ_GRAFOS_PATH` |
+| Python | `python3` no Linux, `python` no Windows | variável de ambiente `CNPJ_PYTHON` (ex.: o Python de um venv) |
+
+As pastas `app/CNPJ-full` e `app/output/grafos` recebem um `.htaccess` com `Require all denied` na primeira vez que um grafo é gerado. Assim o Apache não serve o `.env`, o banco nem os arquivos gerados. A tela lê o `grafo.html` pelo PHP e o mostra na página. Se usar outro servidor web (nginx, por exemplo), bloqueie essas duas pastas na configuração dele.
+
+No Linux, o usuário do Apache precisa poder gravar na pasta dos grafos:
+
+```bash
+mkdir -p www/cnpjrfb/app/output/grafos
+chown -R www-data:www-data www/cnpjrfb/app/output/grafos
+```
+
+A tela repete a mesma consulta pelo cache: se o grafo daquele CNPJ já foi gerado com a mesma carga do banco, ele é reaproveitado.
+
+## 5. Antes de publicar
 
 O sistema não tem login, porque é uma consulta pública. Antes de deixá-lo acessível na internet, siga o checklist em [Segurança em produção](seguranca.md).

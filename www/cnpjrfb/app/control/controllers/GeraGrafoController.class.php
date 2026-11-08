@@ -1,4 +1,22 @@
 <?php
+/**
+ * Gera o grafo de relacionamentos chamando o consulta.py do CNPJ-full.
+ *
+ * Onde fica cada coisa (todos os caminhos são relativos à pasta app/):
+ *  - Código Python: app/CNPJ-full, criado com
+ *    "git clone https://github.com/bjverde/CNPJ-full.git" dentro de app/.
+ *  - Grafos gerados: app/output/grafos/<cnpj> (ou <cnpj>_<cpf/cnpj do sócio>).
+ *    Pode ser trocado pela variável de ambiente CNPJ_GRAFOS_PATH.
+ *  - Python: "python3" no Linux e "python" no Windows. Pode ser trocado pela
+ *    variável de ambiente CNPJ_PYTHON (ex.: o python de um venv).
+ *
+ * As duas pastas recebem um .htaccess "Require all denied": o Apache não
+ * serve nada delas (.env, banco SQLite, cache.json). O grafo.html é
+ * autocontido (d3 embutido), então o PHP lê o arquivo e a tela o mostra.
+ *
+ * No Linux/Docker o usuário do Apache precisa poder gravar em app/output/grafos:
+ *   chown -R www-data:www-data www/cnpjrfb/app/output/grafos
+ */
 class GeraGrafoController
 {
     const GERAL = 'geral';
@@ -8,10 +26,13 @@ class GeraGrafoController
 
     const TAMANHO_MAXIMO_NOME = 150;
 
+    // Mesmo nome que o "git clone" cria. No Linux maiúsculas fazem diferença.
+    const PASTA_CNPJ_FULL = 'CNPJ-full';
+    const PASTA_GRAFOS = 'output/grafos';
+    const SCRIPT_CONSULTA = 'cnpj_full/consulta.py';
+    const NIVEL = 3;
+
     /***
-     * 1 - sudo docker-compose exec apache_php bash
-     * 2 - chown -R www-data:www-data cnpjrfb/app/cnpj_full/graficos
-     *
      * Todos os valores que vêm do formulário/URL são validados e passam por
      * escapeshellarg() antes de entrar no comando, para impedir a execução
      * de comandos arbitrários no servidor.
@@ -24,6 +45,19 @@ class GeraGrafoController
         $resultado[GeraGrafoController::COMANDO] = null;
         $resultado[GeraGrafoController::ARQUIVO] = null;
 
+        $pathCnpjFull = self::getPathCnpjFull();
+        if( !is_file($pathCnpjFull.DIRECTORY_SEPARATOR.self::SCRIPT_CONSULTA) ){
+            $resultado[GeraGrafoController::INFO] = 'CNPJ-full não encontrado em '.$pathCnpjFull
+                .'. Dentro da pasta app/, rode: git clone https://github.com/bjverde/CNPJ-full.git';
+            return $resultado;
+        }
+        self::protegePasta($pathCnpjFull);
+        $pathGrafos = self::getPathGrafos();
+        if( !is_dir($pathGrafos) ){
+            @mkdir($pathGrafos, 0775, true);
+        }
+        self::protegePasta($pathGrafos);
+
         try {
             $command = self::montaComando($param, $nome_arquivo);
         } catch (InvalidArgumentException $e) {
@@ -33,6 +67,7 @@ class GeraGrafoController
 
         $result = null;
         $result01 = null;
+        $output = array();
         //POG para funcionar no windows
         //https://stackoverflow.com/questions/12757891/enable-shell-exec-in-wamp-server
         //https://qastack.com.br/programming/14062055/composer-warning-openssl-extension-is-missing-how-to-enable-in-wamp
@@ -56,11 +91,27 @@ class GeraGrafoController
         } catch (Exception $e) {
             echo htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
         }
-        $resultado[GeraGrafoController::GERAL]   = $result==0?true:false;
-        $resultado[GeraGrafoController::INFO]    = StringHelper::str2utf8($result01);
+        $arquivo = $pathGrafos.DIRECTORY_SEPARATOR.$nome_arquivo.DIRECTORY_SEPARATOR.'grafo.html';
+        $resultado[GeraGrafoController::GERAL]   = ($result==0 && is_file($arquivo));
+        $resultado[GeraGrafoController::INFO]    = StringHelper::str2utf8(is_array($output) ? implode("\n", $output) : (string) $output);
         $resultado[GeraGrafoController::COMANDO] = $command;
-        $resultado[GeraGrafoController::ARQUIVO] = DS.'graficos'.DS.$nome_arquivo.DS.'grafo.html';
+        $resultado[GeraGrafoController::ARQUIVO] = $arquivo;
         return $resultado;
+    }
+
+    /**
+     * Conteúdo do grafo.html gerado, ou null se o arquivo não existir.
+     * Só lê arquivos dentro da pasta de grafos.
+     */
+    public static function leGrafo($arquivo)
+    {
+        $real = realpath((string) $arquivo);
+        $base = realpath(self::getPathGrafos());
+        if( $real === false || $base === false || strpos($real, $base.DIRECTORY_SEPARATOR) !== 0 ){
+            return null;
+        }
+        $html = file_get_contents($real);
+        return $html === false ? null : $html;
     }
 
     /**
@@ -73,11 +124,6 @@ class GeraGrafoController
      */
     public static function montaComando($param, &$nome_arquivo = null)
     {
-        if (! defined ( 'DS' )) {
-            define ( 'DS', DIRECTORY_SEPARATOR );
-        }
-        $pythonCommand = self::isLinux()?'python3':'python'; //Alteração devido o windows10
-
         $cnpj = self::validaCnpj(self::getParam($param, 'cnpj'));
         $nome_socio = self::getParam($param, 'nome_socio');
 
@@ -93,20 +139,81 @@ class GeraGrafoController
             $nome_arquivo = $cnpj.'_'.$cpf_cnpj_socio;
             $argumentos = array('nome_socio', $nome_socio);
         }
-        $argumentos[] = 'graficos/'.$nome_arquivo;
+        $argumentos[] = self::getPathGrafos().DIRECTORY_SEPARATOR.$nome_arquivo;
 
-        $command = $pythonCommand.' consulta.py';
+        // --cache: se a mesma consulta já foi feita com a mesma carga do banco,
+        // o consulta.py reaproveita o grafo em vez de gerar de novo.
+        $command = self::comandoPython().' '.self::SCRIPT_CONSULTA;
         foreach ($argumentos as $argumento) {
             $command = $command.' '.escapeshellarg($argumento);
         }
-        $command = $command.' --nivel 3 --viz';
+        $command = $command.' --nivel '.self::NIVEL.' --viz --cache';
 
-        $path = dirname ( __FILE__ );
-        $path = $path.DS.'..'.DS.'..'.DS.'CNPJ-full'.DS;
+        // Roda dentro da pasta do CNPJ-full para ele achar o próprio .env
         $separador = self::isLinux() ? ' && ' : ';';
-        $command = 'cd '.escapeshellarg($path).$separador.$command.' 2>&1';
+        $command = 'cd '.escapeshellarg(self::getPathCnpjFull()).$separador.$command.' 2>&1';
         return $command;
     }
+
+    /** Pasta app/ do cnpjrfb. */
+    public static function getPathApp()
+    {
+        return dirname(__DIR__, 2);
+    }
+
+    public static function getPathCnpjFull()
+    {
+        return self::getPathApp().DIRECTORY_SEPARATOR.self::PASTA_CNPJ_FULL;
+    }
+
+    /** Pasta dos grafos: CNPJ_GRAFOS_PATH ou app/output/grafos. */
+    public static function getPathGrafos()
+    {
+        $path = getenv('CNPJ_GRAFOS_PATH');
+        if( empty($path) ){
+            $path = self::getPathApp().DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, self::PASTA_GRAFOS);
+        }
+        return rtrim($path, '/\\');
+    }
+
+    /** Python: CNPJ_PYTHON ou python3 (Linux) / python (Windows). */
+    public static function getPython()
+    {
+        $python = getenv('CNPJ_PYTHON');
+        if( empty($python) ){
+            $python = self::isLinux() ? 'python3' : 'python';
+        }
+        return $python;
+    }
+
+    /**
+     * Python pronto para o comando. Um caminho simples (python3,
+     * /opt/venv/bin/python, C:/Python313/python.exe) vai sem aspas; com
+     * espaços vai entre aspas (no PowerShell precisa do "&" na frente).
+     */
+    private static function comandoPython()
+    {
+        $python = self::getPython();
+        if( preg_match('/^[A-Za-z0-9_.\/:\\\\-]+$/', $python) ){
+            return $python;
+        }
+        $python = escapeshellarg($python);
+        return self::isLinux() ? $python : '& '.$python;
+    }
+
+    /**
+     * Garante um .htaccess "Require all denied" na pasta, para o Apache não
+     * servir nada dela. A pasta do CNPJ-full é ignorada pelo git do cnpjrfb,
+     * então o .htaccess é criado aqui na primeira execução.
+     */
+    public static function protegePasta($path)
+    {
+        $htaccess = $path.DIRECTORY_SEPARATOR.'.htaccess';
+        if( is_dir($path) && !is_file($htaccess) ){
+            @file_put_contents($htaccess, "Require all denied\n");
+        }
+    }
+
 
     /**
      * Aceita o CNPJ com ou sem máscara e devolve só os 14 dígitos.
