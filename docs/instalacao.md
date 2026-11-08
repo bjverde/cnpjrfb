@@ -41,28 +41,38 @@ php -S localhost:8080
 
 ## 3. Configurar o banco
 
-A conexão fica em `www/cnpjrfb/app/config/maindatabase.php`:
+A conexão vem do **`.env` do CNPJ-full**, o mesmo arquivo que o Python usa, para a configuração do banco ficar num lugar só. O `www/cnpjrfb/app/config/maindatabase.php` procura esse arquivo na pasta informada em `app/config/application.php` > `'cnpj_full'` > `'path'` (padrão `app/CNPJ-full`, relativo a `www/cnpjrfb`). Detalhes em [Arquitetura](arquitetura.md#conexão-única-o-php-lendo-o-env-do-python).
 
-```php
-return [
-     "host" => "127.0.0.1"
-    ,"port" => "5432"
-    ,"name" => "dados_rfb"
-    ,"user" => "dados_rfb"
-    ,"pass" => "troque_esta_senha"
-    ,"type" => "pgsql"
-    ,"prep" => "1"
-    ,"slog" => "SystemSqlLogService"
-];
+* **O `.env` é obrigatório.** Sem ele, as telas mostram o erro com o caminho onde o arquivo era esperado.
+* **Para usar o SQLite que já vem no projeto** (`app/database/cnpjrfb.db`), o `.env` precisa só de:
+
+```ini
+CNPJ_DB_TIPO=sqlite
+CNPJ_DB_ARQUIVO=../database/cnpjrfb.db
 ```
 
-| `type` | Banco | O que vai em `name` |
+* **Com outro banco**: crie o `.env` a partir do `.env.example` do CNPJ-full e preencha o bloco do banco. Exemplo para PostgreSQL:
+
+```ini
+CNPJ_DB_TIPO=postgres
+CNPJ_DB_HOST=127.0.0.1
+CNPJ_DB_PORTA=5432
+CNPJ_DB_NOME=dados_rfb
+CNPJ_DB_USUARIO=dados_rfb
+CNPJ_DB_SENHA=troque_esta_senha
+CNPJ_DB_SCHEMA=dados_rfb
+```
+
+| `CNPJ_DB_TIPO` | Banco | O que vai em `CNPJ_DB_NOME` |
 | --- | --- | --- |
 | `mysql` | MySQL / MariaDB | nome do banco (`dados_rfb`, se usou o `modelo_mysql.sql`) |
-| `pgsql` | PostgreSQL | nome do banco |
-| `sqlite` | SQLite | caminho do arquivo `.db` |
-| `sqlsrv` | SQL Server | nome do banco |
+| `postgres` | PostgreSQL | nome do banco |
+| `sqlite` | SQLite | não usa: o arquivo vai em `CNPJ_DB_ARQUIVO` (relativo à pasta do CNPJ-full, ou absoluto) |
+| `sqlserver` | SQL Server | nome do banco |
 | `oracle` | Oracle | nome do serviço (ex.: `XEPDB1`) |
+
+> [!WARNING]
+> O `.env.example` do CNPJ-full já traz `CNPJ_DB_ARQUIVO=dados/teste/cnpj_teste.db` (dados fictícios). Se o `.env` for só uma cópia do exemplo, o sistema web também passa a usar esse banco de teste.
 
 O sistema lê as tabelas sem schema. Se elas estiverem num schema que não é o padrão da conexão, informe o schema com ponto no final em `www/cnpjrfb/init.php`:
 

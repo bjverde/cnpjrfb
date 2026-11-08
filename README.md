@@ -17,6 +17,7 @@ O projeto tem três partes:
 Consulte o **[Sumário da documentação](docs/sumario.md)** para a visão geral de todos os guias, ou acesse diretamente:
 
 * [Sumário da documentação](docs/sumario.md): índice com resumo de todos os documentos em `docs/`
+* [Arquitetura: cnpjrfb + CNPJ-full](docs/arquitetura.md): diagrama da ligação entre os dois projetos e a conexão única pelo `.env`
 * [Instalação do sistema web](docs/instalacao.md): requisitos, cópia dos arquivos e configuração do banco
 * [Carga dos dados](docs/carga.md): download dos arquivos da RFB e carga no banco com o CNPJ-full
 * [Modelo de banco de dados](docs/modelo_banco.md): tabelas, chaves e scripts SQL por banco
@@ -40,7 +41,7 @@ Para usar a base completa da RFB:
 
 1. Crie o banco com o script do seu SGBD conforme o guia de [Modelo de banco de dados](docs/modelo_banco.md).
 2. Baixe os arquivos da RFB e rode a carga com o CNPJ-full (veja [Carga dos dados](docs/carga.md)). Leva horas.
-3. Aponte o sistema web para o novo banco em `www/cnpjrfb/app/config/maindatabase.php` (veja [Instalação](docs/instalacao.md#3-configurar-o-banco)).
+3. Aponte o sistema web para o novo banco no `.env` do CNPJ-full, lido pelo `www/cnpjrfb/app/config/maindatabase.php` (veja [Instalação](docs/instalacao.md#3-configurar-o-banco)).
 
 ## Requisitos
 
