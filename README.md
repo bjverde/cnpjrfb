@@ -5,7 +5,7 @@ Sistema web em PHP, feito com o [Adianti Framework](https://www.adianti.com.br/f
 O projeto tem três partes:
 
 * **Sistema web** (`www/cnpjrfb`): telas de pesquisa com filtros combinados e ficha completa do CNPJ, adaptadas para celular, tablet ou desktop.
-* **Carga** (`www/cargabd`): script PHP de terminal que lê os arquivos CSV da RFB e grava no banco. Funciona com MySQL/MariaDB, PostgreSQL, SQLite, SQL Server e Oracle.
+* **Carga**: feita pelo [CNPJ-full](https://github.com/bjverde/CNPJ-full), em Python, que baixa os arquivos da RFB e grava no banco com o mesmo modelo (veja [Carga dos dados](docs/carga.md)).
 * **Modelo de banco** ([`docs/modelo_banco.md`](docs/modelo_banco.md) e pasta `docs/modelo_banco/`): scripts de criação das tabelas e chaves estrangeiras para os mesmos cinco bancos, todos com o mesmo modelo e seguindo o [dicionário de dados da RFB](docs/cnpj-metadados.pdf).
 
 ![Visão no Celular](www/cnpjrfb/app/images/celular_empresa_visao.png?raw=true "Visão no Celular")
@@ -18,9 +18,9 @@ Consulte o **[Sumário da documentação](docs/sumario.md)** para a visão geral
 
 * [Sumário da documentação](docs/sumario.md): índice com resumo de todos os documentos em `docs/`
 * [Instalação do sistema web](docs/instalacao.md): requisitos, cópia dos arquivos e configuração do banco
-* [Carga dos dados](docs/carga.md): download dos arquivos da RFB, criação do banco e execução da carga
+* [Carga dos dados](docs/carga.md): download dos arquivos da RFB e carga no banco com o CNPJ-full
 * [Modelo de banco de dados](docs/modelo_banco.md): tabelas, chaves e scripts SQL por banco
-* [Docker](docs/docker.md): ambiente de desenvolvimento com Apache, PHP 8.2 e MariaDB
+* [Docker](docs/docker.md): ambiente de desenvolvimento com Apache, PHP 8.5 e PostgreSQL
 * [Segurança em produção](docs/seguranca.md): checklist do que desligar antes de publicar o sistema
 * [Desenvolvimento](docs/desenvolvimento.md): estrutura de pastas e como alterar o projeto
 * [Dicionário de dados da RFB](docs/cnpj-metadados.pdf) (`cnpj-metadados.pdf`)
@@ -39,7 +39,7 @@ php -S localhost:8080
 Para usar a base completa da RFB:
 
 1. Crie o banco com o script do seu SGBD conforme o guia de [Modelo de banco de dados](docs/modelo_banco.md).
-2. Baixe e descompacte os arquivos da RFB e rode a carga (veja [Carga dos dados](docs/carga.md)). Leva horas.
+2. Baixe os arquivos da RFB e rode a carga com o CNPJ-full (veja [Carga dos dados](docs/carga.md)). Leva horas.
 3. Aponte o sistema web para o novo banco em `www/cnpjrfb/app/config/maindatabase.php` (veja [Instalação](docs/instalacao.md#3-configurar-o-banco)).
 
 ## Requisitos
