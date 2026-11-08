@@ -5,12 +5,12 @@
  * Onde fica cada coisa (todos os caminhos são relativos à pasta app/):
  *  - Código Python: app/CNPJ-full, criado com
  *    "git clone https://github.com/bjverde/CNPJ-full.git" dentro de app/.
- *  - Grafos gerados: app/output/grafos/<cnpj> (ou <cnpj>_<cpf/cnpj do sócio>).
- *    Pode ser trocado pela variável de ambiente CNPJ_GRAFOS_PATH.
- *  - Python: "python3" no Linux e "python" no Windows. Pode ser trocado pela
- *    variável de ambiente CNPJ_PYTHON (ex.: o python de um venv).
+ *  - Grafos gerados: app/output/grafos/<cnpj> (ou <cnpj>_<cpf/cnpj do sócio>),
+ *    definido em app/config/application.php ('cnpj_full' => 'grafos').
+ *  - Python: "python3" no Linux e "python" no Windows, ou o informado em
+ *    app/config/application.php ('cnpj_full' => 'python').
  *
- * As duas pastas recebem um .htaccess "Require all denied": o Apache não
+ * As duas pastas têm um .htaccess "Require all denied": o Apache não
  * serve nada delas (.env, banco SQLite, cache.json). O grafo.html é
  * autocontido (d3 embutido), então o PHP lê o arquivo e a tela o mostra.
  *
@@ -28,7 +28,7 @@ class GeraGrafoController
 
     // Mesmo nome que o "git clone" cria. No Linux maiúsculas fazem diferença.
     const PASTA_CNPJ_FULL = 'CNPJ-full';
-    const PASTA_GRAFOS = 'output/grafos';
+    const PASTA_GRAFOS = 'app/output/grafos'; // padrão, se não estiver no application.php
     const SCRIPT_CONSULTA = 'cnpj_full/consulta.py';
     const NIVEL = 3;
 
@@ -166,21 +166,45 @@ class GeraGrafoController
         return self::getPathApp().DIRECTORY_SEPARATOR.self::PASTA_CNPJ_FULL;
     }
 
-    /** Pasta dos grafos: CNPJ_GRAFOS_PATH ou app/output/grafos. */
-    public static function getPathGrafos()
+    /** Pasta www/cnpjrfb (raiz do sistema web). */
+    public static function getPathSistema()
     {
-        $path = getenv('CNPJ_GRAFOS_PATH');
-        if( empty($path) ){
-            $path = self::getPathApp().DIRECTORY_SEPARATOR.str_replace('/', DIRECTORY_SEPARATOR, self::PASTA_GRAFOS);
-        }
-        return rtrim($path, '/\\');
+        return dirname(self::getPathApp());
     }
 
-    /** Python: CNPJ_PYTHON ou python3 (Linux) / python (Windows). */
+    /** Valor da seção 'cnpj_full' do app/config/application.php. */
+    private static function getConfig($chave)
+    {
+        if( !class_exists('AdiantiApplicationConfig') ){
+            return '';
+        }
+        $ini = AdiantiApplicationConfig::get();
+        if( !isset($ini['cnpj_full'][$chave]) ){
+            return '';
+        }
+        return trim((string) $ini['cnpj_full'][$chave]);
+    }
+
+    /** Pasta dos grafos: 'cnpj_full' => 'grafos' do application.php, ou app/output/grafos. */
+    public static function getPathGrafos()
+    {
+        $path = self::getConfig('grafos');
+        if( $path === '' ){
+            $path = self::PASTA_GRAFOS;
+        }
+        $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+        $absoluto = (substr($path, 0, 1) === DIRECTORY_SEPARATOR) || preg_match('/^[A-Za-z]:/', $path);
+        if( !$absoluto ){
+            $path = self::getPathSistema().DIRECTORY_SEPARATOR.$path;
+        }
+        return rtrim($path, DIRECTORY_SEPARATOR);
+    }
+
+    /** Python: 'cnpj_full' => 'python' do application.php, ou python3 (Linux) / python (Windows). */
     public static function getPython()
     {
-        $python = getenv('CNPJ_PYTHON');
-        if( empty($python) ){
+        $python = self::getConfig('python');
+        if( $python === '' ){
             $python = self::isLinux() ? 'python3' : 'python';
         }
         return $python;
@@ -204,7 +228,7 @@ class GeraGrafoController
     /**
      * Garante um .htaccess "Require all denied" na pasta, para o Apache não
      * servir nada dela. A pasta do CNPJ-full é ignorada pelo git do cnpjrfb,
-     * então o .htaccess é criado aqui na primeira execução.
+     * então o .htaccess dela é criado aqui na primeira execução.
      */
     public static function protegePasta($path)
     {

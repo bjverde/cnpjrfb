@@ -149,7 +149,7 @@ Arquivo opcional com parâmetros do banco PostgreSQL (`max_connections`, `shared
 A imagem já traz o Python 3.13 com tudo o que o [CNPJ-full](https://github.com/bjverde/CNPJ-full) precisa (o mesmo `requirements.txt` dele, mais o `pytest`).
 
 * O Debian 13 não deixa instalar pacotes com `pip` no Python do sistema (PEP 668). Por isso as bibliotecas ficam no ambiente virtual `/opt/cnpj-full-venv`.
-* Esse ambiente está no `PATH` do container e do Apache. Então `python3` e `pip` já são os do venv, sem precisar de `source .../activate`. É esse `python3` que a tela do grafo (`GeraGrafoController`) executa. Para usar outro, defina a variável de ambiente `CNPJ_PYTHON`.
+* Esse ambiente está no `PATH` do container e do Apache. Então `python3` e `pip` já são os do venv, sem precisar de `source .../activate`. É esse `python3` que a tela do grafo (`GeraGrafoController`) executa. Para usar outro, informe em `'python'` na seção `cnpj_full` do `app/config/application.php`.
 * O código do CNPJ-full **não** vai dentro da imagem. Ele fica em `www/cnpjrfb/app/CNPJ-full` (ignorado pelo git), que chega ao container pelo volume `./www`. Os grafos gerados pela tela ficam em `www/cnpjrfb/app/output/grafos` (veja [Instalação](instalacao.md#4-grafo-de-relacionamentos-opcional)).
 
 ### Baixar o CNPJ-full

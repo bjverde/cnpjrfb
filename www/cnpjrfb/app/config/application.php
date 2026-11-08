@@ -28,4 +28,10 @@ return [
         'adianti_min_version' => '8.6.0',
         'formdin_min_version' => '5.9.0',
     ],
+    // Grafo de relacionamentos gerado pelo CNPJ-full (app/CNPJ-full).
+    // Caminhos relativos são a partir da pasta www/cnpjrfb.
+    'cnpj_full' => [
+        'grafos' => 'app/output/grafos', // onde o consulta.py grava os grafos
+        'python' => '',                  // vazio: python3 no Linux e python no Windows
+    ],
 ];

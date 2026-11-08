@@ -1,0 +1,4 @@
+# Os grafos gerados pela tela não vão para o git
+*
+!.gitignore
+!.htaccess

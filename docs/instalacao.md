@@ -100,15 +100,14 @@ Onde fica cada coisa:
 | O quê | Onde | Para trocar |
 |-------|------|-------------|
 | Código do CNPJ-full | `app/CNPJ-full` | não muda |
-| Grafos gerados (`grafo.html` e `cache.json`) | `app/output/grafos/<cnpj>` | variável de ambiente `CNPJ_GRAFOS_PATH` |
-| Python | `python3` no Linux, `python` no Windows | variável de ambiente `CNPJ_PYTHON` (ex.: o Python de um venv) |
+| Grafos gerados (`grafo.html` e `cache.json`) | `app/output/grafos/<cnpj>` | `'grafos'` na seção `cnpj_full` do `app/config/application.php` |
+| Python | `python3` no Linux, `python` no Windows | `'python'` na seção `cnpj_full` do `app/config/application.php` (ex.: o Python de um venv) |
 
-As pastas `app/CNPJ-full` e `app/output/grafos` recebem um `.htaccess` com `Require all denied` na primeira vez que um grafo é gerado. Assim o Apache não serve o `.env`, o banco nem os arquivos gerados. A tela lê o `grafo.html` pelo PHP e o mostra na página. Se usar outro servidor web (nginx, por exemplo), bloqueie essas duas pastas na configuração dele.
+A pasta `app/output/grafos` já vem no projeto com um `.htaccess` com `Require all denied`, e o conteúdo dela é ignorado pelo git. A pasta `app/CNPJ-full` recebe o mesmo `.htaccess` na primeira vez que um grafo é gerado. Assim o Apache não serve o `.env`, o banco nem os arquivos gerados. A tela lê o `grafo.html` pelo PHP e o mostra na página. Se usar outro servidor web (nginx, por exemplo), bloqueie essas duas pastas na configuração dele.
 
 No Linux, o usuário do Apache precisa poder gravar na pasta dos grafos:
 
 ```bash
-mkdir -p www/cnpjrfb/app/output/grafos
 chown -R www-data:www-data www/cnpjrfb/app/output/grafos
 ```
 
