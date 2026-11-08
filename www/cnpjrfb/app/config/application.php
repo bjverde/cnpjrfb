@@ -31,7 +31,11 @@ return [
     // Grafo de relacionamentos gerado pelo CNPJ-full (app/CNPJ-full).
     // Caminhos relativos são a partir da pasta www/cnpjrfb.
     'cnpj_full' => [
-        'grafos' => 'app/output/grafos', // onde o consulta.py grava os grafos
-        'python' => '',                  // vazio: python3 no Linux e python no Windows
+        'path'    => 'app/CNPJ-full',          // pasta do git clone do CNPJ-full
+        'script'  => 'cnpj_full/consulta.py',  // relativo à pasta do CNPJ-full
+        'python'  => '',                       // vazio: python3 no Linux e python no Windows
+        'nivel'   => '3',                      // profundidade do grafo (--nivel)
+        'cache'   => '1',                      // 1: reaproveita grafo já gerado (--cache)
+        'grafos'  => 'app/output/grafos',      // onde o consulta.py grava os grafos
     ],
 ];

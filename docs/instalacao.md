@@ -95,13 +95,16 @@ O grafo é gerado pelo [CNPJ-full](https://github.com/bjverde/CNPJ-full), em Pyt
 2. Instale o Python 3.13 e as bibliotecas do CNPJ-full, conforme [Ambientes](https://github.com/bjverde/CNPJ-full/blob/master/docs/ambientes.md). No Docker do cnpjrfb isso já vem pronto (veja [Docker](docker.md#-python-e-cnpj-full-no-container)).
 3. Informe ao CNPJ-full onde está o banco, no `.env` dele (`app/CNPJ-full/.env`, variável `CNPJ_DB_ARQUIVO`). Sem isso, ele usa o banco de teste que vem junto.
 
-Onde fica cada coisa:
+O comando que a tela executa é configurado na seção `cnpj_full` do `app/config/application.php`. Ele é versionado e vale igual no Docker, no Linux, no Windows e no Mac. Caminhos relativos são a partir da pasta `www/cnpjrfb`.
 
-| O quê | Onde | Para trocar |
-|-------|------|-------------|
-| Código do CNPJ-full | `app/CNPJ-full` | não muda |
-| Grafos gerados (`grafo.html` e `cache.json`) | `app/output/grafos/<cnpj>` | `'grafos'` na seção `cnpj_full` do `app/config/application.php` |
-| Python | `python3` no Linux, `python` no Windows | `'python'` na seção `cnpj_full` do `app/config/application.php` (ex.: o Python de um venv) |
+| Chave | Padrão | O que é |
+|-------|--------|---------|
+| `path` | `app/CNPJ-full` | pasta do clone do CNPJ-full |
+| `script` | `cnpj_full/consulta.py` | script de consulta, relativo à pasta do CNPJ-full |
+| `python` | vazio | Python usado. Vazio: `python3` no Linux e `python` no Windows. Pode ser o Python de um venv |
+| `nivel` | `3` | profundidade do grafo (`--nivel`) |
+| `cache` | `1` | `1` reaproveita o grafo já gerado com a mesma carga do banco (`--cache`); `0` gera sempre |
+| `grafos` | `app/output/grafos` | onde ficam os grafos gerados (`<cnpj>/grafo.html` e `cache.json`) |
 
 A pasta `app/output/grafos` já vem no projeto com um `.htaccess` com `Require all denied`, e o conteúdo dela é ignorado pelo git. A pasta `app/CNPJ-full` recebe o mesmo `.htaccess` na primeira vez que um grafo é gerado. Assim o Apache não serve o `.env`, o banco nem os arquivos gerados. A tela lê o `grafo.html` pelo PHP e o mostra na página. Se usar outro servidor web (nginx, por exemplo), bloqueie essas duas pastas na configuração dele.
 
@@ -110,8 +113,6 @@ No Linux, o usuário do Apache precisa poder gravar na pasta dos grafos:
 ```bash
 chown -R www-data:www-data www/cnpjrfb/app/output/grafos
 ```
-
-A tela repete a mesma consulta pelo cache: se o grafo daquele CNPJ já foi gerado com a mesma carga do banco, ele é reaproveitado.
 
 ## 5. Antes de publicar
 

@@ -2,13 +2,15 @@
 /**
  * Gera o grafo de relacionamentos chamando o consulta.py do CNPJ-full.
  *
- * Onde fica cada coisa (todos os caminhos são relativos à pasta app/):
- *  - Código Python: app/CNPJ-full, criado com
- *    "git clone https://github.com/bjverde/CNPJ-full.git" dentro de app/.
- *  - Grafos gerados: app/output/grafos/<cnpj> (ou <cnpj>_<cpf/cnpj do sócio>),
- *    definido em app/config/application.php ('cnpj_full' => 'grafos').
- *  - Python: "python3" no Linux e "python" no Windows, ou o informado em
- *    app/config/application.php ('cnpj_full' => 'python').
+ * Tudo o que monta o comando fica na seção 'cnpj_full' do
+ * app/config/application.php (versionado, igual em qualquer ambiente):
+ *  - path:   pasta do CNPJ-full, criada com "git clone https://github.com/bjverde/CNPJ-full.git"
+ *            dentro de app/ (padrão app/CNPJ-full; no Linux maiúsculas fazem diferença);
+ *  - script: cnpj_full/consulta.py, relativo à pasta do CNPJ-full;
+ *  - python: vazio = python3 no Linux e python no Windows;
+ *  - nivel e cache: opções --nivel e --cache do consulta.py;
+ *  - grafos: pasta dos grafos gerados (padrão app/output/grafos/<cnpj>).
+ * Caminhos relativos são a partir da pasta www/cnpjrfb.
  *
  * As duas pastas têm um .htaccess "Require all denied": o Apache não
  * serve nada delas (.env, banco SQLite, cache.json). O grafo.html é
@@ -26,9 +28,9 @@ class GeraGrafoController
 
     const TAMANHO_MAXIMO_NOME = 150;
 
-    // Mesmo nome que o "git clone" cria. No Linux maiúsculas fazem diferença.
-    const PASTA_CNPJ_FULL = 'CNPJ-full';
-    const PASTA_GRAFOS = 'app/output/grafos'; // padrão, se não estiver no application.php
+    // Padrões, usados quando o valor não está na seção 'cnpj_full' do application.php
+    const PASTA_CNPJ_FULL = 'app/CNPJ-full';
+    const PASTA_GRAFOS = 'app/output/grafos';
     const SCRIPT_CONSULTA = 'cnpj_full/consulta.py';
     const NIVEL = 3;
 
@@ -46,7 +48,7 @@ class GeraGrafoController
         $resultado[GeraGrafoController::ARQUIVO] = null;
 
         $pathCnpjFull = self::getPathCnpjFull();
-        if( !is_file($pathCnpjFull.DIRECTORY_SEPARATOR.self::SCRIPT_CONSULTA) ){
+        if( !is_file($pathCnpjFull.DIRECTORY_SEPARATOR.self::getScript()) ){
             $resultado[GeraGrafoController::INFO] = 'CNPJ-full não encontrado em '.$pathCnpjFull
                 .'. Dentro da pasta app/, rode: git clone https://github.com/bjverde/CNPJ-full.git';
             return $resultado;
@@ -143,11 +145,14 @@ class GeraGrafoController
 
         // --cache: se a mesma consulta já foi feita com a mesma carga do banco,
         // o consulta.py reaproveita o grafo em vez de gerar de novo.
-        $command = self::comandoPython().' '.self::SCRIPT_CONSULTA;
+        $command = self::comandoPython().' '.escapeshellarg(self::getScript());
         foreach ($argumentos as $argumento) {
             $command = $command.' '.escapeshellarg($argumento);
         }
-        $command = $command.' --nivel '.self::NIVEL.' --viz --cache';
+        $command = $command.' --nivel '.self::getNivel().' --viz';
+        if( self::getConfig('cache') !== '0' ){
+            $command = $command.' --cache';
+        }
 
         // Roda dentro da pasta do CNPJ-full para ele achar o próprio .env
         $separador = self::isLinux() ? ' && ' : ';';
@@ -161,9 +166,37 @@ class GeraGrafoController
         return dirname(__DIR__, 2);
     }
 
+    /** Pasta do CNPJ-full: 'cnpj_full' => 'path' do application.php, ou app/CNPJ-full. */
     public static function getPathCnpjFull()
     {
-        return self::getPathApp().DIRECTORY_SEPARATOR.self::PASTA_CNPJ_FULL;
+        return self::resolvePath(self::getConfig('path'), self::PASTA_CNPJ_FULL);
+    }
+
+    /** Script de consulta, relativo à pasta do CNPJ-full. */
+    public static function getScript()
+    {
+        $script = self::getConfig('script');
+        return $script === '' ? self::SCRIPT_CONSULTA : $script;
+    }
+
+    public static function getNivel()
+    {
+        $nivel = self::getConfig('nivel');
+        return ctype_digit($nivel) && (int) $nivel > 0 ? (int) $nivel : self::NIVEL;
+    }
+
+    /** Caminho relativo à pasta www/cnpjrfb vira absoluto; absoluto fica como está. */
+    private static function resolvePath($path, $padrao)
+    {
+        if( $path === '' ){
+            $path = $padrao;
+        }
+        $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+        $absoluto = (substr($path, 0, 1) === DIRECTORY_SEPARATOR) || preg_match('/^[A-Za-z]:/', $path);
+        if( !$absoluto ){
+            $path = self::getPathSistema().DIRECTORY_SEPARATOR.$path;
+        }
+        return rtrim($path, DIRECTORY_SEPARATOR);
     }
 
     /** Pasta www/cnpjrfb (raiz do sistema web). */
@@ -188,16 +221,7 @@ class GeraGrafoController
     /** Pasta dos grafos: 'cnpj_full' => 'grafos' do application.php, ou app/output/grafos. */
     public static function getPathGrafos()
     {
-        $path = self::getConfig('grafos');
-        if( $path === '' ){
-            $path = self::PASTA_GRAFOS;
-        }
-        $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
-        $absoluto = (substr($path, 0, 1) === DIRECTORY_SEPARATOR) || preg_match('/^[A-Za-z]:/', $path);
-        if( !$absoluto ){
-            $path = self::getPathSistema().DIRECTORY_SEPARATOR.$path;
-        }
-        return rtrim($path, DIRECTORY_SEPARATOR);
+        return self::resolvePath(self::getConfig('grafos'), self::PASTA_GRAFOS);
     }
 
     /** Python: 'cnpj_full' => 'python' do application.php, ou python3 (Linux) / python (Windows). */
