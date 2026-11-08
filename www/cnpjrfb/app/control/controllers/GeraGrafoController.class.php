@@ -7,10 +7,10 @@
  *  - path:   pasta do CNPJ-full, criada com "git clone https://github.com/bjverde/CNPJ-full.git"
  *            dentro de app/ (padrão app/CNPJ-full; no Linux maiúsculas fazem diferença);
  *  - script: cnpj_full/consulta.py, relativo à pasta do CNPJ-full;
- *  - python: vazio = python3 no Linux e python no Windows;
  *  - nivel e cache: opções --nivel e --cache do consulta.py;
  *  - grafos: pasta dos grafos gerados (padrão app/output/grafos/<cnpj>).
- * Caminhos relativos são a partir da pasta www/cnpjrfb.
+ * Caminhos relativos são a partir da pasta www/cnpjrfb. O Python é "python"
+ * no Windows e "python3" no Linux/Mac; a versão é conferida pelo próprio CNPJ-full.
  *
  * A pasta do CNPJ-full recebe um .htaccess "Require all denied": o Apache não
  * serve nada dela (.env, banco SQLite). A pasta dos grafos é servida pelo
@@ -159,7 +159,7 @@ class GeraGrafoController
 
         // --cache: se a mesma consulta já foi feita com a mesma carga do banco,
         // o consulta.py reaproveita o grafo em vez de gerar de novo.
-        $command = self::comandoPython().' '.escapeshellarg(self::getScript());
+        $command = self::getPython().' '.escapeshellarg(self::getScript());
         foreach ($argumentos as $argumento) {
             $command = $command.' '.escapeshellarg($argumento);
         }
@@ -238,29 +238,10 @@ class GeraGrafoController
         return self::resolvePath(self::getConfig('grafos'), self::PASTA_GRAFOS);
     }
 
-    /** Python: 'cnpj_full' => 'python' do application.php, ou python3 (Linux) / python (Windows). */
+    /** python no Windows e python3 nos demais (Linux, Mac). */
     public static function getPython()
     {
-        $python = self::getConfig('python');
-        if( $python === '' ){
-            $python = self::isLinux() ? 'python3' : 'python';
-        }
-        return $python;
-    }
-
-    /**
-     * Python pronto para o comando. Um caminho simples (python3,
-     * /opt/venv/bin/python, C:/Python313/python.exe) vai sem aspas; com
-     * espaços vai entre aspas (no PowerShell precisa do "&" na frente).
-     */
-    private static function comandoPython()
-    {
-        $python = self::getPython();
-        if( preg_match('/^[A-Za-z0-9_.\/:\\\\-]+$/', $python) ){
-            return $python;
-        }
-        $python = escapeshellarg($python);
-        return self::isLinux() ? $python : '& '.$python;
+        return PHP_OS_FAMILY === 'Windows' ? 'python' : 'python3';
     }
 
     /**

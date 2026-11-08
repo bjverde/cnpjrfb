@@ -95,13 +95,12 @@ O grafo é gerado pelo [CNPJ-full](https://github.com/bjverde/CNPJ-full), em Pyt
 2. Instale o Python 3.13 e as bibliotecas do CNPJ-full, conforme [Ambientes](https://github.com/bjverde/CNPJ-full/blob/master/docs/ambientes.md). No Docker do cnpjrfb isso já vem pronto (veja [Docker](docker.md#-python-e-cnpj-full-no-container)).
 3. Informe ao CNPJ-full onde está o banco, no `.env` dele (`app/CNPJ-full/.env`, variável `CNPJ_DB_ARQUIVO`). Sem isso, ele usa o banco de teste que vem junto.
 
-O comando que a tela executa é configurado na seção `cnpj_full` do `app/config/application.php`. Ele é versionado e vale igual no Docker, no Linux, no Windows e no Mac. Caminhos relativos são a partir da pasta `www/cnpjrfb`.
+O comando que a tela executa é configurado na seção `cnpj_full` do `app/config/application.php`. Ele é versionado e vale igual no Docker, no Linux, no Windows e no Mac. Caminhos relativos são a partir da pasta `www/cnpjrfb`. O Python chamado é `python` no Windows e `python3` no Linux e no Mac; a versão é conferida pelo próprio CNPJ-full.
 
 | Chave | Padrão | O que é |
 |-------|--------|---------|
 | `path` | `app/CNPJ-full` | pasta do clone do CNPJ-full |
 | `script` | `cnpj_full/consulta.py` | script de consulta, relativo à pasta do CNPJ-full |
-| `python` | vazio | Python usado. Vazio: `python3` no Linux e `python` no Windows. Pode ser o Python de um venv |
 | `nivel` | `3` | profundidade do grafo (`--nivel`) |
 | `cache` | `1` | `1` reaproveita o grafo já gerado com a mesma carga do banco (`--cache`); `0` gera sempre |
 | `grafos` | `app/output/grafos` | onde ficam os grafos gerados (`<cnpj>/grafo.html` e `cache.json`) |

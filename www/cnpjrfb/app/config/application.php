@@ -33,7 +33,6 @@ return [
     'cnpj_full' => [
         'path'    => 'app/CNPJ-full',          // pasta do git clone do CNPJ-full
         'script'  => 'cnpj_full/consulta.py',  // relativo à pasta do CNPJ-full
-        'python'  => '',                       // vazio: python3 no Linux e python no Windows
         'nivel'   => '3',                      // profundidade do grafo (--nivel)
         'cache'   => '1',                      // 1: reaproveita grafo já gerado (--cache)
         'grafos'  => 'app/output/grafos',      // onde o consulta.py grava os grafos
