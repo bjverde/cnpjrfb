@@ -17,6 +17,7 @@ O projeto tem três partes:
 Consulte o **[Sumário da documentação](docs/sumario.md)** para a visão geral de todos os guias, ou acesse diretamente:
 
 * [Sumário da documentação](docs/sumario.md): índice com resumo de todos os documentos em `docs/`
+* [Arquitetura: cnpjrfb + CNPJ-full](docs/arquitetura.md): diagrama da ligação entre os dois projetos e a conexão única pelo `.env`
 * [Instalação do sistema web](docs/instalacao.md): requisitos, cópia dos arquivos e configuração do banco
 * [Carga dos dados](docs/carga.md): download dos arquivos da RFB e carga no banco com o CNPJ-full
 * [Modelo de banco de dados](docs/modelo_banco.md): tabelas, chaves e scripts SQL por banco
