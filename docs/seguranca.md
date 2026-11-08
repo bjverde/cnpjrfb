@@ -19,7 +19,6 @@ O cnpjrfb não tem login, porque é uma consulta pública de dados que a Receita
   GRANT SELECT ON dados_rfb.* TO 'cnpjrfb_web'@'%';
   ```
 - [ ] **Desligar as mensagens de depuração.** Em `www/cnpjrfb/app/config/application.ini`, use `debug = 0`. No `php.ini`, use `display_errors = Off`.
-- [ ] **Não publicar a carga.** `www/cargabd` só roda pelo terminal. Deixe essa pasta fora do servidor web, ou bloqueie o acesso a ela, porque ela guarda o `config.php` com a senha do banco, o `error_log.txt` e os arquivos da RFB.
 - [ ] **Limitar o `download.php`** a arquivos dentro de `tmp/` e `app/output/`, ou removê-lo se não usar exportações.
 - [ ] **Docker:** não use o `docker-compose.yml` de desenvolvimento como está (veja [Docker](docker.md#atenção-é-um-ambiente-de-desenvolvimento)).
 

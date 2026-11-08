@@ -8,7 +8,7 @@ Scripts de criação do banco para os dados abertos do CNPJ da Receita Federal, 
 Os scripts de todos os bancos seguem o mesmo modelo: as tabelas, colunas, tipos, chaves e índices
 são os mesmos. Ao alterar uma tabela, altere os scripts de todos os bancos.
 
-A criação e a carga do banco vão passar a ser feitas pelo [CNPJ-full](https://github.com/bjverde/CNPJ-full),
+A carga do banco é feita pelo [CNPJ-full](https://github.com/bjverde/CNPJ-full),
 que usa este mesmo modelo. Estes scripts ficam aqui como referência e para quem quiser criar o banco à mão.
 
 | Pasta | Script de criação | Chaves estrangeiras | Testado |
@@ -22,7 +22,7 @@ que usa este mesmo modelo. Estes scripts ficam aqui como referência e para quem
 ## Ordem de uso
 
 1. Rode o script de criação do banco escolhido.
-2. Faça a carga dos dados (hoje com `www/cargabd`, conforme [`docs/carga.md`](carga.md); depois, com o CNPJ-full).
+2. Faça a carga dos dados com o CNPJ-full, conforme [`docs/carga.md`](carga.md).
 3. Opcional: rode o script `_fk.sql` para criar as chaves estrangeiras. Elas ficam separadas porque
    deixam a carga muito mais lenta e porque a carga grava `estabelecimento` e `socios` antes de `empresa`.
 

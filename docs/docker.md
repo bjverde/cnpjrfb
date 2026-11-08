@@ -177,8 +177,9 @@ python3 -m pytest -q                    # testes do CNPJ-full com a amostra sint
 ```bash
 cd /var/www/html/cnpjrfb/app/CNPJ-full
 
-# carga (hoje gera SQLite ou CSV)
-python3 cnpj_full/cnpj.py dados sqlite saida --dir
+# download e carga (SQLite, CSV ou PostgreSQL)
+python3 cnpj_full/download.py
+python3 cnpj_full/carga.py dados/AAAA-MM sqlite saida --dir
 
 # consulta + grafo
 python3 cnpj_full/consulta.py cnpj 00000000000191 resultado --base saida/CNPJ_full.db --nivel 2 --viz --cache
