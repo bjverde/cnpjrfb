@@ -52,7 +52,7 @@ Fluxo:
 
 ## Conexão única: o PHP lendo o `.env` do Python
 
-A conexão fica num lugar só: o arquivo `.env` na raiz do CNPJ-full (`app/CNPJ-full/.env`). O Python já lê esse arquivo; a proposta é o `app/config/maindatabase.php` ler o **mesmo** arquivo, para nunca haver duas cópias da senha do banco.
+A conexão fica num lugar só: o arquivo `.env` na raiz do CNPJ-full (`app/CNPJ-full/.env`). O Python já lê esse arquivo, e o `app/config/maindatabase.php` lê o **mesmo** arquivo, para nunca haver duas cópias da senha do banco.
 
 ### Por que o PHP consegue ler
 
@@ -71,91 +71,34 @@ CNPJ_DB_SCHEMA=dados_rfb
 Os nomes são os do [`.env.example` do CNPJ-full](https://github.com/bjverde/CNPJ-full/blob/master/.env.example).
 
 > [!WARNING]
-> **Não use `parse_ini_file()`** para ler esse `.env`. Ele falha com o `.env.example` do CNPJ-full (`syntax error, unexpected '"'`), porque os comentários com `#` e aspas não são INI válido no PHP 7+. Use a função `lerEnv()` abaixo, que lê linha a linha.
+> **Não use `parse_ini_file()`** para ler esse `.env`. Ele falha com o `.env.example` do CNPJ-full (`syntax error, unexpected '"'`), porque os comentários com `#` e aspas não são INI válido no PHP 7+. O `maindatabase.php` lê o arquivo linha a linha.
 
-### Ordem de leitura
+### Onde o PHP procura o `.env`
 
-Igual à do CNPJ-full:
-
-1. **Variável de ambiente** (`getenv()`): no Docker, vem do `env_file` ou `environment` do `docker-compose.yml`.
-2. **Arquivo `.env`**: o caminho vem de `CNPJ_ENV`; sem ela, `app/CNPJ-full/.env`.
-3. **Padrão**: o SQLite que já vem no cnpjrfb (`app/database/cnpjrfb.db`).
-
-### Como ficaria o `app/config/maindatabase.php`
-
-Nenhum arquivo novo nem renomeado em `app/config`: só o conteúdo do `maindatabase.php` muda. O Adianti aceita qualquer código PHP nesse arquivo, desde que ele devolva o array da conexão.
+O `app/config/maindatabase.php` usa a pasta do CNPJ-full informada em `app/config/application.php`:
 
 ```php
-<?php
-// Conexão lida do .env do CNPJ-full (docs/arquitetura.md).
-// Ordem: variável de ambiente > .env > SQLite padrão do cnpjrfb.
-
-if (!function_exists('cnpjLerEnv')) {
-    function cnpjLerEnv(string $arquivo): array
-    {
-        $env = [];
-        if (!is_file($arquivo)) {
-            return $env;
-        }
-        foreach (file($arquivo, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $linha) {
-            $linha = trim($linha);
-            if ($linha === '' || $linha[0] === '#' || strpos($linha, '=') === false) {
-                continue;
-            }
-            [$chave, $valor] = array_map('trim', explode('=', $linha, 2));
-            $aspas = $valor[0] ?? '';
-            if (strlen($valor) > 1 && ($aspas === '"' || $aspas === "'") && substr($valor, -1) === $aspas) {
-                $valor = substr($valor, 1, -1);
-            }
-            $env[$chave] = $valor;
-        }
-        return $env;
-    }
-}
-
-$pastaCnpjFull = __DIR__.'/../CNPJ-full';
-$env = cnpjLerEnv(getenv('CNPJ_ENV') ?: $pastaCnpjFull.'/.env');
-$valor = function (string $chave, string $padrao = '') use ($env): string {
-    $v = getenv($chave);
-    if ($v !== false && $v !== '') {
-        return $v;
-    }
-    return $env[$chave] ?? $padrao;
-};
-
-// CNPJ_DB_TIPO (nomes do CNPJ-full) -> type do Adianti
-$tipos = ['postgres' => 'pgsql', 'mysql' => 'mysql', 'sqlserver' => 'sqlsrv', 'oracle' => 'oracle', 'sqlite' => 'sqlite'];
-$tipo  = $valor('CNPJ_DB_TIPO', 'sqlite');
-
-if ($tipo === 'sqlite') {
-    // CNPJ_DB_ARQUIVO é relativo à raiz do CNPJ-full; sem ele, o banco do cnpjrfb
-    $arquivo = $valor('CNPJ_DB_ARQUIVO');
-    $nome = 'app/database/cnpjrfb.db';
-    if ($arquivo !== '') {
-        $absoluto = preg_match('#^([a-zA-Z]:)?[\\\\/]#', $arquivo) === 1;
-        $nome = $absoluto ? $arquivo : $pastaCnpjFull.'/'.$arquivo;
-    }
-    return ['name' => $nome, 'type' => 'sqlite', 'prep' => '1', 'slog' => 'SystemSqlLogService'];
-}
-
-return [
-     'host' => $valor('CNPJ_DB_HOST')
-    ,'port' => $valor('CNPJ_DB_PORTA')
-    ,'name' => $valor('CNPJ_DB_NOME')
-    ,'user' => $valor('CNPJ_DB_USUARIO')
-    ,'pass' => $valor('CNPJ_DB_SENHA')
-    ,'type' => $tipos[$tipo] ?? $tipo
-    ,'prep' => '1'
-    ,'slog' => 'SystemSqlLogService'
-];
+'cnpj_full' => [
+    'path' => 'app/CNPJ-full',   // relativo à pasta www/cnpjrfb, ou absoluto (ex.: D:/cnpj/CNPJ-full)
+    ...
+],
 ```
+
+e lê o `.env` da raiz dessa pasta (`<path>/.env`), o mesmo arquivo que o Python usa. É o mesmo `path` que a tela do grafo usa para chamar o `consulta.py`, então **um único lugar** diz onde está o CNPJ-full e, com ele, a conexão com o banco.
+
+* **Sem `.env`** (ou sem `CNPJ_DB_TIPO` e `CNPJ_DB_ARQUIVO`): as telas usam o SQLite que vem no cnpjrfb, `app/database/cnpjrfb.db`, como antes.
+* **`CNPJ_DB_TIPO=postgres`** (ou `mysql`, `sqlserver`, `oracle`): usa `CNPJ_DB_HOST`, `CNPJ_DB_PORTA`, `CNPJ_DB_NOME`, `CNPJ_DB_USUARIO` e `CNPJ_DB_SENHA`. O tipo é convertido para o nome do Adianti (`postgres` → `pgsql`, `sqlserver` → `sqlsrv`).
+* **SQLite com `CNPJ_DB_ARQUIVO`**: caminho relativo à pasta do CNPJ-full (igual ao Python) ou absoluto.
+
+Nenhum arquivo novo nem renomeado em `app/config`: só o conteúdo do `maindatabase.php` mudou. Ele também cria o `.htaccess` com `Require all denied` na pasta do CNPJ-full, se ainda não existir, porque o `.env` tem a senha do banco.
 
 Pontos de atenção:
 
 * **SQLite**: o `.env.example` do CNPJ-full já vem com `CNPJ_DB_ARQUIVO=dados/teste/cnpj_teste.db` (banco de teste com dados fictícios). Se o `.env` for só uma cópia do exemplo, as telas também passam a usar esse banco de teste; para usar a base real, ajuste `CNPJ_DB_ARQUIVO` ou o bloco do PostgreSQL.
-* **Schema do PostgreSQL**: a carga grava no schema `CNPJ_DB_SCHEMA` (padrão `dados_rfb`). Para as telas acharem as tabelas sem prefixo, o usuário do banco precisa desse schema no `search_path` (`ALTER ROLE <usuario> SET search_path = dados_rfb, public;`).
+* **Schema**: a carga grava no schema `CNPJ_DB_SCHEMA` (padrão `dados_rfb`). O `maindatabase.php` não lê essa variável: informe o schema em `www/cnpjrfb/init.php` (`DATABASE_SCHEMA`), como em [Instalação](instalacao.md#3-configurar-o-banco).
 * **Docker**: o container PHP e o do PostgreSQL ficam na mesma rede; em `CNPJ_DB_HOST` vai o nome do serviço (`database` no `docker-compose.yml` deste projeto), não `localhost`.
-* **Segurança**: o `.env` tem a senha do banco. A pasta `app/CNPJ-full` recebe um `.htaccess` com `Require all denied` (feito pelo `GeraGrafoController`), então o Apache não serve o arquivo.
+* **Segurança**: o `.env` tem a senha do banco. A pasta do CNPJ-full recebe um `.htaccess` com `Require all denied` (criado pelo `maindatabase.php` e pelo `GeraGrafoController`), então o Apache não serve o arquivo. Num servidor que não seja Apache, bloqueie a pasta na configuração dele.
+* **Grafo**: o `consulta.py` ainda só lê SQLite (`CNPJ_DB_ARQUIVO`). Com `CNPJ_DB_TIPO=postgres`, as telas leem o PostgreSQL, mas o grafo continua no SQLite até o CNPJ-full ler do PostgreSQL.
 
 ---
 
@@ -168,6 +111,6 @@ Pontos de atenção:
 | Carga em MariaDB, SQL Server e Oracle | planejado |
 | `consulta.py` lendo do PostgreSQL | **falta**: hoje o grafo só lê SQLite |
 | Tela do grafo chamando o CNPJ-full em `app/CNPJ-full` | pronto (configurado no `application.php`) |
-| `maindatabase.php` lendo o `.env` | **proposta** (código acima) |
+| `maindatabase.php` lendo o `.env` da pasta do CNPJ-full | pronto |
 | Telas que usam a conexão `cnpj_full` passarem a usar `maindatabase` | **falta** |
 | Script `atualizar` (baixa, carrega, verifica e troca a base) | planejado |

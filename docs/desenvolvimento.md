@@ -43,7 +43,7 @@ cd www/cnpjrfb
 php -S localhost:8080
 ```
 
-Para testar com dados próprios, gere um SQLite com a carga do [CNPJ-full](carga.md) e aponte `app/config/maindatabase.php` para o arquivo.
+Para testar com dados próprios, gere um SQLite com a carga do [CNPJ-full](carga.md) e aponte `CNPJ_DB_ARQUIVO` no `.env` do CNPJ-full para o arquivo (o `app/config/maindatabase.php` lê esse `.env`).
 
 ## Projetos irmãos
 

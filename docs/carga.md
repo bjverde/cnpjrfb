@@ -12,7 +12,7 @@ A carga completa tem cerca de 140 milhões de linhas e leva horas, dependendo do
 2. **Rodar a carga** com o `carga.py`:
     * SQLite ou CSV: veja [Carga](https://github.com/bjverde/CNPJ-full/blob/master/docs/carga.md);
     * PostgreSQL: veja [Carga no PostgreSQL](https://github.com/bjverde/CNPJ-full/blob/master/docs/postgresql.md).
-3. **Apontar o sistema web** para o banco carregado em `www/cnpjrfb/app/config/maindatabase.php` (veja [Instalação](instalacao.md#3-configurar-o-banco)).
+3. **Apontar o sistema web** para o banco carregado, no `.env` do CNPJ-full (lido pelo `www/cnpjrfb/app/config/maindatabase.php`) (veja [Instalação](instalacao.md#3-configurar-o-banco)).
 
 Para preparar o ambiente (Windows, Linux, WSL ou Docker) e testar antes com um banco pequeno, veja [Ambientes](https://github.com/bjverde/CNPJ-full/blob/master/docs/ambientes.md) no CNPJ-full.
 
