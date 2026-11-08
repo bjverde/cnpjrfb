@@ -80,6 +80,41 @@ define('DATABASE_SCHEMA','dados_rfb.');
 
 Mais detalhes sobre os tipos de conexão estão no [quickstart do Adianti](https://www.adianti.com.br/framework-quickstart).
 
-## 4. Antes de publicar
+## 4. Grafo de relacionamentos (opcional)
+
+O grafo é gerado pelo [CNPJ-full](https://github.com/bjverde/CNPJ-full), em Python. O código dele fica dentro do sistema web, na pasta `www/cnpjrfb/app/CNPJ-full`, que o git do cnpjrfb ignora. O nome tem que ser exatamente `CNPJ-full`, com maiúsculas, que é o nome que o `git clone` cria. No Linux, `cnpj-full` não funciona.
+
+1. Baixe o CNPJ-full dentro da pasta `app`:
+
+    ```bash
+    cd www/cnpjrfb/app
+    git clone https://github.com/bjverde/CNPJ-full.git
+    ```
+
+    Para atualizar depois, rode `git pull` dentro de `app/CNPJ-full`.
+2. Instale o Python 3.13 e as bibliotecas do CNPJ-full, conforme [Ambientes](https://github.com/bjverde/CNPJ-full/blob/master/docs/ambientes.md). No Docker do cnpjrfb isso já vem pronto (veja [Docker](docker.md#-python-e-cnpj-full-no-container)).
+3. Informe ao CNPJ-full onde está o banco, no `.env` dele (`app/CNPJ-full/.env`, variável `CNPJ_DB_ARQUIVO`). Sem isso, ele usa o banco de teste que vem junto.
+
+O comando que a tela executa é configurado na seção `cnpj_full` do `app/config/application.php`. Ele é versionado e vale igual no Docker, no Linux, no Windows e no Mac. Caminhos relativos são a partir da pasta `www/cnpjrfb`. O Python chamado é `python` no Windows e `python3` no Linux e no Mac; a versão é conferida pelo próprio CNPJ-full.
+
+| Chave | Padrão | O que é |
+|-------|--------|---------|
+| `path` | `app/CNPJ-full` | pasta do clone do CNPJ-full |
+| `script` | `cnpj_full/consulta.py` | script de consulta, relativo à pasta do CNPJ-full |
+| `nivel` | `3` | profundidade do grafo (`--nivel`) |
+| `cache` | `1` | `1` reaproveita o grafo já gerado com a mesma carga do banco (`--cache`); `0` gera sempre |
+| `grafos` | `app/output/grafos` | onde ficam os grafos gerados (`<cnpj>/grafo.html` e `cache.json`) |
+
+A pasta `app/output/grafos` já vem no projeto, com o conteúdo ignorado pelo git. Ela é servida pelo Apache: a tela abre o `grafo.html` gerado num iframe e num link para nova aba.
+
+A pasta `app/CNPJ-full` recebe um `.htaccess` com `Require all denied` na primeira vez que um grafo é gerado, para o Apache não servir o `.env` nem o banco. Se usar outro servidor web (nginx, por exemplo), bloqueie essa pasta na configuração dele.
+
+No Linux, o usuário do Apache precisa poder gravar na pasta dos grafos:
+
+```bash
+chown -R www-data:www-data www/cnpjrfb/app/output/grafos
+```
+
+## 5. Antes de publicar
 
 O sistema não tem login, porque é uma consulta pública. Antes de deixá-lo acessível na internet, siga o checklist em [Segurança em produção](seguranca.md).

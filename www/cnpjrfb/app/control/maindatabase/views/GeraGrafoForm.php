@@ -43,20 +43,33 @@ class GeraGrafoForm extends TPage
 
         $resultado = GeraGrafoController::executa($param);
         
+        $url = null;
+        $html = null;
         if($resultado[GeraGrafoController::GERAL] == true){
+            $url = GeraGrafoController::getUrlGrafo($resultado[GeraGrafoController::ARQUIVO]);
+            if($url === null){
+                // pasta dos grafos fora do sistema web: o PHP lê o arquivo
+                $html = GeraGrafoController::leGrafo($resultado[GeraGrafoController::ARQUIVO]);
+            }
+        }
+        if($url !== null || $html !== null){
             parent::__construct();
 
-            // create the HTML Renderer
-            $this->html = new THtmlRenderer('app/resources/link_grafo.html');
-            
-            $replaces = [];
-            $replaces['link']  = ServerHelper::getHomeUrl().'app/CNPJ-full'.$resultado[GeraGrafoController::ARQUIVO];
-            $this->html->enableSection('main', $replaces);
-            parent::add($this->html);
-
             $iframe = new TElement('iframe');
-            $iframe->id = "iframe_external";
-            $iframe->src = "app/CNPJ-full".$resultado[GeraGrafoController::ARQUIVO];
+            $iframe->id = "iframe_grafo";
+            if($url !== null){
+                $link = new TElement('a');
+                $link->href = $url;
+                $link->target = '_blank';
+                $link->class = 'btn btn-default btn-sm';
+                $link->style = 'margin-bottom: 8px';
+                $link->add('Abrir o grafo em nova aba');
+                parent::add($link);
+                $iframe->src = $url;
+            }else{
+                // grafo.html é autocontido (d3 embutido): vai inteiro no srcdoc
+                $iframe->srcdoc = htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
+            }
             $iframe->frameborder = "0";
             $iframe->scrolling = "yes";
             $iframe->width = "100%";

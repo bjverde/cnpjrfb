@@ -150,7 +150,7 @@ A imagem já traz o Python 3.13 com tudo o que o [CNPJ-full](https://github.com/
 
 * O Debian 13 não deixa instalar pacotes com `pip` no Python do sistema (PEP 668). Por isso as bibliotecas ficam no ambiente virtual `/opt/cnpj-full-venv`.
 * Esse ambiente está no `PATH` do container e do Apache. Então `python3` e `pip` já são os do venv, sem precisar de `source .../activate`. É esse `python3` que a tela do grafo (`GeraGrafoController`) executa.
-* O código do CNPJ-full **não** vai dentro da imagem. Ele fica em `www/cnpjrfb/app/CNPJ-full` (ignorado pelo git), que chega ao container pelo volume `./www`.
+* O código do CNPJ-full **não** vai dentro da imagem. Ele fica em `www/cnpjrfb/app/CNPJ-full` (ignorado pelo git), que chega ao container pelo volume `./www`. Os grafos gerados pela tela ficam em `www/cnpjrfb/app/output/grafos` (veja [Instalação](instalacao.md#4-grafo-de-relacionamentos-opcional)).
 
 ### Baixar o CNPJ-full
 
