@@ -43,27 +43,33 @@ class GeraGrafoForm extends TPage
 
         $resultado = GeraGrafoController::executa($param);
         
+        $url = null;
         $html = null;
         if($resultado[GeraGrafoController::GERAL] == true){
-            $html = GeraGrafoController::leGrafo($resultado[GeraGrafoController::ARQUIVO]);
+            $url = GeraGrafoController::getUrlGrafo($resultado[GeraGrafoController::ARQUIVO]);
+            if($url === null){
+                // pasta dos grafos fora do sistema web: o PHP lê o arquivo
+                $html = GeraGrafoController::leGrafo($resultado[GeraGrafoController::ARQUIVO]);
+            }
         }
-        if($html !== null){
+        if($url !== null || $html !== null){
             parent::__construct();
-
-            // A pasta dos grafos é bloqueada no Apache (.htaccess). O grafo.html é
-            // autocontido (d3 embutido), então vai inteiro no srcdoc do iframe.
-            $botao = new TElement('button');
-            $botao->type = 'button';
-            $botao->class = 'btn btn-default btn-sm';
-            $botao->style = 'margin-bottom: 8px';
-            $botao->onclick = "var h=document.getElementById('iframe_grafo').srcdoc;"
-                             ."window.open(URL.createObjectURL(new Blob([h],{type:'text/html'})),'_blank');";
-            $botao->add('Abrir o grafo em nova aba');
-            parent::add($botao);
 
             $iframe = new TElement('iframe');
             $iframe->id = "iframe_grafo";
-            $iframe->srcdoc = htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
+            if($url !== null){
+                $link = new TElement('a');
+                $link->href = $url;
+                $link->target = '_blank';
+                $link->class = 'btn btn-default btn-sm';
+                $link->style = 'margin-bottom: 8px';
+                $link->add('Abrir o grafo em nova aba');
+                parent::add($link);
+                $iframe->src = $url;
+            }else{
+                // grafo.html é autocontido (d3 embutido): vai inteiro no srcdoc
+                $iframe->srcdoc = htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
+            }
             $iframe->frameborder = "0";
             $iframe->scrolling = "yes";
             $iframe->width = "100%";

@@ -12,9 +12,9 @@
  *  - grafos: pasta dos grafos gerados (padrão app/output/grafos/<cnpj>).
  * Caminhos relativos são a partir da pasta www/cnpjrfb.
  *
- * As duas pastas têm um .htaccess "Require all denied": o Apache não
- * serve nada delas (.env, banco SQLite, cache.json). O grafo.html é
- * autocontido (d3 embutido), então o PHP lê o arquivo e a tela o mostra.
+ * A pasta do CNPJ-full recebe um .htaccess "Require all denied": o Apache não
+ * serve nada dela (.env, banco SQLite). A pasta dos grafos é servida pelo
+ * Apache e a tela abre o grafo.html (autocontido, d3 embutido) num iframe.
  *
  * No Linux/Docker o usuário do Apache precisa poder gravar em app/output/grafos:
  *   chown -R www-data:www-data www/cnpjrfb/app/output/grafos
@@ -58,7 +58,6 @@ class GeraGrafoController
         if( !is_dir($pathGrafos) ){
             @mkdir($pathGrafos, 0775, true);
         }
-        self::protegePasta($pathGrafos);
 
         try {
             $command = self::montaComando($param, $nome_arquivo);
@@ -99,6 +98,21 @@ class GeraGrafoController
         $resultado[GeraGrafoController::COMANDO] = $command;
         $resultado[GeraGrafoController::ARQUIVO] = $arquivo;
         return $resultado;
+    }
+
+    /**
+     * URL relativa (a partir de www/cnpjrfb) do grafo.html, para o navegador
+     * abrir direto. Null se a pasta dos grafos estiver fora do sistema web.
+     */
+    public static function getUrlGrafo($arquivo)
+    {
+        $real = realpath((string) $arquivo);
+        $base = realpath(self::getPathSistema());
+        if( $real === false || $base === false || strpos($real, $base.DIRECTORY_SEPARATOR) !== 0 ){
+            return null;
+        }
+        $relativo = substr($real, strlen($base) + 1);
+        return implode('/', array_map('rawurlencode', explode(DIRECTORY_SEPARATOR, $relativo)));
     }
 
     /**

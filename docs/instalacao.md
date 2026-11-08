@@ -106,7 +106,9 @@ O comando que a tela executa é configurado na seção `cnpj_full` do `app/confi
 | `cache` | `1` | `1` reaproveita o grafo já gerado com a mesma carga do banco (`--cache`); `0` gera sempre |
 | `grafos` | `app/output/grafos` | onde ficam os grafos gerados (`<cnpj>/grafo.html` e `cache.json`) |
 
-A pasta `app/output/grafos` já vem no projeto com um `.htaccess` com `Require all denied`, e o conteúdo dela é ignorado pelo git. A pasta `app/CNPJ-full` recebe o mesmo `.htaccess` na primeira vez que um grafo é gerado. Assim o Apache não serve o `.env`, o banco nem os arquivos gerados. A tela lê o `grafo.html` pelo PHP e o mostra na página. Se usar outro servidor web (nginx, por exemplo), bloqueie essas duas pastas na configuração dele.
+A pasta `app/output/grafos` já vem no projeto, com o conteúdo ignorado pelo git. Ela é servida pelo Apache: a tela abre o `grafo.html` gerado num iframe e num link para nova aba.
+
+A pasta `app/CNPJ-full` recebe um `.htaccess` com `Require all denied` na primeira vez que um grafo é gerado, para o Apache não servir o `.env` nem o banco. Se usar outro servidor web (nginx, por exemplo), bloqueie essa pasta na configuração dele.
 
 No Linux, o usuário do Apache precisa poder gravar na pasta dos grafos:
 
