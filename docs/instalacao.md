@@ -43,7 +43,14 @@ php -S localhost:8080
 
 A conexão vem do **`.env` do CNPJ-full**, o mesmo arquivo que o Python usa, para a configuração do banco ficar num lugar só. O `www/cnpjrfb/app/config/maindatabase.php` procura esse arquivo na pasta informada em `app/config/application.php` > `'cnpj_full'` > `'path'` (padrão `app/CNPJ-full`, relativo a `www/cnpjrfb`). Detalhes em [Arquitetura](arquitetura.md#conexão-única-o-php-lendo-o-env-do-python).
 
-* **Sem `.env`**: o sistema usa o SQLite que já vem no projeto, `app/database/cnpjrfb.db`.
+* **O `.env` é obrigatório.** Sem ele, as telas mostram o erro com o caminho onde o arquivo era esperado.
+* **Para usar o SQLite que já vem no projeto** (`app/database/cnpjrfb.db`), o `.env` precisa só de:
+
+```ini
+CNPJ_DB_TIPO=sqlite
+CNPJ_DB_ARQUIVO=../database/cnpjrfb.db
+```
+
 * **Com outro banco**: crie o `.env` a partir do `.env.example` do CNPJ-full e preencha o bloco do banco. Exemplo para PostgreSQL:
 
 ```ini
