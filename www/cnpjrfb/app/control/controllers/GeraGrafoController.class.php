@@ -2,13 +2,14 @@
 /**
  * Gera o grafo de relacionamentos chamando o consulta.py do CNPJ-full.
  *
- * Tudo o que monta o comando fica na seção 'cnpj_full' do
- * app/config/application.php (versionado, igual em qualquer ambiente):
+ * Tudo o que monta o comando vem só da seção 'cnpj_full' do
+ * app/config/application.php (única fonte; não há valores padrão aqui):
  *  - path:   pasta do CNPJ-full, criada com "git clone https://github.com/bjverde/CNPJ-full.git"
- *            dentro de app/ (padrão app/CNPJ-full; no Linux maiúsculas fazem diferença);
- *  - script: cnpj_full/consulta.py, relativo à pasta do CNPJ-full;
+ *            (no Linux maiúsculas fazem diferença);
+ *  - script: consulta.py, relativo à pasta do CNPJ-full;
  *  - nivel e cache: opções --nivel e --cache do consulta.py;
- *  - grafos: pasta dos grafos gerados (padrão app/output/grafos/<cnpj>).
+ *  - grafos: pasta dos grafos gerados.
+ * Se faltar alguma chave, getConfig() lança Exception dizendo qual.
  * Caminhos relativos são a partir da pasta www/cnpjrfb. O Python é "python"
  * no Windows e "python3" no Linux/Mac; a versão é conferida pelo próprio CNPJ-full.
  *
@@ -28,12 +29,6 @@ class GeraGrafoController
 
     const TAMANHO_MAXIMO_NOME = 150;
 
-    // Padrões, usados quando o valor não está na seção 'cnpj_full' do application.php
-    const PASTA_CNPJ_FULL = 'app/CNPJ-full';
-    const PASTA_GRAFOS = 'app/output/grafos';
-    const SCRIPT_CONSULTA = 'cnpj_full/consulta.py';
-    const NIVEL = 3;
-
     /***
      * Todos os valores que vêm do formulário/URL são validados e passam por
      * escapeshellarg() antes de entrar no comando, para impedir a execução
@@ -47,21 +42,21 @@ class GeraGrafoController
         $resultado[GeraGrafoController::COMANDO] = null;
         $resultado[GeraGrafoController::ARQUIVO] = null;
 
-        $pathCnpjFull = self::getPathCnpjFull();
-        if( !is_file($pathCnpjFull.DIRECTORY_SEPARATOR.self::getScript()) ){
-            $resultado[GeraGrafoController::INFO] = 'CNPJ-full não encontrado em '.$pathCnpjFull
-                .'. Dentro da pasta app/, rode: git clone https://github.com/bjverde/CNPJ-full.git';
-            return $resultado;
-        }
-        self::protegePasta($pathCnpjFull);
-        $pathGrafos = self::getPathGrafos();
-        if( !is_dir($pathGrafos) ){
-            @mkdir($pathGrafos, 0775, true);
-        }
-
         try {
+            $pathCnpjFull = self::getPathCnpjFull();
+            if( !is_file($pathCnpjFull.DIRECTORY_SEPARATOR.self::getScript()) ){
+                $resultado[GeraGrafoController::INFO] = 'CNPJ-full não encontrado em '.$pathCnpjFull
+                    .'. Dentro da pasta app/, rode: git clone https://github.com/bjverde/CNPJ-full.git';
+                return $resultado;
+            }
+            self::protegePasta($pathCnpjFull);
+            $pathGrafos = self::getPathGrafos();
+            if( !is_dir($pathGrafos) ){
+                @mkdir($pathGrafos, 0775, true);
+            }
             $command = self::montaComando($param, $nome_arquivo);
-        } catch (InvalidArgumentException $e) {
+        } catch (Exception $e) {
+            // dados inválidos do formulário ou chave faltando no application.php
             $resultado[GeraGrafoController::INFO] = $e->getMessage();
             return $resultado;
         }
@@ -164,7 +159,7 @@ class GeraGrafoController
             $command = $command.' '.escapeshellarg($argumento);
         }
         $command = $command.' --nivel '.self::getNivel().' --viz';
-        if( self::getConfig('cache') !== '0' ){
+        if( self::getConfig('cache') === '1' ){
             $command = $command.' --cache';
         }
 
@@ -180,31 +175,31 @@ class GeraGrafoController
         return dirname(__DIR__, 2);
     }
 
-    /** Pasta do CNPJ-full: 'cnpj_full' => 'path' do application.php, ou app/CNPJ-full. */
+    /** Pasta do CNPJ-full: 'cnpj_full' => 'path' do application.php. */
     public static function getPathCnpjFull()
     {
-        return self::resolvePath(self::getConfig('path'), self::PASTA_CNPJ_FULL);
+        return self::resolvePath(self::getConfig('path'));
     }
 
-    /** Script de consulta, relativo à pasta do CNPJ-full. */
+    /** Script de consulta, relativo à pasta do CNPJ-full: 'cnpj_full' => 'script'. */
     public static function getScript()
     {
-        $script = self::getConfig('script');
-        return $script === '' ? self::SCRIPT_CONSULTA : $script;
+        return self::getConfig('script');
     }
 
+    /** Profundidade do grafo: 'cnpj_full' => 'nivel'. */
     public static function getNivel()
     {
         $nivel = self::getConfig('nivel');
-        return ctype_digit($nivel) && (int) $nivel > 0 ? (int) $nivel : self::NIVEL;
+        if( !ctype_digit($nivel) || (int) $nivel < 1 ){
+            throw new Exception("'cnpj_full' => 'nivel' em app/config/application.php deve ser um número maior que zero.");
+        }
+        return (int) $nivel;
     }
 
     /** Caminho relativo à pasta www/cnpjrfb vira absoluto; absoluto fica como está. */
-    private static function resolvePath($path, $padrao)
+    private static function resolvePath($path)
     {
-        if( $path === '' ){
-            $path = $padrao;
-        }
         $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
         $absoluto = (substr($path, 0, 1) === DIRECTORY_SEPARATOR) || preg_match('/^[A-Za-z]:/', $path);
         if( !$absoluto ){
@@ -219,23 +214,26 @@ class GeraGrafoController
         return dirname(self::getPathApp());
     }
 
-    /** Valor da seção 'cnpj_full' do app/config/application.php. */
+    /**
+     * Valor da seção 'cnpj_full' do app/config/application.php, a única fonte
+     * dessas configurações.
+     *
+     * @throws Exception quando a chave não está informada
+     */
     private static function getConfig($chave)
     {
-        if( !class_exists('AdiantiApplicationConfig') ){
-            return '';
-        }
         $ini = AdiantiApplicationConfig::get();
-        if( !isset($ini['cnpj_full'][$chave]) ){
-            return '';
+        $valor = isset($ini['cnpj_full'][$chave]) ? trim((string) $ini['cnpj_full'][$chave]) : '';
+        if( $valor === '' ){
+            throw new Exception("Informe 'cnpj_full' => '{$chave}' em app/config/application.php.");
         }
-        return trim((string) $ini['cnpj_full'][$chave]);
+        return $valor;
     }
 
-    /** Pasta dos grafos: 'cnpj_full' => 'grafos' do application.php, ou app/output/grafos. */
+    /** Pasta dos grafos: 'cnpj_full' => 'grafos' do application.php. */
     public static function getPathGrafos()
     {
-        return self::resolvePath(self::getConfig('grafos'), self::PASTA_GRAFOS);
+        return self::resolvePath(self::getConfig('grafos'));
     }
 
     /** python no Windows e python3 nos demais (Linux, Mac). */
