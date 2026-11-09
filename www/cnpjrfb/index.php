@@ -5,6 +5,9 @@ $ini = AdiantiApplicationConfig::get();
 $theme  = $ini['general']['theme'];
 new TSession;
 
+//Faz a validação das configurações de banco vindo Python
+ConfigCnpjFullPython::getConfigBanco();
+
 if (isset($_REQUEST['template']) AND $_REQUEST['template'] == 'iframe') {
 	$content = file_get_contents("app/templates/{$theme}/iframe.html");
 } else {
@@ -40,6 +43,8 @@ $js          = TPage::getLoadedJS();
 $content     = str_replace('{HEAD}', $css.$js, $content);
 
 echo $content;
+
+
 
 if (isset($_REQUEST['class'])){
     $method = isset($_REQUEST['method']) ? $_REQUEST['method'] : NULL;
